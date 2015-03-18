@@ -1,0 +1,76 @@
+.clear {
+    clear: both;
+}
+.navbar-inner {
+    background: linear-gradient(to bottom, #383838 0%, #1D1C1C 100%) repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    min-height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.branding {
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+}
+
+.logo {
+    float: left;
+    height: 30px;
+    margin-top: 6px;
+    width: 170px;
+}
+
+.logo a {
+    background-image: url("../images/logo.png");
+    display: block;
+    height: 30px;
+    width: 168px;
+}
+
+.login-container {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: 10% auto;
+    padding: 5px;
+    width: 280px;
+}
+
+.well-login {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.8);
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;
+    padding: 18px;
+}
+
+.login-container .login-input {
+    padding-left: 30px;
+    width: 204px !important;
+}
+.errorMessage {
+    color: #FF0000;
+    font-family: tahoma;
+    font-size: 10px;
+}
+
+.login-container .login-btn {
+    width: 240px !important;
+}
+
+.remember-me {
+    margin: 10px 0 0 5px;
+}
+
+.remember-me input {
+    float: left;
+    margin-right: 5px;
+}
+
+#login-form {
+    margin: 0;
+}
+
+.field input {
+    width: 225px;
+}

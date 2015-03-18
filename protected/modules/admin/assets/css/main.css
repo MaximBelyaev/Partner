@@ -1,0 +1,340 @@
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700,600&subset=latin,cyrillic-ext,cyrillic);
+
+body {
+    min-width: 1200px;
+}
+.clear {
+    clear: both;
+}
+#sidebar {
+    background: #f4f4f4;
+}
+
+.grid-view{
+    padding: 20px 10px;
+}
+
+#sidebar {
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    position: fixed !important;
+    top: -1px;
+    width: 273px;
+    z-index: 3000;
+    box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.07);
+    -webkit-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
+}
+
+#main-content {
+    margin-left: 273px;
+    padding-top: 39px;
+}
+.navbar-inner {
+    background: #3c8dbc;
+    border-radius: 4px;
+    min-height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.top-nav {
+    margin-left: 210px;
+}
+.branding {
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+}
+.navbar .nav li a,.navbar .nav li a:hover { 
+    color: #fff;
+    float: none;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+.side-nav li a {
+    border-bottom: 1px solid #1D1C1C;
+}
+.side-nav li a {
+    background: linear-gradient(to bottom, #555957 0%, #3E4240 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    color: #EEEEEE;
+}
+.side-nav li a {
+background: #f9f9f9;
+box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+color: #000;
+border-bottom: 1px solid #dbdbdb;
+border-right: 1px solid #dbdbdb;
+display: block;
+font-size: 11px;
+line-height: 40px;
+padding-left: 10px;
+position: relative;
+text-decoration: none;
+font-size: 14px;
+
+}
+.side-nav {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.side-nav li a{
+   transition: 0.5s; 
+}
+
+.side-nav li a:hover {
+    background: red;
+    color:#333;
+     background: rgba(220,220,220, 0.1) !important;
+}
+.side-nav li ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.side-nav li ul li a {
+    background: none repeat scroll 0 0 #E8E8E8;
+    color: #666666;
+    font-size: 12px;
+    font-weight: normal;
+    padding-left: 30px;
+    text-transform: none !important;
+}
+.breadcrumbs {
+background: #fbfbfb;
+box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+font-size: 11px;
+list-style: none outside none;
+margin: 0 0 18px;
+padding: 10.5px 14px;
+font-size: 14px;
+}
+
+.breadcrumbs a{
+    color: #444;
+
+
+}
+.row-fluid {
+background: none repeat scroll 0 0 #FFFFFF;
+border-left: 1px solid #CCCCCC;
+border-radius: 3px;
+margin-bottom: 20px;
+border-right: 1px solid #CCCCCC;
+border-bottom: 1px solid #CCCCCC;
+border-top: 2px solid #3c8dbc;
+}
+.head {
+border-radius: 2px 2px 0 0;
+box-shadow: 0 1px 0 #F9F9F9 inset, 0 0 3px #DDDDDD;
+height: 50px;
+padding: 0 0 0 10px;
+position: relative;
+}
+.row {
+    margin: 10px 0 0 10px;
+    width: 24%;
+    float: left;
+}
+.button_save {
+    float: right;
+    margin: 7px 9px 0 0;
+}
+.form h5 {
+    width: 60%;
+    float: left;
+}
+
+.form {
+    padding: 0px;
+}
+
+.left_row {
+    float: left;
+    width: 46%;
+    padding: 7px;
+}
+
+.right_row {
+    float: right;
+    width: 50%;
+    padding: 7px;
+}
+.row label {
+    color: #0085C4;
+}
+.right_row input {
+    width: 100%;
+}
+
+.button-column .view {
+    display: none;
+}
+
+.preview img {
+    width: 100px;
+}
+.errorMessage {
+    color: #FFFFFF;
+}
+.row label {
+    border: none;
+}
+
+.for-image img {
+    height: 60px;
+    width: 60px;
+}
+td {
+    text-align: center;
+}
+#product-grid input {
+    padding: 3px 2px;
+}
+
+.grid-view input {
+    padding-top: 5px;
+    margin-top: 8px;
+}
+.head h5 {
+  float: left;
+color: #444;
+padding-top: 5px;
+font-family: 'Open Sans', sans-serif;
+}
+.info {
+    border-radius: 8px;
+    margin: 5px auto;
+    text-align: center;
+    width: 98%;
+}
+#sidebar ul li a i {
+    display: inline-block;
+margin: 2px 10px;
+}
+.accordion-toggle i {
+    margin-right: 10px;
+}
+.successMessage {
+    background-color: #ADFF2F;
+    height: 65px;
+    line-height: 65px;
+}
+.errorMessage {
+background-color: #EC979C;
+position: absolute;
+margin-top: -10px;
+width: 220px;
+font-size: 12px;
+}
+.right_row .row {
+    padding-right: 15px;
+}
+#sizes-row label, #sizes-row input {
+    float: left;
+    margin: 7px;
+}
+#sizes-row input {
+    width: 50px;
+}
+.images img {
+    width: 200px;
+    height: 150px;
+    float: left;
+}
+.order-products thead {
+    background-color: #555957;
+    color: #ffffff;
+}
+#content {
+    width: 98.7%;
+    float: left;
+    margin: 10px;
+}
+.right_s{
+    width: 24%;
+    float: left;
+}
+
+.messages{
+    padding: 10px;
+}
+
+.sort-link{
+    color: #444 !important;
+}
+
+th{
+   font-weight: normal !important; 
+}
+
+
+.grid-view table.items th, .grid-view table.items td{
+    border: 1px solid #ddd;
+}
+
+.grid-view .filters input, .grid-view .filters select{
+    width: 80%;
+}
+
+.grid-view table.items th{
+    background: none !important;
+    width: 25px;
+    color: #444;
+    font-weight: 700 !important;
+}
+
+.grid-view table.items tr.odd{
+    background: none !important;
+}
+
+.grid-view table.items tr.even{
+    background: #fff !important;
+}
+
+.best-class{
+    margin-top: 15px; 
+}
+
+.for-logo {
+height: 41px;
+background-color: #367fa9;
+}
+
+.logo{
+float: left;
+font-size: 20px;
+line-height: 42px;
+text-align: center;
+padding: 0 10px;
+width: 248px;
+font-family: 'Open Sans', sans-serif;
+font-weight: 500;
+height: 40px;
+display: block;
+text-decoration: none;
+font-weight: normal !important;
+color: #fff;
+}
+
+.logo:hover{
+    text-decoration: none;
+    color: #fff;
+    background: 
+}
+
+.summary{
+    display: none;
+}
+
+
+.icon-plus{
+    color: #fff;
+}
+
+
