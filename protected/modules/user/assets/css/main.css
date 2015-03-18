@@ -1,0 +1,75 @@
+.edit_data {
+	float: right;
+	border-radius: 3px;
+	color: #FFF;
+	display: inline-block;
+	padding: 10px;
+	background: #3C8DBC;
+	text-decoration: none;
+}
+.edit_data:hover {
+	background: #367FA9;
+	color: #FFF;
+}
+
+
+/* ============ форма редактирования данных пользователя ====== */
+#user-form {
+	background: #FFF;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	padding: 10px;
+	overflow: hidden;
+}
+	.button_save {
+		overflow: hidden;
+	}
+		.button_save .btn {
+			position: static;
+		}
+	#user-form .row {
+		margin: 10px 10px 0 0;
+		width: 50%;
+	}	
+	#user-form .row label {
+		width: 20%;
+		display: inline-block;
+	}
+		#user-form .row input,
+		#user-form .row select {
+			width: 220px;
+			border: 1px solid #cccccc;
+			background-color: #ffffff;
+			display: inline-block;
+			height: 20px;
+			padding: 4px 6px;
+			margin-bottom: 10px;
+			font-size: 14px;
+			outline: none;
+			line-height: 20px;
+			color: #555555;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 2px;
+			vertical-align: middle;
+		}
+		#user-form .row input:focus,
+		#user-form .row select:focus {
+			border: 1px solid #367FA9;
+		}
+		#user-form .row select {
+			height: 30px;
+			width: 235px;
+		}
+		#user-form .row input {
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			-webkit-transition: border linear .2s, box-shadow linear .2s;
+			-moz-transition: border linear .2s, box-shadow linear .2s;
+			-o-transition: border linear .2s, box-shadow linear .2s;
+			transition: border linear .2s, box-shadow linear .2s;
+		}
+		.errorMessage {
+			color: #EA301C;
+			font-size: 12px;
+			width: 80%;
+		}

@@ -12,6 +12,7 @@
     <title></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="<?php echo $this->module->assetsUrl ?>/css/Admin.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
     
 </head>
 <body class="skin-blue">
@@ -49,6 +50,7 @@
                                 Ваша личная партнерская ссылка:
                             </h3>
                             <textarea class="linkText" onclick="this.select();">http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?=Yii::app()->user->id; ?></textarea>
+                            <?= CHtml::link('Редактировать данные', array('/user/user/data'), array('class' => 'edit_data')); ?>
                             <h3>
                                 Ваш промокод:
                             </h3>

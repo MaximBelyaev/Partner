@@ -30,7 +30,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_id'); ?>
 		<?php
-            $users = CHtml::listData(User::model()->findAll(), 'id','username');
+            $users = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
             $result = array_merge(array('promo'=>'Промо код') , $users);
             array_push($users,"Промо код");
             echo $form->dropDownList($model,'user_id', $users); ?>

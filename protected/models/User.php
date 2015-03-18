@@ -11,6 +11,7 @@
  * @property string $password
  * @property string $password_2
  * @property string $reg_date
+ * @property string $skype
  */
 class User extends CActiveRecord
 {
@@ -69,7 +70,7 @@ class User extends CActiveRecord
 			array('role, telephone', 'length', 'max'=>50),
 			array('username, country, region, city', 'length', 'max'=>150),
 			array('name, password, avatar, verification', 'length', 'max'=>255),
-			array('reg_date, birth_date, full_profit', 'safe'),
+			array('skype, reg_date, birth_date, full_profit', 'safe'),
 			array('id, role, username, full_profit, name, password, reg_date, birth_date, sex, country, region, city, avatar, verification, active, telephone', 'safe', 'on'=>'search'),
 		);
 	}
@@ -106,6 +107,7 @@ class User extends CActiveRecord
 			'verification' => 'Verification',
 			'active' => 'Active',
 			'telephone' => 'Телефон',
+			'skype' => 'Скайп',
 			'money' => 'На счету',
 		);
 	}
@@ -164,4 +166,15 @@ class User extends CActiveRecord
         $headers .= 'From: '.Yii::app()->createAbsoluteUrl('/site/index').' <admin@'.$_SERVER['HTTP_HOST'].'>' . "\r\n";
         mail($to, $subject, $message, $headers);
     }
+
+	protected function afterSave() {
+		parent::afterSave();
+		if (isset($_POST['User']['money'])) {
+			$this->money->attributes = $_POST['User']['money'];
+			if ( $this->money->save() ) {
+				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			};
+		}
+	}
+
 }

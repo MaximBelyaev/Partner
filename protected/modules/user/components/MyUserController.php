@@ -26,7 +26,7 @@ class MyUserController extends Controller
                 'users' => array('*'),// для всех
             ),
             array('allow',
-                'actions' => array('index', 'logout', 'payRequest'),
+                'actions' => array('index', 'logout', 'data','payRequest'),
                 'roles' => array('user'),// для авторизованных
             ),
             array('deny', // deny all users

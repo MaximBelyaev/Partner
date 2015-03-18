@@ -91,6 +91,41 @@ class UserController extends MyUserController
         ));
     }
 
+
+    public function actionData() {
+        $model = User::model()->findByPk(Yii::app()->user->id);
+        
+        $this->performAjaxValidation($model);
+        //var_dump($_POST['User']);
+        if(isset($_POST['User']))
+        {
+            $model->attributes=$_POST['User'];
+            if($model->save())
+            {
+                Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+                $this->refresh();
+            }
+            else
+            {
+                Yii::app()->user->setFlash('error', "Error!");
+            }
+        }
+        $this->render('data', array(
+            'model'=>$model,
+        ));
+    }
+
+
+    protected function performAjaxValidation($model)
+    {
+        if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+        {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
+
     /**
      * This is the action to handle external exceptions.
      */

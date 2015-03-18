@@ -72,10 +72,10 @@ return array(
             ),
         ),
         'db'=>array(
-            'connectionString' => 'mysql:host=magicseo.mysql.ukraine.com.ua;dbname=magicseo_alex',
+            'connectionString' => 'mysql:host=localhost;dbname=partner',
             'emulatePrepare' => true,
-            'username' => 'magicseo_alex',
-            'password' => 'messi4991',
+            'username' => 'root',
+            'password' => '',
             'charset' => 'utf8',
         ),
         'errorHandler'=>array(

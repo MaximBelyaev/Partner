@@ -15,28 +15,16 @@
 	'enableAjaxValidation'=>true,
 )); ?>
 
-    <div class="head">
-        <h5><?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?></h5>
-        <div class="button_save">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-        </div>
-        <div class="button_save">
-            <?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/user/index'), array('class'=>'btn btn-success',)); ?>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <!---- Flash message ---->
-    <?php $this->beginWidget('FlashWidget',array(
-        'params'=>array(
-            'model' => $model,
-            'form' => $form,
-        )));
-    $this->endWidget(); ?>
-    <!---- End Flash message ---->
-
-    <div class="clear"></div>
-
-
+	
+	<h5>Редактирование информации</h5>
+	
+	
+	<div class="button_save"> 
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
+	</div>
+	
+		
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'role'); ?>
         <?php echo $form->dropDownList($model,'role', array('user'=>'user', 'admin'=>'admin')); ?>
@@ -97,12 +85,6 @@
 		<?php echo $form->error($model,'active'); ?>
 	</div>
 -->
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'money[profit]'); ?>
-		<?php echo $form->textField($model,'money[profit]',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'money[profit]'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'telephone'); ?>

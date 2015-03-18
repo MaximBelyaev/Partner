@@ -52,7 +52,7 @@
         ),
         'encodeLabel'=>false,
     )); ?>
-    <?#php $this->widget('admin.components.Widgets.MessagesWidget'); ?>
+    <?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
 </div>
 <div id="main-content">
     <div class="container-fluid">

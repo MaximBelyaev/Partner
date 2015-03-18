@@ -5,7 +5,6 @@ $this->breadcrumbs=array(
 	$this->module->id,
 );
 ?>
-
 <div class="small-box bg-green">
     <div class="inner">
     	<h3>

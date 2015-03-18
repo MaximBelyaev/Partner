@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
         array(
             'name' => 'user',
             'type' => 'email',
-            'value' => '$data->user->username',
+            'value' => '((isset($data->user->username))?$data->user->username:"");',
         ),
         'date',
 		/*'id',*/
