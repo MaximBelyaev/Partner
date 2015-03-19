@@ -41,7 +41,7 @@ class UserController extends MyUserController
 		if ($show_all_button) {
 			# показываем данные только за последний месяц
 			$criteria->addCondition(
-				'date > "' . date('Y-m-d', strtotime("-1 month", time())) . '"' , 
+				'date > "' . date('Y-m-01', time()) . '"' , 
 				'AND');
 		}
 		$criteria->compare('partner_id' , Yii::app()->user->id);
@@ -54,7 +54,6 @@ class UserController extends MyUserController
                     'pageSize'=>10,
                 ),
 			));
-		var_dump($dataProvider->getTotalItemCount());
 		/*$dataProvider = new CActiveDataProvider('Referrals',
             array(
                 'criteria'=>array(

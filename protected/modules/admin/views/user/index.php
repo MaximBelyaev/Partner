@@ -15,10 +15,10 @@ $this->breadcrumbs=array(
 </div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'user-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
+	'id' => 'user-grid',
+	'dataProvider' => $model->search(),
+	'filter' => $model,
+	'columns' => array(
         'reg_date',
         array(
             'header' => 'ref id',

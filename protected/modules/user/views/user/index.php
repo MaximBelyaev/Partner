@@ -10,11 +10,53 @@ $this->breadcrumbs=array(
 		<h3>
 			Ваша статистика:
 		</h3>
+	<?php $this->widget('ext.groupgridview.GroupGridView', array(
+      'id' => 'grid1',
+      'dataProvider' => $dataProvider,
+      'mergeColumns' => array('Месяц'),
+      //'extraRowPos' => 'above',
+      //'extraRowExpression' => '"<b style=\"font-size: 1em; color: green\">".date("Y-m",strtotime($data->date))."</b>"',
+      'columns' => array(
+      	array(
+	      	'name' => 'Месяц',
+	      	//'value' => 'date("m",strtotime($data->date))',
+      		'value' => 'Yii::app()->locale->getMonthName(
+      		      			(int)date("m",strtotime($data->date)), "wide", true) 
+      					. " " . date("Y",strtotime($data->date))',
+      	),
+        'date:Дата',
+        	array(
+				'name'  => 'Переходы',
+				'value' => 'count($data->user->getDayRequests($data->date))',
+			),
+			array(
+				'name'  => 'Заявка',
+				'value' => 'count($data->getThisDayRefferals())',
+	        ),
+	        array(
+	        	'name' => "Оплачено",
+	        	"value" => 'count($data->getPayedReferrals())',
+	        ),
+	        array(
+	        	'name' => "Сайт",
+	        	"value" => 'array_reduce(
+	        		$data->getPayedReferrals(), 
+	        		function($c,$v){ return ($c ." ". $v->site); }
+	        	)', 
+	        ),
+	        array(
+	        	'name' => "Прибыль",
+	        	"value" => '$data->getDailyProfit()',
+	        )
+      ),
+    )); ?>
+
+    <!--
     <?php $this->widget('zii.widgets.grid.CGridView', array(
         'id'=>'user-grid',
-        'dataProvider'=>$dataProvider,
+        'dataProvider' => $dataProvider,
         'columns' => array(
-			'date',
+			'date:Дата',
 			array(
 				'name'  => 'Переходы',
 				'value' => 'count($data->user->getDayRequests($data->date))',
@@ -43,11 +85,12 @@ $this->breadcrumbs=array(
             'class'=>'CLinkPager',
         ),
     )); ?>
+    -->
     <?php 
     if ($show_all_button) {
     	echo CHtml::link('Все месяцы', array('user/index', 'all' => true ), array('id' => 'month_button'));
     } else {
-		echo CHtml::link('Последний месяц', array('user/index'), array('id' => 'month_button'));
+		echo CHtml::link('Этот месяц', array('user/index'), array('id' => 'month_button'));
     } 
     ?>
 
