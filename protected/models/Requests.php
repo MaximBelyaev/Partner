@@ -45,6 +45,7 @@ class Requests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'user'=> array(self::BELONGS_TO, 'User', 'partner_id'),
 		);
 	}
 
@@ -99,4 +100,48 @@ class Requests extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function getThisDayRefferals()
+	{
+		return Referrals::model()->findAll(
+			array(
+				'select'=>'*',
+				'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
+				'params'=>array(
+					':user'=>Yii::app()->user->id,
+					':date_start' => $this->date.' 00:00:00',
+					':date_end' => $this->date.' 23:59:59',
+				)
+			)
+		);
+	}
+
+	public function getPayedReferrals()
+	{
+		return Referrals::model()->findAll(
+			array(
+				'select'=>'*',
+				'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'params'=>array(
+					':user'=>Yii::app()->user->id,
+					':date_start'=>$this->date.' 00:00:00',
+					':date_end'=>$this->date.' 23:59:59',
+					':status'=> Referrals::$STATUS_APPLIED,
+				)
+			)
+		);
+	}
+
+	public function getDailyProfit()
+	{
+		$full_price = array_reduce(
+			$this->getPayedReferrals(), 
+	        function($c,$v){ 
+	        	return ($c ." ". (float)$v->money); 
+	        }
+		);
+		$partners_part = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
+		return $partners_part;
+	}
+
 }

@@ -73,3 +73,33 @@
 			font-size: 12px;
 			width: 80%;
 		}
+
+
+
+/* ================== Grid View ================= */
+.items {
+
+}	
+	.items .odd {
+		background: #A11;
+		color: #000;
+	}
+	.items .even {
+		background: #111;
+		color: #000;
+	}
+#month_button {
+	background: #3C8DBC;
+	border-radius: 2px;
+	color: #FFF;
+	display: inline-block;
+	padding: 5px 10px;
+	text-decoration: none;
+	position: relative;
+	bottom: 15px;
+}
+#month_button:hover {
+	background: #357CA5;
+}
+	
+	

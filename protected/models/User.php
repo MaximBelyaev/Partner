@@ -177,4 +177,16 @@ class User extends CActiveRecord
 		}
 	}
 
+	public function getDayRequests($date)
+	{
+		return Requests::model()->findAll(array(
+			'select'=>'id',
+			'condition'=>'partner_id = :user and date = :date', 
+			'params' => array(
+				':user'=>$this->id, 
+				':date'=>$date
+			)
+		));
+	}
+
 }

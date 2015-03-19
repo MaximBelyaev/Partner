@@ -21,6 +21,11 @@
 class Referrals extends CActiveRecord
 {
     protected $_oldStatus;
+
+    public static $STATUS_WAITING = 'Ждет обработки';
+    public static $STATUS_REQUEST = 'Заявка';
+    public static $STATUS_APPLIED = 'Оплачено';
+
 	/**
 	 * @return string the associated database table name
 	 */

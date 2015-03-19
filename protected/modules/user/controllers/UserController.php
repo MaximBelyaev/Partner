@@ -22,11 +22,40 @@ class UserController extends MyUserController
      */
     public function actionIndex()
     {
+        $show_all_button = (!isset($_GET['all'])) ? true : false;
         $statistic = array();
         $this->layout = '/layouts/cabinet';
         $user = User::model()->findByPk(Yii::app()->user->id);
-        $requests = Requests::model()->findAll(array('select'=>'date','condition'=>'partner_id = :user', 'params'=>array(':user'=>$user->id), 'distinct'=>true, 'order' => 'date DESC'));
-        $dataProvider = new CActiveDataProvider('Referrals',
+        $requests = Requests::model()->findAll(
+                        array(
+                            'select' => 'date',
+                            'condition' => 'partner_id = :user', 
+                            'params' => array(':user'=>$user->id), 
+                            'distinct'=>true, 
+                            'order' => 'date DESC')
+                        );
+        
+        $criteria = new CDbCriteria;
+		$criteria->select = 'date, partner_id';
+		$criteria->distinct = true;
+		if ($show_all_button) {
+			# показываем данные только за последний месяц
+			$criteria->addCondition(
+				'date > "' . date('Y-m-d', strtotime("-1 month", time())) . '"' , 
+				'AND');
+		}
+		$criteria->compare('partner_id' , Yii::app()->user->id);
+		$criteria->group='date';
+		$criteria->order = 'date desc';
+		$dataProvider = new CActiveDataProvider('Requests', 
+			array( 
+				'criteria' => $criteria,
+                'pagination'=>array(
+                    'pageSize'=>10,
+                ),
+			));
+		var_dump($dataProvider->getTotalItemCount());
+		/*$dataProvider = new CActiveDataProvider('Referrals',
             array(
                 'criteria'=>array(
                     'condition'=>'user_id = :id',
@@ -34,37 +63,44 @@ class UserController extends MyUserController
                     'order'=>'date DESC',
                 ),
                 'pagination'=>array(
-                    'pageSize'=>12,
+                    'pageSize'=>3,
                 ),
             )
-        );
+        );*/
+        //var_dump($requests);
         foreach ($requests as $i => $value)
         {
             $statistic[$i] = array(
                 'date'=>$value->date,
                 'followers'=>sizeof(Requests::model()->findAll(array('select'=>'id','condition'=>'partner_id = :user and date = :date', 'params'=>array(':user'=>Yii::app()->user->id, ':date'=>$value->date)))),
                 'zakazu'=>sizeof(Referrals::model()->findAll(
-                    array('select'=>'id','condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
-                    'params'=>array(
-                        ':user'=>Yii::app()->user->id,
-                        ':date_start'=>$value->date.' 00:00:00',
-                        ':date_end'=>$value->date.' 23:59:59',
+                    array(
+                        'select'=>'id',
+                        'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
+                        'params'=>array(
+							':user'=>Yii::app()->user->id,
+							':date_start'=>$value->date.' 00:00:00',
+							':date_end'=>$value->date.' 23:59:59',
                         )
                     ))
                 ),
                 'sites'=>
                     Referrals::model()->findAll(
-                        array('select'=>'site','condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
-                            'params'=>array(
-                                ':user'=>Yii::app()->user->id,
-                                ':date_start'=>$value->date.' 00:00:00',
-                                ':date_end'=>$value->date.' 23:59:59',
-                                ':status'=>'Подтвержден',
+                        array(
+                        	'select'=>'site',
+                        	'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+							'params'=>array(
+								':user'=>Yii::app()->user->id,
+								':date_start'=>$value->date.' 00:00:00',
+								':date_end'=>$value->date.' 23:59:59',
+								':status'=> Referrals::$STATUS_APPLIED,
                             )
                         )
                     ),
                 'oplata'=>sizeof(Referrals::model()->findAll(
-                    array('select'=>'id','condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status = "Подтвержден"',
+                    array(
+                    	'select'=>'id',
+                    	'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status = "' . Referrals::$STATUS_APPLIED . '"',
                         'params'=>array(
                             ':user'=>Yii::app()->user->id,
                             ':date_start'=>$value->date.' 00:00:00',
@@ -73,7 +109,7 @@ class UserController extends MyUserController
                     ))
                 ),
                 'sum'=>Referrals::model()->findAll(
-                        array('select'=>'money','condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status = "Подтвержден"',
+                        array('select'=>'money','condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status = "' . Referrals::$STATUS_APPLIED . '"',
                             'params'=>array(
                                 ':user'=>Yii::app()->user->id,
                                 ':date_start'=>$value->date.' 00.00.00',
@@ -88,6 +124,7 @@ class UserController extends MyUserController
             'user'=>$user,
             'dataProvider'=>$dataProvider,
             'statistic'=>$statistic,
+            'show_all_button' => $show_all_button
         ));
     }
 

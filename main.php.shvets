@@ -75,7 +75,7 @@ return array(
             'connectionString' => 'mysql:host=localhost;dbname=partner',
             'emulatePrepare' => true,
             'username' => 'root',
-            'password' => '',
+            'password' => 'bo0aszw7fa',
             'charset' => 'utf8',
         ),
         'errorHandler'=>array(
@@ -103,6 +103,5 @@ return array(
     // using Yii::app()->params['paramName']
     'params'=>array(
         'languages'=>array('ru'=>'Русский', 'uk'=>'Українська'),
-        'profit_percent' => 15,
     ),
 );
