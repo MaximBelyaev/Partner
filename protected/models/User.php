@@ -243,6 +243,7 @@ class User extends CActiveRecord
 	protected function beforeSave() {
 		parent::beforeSave();
 		
+		/*
 		$this->site = trim(trim($this->site), '/');
 		if ($this->site != '') {
 	    	
@@ -267,7 +268,8 @@ class User extends CActiveRecord
 			}
 		
 		}
-
+		*/
+		
 		$promo_code = trim($this->promo_code);
 		if ($promo_code != '') {	
 			$duplicate_codes = User::model()->findAll(array(
@@ -377,7 +379,30 @@ class User extends CActiveRecord
 		} else {
 			return self::PAY_REFERR;
 		}
-//		return ($this->use_click_pay > 0 ) ?  : $this->use_click_pay;
 	}
 
+
+
+
+
+
+
+
+	public function getRangeData($start, $end) {
+		$start = strtotime($start);
+		$end = strtotime($end);
+		$delta = Yii::app()->params['chartTimePoints'];
+		
+		$requests = $this->getRangeRequest($start, $end, $this->use_click_pay);
+		return $requests;
+	}
+
+	public function getRangeRequest($start, $end, $use_click_pay = 0) {
+		$req = Requests::model()->findAll(array(
+			'select' => 'id',
+			'condition' => 'partner_id = :user and click_pay = :click_pay and UNIX_TIMESTAMP(date) < :start and UNIX_TIMESTAMP(date) < :end ', 
+			'params' => array( ':user' => $this->id, ':click_pay' => $use_click_pay, ':start' => $start, ':end' => $end )
+		));
+		return $req;
+	}
 }

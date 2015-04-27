@@ -6,6 +6,33 @@ $this->breadcrumbs=array(
 );
 $this->setPageTitle("Главная | Партнерская программа Павлуцкого Александра");
 ?>
+
+
+<div class="chart_wrap">
+	<div id="chart"></div>
+	<div class="chart_buttons">
+		<!-- 
+			data-start и data-end - это промежуток времени для которого выбирается статистика.
+			формат - количество СЕКУНД и эпохи UNIX
+		-->
+		<button class="last_week" data-start="14274144000" data-end="14300928000">За неделю</button>
+		<button class="last_month" data-start="" data-end="1430092800000">За месяц</button>
+		<button class="last_quater" data-start="" data-end="1430092800000">За квартал</button>
+		<button class="last_year" data-start="" data-end="1430092800000">За год</button>
+	</div>
+</div>
+
+<div class="input-daterange">
+    <input type="text" class="range range_start input-small" value="27-04-2015" />
+    <span class="add-on">to</span>
+    <input type="text" class="range range_end input-small" value="27-04-2015" />
+    <button id="show_range">
+    	Показать
+    </button>
+</div>
+
+
+
 <div class="small-box bg-green">
     <div class="inner">
 		<?php if (count($statistic) ) { ?>
