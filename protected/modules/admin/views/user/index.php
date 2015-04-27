@@ -5,6 +5,7 @@
 $this->breadcrumbs=array(
 	'Users',
 );
+$this->setPageTitle("Список партнеров | Партнерская программа Павлуцкого Александра");
 ?>
 
 <div class="head">
@@ -17,17 +18,24 @@ $this->breadcrumbs=array(
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
 	'dataProvider' => $model->search(),
-	'filter' => $model,
+	//'dataProvider' => $dataProvider,
+    'filter' => $model,
 	'columns' => array(
-        'reg_date',
+        'username',
+        'id',
+        'site',
         array(
-            'header' => 'ref id',
-            'name' => 'id',
+            'name' => 'status',
+            'type' => 'email',
+            'value' => '$data->status',
+            'filter' => CHtml::activeDropDownList($model, 'status',array('VIP'=>'VIP','Стандартный'=>'Стандартный','Расширенный'=>'Расширенный'), array('empty'=>'Все')),
         ),
-		'username',
-		'password',
+        'reg_date',
+        'money.profit',
+        'money.full_profit',
+        /*
         array(
-            'name'=>'money',
+            'name'=>'profit',
             'type' => 'raw',
             'value' => '$data->profit ? $data->profit : \'be\'',
         ),
@@ -36,16 +44,16 @@ $this->breadcrumbs=array(
             'type' => 'raw',
             'value' => '$data->fullProfit ? $data->fullProfit : \'be\'',
         ),
-        array(
-            'header'=>'Всего переходов',
-            'type' => 'raw',
-            'value' => '$data->Request ? $data->Request : \'0\'',
+        */
+        'requests_count',
+        'referrals_count',
+        'referrals_payed_count',
+        /*array(
+            'header' => "Оплата",
+            'name' => 'use_click_pay',
+            'value'  => '$data->renderClickPay()'
         ),
-        array(
-            'header'=>'Всего заказов',
-            'type' => 'raw',
-            'value' => '$data->Refer ? $data->Refer : \'0\'',
-        ),
+//        'use_click_pay',
 		/*
 		'birth_date',
 		'sex',
@@ -58,9 +66,29 @@ $this->breadcrumbs=array(
 		'telephone',
 		*/
 
+        
         array(
             'header'=>'Действия',
             'class'=>'CButtonColumn',
-            'template'=>'{update}{delete}',
-	),
+            'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+            'buttons'=>array
+            (
+                'update' => array
+                (
+                    'label'=>'',
+                    'options' => array(
+                        'class' => "icon-pencil icon-white"
+                    ),
+                    'imageUrl'=>'',
+                ),
+                'delete' => array
+                (
+                    'label'=>'',
+                    'options' => array(
+                        'class' => "icon-trash icon-white"
+                    ),
+                    'imageUrl'=>'',
+                ),
+            ),
+        ),
 ))); ?>

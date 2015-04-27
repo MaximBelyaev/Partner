@@ -82,7 +82,7 @@ class Referrals extends CActiveRecord
 			'status' => 'Статус',
 			'user_id' => 'User',
 			'user' => 'От партнера',
-			'date' => 'Дата добавлния',
+			'date' => 'Дата заявки',
             'promo' => 'Промо код',
 		);
 	}
@@ -144,29 +144,154 @@ class Referrals extends CActiveRecord
         $this->_oldStatus = $this->status;
     }
 
+
+    public function getThisMonthReferrals()
+	{
+		$month_start = ( date('Y-m-01', strtotime($this->date)) );
+		$month_end = ( date('Y-m-t', strtotime($this->date)) );	
+	
+		return Referrals::model()->findAll(
+			array(
+				'select'=>'*',
+				'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
+				'params'=>array(
+					':user'=>Yii::app()->user->id,
+					':date_start' => $month_start . ' 00:00:00',
+					':date_end' => $month_end . ' 23:59:59',
+				)
+			)
+		);
+	}
+
+
+	public function getThisMonthPayedReferrals()
+	{
+		$month_start = date('Y-m-01', strtotime($this->date));
+		$month_end = date('Y-m-t', strtotime($this->date));	
+		
+		return Referrals::model()->findAll(
+			array(
+				'select' => '*',
+				'condition' => 'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'params' => array(
+					':user' => Yii::app()->user->id,
+					':date_start' => $month_start . ' 00:00:00',
+					':date_end' => $month_end . ' 23:59:59',
+					':status'=> Referrals::$STATUS_APPLIED,
+				)
+			)
+		);
+	}	
+
+	public function getThisDayRefferals()
+	{
+		$day_start = date('Y-m-d 00:00:00', strtotime($this->date));
+		$day_end   = date('Y-m-d 23:59:59', strtotime($this->date));
+		return Referrals::model()->findAll(
+			array(
+				'select'=>'*',
+				'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
+				'params'=>array(
+					':user'=>Yii::app()->user->id,
+					':date_start' => $day_start,
+					':date_end' => $day_end,
+				)
+			)
+		);
+	}
+
+	public function getThisDayPayedReferrals()
+	{
+		$day_start = date('Y-m-d 00:00:00', strtotime($this->date));
+		$day_end   = date('Y-m-d 23:59:59', strtotime($this->date));
+		
+		return Referrals::model()->findAll(
+			array(
+				'select' => '*',
+				'condition' => 'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'params' => array(
+					':user' => Yii::app()->user->id,
+					':date_start' => $day_start,
+					':date_end' => $day_end,
+					':status'=> Referrals::$STATUS_APPLIED,
+				)
+			)
+		);
+	}	
+
+
+	public function getThisDayProfit()
+	{
+		$refs = $this->getThisDayPayedReferrals();
+		if (!empty($refs))
+        {
+			$full_price = array_reduce(
+				$refs, 
+				function($c,$v){ 
+					return ($c + (float)$v->money); 
+				}
+			);
+			$full_price = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
+		} else
+            {
+			$full_price = 0;
+		    }
+
+		return $full_price;
+	}
+
+
+	public function getThisMonthProfit()
+	{
+		$refs = $this->getThisMonthPayedReferrals();
+		if (!empty($refs)) {
+			$full_price = array_reduce(
+				$refs, 
+				function($c,$v){ 
+					return ($c + (float)$v->money); 
+				}
+			);
+			$full_price = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
+		} else {
+			$full_price = 0;
+		}
+		return $full_price;
+	}
+
+
     /**
      * Даем прибыль партнеру
      */
     protected function beforeSave()
     {
         if(parent::beforeSave()){
-
-            if($this->promo != "")
+           	$promo = trim($this->promo);
+            if($promo)
             {
-                $promo = explode("_", $this->promo);
-                $this->user_id = $promo[1];
+            	$user  = User::model()->find("promo_code = '$promo'");
+            	if ($user) {
+                	$this->user_id = $user->id;
+            	}
             }
 
-            if($this->status !== $this->_oldStatus && $this->status !== 'Не подтвержден' && $this->money > 0 && $this->user_id > 0)
+            if ($this->_oldStatus == self::$STATUS_APPLIED )
             {
-                $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
-                $res_profit = $this->money * 0.15;
-                $profit->profit += $res_profit;
-                $profit->full_profit += $res_profit;
-                $profit->save();
+            	$this->status = self::$STATUS_APPLIED;
             }
 
-
+			if($this->status !== $this->_oldStatus && $this->status == self::$STATUS_APPLIED 
+            	&& $this->money > 0 && $this->user_id > 0)
+            {
+            	if (!$this->user->use_click_pay)
+                {
+					$profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
+					$res_profit = $this->money * (Yii::app()->params['profit_percent'] / 100);
+					var_dump($res_profit);
+					$profit->profit += $res_profit;
+					$profit->full_profit += $res_profit;
+					$profit->save();
+            	}
+            }
         }
         return true;
     }

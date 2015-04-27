@@ -2,7 +2,7 @@
 <html class="bg-black">
 <head>
     <meta charset="UTF-8">
-    <title>Log in</title>
+    <title><?= $this->pageTitle ?></title>
     <link href="<?php echo $this->module->assetsUrl ?>/css/AdminLTE.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo $this->module->assetsUrl ?>/css/bootstrap.css" rel="stylesheet" type="text/css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

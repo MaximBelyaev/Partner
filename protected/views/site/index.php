@@ -156,7 +156,7 @@
 
 <section class="footer">
     <div class="center">
-        <div>Партнерская программа Павлуцкого Александра</div>
+        <div>© Партнерская программа Павлуцкого Александра</div>
         <div style="float: right;">Разработано в <a target="_blank" style="color: #889096;" href="http://shvets.net">“Shvets Studio”</a></div>
     </div>
 </section>

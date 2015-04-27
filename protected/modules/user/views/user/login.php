@@ -2,6 +2,8 @@
 /* @var $this SiteController */
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
+
+$this->setPageTitle("Вход в панель управления | Партнерская программа Павлуцкого Александра");
 ?>
 <div class="form-box" id="login-box">
     <div class="header">Вход</div>

@@ -22,8 +22,29 @@ $this->breadcrumbs=array(
 		'id',
 		'user_id',
 		'profit',
-		array(
-			'class'=>'CButtonColumn',
+        array(
+            'header'=>'Действия',
+            'class'=>'CButtonColumn',
+            'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+            'buttons'=>array
+            (
+                'update' => array
+                (
+                    'label'=>'',
+                    'options' => array(
+                        'class' => "icon-pencil icon-white"
+                    ),
+                    'imageUrl'=>'',
+                ),
+                'delete' => array
+                (
+                    'label'=>'',
+                    'options' => array(
+                        'class' => "icon-trash icon-white"
+                    ),
+                    'imageUrl'=>'',
+                ),
+            ),
 		),
 	),
 )); ?>

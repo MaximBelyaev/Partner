@@ -116,32 +116,158 @@ class Requests extends CActiveRecord
 		);
 	}
 
-	public function getPayedReferrals()
+	public function getThisDayPayedReferrals()
 	{
+		$day_start = date('Y-m-d 00:00:00', strtotime($this->date));
+		$day_end   = date('Y-m-d 23:59:59', strtotime($this->date));
+		
+		return Referrals::model()->findAll(
+			array(
+				'select' => '*',
+				'condition' => 'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'params' => array(
+					':user' => Yii::app()->user->id,
+					':date_start' => $day_start,
+					':date_end' => $day_end,
+					':status'=> Referrals::$STATUS_APPLIED,
+				)
+			)
+		);
+	}	
+
+	public function getThisMonthReferrals()
+	{
+		$month_start = ( date('Y-m-01', strtotime($this->date)) );
+		$month_end = ( date('Y-m-t', strtotime($this->date)) );	
+	
 		return Referrals::model()->findAll(
 			array(
 				'select'=>'*',
-				'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
 				'params'=>array(
 					':user'=>Yii::app()->user->id,
-					':date_start'=>$this->date.' 00:00:00',
-					':date_end'=>$this->date.' 23:59:59',
-					':status'=> Referrals::$STATUS_APPLIED,
+					':date_start' => $month_start . ' 00:00:00',
+					':date_end' => $month_end . ' 23:59:59',
 				)
 			)
 		);
 	}
 
+	public function getThisMonthPayedReferrals()
+	{
+		$month_start = ( date('Y-m-01', strtotime($this->date)) );
+		$month_end = ( date('Y-m-t', strtotime($this->date)) );	
+		
+		return Referrals::model()->findAll(
+			array(
+				'select' => '*',
+				'condition' => 'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'params' => array(
+					':user' => Yii::app()->user->id,
+					':date_start' => $month_start . ' 00:00:00',
+					':date_end' => $month_end . ' 23:59:59',
+					':status'=> Referrals::$STATUS_APPLIED,
+				)
+			)
+		);
+	}	
+
+
+	public function getPayedReferrals()
+	{
+		return Referrals::model()->findAll(
+			array(
+				'select' => '*',
+				'condition' => 'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
+				'params' => array(
+					':user' => Yii::app()->user->id,
+					':date_start' => $this->date.' 00:00:00',
+					':date_end' => $this->date.' 23:59:59',
+					':status' => Referrals::$STATUS_APPLIED,
+				)
+			)
+		);
+	}
+
+	public function getThisMonthRequests($use_click_pay = 1) {
+		$month_start = ( date('Y-m-01', strtotime($this->date)) );
+		$month_end = ( date('Y-m-t', strtotime($this->date)) );	
+		
+		return Requests::model()->findAll(
+				array(
+					'select'=>'*',
+					'condition'=>'
+						partner_id = :user 
+						AND date >= :date_start 
+						AND date <= :date_end
+						AND click_pay = :click_pay',
+					'params'=>array(
+						':user' => Yii::app()->user->id,
+						':date_start' => $month_start,
+						':date_end'   => $month_end,
+						':click_pay'  => $use_click_pay,
+					)	
+				)
+			);
+	}
+
+	public function getThisMonthProfit()
+	{
+		if ( $this->user->use_click_pay ) {
+			$requests = $this->getThisMonthRequests();
+			if($this->user->click_pay > 0) {
+				$click_pay = $this->user->click_pay;
+			} else {
+				$click_pay = Setting::model()->find('name = "click_pay"');
+				$click_pay = $click_pay->value;
+			}
+			return $click_pay * count($requests);
+			//var_dump(count($requests));
+		} else {
+			$refs = $this->getThisMonthPayedReferrals();
+			if (!empty($refs)) {
+				$full_price = array_reduce(
+					$refs, 
+					function($c,$v){ 
+						return ($c + (float)$v->money); 
+					}
+				);
+				$full_price = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
+			} else {
+				$full_price = 0;
+			}
+
+			return $full_price;
+		}
+	}
+
+
+	public function getDayRequests($use_click_pay = 1)
+	{
+		return ($this->user->getDayRequests($this->date, $use_click_pay));
+	}
+
+
 	public function getDailyProfit()
 	{
-		$full_price = array_reduce(
-			$this->getPayedReferrals(), 
-	        function($c,$v){ 
-	        	return ($c ." ". (float)$v->money); 
-	        }
-		);
-		$partners_part = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
-		return $partners_part;
+		if ($this->user->use_click_pay) {
+			if($this->user->click_pay > 0) {
+				$click_pay = $this->user->click_pay;
+			} else {
+				$click_pay = Setting::model()->find('name = "click_pay"');
+				$click_pay = $click_pay->value;
+			}
+			return $click_pay * count($this->getDayRequests());
+		} else {
+			$full_price = array_reduce(
+				$this->getPayedReferrals(), 
+				function($c,$v){ 
+					return ($c ." ". (float)$v->money); 
+				}
+			);
+			$partners_part = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
+			return $partners_part;
+		}
 	}
 
 }

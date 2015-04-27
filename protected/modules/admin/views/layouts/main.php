@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Admin Panel</title>
+    <title><?= $this->pageTitle ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl ?>/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl ?>/css/main.css">
@@ -23,7 +23,7 @@
 </div>
 <div id="sidebar">
     <div class="for-logo">
-        <?= CHtml::link('Панель администратора', array('/admin/referrals/index'), array('class'=>'logo')); ?>
+        <?= CHtml::link('Главная', array('/admin/referrals/index'), array('class'=>'logo')); ?>
     </div>
     <?php $this->widget('zii.widgets.CMenu',array(
         'items'=>array(
@@ -33,15 +33,58 @@
                 'url'=>array('/admin/referrals/index'),
             ),
             array(
-                'label'=>'<i class="icon-list"></i>Партнеры',
-                'url'=>array('/admin/user/index'),
-            ),
-             array(
-                'label'=>'<i class="icon-book"></i>Заявки на вывод средств',
-                'url'=>array('/admin/stateds/index'),
+                'label'=>'Добавить клиента',
+                'url'=>array('/admin/referrals/create/'),
             ),
             array(
-                'label'=>'<i class="icon-user"></i>Перейти в партнерку',
+                'label'=>'Статистика',
+                'url'=>array('/admin/referrals/index'),
+            ),
+            array(
+                'label'=>'<i class="icon-user"></i>Партнеры',
+                'url'=>array('/admin/user/index'),
+            ),
+            array(
+                'label'=>'Добавить партнёра',
+                'url'=>array('/admin/user/create'),
+            ),
+            array(
+                'label'=>'Статистика',
+                'url'=>array('/admin/user/index'),
+            ),
+            array(
+				'label'=>'<i class="icon-bullhorn"></i>Уведомления ' . 
+				(
+					($this->notifications_count)
+					?
+					"<strong class='nots'>+{$this->notifications_count}</strong>"
+					:
+					""
+				) ,
+				'url'=>array('/admin/notifications/index'),
+            ),
+            array(
+                'label'=>'<i class="icon-list-alt"></i>Новости',
+                'url'=>array('/admin/news/index'),
+            ),
+            array(
+                'label'=>'Добавить новость',
+                'url'=>array('/admin/news/create'),
+            ),
+            array(
+                'label'=>'Просмотр новостей',
+                'url'=>array('/admin/news/index'),
+            ),
+            array(
+                'label'=>'<i class="icon-wrench"></i>Настройки',
+                'url'=>array('/admin/settings/index'),
+            ),
+			array(
+				'label'=>'<i class="icon-file"></i>Заявки на вывод средств',
+				'url'=>array('/admin/stateds/index'),
+			),
+            array(
+                'label'=>'<i class="icon-share-alt"></i>Перейти в партнерку',
                 'url'=>array('/user/user/index'),
                 'linkOptions'=>array('target'=>'=_blank'),
             ),

@@ -9,10 +9,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title><?= $this->pageTitle ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="<?php echo $this->module->assetsUrl ?>/css/Admin.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
+    <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     
 </head>
 <body class="skin-blue">
@@ -46,15 +47,21 @@
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>
+                            <h3 class="ref_header">
                                 Ваша личная партнерская ссылка:
+                                <?= CHtml::link('Редактировать данные', array('/user/user/data'), array('class' => 'edit_data')); ?>
                             </h3>
                             <textarea class="linkText" onclick="this.select();">http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?=Yii::app()->user->id; ?></textarea>
-                            <?= CHtml::link('Редактировать данные', array('/user/user/data'), array('class' => 'edit_data')); ?>
+                            <?php if($this->user->promo_code) { ?>
                             <h3>
                                 Ваш промокод:
                             </h3>
-                            <textarea class="linkText" onclick="this.select();">PROMO_<?=Yii::app()->user->id; ?></textarea>
+                            <textarea class="linkText" onclick="this.select();"><?=$this->user->promo_code ?></textarea>
+                            <?php } else { ?>
+                            <h3>
+                                Ваш промокод не определен
+                            <h3>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

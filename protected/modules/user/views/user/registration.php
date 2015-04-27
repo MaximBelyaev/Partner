@@ -2,6 +2,7 @@
 /* @var $this SiteController */
 /* @var $model User */
 /* @var $form CActiveForm */
+$this->setPageTitle("Регистрация в программе | Партнерская программа Павлуцкого Александра");
 ?>
 <div class="form-box" id="login-box">
     <div class="header">Зарегистрироваться</div>

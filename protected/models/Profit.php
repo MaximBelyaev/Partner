@@ -56,8 +56,8 @@ class Profit extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'profit' => 'Profit',
-			'full_profit' => 'Заработано всего',
+			'profit' => 'Баланс',
+			'full_profit' => 'Всего заработано',
 		);
 	}
 

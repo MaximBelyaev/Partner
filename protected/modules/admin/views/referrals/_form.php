@@ -28,12 +28,12 @@
     </div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'user_id'); ?>
-		<?php
-            $users = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
-            $result = array_merge(array('promo'=>'Промо код') , $users);
-            array_push($users,"Промо код");
-            echo $form->dropDownList($model,'user_id', $users); ?>
+		<?php //echo $form->labelEx($model,'user_id'); ?>
+		<label for="Referrals_user_id">Привязать к партнеру</label>
+        <?php
+            $users  = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
+            $result = array_merge(array('promo'=>'Промо код'), $users);
+            echo $form->dropDownList($model,'user_id', $users, array('prompt'=>'- - - без партнера - - -')); ?>
 		<?php echo $form->error($model,'user_id'); ?>
 
         <?php echo $form->labelEx($model,'promo'); ?>

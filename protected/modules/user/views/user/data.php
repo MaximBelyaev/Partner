@@ -2,9 +2,10 @@
 /* @var $this UserController */
 /* @var $model User */
 /* @var $form CActiveForm */
-?>
 
-<div class="form">
+$this->setPageTitle("Редактирование информации | Партнерская программа Павлуцкого Александра");
+?>
+<div class="form bg-aqua small-box">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'user-form',
@@ -16,92 +17,66 @@
 )); ?>
 
 	
-	<h5>Редактирование информации</h5>
+	<h3>Редактирование информации</h3>
 	
-	
-	<div class="button_save"> 
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-	</div>
-	
-		
-	
-	<div class="row">
-		<?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->dropDownList($model,'role', array('user'=>'user', 'admin'=>'admin')); ?>
-		<?php echo $form->error($model,'role'); ?>
-	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
+		<?php //echo $form->labelEx($model,'username'); ?>
+		<label class="required" for="User_username">
+			Ваш Email <span class="required">*</span>
+		</label>
 		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>150)); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
-<!--
+
 	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'name'); ?>
+		<?php //echo $form->labelEx($model,'password'); ?>
+		<label class="required" for="User_password">
+			Ваш пароль <span class="required">*</span>
+		</label>
+		<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->error($model,'password'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'birth_date'); ?>
-		<?php echo $form->textField($model,'birth_date'); ?>
-		<?php echo $form->error($model,'birth_date'); ?>
+		<?php //echo $form->labelEx($model,'promo_code'); ?>
+		<label class="required" for="User_site">
+			Ваш промокод
+		</label>
+		<?php echo $form->textField($model,'promo_code',array('size'=>50,'maxlength'=>128)); ?>
+		<?php echo $form->error($model,'promo_code'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'sex'); ?>
-        <?php echo $form->dropDownList($model,'sex', array(1=>'Мужской', 0=>'Женский'), array('empty'=>'Выберите пол')); ?>
-		<?php echo $form->error($model,'sex'); ?>
+		<?php //echo $form->labelEx($model,'site'); ?>
+		<label class="required" for="User_site">
+			Закрепить сайт
+		</label>
+		<?php echo $form->textField($model,'site',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'site'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'country'); ?>
-		<?php echo $form->textField($model,'country',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'country'); ?>
-	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'region'); ?>
-		<?php echo $form->textField($model,'region',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'region'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'city'); ?>
-		<?php echo $form->textField($model,'city',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'city'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'avatar'); ?>
-		<?php echo $form->textField($model,'avatar',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'avatar'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'active'); ?>
-		<?php echo $form->dropDownList($model,'active', array(1=>'Активен', 0=>'Не активен')); ?>
-		<?php echo $form->error($model,'active'); ?>
-	</div>
--->
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'telephone'); ?>
-		<?php echo $form->textField($model,'telephone',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'telephone'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'skype'); ?>
+		<?php //echo $form->labelEx($model,'skype'); ?>
+		<label class="required" for="User_skype">
+			Ваш скайп
+		</label>
 		<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>128)); ?>
 		<?php echo $form->error($model,'skype'); ?>
 	</div>
-	
+
 	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'password'); ?>
+		<?php //echo $form->labelEx($model,'use_click_pay'); ?>
+		<label class="required" for="User_use_click_pay">
+			Выберите источник дохода 
+		</label>
+		<?php echo $form->dropDownList( $model,'use_click_pay', array('0' => User::PAY_REFERR, "1" => User::PAY_CLICK)); ?>
+		<?php echo $form->error($model,'use_click_pay'); ?>
+	</div>
+
+	<div class="button_save"> 
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

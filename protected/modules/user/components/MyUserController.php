@@ -2,6 +2,10 @@
 class MyUserController extends Controller
 {
     public $layout='/layouts/cabinet';
+    public $user;
+    public $news_to_watch;
+    public $news;
+    public $news_views;
     /**
      * @return array action filters
      */
@@ -26,12 +30,30 @@ class MyUserController extends Controller
                 'users' => array('*'),// для всех
             ),
             array('allow',
-                'actions' => array('index', 'logout', 'data','payRequest'),
+                'actions' => array('index', 'logout', 'commercial', 'data', 'view', 'payRequest'),
                 'roles' => array('user'),// для авторизованных
             ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
         );
+    }
+
+    public function init()
+    {
+        parent::init();
+        $this->user = User::model()->findByPk((int)Yii::app()->user->id);
+        
+
+        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
+            Yii::app()->setLanguage('ru');
+            Yii::app()->user->setState('language', 'ru');
+        }
+        $news = News::model()->findAll();
+        $news_views = NewsViews::model()->findAll('user_id = ' . (int)Yii::app()->user->id );
+        
+        $this->news_to_watch = count($news) - count($news_views);
+        $this->news = $news;
+        $this->news_views = $news_views;     
     }
 }

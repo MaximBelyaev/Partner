@@ -14,7 +14,7 @@ return array(
         'debug',
     ),
     //language for project
-    'sourceLanguage'=>'ru',
+    'sourceLanguage'=>'en',
     'language'=>'ru',
 
     // autoloading model and component classes
@@ -38,13 +38,14 @@ return array(
         'debug' => array(
             'class' => 'ext.yii2-debug.Yii2Debug',
         ),
-        'settings'=>array(
-            'class'=>'application.components.Settings',
-        ),
         'request'=>array(
             'enableCookieValidation'=>true,
-            'enableCsrfValidation'=>true,
+            'enableCsrfValidation'=>false,
         ),
+		'email' => array(
+            'class'=>'application.extensions.email.Email',
+            'delivery' => 'php',
+		),
         'user'=>array(
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
@@ -102,7 +103,9 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
-        'languages'=>array('ru'=>'Русский', 'uk'=>'Українська'),
+        'languages' => array('ru'=>'Русский', 'uk'=>'Українська'),
         'profit_percent' => 15,
+        'adminName'  => 'Александр Павлуцкий',
+        'adminEmail' => 'some.nugget@gmail.com',
     ),
 );

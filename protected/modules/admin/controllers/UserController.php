@@ -8,7 +8,7 @@ class UserController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model = new User;
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['User']))
@@ -21,7 +21,7 @@ class UserController extends AdminController
             }
             else
             {
-                Yii::app()->user->setFlash('error', "Error!");
+                //Yii::app()->user->setFlash('error', "Error!");
             }
 		}
 
@@ -42,7 +42,7 @@ class UserController extends AdminController
 
 		if(isset($_POST['User']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes = $_POST['User'];
             if($model->save())
             {
                 Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
@@ -78,13 +78,18 @@ class UserController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model = new User('search');
+        $model=new User('search');
         $model->unsetAttributes();  // clear any default values
+        
+        $dataProvider = new CActiveDataProvider('User', array(
+
+        ));
+
         if(isset($_GET['User'])) {
             $model->attributes=$_GET['User'];
         }
-
         $this->render('index',array(
+            'dataProvider' => $dataProvider,
             'model'=>$model,
         ));
 	}
@@ -100,7 +105,7 @@ class UserController extends AdminController
 	{
 		$model=User::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException( 404, "Партнер с ID $id не найден" );
 		return $model;
 	}
 

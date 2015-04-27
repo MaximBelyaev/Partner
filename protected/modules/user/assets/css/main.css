@@ -1,8 +1,14 @@
+
+.ref_header {
+	position: relative;
+}
+
 .edit_data {
-	float: right;
 	border-radius: 3px;
 	color: #FFF;
-	display: inline-block;
+	position: absolute;
+	right: 0;
+	font: normal 16px 'Open Sans';
 	padding: 10px;
 	background: #3C8DBC;
 	text-decoration: none;
@@ -10,6 +16,13 @@
 .edit_data:hover {
 	background: #367FA9;
 	color: #FFF;
+}
+.nots {
+    background-color: #3c8dbc;
+    border-radius: 10px;
+    color: #FFF;
+    margin-left: 4px;
+    padding: 2px 8px 2px 6px;    
 }
 
 
@@ -26,13 +39,16 @@
 	}
 		.button_save .btn {
 			position: static;
+			margin-top: 15px;
+			font: normal 16px 'Open Sans'; 
 		}
 	#user-form .row {
 		margin: 10px 10px 0 0;
 		width: 50%;
 	}	
 	#user-form .row label {
-		width: 20%;
+		color: #444;
+		width: 35%;
 		display: inline-block;
 	}
 		#user-form .row input,
@@ -70,8 +86,9 @@
 		}
 		.errorMessage {
 			color: #EA301C;
-			font-size: 12px;
-			width: 80%;
+			font-size: 11px;
+			width: 100%;
+			margin-bottom: 10px;
 		}
 
 
@@ -94,12 +111,181 @@
 	color: #FFF;
 	display: inline-block;
 	padding: 5px 10px;
+	margin: 15px 0 22px;
 	text-decoration: none;
+}
+#month_button.this {
 	position: relative;
 	bottom: 10px;
+	margin: 0 0 10px;
 }
+
 #month_button:hover {
 	background: #357CA5;
 }
-	
-	
+
+.small-box:hover {
+	color: #111;
+}
+
+/* ============== Статистика =============== */
+.pay_type {
+	color: #444;
+	font-size: 17px;
+	margin: 10px 0 20px;
+}
+h3.month_header {
+	background-color: #67A3C5;
+	color: #FFF;
+	cursor: pointer;
+	text-align: left;
+	font-size: 17px;
+	margin-bottom: 0;
+	margin-top: 15px;
+	padding: 10px;
+}
+.month_header.open {
+	background-color: #3c8dbc;
+	color: #FFF;
+}
+
+.month_header + .month_stat {
+	display: none;
+}
+.month_header.open + .month_stat {
+	display: table;
+}
+.month_stat {
+	margin-bottom: 30px;
+	width: 100%;
+}
+	.day {
+		margin-bottom: 2px;
+	}
+	.stat_row {
+		overflow: hidden;
+		display: table-row;
+		width: 100%;
+	} 
+	.stat_header {
+		font-weight: 600;
+	}
+		.stat_row div {
+			border-top: 1px solid #eee;
+			display: table-cell;
+			padding: 10px;
+		}
+.month_total {
+	background-color: #eee;
+	overflow: hidden;
+}
+
+/* ================== Рекламные материалы =====================*/
+.commercial {
+	background: #FFF;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	box-sizing: border-box;
+	padding: 10px;
+	color: #111;
+	overflow: hidden;
+}
+	.commercial h3 {
+		margin: 0 0 15px 0;
+	}
+	.commercial h4 {
+		margin: 10px 0;
+	}
+	.commercial .banner {
+		margin-bottom: 20px;
+		margin-top: 15px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid #DDD;
+	}
+		.commercial .banner h5 {
+			margin: 5px;
+		}
+		.commercial .banner textarea {
+			border-radius: 3px;
+			height: 200px;
+			display: block;
+			margin-top: 10px;
+			padding: 10px;
+			border: 1px solid #DDD;
+			outline: none;
+			width: 95%;
+		}
+
+/* ================= Новости ================== */
+.article {
+	padding: 0 10px;
+}
+	.article h1{
+		font-size: 32px;
+		margin: 10px 0 0 0;
+	}		
+	.article address{
+		color: #AAA;
+		font-size: 13px;
+	}		
+	.text {
+		margin-top: 40px;
+	}
+		.text h2 {
+			margin: 15px 0;
+		}
+		.text p {
+			margin: 6px 0;	
+		} 
+
+.empty {
+	color: #000;
+}
+.grid-view table.items {
+	width: 98%;
+}
+.grid-view table.items th {
+	background: #3c8dbc;
+}
+.grid-view table.items tr.selected {
+	background: #ECFBD4;
+}
+.grid-view table.items tr.selected:hover {
+	background: #ECFBD4;
+}
+.grid-view table.items tbody tr.extra:hover {
+    background: #DDD;
+}
+h3.stat_header {
+	margin: 10px 0 0;
+}
+.grid-view table.items tr.extra {
+	background: #DDD;
+	border-bottom: 15px solid #FFF;
+}
+.grid-view table.items tr.extra:last-child {
+	border-width: 1px;
+}
+.grid-view table.items tr.extra + tr.even {
+	background: #E5F1F4;
+}
+.iconNews {
+	background: url(../img/news.png) no-repeat;
+	background-position: 50% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-bottom: -6px;
+}
+.iconAds {
+	background: url(../img/rek.png) no-repeat;
+	background-position: 50% 80%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-bottom: -6px;
+}
+.row.buttons {
+	margin-bottom: 8px;
+	margin-top: 8px;
+}

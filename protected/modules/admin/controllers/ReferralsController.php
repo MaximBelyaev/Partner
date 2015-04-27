@@ -19,8 +19,9 @@ class ReferralsController extends AdminController
 		if(isset($_POST['Referrals']))
 		{
 			$model->attributes=$_POST['Referrals'];
-			if($model->save())
+			if($model->save()){
 				$this->redirect(array('index','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
@@ -94,7 +95,7 @@ class ReferralsController extends AdminController
 	{
 		$model=Referrals::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,"Клиент с ID $id был удален или не создан");
 		return $model;
 	}
 

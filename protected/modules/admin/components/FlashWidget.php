@@ -4,7 +4,7 @@ class FlashWidget extends CWidget
 
     public $params = array(
         'model' => null,
-        'form' => null,
+        //'form' => null,
     );
 
     public function init(){}
@@ -12,7 +12,7 @@ class FlashWidget extends CWidget
     {
         $this->render('flash',array(
             'model'=>$this->params['model'],
-            'form'=>$this->params['form'],
+            //'form'=>$this->params['form'],
         ));
     }
 }

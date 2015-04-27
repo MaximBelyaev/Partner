@@ -20,121 +20,151 @@ class UserController extends MyUserController
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
-    public function actionIndex()
-    {
-        $show_all_button = (!isset($_GET['all'])) ? true : false;
-        $statistic = array();
-        $this->layout = '/layouts/cabinet';
-        $user = User::model()->findByPk(Yii::app()->user->id);
-        $requests = Requests::model()->findAll(
-                        array(
-                            'select' => 'date',
-                            'condition' => 'partner_id = :user', 
-                            'params' => array(':user'=>$user->id), 
-                            'distinct'=>true, 
-                            'order' => 'date DESC')
-                        );
-        
-        $criteria = new CDbCriteria;
-		$criteria->select = 'date, partner_id';
-		$criteria->distinct = true;
-		if ($show_all_button) {
-			# показываем данные только за последний месяц
-			$criteria->addCondition(
-				'date > "' . date('Y-m-01', time()) . '"' , 
-				'AND');
-		}
-		$criteria->compare('partner_id' , Yii::app()->user->id);
-		$criteria->group='date';
-		$criteria->order = 'date desc';
-		$dataProvider = new CActiveDataProvider('Requests', 
-			array( 
-				'criteria' => $criteria,
-                'pagination'=>array(
-                    'pageSize'=>10,
-                ),
-			));
-		/*$dataProvider = new CActiveDataProvider('Referrals',
-            array(
-                'criteria'=>array(
-                    'condition'=>'user_id = :id',
-                    'params'=>array(':id'=>$user->id),
-                    'order'=>'date DESC',
-                ),
-                'pagination'=>array(
-                    'pageSize'=>3,
-                ),
-            )
-        );*/
-        //var_dump($requests);
-        foreach ($requests as $i => $value)
-        {
-            $statistic[$i] = array(
-                'date'=>$value->date,
-                'followers'=>sizeof(Requests::model()->findAll(array('select'=>'id','condition'=>'partner_id = :user and date = :date', 'params'=>array(':user'=>Yii::app()->user->id, ':date'=>$value->date)))),
-                'zakazu'=>sizeof(Referrals::model()->findAll(
-                    array(
-                        'select'=>'id',
-                        'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end',
-                        'params'=>array(
-							':user'=>Yii::app()->user->id,
-							':date_start'=>$value->date.' 00:00:00',
-							':date_end'=>$value->date.' 23:59:59',
-                        )
-                    ))
-                ),
-                'sites'=>
-                    Referrals::model()->findAll(
-                        array(
-                        	'select'=>'site',
-                        	'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status= :status',
-							'params'=>array(
-								':user'=>Yii::app()->user->id,
-								':date_start'=>$value->date.' 00:00:00',
-								':date_end'=>$value->date.' 23:59:59',
-								':status'=> Referrals::$STATUS_APPLIED,
-                            )
-                        )
-                    ),
-                'oplata'=>sizeof(Referrals::model()->findAll(
-                    array(
-                    	'select'=>'id',
-                    	'condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status = "' . Referrals::$STATUS_APPLIED . '"',
-                        'params'=>array(
-                            ':user'=>Yii::app()->user->id,
-                            ':date_start'=>$value->date.' 00:00:00',
-                            ':date_end'=>$value->date.' 23:59:59',
-                        )
-                    ))
-                ),
-                'sum'=>Referrals::model()->findAll(
-                        array('select'=>'money','condition'=>'user_id = :user and date >= :date_start AND date <= :date_end AND status = "' . Referrals::$STATUS_APPLIED . '"',
-                            'params'=>array(
-                                ':user'=>Yii::app()->user->id,
-                                ':date_start'=>$value->date.' 00.00.00',
-                                ':date_end'=>$value->date.' 23.59.59',
-                            )
-                        )
-                    )
-            );
-        }
+	public function actionIndex()
+	{
+		$statistic = array();
+		$this->layout = '/layouts/cabinet';
+		$user = User::model()->findByPk(Yii::app()->user->id);
+
+
+		# статистика для отплаты за клик
+		if ($user->use_click_pay) { 
+			$requests = Requests::model()->findAll(
+				array(
+					'select' => 'date',
+					'condition' => 'partner_id = :user and click_pay = 1', 
+					'params' => array(':user'=>$user->id), 
+					'distinct'=>true, 
+					'order' => 'date DESC'
+				)
+			);
+
+			$prevMonth = 0;
+			$nextMonth = 1;
+			$currentMonth = 0;
+			$monthIndex = 0;
+			foreach ($requests as $i => $value)
+			{
+				// Нужно для работы отношений
+				$value->partner_id = $user->id;
+
+				$currentMonth = date('m', strtotime($value->date));
+				if (isset($requests[$i+1]->date)) {
+					$nextMonth    = date('m', strtotime($requests[$i+1]->date));
+				} else {
+					$nextMonth = $currentMonth+1;
+				}
+
+				// Если мы перешли на новый месяц
+				if (($currentMonth != $prevMonth)) {
+					// запишем статистику за прошлый месяц
+					$statistic[$monthIndex]['month'] = Yii::app()->locale->getMonthName(
+						(int)date("m",strtotime($value->date)), 
+						"wide", 
+						true
+					) . " " . date("Y",strtotime($value->date));
+				}
+
+				$statistic[$monthIndex]['data'][] = array(
+	                'date'=>$value->date,
+	                'followers'=>count($value->getDayRequests(1)),
+	                'profit'=>$value->getDailyProfit(),
+	                
+				);
+                
+                if ($currentMonth != $nextMonth) {
+					$statistic[$monthIndex]['total'] = array(
+						'total' => true,
+						'requests' => count($value->getThisMonthRequests(1)),
+						'total_profit' => $value->getThisMonthProfit(),
+					);
+					$monthIndex++;
+				}
+
+				$prevMonth = $currentMonth;
+
+	        }
+    	} else {
+
+			$requests = Requests::model()->findAll(
+				array(
+					'select' => 'date',
+					'condition' => 'partner_id = :user and click_pay = 0', 
+					'params' => array(':user'=>$user->id), 
+					'distinct' => true, 
+					'order' => 'date DESC'
+				)
+			);
+            
+            $prevMonth = 0;
+            $nextMonth = 1;
+            $currentMonth = 0;
+            $monthIndex = 0;
+			foreach ($requests as $i => $value)
+			{
+				// Нужно для работы отношений
+				$value->partner_id = $user->id;
+
+				$currentMonth = date('m', strtotime($value->date));
+				if (isset($requests[$i+1]->date)) {
+					$nextMonth    = date('m', strtotime($requests[$i+1]->date));
+				} else {
+					$nextMonth = $currentMonth+1;
+				}
+
+				// Если мы перешли на новый месяц
+				if (($currentMonth != $prevMonth)) {
+					// запишем статистику за прошлый месяц
+					$statistic[$monthIndex]['month'] = Yii::app()->locale->getMonthName(
+						(int)date("m",strtotime($value->date)), 
+						"wide", 
+						true
+					) . " " . date("Y",strtotime($value->date));
+				}
+
+				$statistic[$monthIndex]['data'][] = array(
+	                'date'=>$value->date,
+	                'followers'=>count($value->getDayRequests(0)),
+	                'profit'=>$value->getDailyProfit(),
+
+					'referrals' => count($value->getThisDayRefferals()),
+					'payed' 	=> count($value->getThisDayPayedReferrals()),
+					'sites' 	=> array_reduce($value->getThisDayPayedReferrals(), function($v, $m){ return ($v . '  ' . $m->site); }),
+	                
+				);
+                
+				if ( $currentMonth != $nextMonth ) {
+					$statistic[$monthIndex]['total'] = array(
+						'total' => true,
+						'followers' => count($value->getThisMonthRequests(0)),
+						'referrals' => count($value->getThisMonthReferrals(0)),
+						'payed_referrals' => count($value->getThisMonthPayedReferrals()),
+						'total_profit' => $value->getThisMonthProfit(),
+					);
+					$monthIndex++;
+				}
+
+				$prevMonth = $currentMonth;
+
+	        }
+
+    	}
 
         $this->render('index', array(
             'user'=>$user,
-            'dataProvider'=>$dataProvider,
             'statistic'=>$statistic,
-            'show_all_button' => $show_all_button
         ));
     }
 
 
     public function actionData() {
         $model = User::model()->findByPk(Yii::app()->user->id);
-        
+
         $this->performAjaxValidation($model);
-        //var_dump($_POST['User']);
+        
         if(isset($_POST['User']))
         {
+            $model->old_site = $model->site; 
             $model->attributes=$_POST['User'];
             if($model->save())
             {
@@ -330,9 +360,16 @@ class UserController extends MyUserController
         $this->redirect(Yii::app()->homeUrl);
     }
 
+	public function actionCommercial()
+	{
+        $this->render('commercial', array(
+        	'user' => $this->user,
+        ));
+	}
+
     public function actionPayRequest()
     {
-        $model=new Stateds;
+        $model = new Stateds;
         if(isset($_POST['Stateds']))
         {
             $model->attributes=$_POST['Stateds'];

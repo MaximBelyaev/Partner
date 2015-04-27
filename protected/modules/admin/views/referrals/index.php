@@ -5,6 +5,7 @@
 $this->breadcrumbs=array(
 	'Клиенты',
 );
+$this->setPageTitle("Список клиентов | Партнерская программа Павлуцкого Александра");
 ?>
 
 <div class="head">
@@ -19,16 +20,16 @@ $this->breadcrumbs=array(
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
+        'email',
+        'site',
         array(
             'name' => 'user',
             'type' => 'email',
             'value' => '((isset($data->user->username))?$data->user->username:"");',
         ),
+        'money',
         'date',
 		/*'id',*/
-		'email',
-        'money',
-        'site',
         array(
             'name' => 'status',
             'type' => 'email',
@@ -43,9 +44,31 @@ $this->breadcrumbs=array(
         'requests',
         'user_from',
         */
-		array(
-            'header'=>'Действия',
-			'class'=>'CButtonColumn',
-		),
+        array(
+            'header'=>'Редактировать',
+            'class'=>'CButtonColumn',
+            'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+            'buttons'=>array
+            (
+                'update' => array
+                (
+                    'label'=>'',
+                    'options' => array(
+                        'class' => "icon-pencil icon-white"
+                    ),
+                    'imageUrl'=>'',
+                ),
+                'delete' => array
+                (
+                    'label'=>'',
+                    'options' => array(
+                        'class' => "icon-trash icon-white"
+                    ),
+                    'imageUrl'=>'',
+                ),
+            ),
+        ),
 	),
-)); ?>
+)); 
+
+?>

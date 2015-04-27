@@ -14,6 +14,10 @@
  */
 class Stateds extends CActiveRecord
 {
+	const STATUS_WAITING = 'Ожидает оплату';
+	const STATUS_PAYED   = 'Оплачено';
+	const STATUS_DENIED  = 'Отказано в оплате';
+    
     protected $_oldStatus;
 	/**
 	 * @return string the associated database table name
@@ -33,8 +37,8 @@ class Stateds extends CActiveRecord
 		return array(
 			array('user_id, money, pay_type, requisites', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('money', 'length', 'max'=>8),
-			array('money', 'numerical', 'max'=>Yii::app()->user->isAdmin ? 9999999999 :User::model()->findByPk(Yii::app()->user->id)->profit),
+			array('money', 'length', 'max' => 8),
+			array('money', 'numerical', 'min' => 0,'max'=>Yii::app()->user->isAdmin ? 9999999999 :User::model()->findByPk(Yii::app()->user->id)->profit),
 			array('pay_type, requisites', 'length', 'max'=>50),
 			array('description, status, date', 'safe'),
 			// The following rule is used by search().
@@ -143,7 +147,7 @@ class Stateds extends CActiveRecord
         if(parent::beforeSave()){
             if($this->status !== $this->_oldStatus)
             {
-                if($this->_oldStatus == 'Отказано в оплате'){
+                if($this->_oldStatus == self::STATUS_DENIED){
                     $this->status = $this->_oldStatus;
                 }
             }
@@ -151,21 +155,64 @@ class Stateds extends CActiveRecord
         return true;
     }
 
-    protected function afterSave()
-    {
+	protected function afterSave()
+	{
+		$email = Yii::app()->email;
+		$email->from = 'Future <admin@'.$_SERVER['HTTP_HOST'].'>';
+		$email->to = Yii::app()->params['adminEmail'];
+		$email->subject = 'Новая заявка на вывод';
+		$email->message = "Вы получили новую заявку на вывод средств";
+		//
+		$email->send();
+    
         if($this->isNewRecord){
             $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
             $profit->profit -= $this->money;
             $profit->save();
+
+			// Добавляем уведомления
+			$notification = new Notifications();
+			$notification->user_id = $this->user_id;
+			$notification->theme = Notifications::$THEME_NEW_STATED;
+			$notification->is_new = 1;
+			$notification->stated_id = $this->id;
+			$notification->save();
         }
 
+
         if($this->_oldStatus != $this->status){
-            if($this->status == 'Отказано в оплате'){
+            if($this->status == self::STATUS_PAYED) {
+            	$email = Yii::app()->email;
+				$email->from = '' . Yii::app()->params['adminName'] . ' <' . Yii::app()->params['adminEmail'] . '>';
+				$email->to = $this->user->username;
+				$email->language = 'ru';
+				$email->type = 'text/html';
+				$email->contentType = 'utf-8';
+				$email->subject = 'Статус заявки изменен';
+				$email->message = "Ваш счет пополнен на " . $this->money . " рублей";
+				$email->send();
+            }
+            if($this->status == self::STATUS_DENIED && ($this->money > 0)){
                 $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
                 $profit->profit += $this->money;
                 $profit->save();
             }
         }
         parent::afterSave();
+    }
+
+    protected function afterDelete()
+    {
+    	parent::afterDelete();
+    	# удаление уведомлений
+		$nots = Notifications::model()->findAll(array(
+			'condition' => 'stated_id = :stated_id',
+			'params'    => array(
+				':stated_id' => $this->id,
+			),
+		));
+		foreach ($nots as $not) {
+			$not->delete();
+		}
     }
 }

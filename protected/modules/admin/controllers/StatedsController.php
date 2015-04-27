@@ -91,7 +91,7 @@ class StatedsController extends AdminController
 	{
 		$model=Stateds::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,"Заявка с ID $id была удалена или не создана");
 		return $model;
 	}
 

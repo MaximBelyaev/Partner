@@ -2,6 +2,7 @@
 /* @var $this SiteController */
 /* @var $model User */
 /* @var $form CActiveForm */
+$this->setPageTitle("Восстановление пароля | Партнерская программа Павлуцкого Александра");
 ?>
 <div class="form-box" id="login-box">
     <div class="header">Восстановить пароль</div>

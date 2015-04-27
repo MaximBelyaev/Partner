@@ -180,7 +180,7 @@ img {
 .bg-purple,
 .bg-maroon,
 .bg-black {
-  color: #f9f9f9 !important;
+  color: #f9f9f9;
 }
 .bg-gray {
   background-color: #eaeaec !important;
@@ -1348,8 +1348,8 @@ padding: 14px 10px 0 10px;
 background: #F5F5F5;
 resize: none;
 border: 1px solid #EEEEEE;
-width: 550px !important;
-height: 36px !important;
+width: 550px;
+height: 36px;
 }
 .small-box p > small {
   display: block;
@@ -3657,9 +3657,6 @@ fieldset[disabled] .btn-vk.active {
   border: none;
   outline: none;
   border: 1px solid #ddd;
- -webkit-box-shadow: inset 0px 0px 5px 0px rgba(50, 50, 50, 0.29);
--moz-box-shadow:    inset 0px 0px 5px 0px rgba(50, 50, 50, 0.29);
-box-shadow:         inset 0px 0px 5px 0px rgba(50, 50, 50, 0.29);
 }
 
 select.form-control{
@@ -3771,11 +3768,10 @@ font-weight: 700;
 }
 
 .tableClients{
- border: 1px solid #ddd;
-display: table;
-text-align: center;
-width: 100%;
-color: #444;
+	display: table;
+	text-align: center;
+	width: 100%;
+	color: #444;
 }
 
 .info p{

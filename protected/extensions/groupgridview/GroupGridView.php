@@ -281,8 +281,9 @@ class GroupGridView extends CGridView {
 
         $colspan = count($this->columns);
 
-        echo '<tr>';
-        echo '<td class="extrarow" colspan="'.$colspan.'">'.$content.'</td>';
+        echo '<tr class="extra odd">';
+//        echo '<td class="extrarow" colspan="'.$colspan.'">'.$content.'</td>';
+        echo $content;
         echo '</tr>';
     }
 

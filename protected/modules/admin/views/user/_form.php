@@ -36,7 +36,6 @@
 
     <div class="clear"></div>
 
-
 	<div class="row">
 		<?php echo $form->labelEx($model,'role'); ?>
         <?php echo $form->dropDownList($model,'role', array('user'=>'user', 'admin'=>'admin')); ?>
@@ -48,55 +47,6 @@
 		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>150)); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
-<!--
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'birth_date'); ?>
-		<?php echo $form->textField($model,'birth_date'); ?>
-		<?php echo $form->error($model,'birth_date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'sex'); ?>
-        <?php echo $form->dropDownList($model,'sex', array(1=>'Мужской', 0=>'Женский'), array('empty'=>'Выберите пол')); ?>
-		<?php echo $form->error($model,'sex'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'country'); ?>
-		<?php echo $form->textField($model,'country',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'country'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'region'); ?>
-		<?php echo $form->textField($model,'region',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'region'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'city'); ?>
-		<?php echo $form->textField($model,'city',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'city'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'avatar'); ?>
-		<?php echo $form->textField($model,'avatar',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'avatar'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'active'); ?>
-		<?php echo $form->dropDownList($model,'active', array(1=>'Активен', 0=>'Не активен')); ?>
-		<?php echo $form->error($model,'active'); ?>
-	</div>
--->
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'money[profit]'); ?>
@@ -105,9 +55,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'telephone'); ?>
-		<?php echo $form->textField($model,'telephone',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'telephone'); ?>
+		<?php echo $form->labelEx($model,'site'); ?>
+		<?php echo $form->textField($model,'site',array('size'=>50,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'site'); ?>
 	</div>
 
 	<div class="row">
@@ -120,6 +70,18 @@
 		<?php echo $form->labelEx($model,'password'); ?>
 		<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'password'); ?>
+	</div>
+
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'use_click_pay'); ?>
+		<?php echo $form->dropDownList( $model,'use_click_pay', array( '0' => "Нет", "1" => 'Да' ) ); ?>
+		<?php echo $form->error($model,'use_click_pay'); ?>
+	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'click_pay'); ?>
+		<?php echo $form->textField($model,'click_pay',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->error($model,'click_pay'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

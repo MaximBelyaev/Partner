@@ -4,111 +4,107 @@
 $this->breadcrumbs=array(
 	$this->module->id,
 );
+$this->setPageTitle("Главная | Партнерская программа Павлуцкого Александра");
 ?>
 <div class="small-box bg-green">
     <div class="inner">
-		<h3>
+		<?php if (count($statistic) ) { ?>
+		<h3 class="stat_header">
 			Ваша статистика:
 		</h3>
-	<?php $this->widget('ext.groupgridview.GroupGridView', array(
-      'id' => 'grid1',
-      'dataProvider' => $dataProvider,
-      'mergeColumns' => array('Месяц'),
-      //'extraRowPos' => 'above',
-      //'extraRowExpression' => '"<b style=\"font-size: 1em; color: green\">".date("Y-m",strtotime($data->date))."</b>"',
-      'columns' => array(
-      	array(
-	      	'name' => 'Месяц',
-	      	//'value' => 'date("m",strtotime($data->date))',
-      		'value' => 'Yii::app()->locale->getMonthName(
-      		      			(int)date("m",strtotime($data->date)), "wide", true) 
-      					. " " . date("Y",strtotime($data->date))',
-      	),
-        'date:Дата',
-        	array(
-				'name'  => 'Переходы',
-				'value' => 'count($data->user->getDayRequests($data->date))',
-			),
-			array(
-				'name'  => 'Заявка',
-				'value' => 'count($data->getThisDayRefferals())',
-	        ),
-	        array(
-	        	'name' => "Оплачено",
-	        	"value" => 'count($data->getPayedReferrals())',
-	        ),
-	        array(
-	        	'name' => "Сайт",
-	        	"value" => 'array_reduce(
-	        		$data->getPayedReferrals(), 
-	        		function($c,$v){ return ($c ." ". $v->site); }
-	        	)', 
-	        ),
-	        array(
-	        	'name' => "Прибыль",
-	        	"value" => '$data->getDailyProfit()',
-	        )
-      ),
-    )); ?>
+		<?php } else { ?>
+		<h3 class="stat_header">
+			Здесь будет ваша статистика!
+		</h3>
+		<p>
+			Используйте вашу партнерскую ссылку, 
+			промокод и рекламные материалы для привлечения клиентов
+		</p>
+		<p>
+			Высокой вам конверсии! 
+		</p>		
+		<?php } ?>
 
-    <!--
-    <?php $this->widget('zii.widgets.grid.CGridView', array(
-        'id'=>'user-grid',
-        'dataProvider' => $dataProvider,
-        'columns' => array(
-			'date:Дата',
-			array(
-				'name'  => 'Переходы',
-				'value' => 'count($data->user->getDayRequests($data->date))',
-			),
-			array(
-				'name'  => 'Заявка',
-				'value' => 'count($data->getThisDayRefferals())',
-	        ),
-	        array(
-	        	'name' => "Оплачено",
-	        	"value" => 'count($data->getPayedReferrals())',
-	        ),
-	        array(
-	        	'name' => "Сайт",
-	        	"value" => 'array_reduce(
-	        		$data->getPayedReferrals(), 
-	        		function($c,$v){ return ($c ." ". $v->site); }
-	        	)', 
-	        ),
-	        array(
-	        	'name' => "Прибыль",
-	        	"value" => '$data->getDailyProfit()',
-	        )
-        ),
-        'pager'=>array(
-            'class'=>'CLinkPager',
-        ),
-    )); ?>
-    -->
-    <?php 
-    if ($show_all_button) {
-    	echo CHtml::link('Все месяцы', array('user/index', 'all' => true ), array('id' => 'month_button'));
-    } else {
-		echo CHtml::link('Этот месяц', array('user/index'), array('id' => 'month_button'));
-    } 
-    ?>
 
-        <div class="tableClients">
-        <div class="head">
-            <div class="date">Дата</div>
-            <div class="referrers_count">Кол-во переходов</div>
-            <div class="check_count">Заявка</div>
-            <div class="check_users">Оплачено</div>
-            <div class="referrers_site">Сайт оплатившего</div>
-            <div class="percent">Прибыль</div>
-        </div>
+    <?php if ($user->use_click_pay) { ?>
 
-        <?php foreach($statistic as $data): ?>
-            <?php $this->renderPartial('_referrals', array('data'=>$data)); ?>
-        <?php endforeach; ?>
-        </div>
+			<?php foreach ($statistic as $i => $month){ ?>
+
+			<h3 class="month_header <?= (!$i)?'open':''?> "><?= $month['month']?></h3>
+			<div class="month_stat">
+
+				<div class="stat_row stat_header day">
+					<div class="">Дата</div>
+					<div class="">Переходы</div>
+					<div class="">Прибыль</div>
+				</div>
+
+				<?php foreach ($month['data'] as $day){ ?>
+					
+					<div class="stat_row day">
+						<div class=""><?= $day['date'] ?></div>
+						<div class=""><?= $day['followers'] ?></div>
+						<div class=""><?= $day['profit'] ?></div>
+					</div>
+				
+				<?php } ?>
+				<div class="stat_row month_total">
+					<div class="">Всего</div>
+					<div class=""><?= $month['total']['requests'] ?></div>
+					<div class=""><?= $month['total']['total_profit'] ?></div>
+				</div>
+			</div>
+			<?php } ?>
+
+    <?php } else { ?>
+
+    	<?php foreach ($statistic as $i => $month){ ?>
+			<h3 class="month_header <?= (!$i)?'open':''?>"><?= $month['month']?></h3>
+			<div class="month_stat">
+
+				<div class="stat_row stat_header day">
+					<div class="">Дата</div>
+					<div class="">Переходы</div>
+					<div class="">Заявки</div>
+					<div class="">Заказы</div>
+					<div class="">Сайты</div>
+					<div class="">Прибыль</div>
+				</div>
+
+				<?php foreach ($month['data'] as $day){ ?>
+
+					<div class="stat_row day">
+						<div class=""><?= $day['date'] ?></div>
+						<div class=""><?= $day['followers'] ?></div>
+						<div class=""><?= $day['referrals'] ?></div>
+						<div class=""><?= $day['payed'] ?></div>
+						<div class=""><?= $day['sites'] ?></div>
+						<div class=""><?= $day['profit'] ?></div>
+					</div>
+				
+				<?php } ?>
+				<div class="stat_row month_total">
+					<div class="">Всего</div>
+					<div class=""><?= $month['total']['followers'] ?></div>
+					<div class=""><?= $month['total']['referrals'] ?></div>
+					<div class=""><?= $month['total']['payed_referrals'] ?></div>
+					<div class=""></div>
+					<div class=""><?= $month['total']['total_profit'] ?></div>
+				</div>
+			</div>
+			<?php } ?>
+
+    <?php } ?>
+
+
     </div>
 </div>
 
+<script type="text/javascript">
+	
+	$(".month_header").click(function(){
+		$(this).toggleClass("open");
+	});
 
+
+</script>

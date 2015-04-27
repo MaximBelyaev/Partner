@@ -21,6 +21,8 @@ class AdminController extends CController
 	 */
 	public $breadcrumbs=array();
 
+    public $notifications_count;
+
     /**
      * @return array action filters
      */
@@ -45,7 +47,13 @@ class AdminController extends CController
                 'users' => array('*'),// для всех
             ),
             array('allow',
-                'actions' => array('view', 'create', 'update', 'delete', 'index', 'logout','admin', 'upload', 'ajaxUpload'),
+                'actions' => array(
+                    'view', 'create', 'update', 
+                    'delete', 'index', 'logout',
+                    'admin', 'upload', 'ajaxUpload',
+                    'imageGetJson', 'imageUpload',
+                    'clipboardUploadUrl', 'fileUpload', "connector",
+                ),
                 'roles' => array('admin'),// для авторизованных
             ),
             array('deny', // deny all users
@@ -53,4 +61,17 @@ class AdminController extends CController
             ),
         );
     }
+
+    public function init() {
+        parent::init();
+
+        Yii::app()->onBeginRequest = array('AdminController', 'r');
+
+        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
+            Yii::app()->setLanguage('ru');
+            Yii::app()->user->setState('language', 'ru');
+        }
+        $this->notifications_count = Notifications::model()->count("is_new = 1");
+	}
+
 }

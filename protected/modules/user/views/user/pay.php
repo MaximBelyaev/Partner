@@ -2,6 +2,7 @@
 /* @var $this StatedsController */
 /* @var $model Stateds */
 /* @var $form CActiveForm */
+$this->setPageTitle("Вывод средств | Партнерская программа Павлуцкого Александра");
 ?>
 
 <div class="small-box bg-green">
