@@ -25,9 +25,15 @@ $this->setPageTitle("Список партнеров | Партнерская п
         'id',
         'site',
         array(
+            'name' => 'use_click_pay',
+            'type' => 'raw',
+            'value' => '$data->setFormatIcon()',
+            'filter' => CHtml::activeDropDownList($model, 'use_click_pay',array('0'=>'Процент за заказ','1'=>'Оплата за переход'), array('empty'=>'Все')),
+        ),
+        array(
             'name' => 'status',
             'type' => 'text',
-            'value' => '$data->status',
+            'value' => '$data->setStatusIcon()',
             'filter' => CHtml::activeDropDownList($model, 'status',array('VIP'=>'VIP','Стандартный'=>'Стандартный','Расширенный'=>'Расширенный'), array('empty'=>'Все')),
         ),
         'reg_date',

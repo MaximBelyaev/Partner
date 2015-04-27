@@ -80,7 +80,6 @@ class UserController extends AdminController
 	{
         $model=new User('search');
         $model->unsetAttributes();  // clear any default values
-        
         $dataProvider = new CActiveDataProvider('User', array(
 
         ));
@@ -88,6 +87,7 @@ class UserController extends AdminController
         if(isset($_GET['User'])) {
             $model->attributes=$_GET['User'];
         }
+
         $this->render('index',array(
             'dataProvider' => $dataProvider,
             'model'=>$model,

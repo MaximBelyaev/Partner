@@ -49,6 +49,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'status'); ?>
+		<?php echo $form->dropDownList($model,'status', array('VIP'=>'VIP', 'Стандартный'=>'Стандартный', 'Расширенный'=>'Расширенный')); ?>
+		<?php echo $form->error($model,'status'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'use_click_pay'); ?>
+		<?php echo $form->dropDownList($model,'use_click_pay', array('0'=>'Процент за заказ','1'=>'Оплата за переход')); ?>
+		<?php echo $form->error($model,'use_click_pay'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'money[profit]'); ?>
 		<?php echo $form->textField($model,'money[profit]',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'money[profit]'); ?>
@@ -72,12 +84,6 @@
 		<?php echo $form->error($model,'password'); ?>
 	</div>
 
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'use_click_pay'); ?>
-		<?php echo $form->dropDownList( $model,'use_click_pay', array( '0' => "Нет", "1" => 'Да' ) ); ?>
-		<?php echo $form->error($model,'use_click_pay'); ?>
-	</div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'click_pay'); ?>
 		<?php echo $form->textField($model,'click_pay',array('size'=>50,'maxlength'=>50)); ?>
