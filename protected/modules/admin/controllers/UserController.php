@@ -9,8 +9,8 @@ class UserController extends AdminController
 	public function actionCreate()
 	{
 		$model = new User;
+		$model->click_pay = 2;
 		$this->performAjaxValidation($model);
-
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];

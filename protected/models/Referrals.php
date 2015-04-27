@@ -241,11 +241,11 @@ class Referrals extends CActiveRecord
 		return $full_price;
 	}
 
-
 	public function getThisMonthProfit()
 	{
 		$refs = $this->getThisMonthPayedReferrals();
-		if (!empty($refs)) {
+		if (!empty($refs))
+		{
 			$full_price = array_reduce(
 				$refs, 
 				function($c,$v){ 
@@ -253,12 +253,12 @@ class Referrals extends CActiveRecord
 				}
 			);
 			$full_price = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
-		} else {
+		} else
+			{
 			$full_price = 0;
-		}
+			}
 		return $full_price;
 	}
-
 
     /**
      * Даем прибыль партнеру

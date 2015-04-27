@@ -84,12 +84,24 @@
 		<?php echo $form->error($model,'password'); ?>
 	</div>
 
-	<div class="row">
+	<div class="row" id="hidden" style="display:none">
 		<?php echo $form->labelEx($model,'click_pay'); ?>
-		<?php echo $form->textField($model,'click_pay',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'click_pay', array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'click_pay'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+	$(function() {
+		$('#User_use_click_pay').change(function(){
+			if ($(this).val() == "1") {
+				$("#hidden").show();
+			} else {
+				$("#hidden").hide();
+			}
+		});
+	});
+</script>

@@ -251,7 +251,7 @@ class User extends CActiveRecord
 	{
 		parent::beforeSave();
 
-		$this->site = trim(trim($this->site), '/');
+		/*$this->site = trim(trim($this->site), '/');
 		if ($this->site != '') {
 
 			$host = parse_url($this->site, PHP_URL_HOST);
@@ -273,9 +273,8 @@ class User extends CActiveRecord
 			if ($duplicate_sites) {
 				$this->addError('site', 'Данный сайт уже используется другим партнером');
 			}
-
 		}
-
+		*/
 		$promo_code = trim($this->promo_code);
 		if ($promo_code != '') {
 			$duplicate_codes = User::model()->findAll(array(
