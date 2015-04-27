@@ -26,7 +26,7 @@ $this->setPageTitle("Список партнеров | Партнерская п
         'site',
         array(
             'name' => 'status',
-            'type' => 'email',
+            'type' => 'text',
             'value' => '$data->status',
             'filter' => CHtml::activeDropDownList($model, 'status',array('VIP'=>'VIP','Стандартный'=>'Стандартный','Расширенный'=>'Расширенный'), array('empty'=>'Все')),
         ),
