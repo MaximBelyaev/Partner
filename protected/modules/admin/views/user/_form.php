@@ -37,15 +37,15 @@
     <div class="clear"></div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->dropDownList($model,'role', array('user'=>'user', 'admin'=>'admin')); ?>
-		<?php echo $form->error($model,'role'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
 		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>150)); ?>
 		<?php echo $form->error($model,'username'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'password'); ?>
+		<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->error($model,'password'); ?>
 	</div>
 
 	<div class="row">
@@ -61,27 +61,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'money[profit]'); ?>
-		<?php echo $form->textField($model,'money[profit]',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'money[profit]'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'site'); ?>
 		<?php echo $form->textField($model,'site',array('size'=>50,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'site'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'skype'); ?>
-		<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'skype'); ?>
-	</div>
-	
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'password'); ?>
 	</div>
 
 	<div class="row" id="hidden" style="display:none">

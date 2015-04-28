@@ -73,7 +73,7 @@ class Stateds extends CActiveRecord
 			'requisites' => 'Номер счета',
 			'description' => 'Дополнительно',
             'user' => 'От партнера',
-            'date' => 'Дата добавлния',
+            'date' => 'Дата добавления',
 		);
 	}
 

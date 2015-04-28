@@ -16,7 +16,11 @@
     <div class="navbar-inner top-nav">
         <div class="container-fluid">
             <ul class="nav pull-right">
-                <li><?php echo CHtml::link('<i class="icon-off icon-white"></i>Выйти ('.Yii::app()->user->name.')',array('default/logout')); ?></li>
+                <li><?php echo CHtml::link($this->notifications_count ? "Уведомления <strong class='nots-white'>+{$this->notifications_count}</strong>" : "Уведомления",
+                        array('notifications/index')); ?></li>
+                <li><?php echo CHtml::link('<i class="icon-wrench icon"></i>Настройки',array('settings/index')); ?></li>
+                <li><?php echo CHtml::link('Статистика',array('default/index')); ?></li>
+                <li><?php echo CHtml::link('<i class="icon-off icon"></i>Выйти ('.Yii::app()->user->name.')',array('default/logout')); ?></li>
             </ul>
         </div>
     </div>
@@ -53,15 +57,12 @@
                 'url'=>array('/admin/user/index'),
             ),
             array(
-				'label'=>'<i class="icon-bullhorn"></i>Уведомления ' . 
-				(
-					($this->notifications_count)
-					?
-					"<strong class='nots'>+{$this->notifications_count}</strong>"
-					:
-					""
-				) ,
-				'url'=>array('/admin/notifications/index'),
+                'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',
+                'url'=>array('/admin/advertising/index'),
+            ),
+            array(
+                'label'=>'Добавить баннер',
+                'url'=>array('/admin/banners/create'),
             ),
             array(
                 'label'=>'<i class="icon-list-alt"></i>Новости',
@@ -74,10 +75,6 @@
             array(
                 'label'=>'Просмотр новостей',
                 'url'=>array('/admin/news/index'),
-            ),
-            array(
-                'label'=>'<i class="icon-wrench"></i>Настройки',
-                'url'=>array('/admin/settings/index'),
             ),
 			array(
 				'label'=>'<i class="icon-file"></i>Заявки на вывод средств',

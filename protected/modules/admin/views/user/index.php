@@ -3,7 +3,7 @@
 /* @var $model User */
 
 $this->breadcrumbs=array(
-	'Users',
+	'Партнёры',
 );
 $this->setPageTitle("Список партнеров | Партнерская программа Павлуцкого Александра");
 ?>
