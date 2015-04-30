@@ -5,11 +5,18 @@ class DefaultController extends AdminController
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
      */
+
     public function actionIndex()
     {
+        $userModel = User::model()->search();
+        $referralModel = Referrals::model()->search();
+        $statedsModel = Stateds::model()->search();
 
-		$this->redirect('/admin/referrals/index');
-        $this -> render('index');
+        $this->render('index',array(
+            'referralModel'=>$referralModel,
+            'userModel'=>$userModel,
+            'statedsModel'=>$statedsModel,
+        ));
     }
     public function recursion($model, $s = 0)
     {
@@ -47,8 +54,6 @@ class DefaultController extends AdminController
         }
     }
 
-
-
     /**
      * This is the action to handle external exceptions.
      */
@@ -60,7 +65,6 @@ class DefaultController extends AdminController
                 $this -> render('error', $error);
         }
     }
-
 
     /**
      * Displays the login page

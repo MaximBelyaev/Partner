@@ -27,7 +27,7 @@
 </div>
 <div id="sidebar">
     <div class="for-logo">
-        <?= CHtml::link('Главная', array('/admin/referrals/index'), array('class'=>'logo')); ?>
+        <?= CHtml::link('Главная', array('/admin/default/index'), array('class'=>'logo')); ?>
     </div>
     <?php $this->widget('zii.widgets.CMenu',array(
         'items'=>array(

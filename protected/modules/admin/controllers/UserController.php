@@ -77,7 +77,6 @@ class UserController extends AdminController
 	{
         $model=new User('search');
         $model->unsetAttributes();  // clear any default values
-		$model->click_pay = 2;
 		$this->performAjaxValidation($model);
 		if(isset($_POST['ajax']) && $_POST['ajax']==='create-user-form')
 		{
