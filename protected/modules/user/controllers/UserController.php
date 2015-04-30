@@ -238,7 +238,7 @@ class UserController extends MyUserController
                     $identity->authenticate();
 
                     Yii::app()->user->login($identity,1);
-                        $this->redirect('/user/user/index');  
+                        $this->redirect('/user/user/index');
                     
                 }
             } else {

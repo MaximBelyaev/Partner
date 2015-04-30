@@ -20,8 +20,9 @@ class AdminController extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
-
     public $notifications_count;
+    public $newUser;
+    public $newReferral;
 
     /**
      * @return array action filters
@@ -65,6 +66,10 @@ class AdminController extends CController
     public function init() {
         parent::init();
 
+        $model = new Referrals;
+        $this->newReferral = $model;
+        $model = new User;
+        $this->newUser = $model;
         Yii::app()->onBeginRequest = array('AdminController', 'r');
 
         if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {

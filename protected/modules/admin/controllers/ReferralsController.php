@@ -5,6 +5,7 @@ class ReferralsController extends AdminController
     const NOTVIEW = 1;
     const ATTACH = 2;
     const CANCEL = 3;
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -12,7 +13,7 @@ class ReferralsController extends AdminController
 	public function actionCreate()
 	{
 		$model=new Referrals;
-
+		$this->performAjaxValidation($model);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -105,7 +106,7 @@ class ReferralsController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='referrals-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-referral-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

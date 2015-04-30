@@ -75,15 +75,3 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-
-<script>
-	$(function() {
-		$('#User_use_click_pay').change(function(){
-			if ($(this).val() == "1") {
-				$("#hidden").show();
-			} else {
-				$("#hidden").hide();
-			}
-		});
-	});
-</script>

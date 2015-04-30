@@ -11,6 +11,7 @@ class UserController extends AdminController
 		$model = new User;
 		$model->click_pay = 2;
 		$this->performAjaxValidation($model);
+
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
@@ -24,10 +25,6 @@ class UserController extends AdminController
                 //Yii::app()->user->setFlash('error', "Error!");
             }
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -80,6 +77,14 @@ class UserController extends AdminController
 	{
         $model=new User('search');
         $model->unsetAttributes();  // clear any default values
+		$model->click_pay = 2;
+		$this->performAjaxValidation($model);
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-user-form')
+		{
+			echo CActiveForm::validate($model);
+			$model->setScenario('ajax');
+			Yii::app()->end();
+		}
         $dataProvider = new CActiveDataProvider('User', array(
 
         ));
@@ -115,7 +120,7 @@ class UserController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-user-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -2511,6 +2511,11 @@ input[type="submit"].btn.btn-mini {
   margin: 3px;
   display: inline-block;
 }
+.icon-share-alt {
+  background-position: -384px 0;
+  margin: 3px;
+  display: inline-block;
+}
 .icon-signal {
   background-position: -408px 0;
 }

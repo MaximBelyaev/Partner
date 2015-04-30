@@ -43,6 +43,7 @@ class Referrals extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email', 'required'),
+			array('email', 'email'),
 			array('id, tz, user_id', 'numerical', 'integerOnly'=>true),
 			array('email, site, region, request_type, promo', 'length', 'max'=>150),
 			array('requests, user_from, status', 'length', 'max'=>255),
