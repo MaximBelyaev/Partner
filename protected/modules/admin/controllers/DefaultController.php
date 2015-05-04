@@ -8,9 +8,9 @@ class DefaultController extends AdminController
 
     public function actionIndex()
     {
-        $userModel = User::model()->search();
-        $referralModel = Referrals::model()->search();
-        $statedsModel = Stateds::model()->search();
+        $userModel = User::model()->search('4', 't.id desc');
+        $referralModel = Referrals::model()->search('4', 't.id desc');
+        $statedsModel = Stateds::model()->search('4', 't.id desc');
 
         $this->render('index',array(
             'referralModel'=>$referralModel,

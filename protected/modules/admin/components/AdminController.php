@@ -72,7 +72,8 @@ class AdminController extends CController
         $this->newUser = $model;
         Yii::app()->onBeginRequest = array('AdminController', 'r');
 
-        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
+        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages']))
+        {
             Yii::app()->setLanguage('ru');
             Yii::app()->user->setState('language', 'ru');
         }

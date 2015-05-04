@@ -20,7 +20,7 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
         array(
             'name' => 'user',
             'type' => 'email',
-            'value ' => '$data->user->username',
+            'value' => '$data->user->username',
         ),
         'date',
         'pay_type',

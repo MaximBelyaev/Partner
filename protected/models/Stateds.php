@@ -40,10 +40,11 @@ class Stateds extends CActiveRecord
 			array('money', 'length', 'max' => 8),
 			array('money', 'numerical', 'min' => 0,'max'=>Yii::app()->user->isAdmin ? 9999999999 :User::model()->findByPk(Yii::app()->user->id)->profit),
 			array('pay_type, requisites', 'length', 'max'=>50),
-			array('description, status, date', 'safe'),
+			array('description, status, date, recreate_interval, recreate_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, money, status, pay_type, date, requisites, description', 'safe', 'on'=>'search'),
+			array('id, user_id, money, status, pay_type, date, requisites, description, recreate_interval, recreate_date',
+				'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +75,8 @@ class Stateds extends CActiveRecord
 			'description' => 'Дополнительно',
             'user' => 'От партнера',
             'date' => 'Дата добавления',
+			'recreate_interval' => 'Постоянная оплата',
+			'recreate_date' => 'Дата повторной заявки'
 		);
 	}
 
@@ -89,7 +92,7 @@ class Stateds extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($pageSize = 10)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -103,9 +106,12 @@ class Stateds extends CActiveRecord
 		$criteria->compare('pay_type',$this->pay_type,true);
 		$criteria->compare('requisites',$this->requisites,true);
 		$criteria->compare('description',$this->description,true);
+		$criteria->compare('recreate_interval',$this->recreate_interval,true);
+		$criteria->compare('recreate_date',$this->recreate_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array('pageSize' => $pageSize)
 		));
 	}
 
@@ -144,7 +150,8 @@ class Stateds extends CActiveRecord
      */
     protected function beforeSave()
     {
-        if(parent::beforeSave()){
+        if(parent::beforeSave())
+		{
             if($this->status !== $this->_oldStatus)
             {
                 if($this->_oldStatus == self::STATUS_DENIED){
@@ -152,6 +159,21 @@ class Stateds extends CActiveRecord
                 }
             }
         }
+
+		/**
+		* Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
+		*/
+		$this->recreate_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + $this->recreate_interval * 24 * 60 * 60);
+
+		if ($this->recreate_interval === '1')
+		{
+			$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime(date('Y-m-d H:i:s'))));
+		}
+		if ($this->recreate_interval === '0')
+		{
+			$this->recreate_date = '';
+		}
+
         return true;
     }
 
@@ -198,6 +220,7 @@ class Stateds extends CActiveRecord
                 $profit->save();
             }
         }
+
         parent::afterSave();
     }
 
@@ -215,4 +238,21 @@ class Stateds extends CActiveRecord
 			$not->delete();
 		}
     }
+
+	public function setRecreateDate($interval = null)
+	{
+		$this->recreate_interval = $interval;
+		$this->save();
+		if ($interval == 0)
+		{
+			$this->recreate_date = 0;
+		}
+		if ($interval == 'month')
+		{
+			$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime(date('Y-m-d H:i:s'))));
+			return $this->recreate_date;
+		}
+
+
+	}
 }

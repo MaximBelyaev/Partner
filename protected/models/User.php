@@ -145,7 +145,7 @@ class User extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($pageSize = 10, $defaultOrder = 't.username')
 	{
 		$criteria = new CDbCriteria;
 		$criteria->with = array('money');
@@ -176,13 +176,15 @@ class User extends CActiveRecord
 		$criteria->compare('site', $this->site, true);
 		$criteria->compare('status', $this->status, true);
 		$criteria->compare('use_click_pay', $this->use_click_pay, true);
+
 		//$criteria->compare('money.profit',$this->money->profit);
 		//$criteria->compare('money.full_profit',$this->money->full_profit);
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
+			'pagination' => array('pageSize' => $pageSize),
 			'sort' => array(
-				'defaultOrder' => 't.username',
+				'defaultOrder' => $defaultOrder,
 				'attributes' => array(
 					'requests_count' => array(
 						'asc' => 'requests_count ASC',
