@@ -101,5 +101,7 @@ return array(
         'profit_percent' => 15,
         'adminName'  => 'Александр Павлуцкий',
         'adminEmail' => 'some.nugget@gmail.com',
+        // количество точек, на которые мы разобьем ось Х на графике
+        'chartTimePoints' => 15,
     ),
 );

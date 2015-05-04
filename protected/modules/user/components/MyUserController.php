@@ -30,7 +30,7 @@ class MyUserController extends Controller
                 'users' => array('*'),// для всех
             ),
             array('allow',
-                'actions' => array('index', 'logout', 'commercial', 'data', 'view', 'payRequest'),
+                'actions' => array('index', 'range', 'logout', 'commercial', 'data', 'view', 'payRequest'),
                 'roles' => array('user'),// для авторизованных
             ),
             array('deny', // deny all users

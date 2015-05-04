@@ -13,8 +13,14 @@
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="<?php echo $this->module->assetsUrl ?>/css/Admin.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
-    <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
+
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
     
+    <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
+    <script src="<?php echo $this->module->assetsUrl ?>/js/script.js"></script>
 </head>
 <body class="skin-blue">
 <header class="header">
@@ -41,34 +47,11 @@
             </h1>
         </section>
         <section class="content">
-
             <div class="row">
-                <?php if(!Yii::app()->user->isGuest): ?>
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3 class="ref_header">
-                                Ваша личная партнерская ссылка:
-                                <?= CHtml::link('Редактировать данные', array('/user/user/data'), array('class' => 'edit_data')); ?>
-                            </h3>
-                            <textarea class="linkText" onclick="this.select();">http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?=Yii::app()->user->id; ?></textarea>
-                            <?php if($this->user->promo_code) { ?>
-                            <h3>
-                                Ваш промокод:
-                            </h3>
-                            <textarea class="linkText" onclick="this.select();"><?=$this->user->promo_code ?></textarea>
-                            <?php } else { ?>
-                            <h3>
-                                Ваш промокод не определен
-                            <h3>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-                <?php endif; ?>
                 <div class="col-lg-3 col-xs-6">
                     <?= $content; ?>
                 </div>
+            </div> 
         </section>
     </aside>
 

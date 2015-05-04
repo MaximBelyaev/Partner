@@ -1,3 +1,38 @@
+.chart_wrap {
+	height: 250px;
+}
+#chart {
+	float: left;
+	height: 100%;
+	overflow: hidden;
+	width: 80%;
+}
+.chart_buttons {
+	float: right;
+	margin-right: 3%;
+	width: 15%;
+}
+	.chart_buttons button {
+		background-color: #3C8DBC;
+		border: 1px solid #1C6D9C;
+		color: #FFF;
+		cursor: pointer;
+		display: block;
+		margin-bottom: 10px;
+		padding: 5px 10px;
+		width: 100%;
+	}
+	.chart_buttons button:hover {
+		background-color: #1C6D9C;
+	}
+	.input-daterange {
+		position: relative;
+	}
+	.datepicker {
+		position: absolute;
+	}
+
+
 
 .ref_header {
 	position: relative;

@@ -26,16 +26,15 @@ class UserController extends MyUserController
 		$this->layout = '/layouts/cabinet';
 		$user = User::model()->findByPk(Yii::app()->user->id);
 
-
 		# статистика для отплаты за клик
-		if ($user->use_click_pay) { 
+		if ($user->use_click_pay) {
 			$requests = Requests::model()->findAll(
 				array(
-					'select' => 'date',
-					'condition' => 'partner_id = :user and click_pay = 1',
-					'params' => array(':user'=>$user->id),
-					'distinct'=>true, 
-					'order' => 'date DESC'
+					'select'	=> 'date',
+					'condition'	=> 'partner_id = :user and click_pay = 1', 
+					'params'	=> array(':user'=>$user->id), 
+					'distinct'	=> true, 
+					'order'		=> 'date DESC'
 				)
 			);
 
@@ -50,7 +49,7 @@ class UserController extends MyUserController
 
 				$currentMonth = date('m', strtotime($value->date));
 				if (isset($requests[$i+1]->date)) {
-					$nextMonth    = date('m', strtotime($requests[$i+1]->date));
+					$nextMonth = date('m', strtotime($requests[$i+1]->date));
 				} else {
 					$nextMonth = $currentMonth+1;
 				}
@@ -66,9 +65,9 @@ class UserController extends MyUserController
 				}
 
 				$statistic[$monthIndex]['data'][] = array(
-	                'date'=>$value->date,
-	                'followers'=>count($value->getDayRequests(1)),
-	                'profit'=>$value->getDailyProfit(),
+	                'date' => $value->date,
+	                'followers' => count($value->getDayRequests(1)),
+	                'profit' => $value->getDailyProfit(),
 				);
                 
                 if ($currentMonth != $nextMonth) {
@@ -103,7 +102,7 @@ class UserController extends MyUserController
 
 				$currentMonth = date('m', strtotime($value->date));
 				if (isset($requests[$i+1]->date)) {
-					$nextMonth    = date('m', strtotime($requests[$i+1]->date));
+					$nextMonth = date('m', strtotime($requests[$i+1]->date));
 				} else {
 					$nextMonth = $currentMonth+1;
 				}
@@ -119,9 +118,9 @@ class UserController extends MyUserController
 				}
 
 				$statistic[$monthIndex]['data'][] = array(
-	                'date'=>$value->date,
-	                'followers'=>count($value->getDayRequests(0)),
-	                'profit'=>$value->getDailyProfit(),
+	                'date' => $value->date,
+	                'followers' => count($value->getDayRequests(0)),
+	                'profit' => $value->getDailyProfit(),
 
 					'referrals' => count($value->getThisDayRefferals()),
 					'payed' 	=> count($value->getThisDayPayedReferrals()),
@@ -448,4 +447,15 @@ class UserController extends MyUserController
         $headers .= 'From: Future <admin@'.$_SERVER['HTTP_HOST'].'>' . "\r\n";
         mail($to, $subject, $message, $headers);
     }
+
+
+    public function actionRange()
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $get = $_GET;
+        $data = $user->getRangeData($get['start'], $get['end']);
+        echo json_encode(array('get' => $get, 'data' => $data));
+        Yii::app()->end();
+    }
+
 }
