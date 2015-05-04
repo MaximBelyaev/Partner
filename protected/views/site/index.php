@@ -177,6 +177,7 @@
         )); ?>
         <h4 class="modal-title">Регистрация</h4>
         <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
         <div class="form-group">
                 <?php echo $form->textField($register,'username', array('placeholder'=>'Введите е-mail', 'class'=>'form-input')); ?>
                 <?php echo $form->error($register,'username'); ?>

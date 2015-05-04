@@ -32,8 +32,8 @@ class UserController extends MyUserController
 			$requests = Requests::model()->findAll(
 				array(
 					'select' => 'date',
-					'condition' => 'partner_id = :user and click_pay = 1', 
-					'params' => array(':user'=>$user->id), 
+					'condition' => 'partner_id = :user and click_pay = 1',
+					'params' => array(':user'=>$user->id),
 					'distinct'=>true, 
 					'order' => 'date DESC'
 				)
@@ -69,7 +69,6 @@ class UserController extends MyUserController
 	                'date'=>$value->date,
 	                'followers'=>count($value->getDayRequests(1)),
 	                'profit'=>$value->getDailyProfit(),
-	                
 				);
                 
                 if ($currentMonth != $nextMonth) {
@@ -80,12 +79,9 @@ class UserController extends MyUserController
 					);
 					$monthIndex++;
 				}
-
 				$prevMonth = $currentMonth;
-
 	        }
     	} else {
-
 			$requests = Requests::model()->findAll(
 				array(
 					'select' => 'date',
@@ -242,7 +238,7 @@ class UserController extends MyUserController
                     $identity->authenticate();
 
                     Yii::app()->user->login($identity,1);
-                        $this->redirect('/user/user/index');  
+                        $this->redirect('/user/user/index');
                     
                 }
             } else {

@@ -56,6 +56,9 @@ body {
     padding: 10px 15px;
     text-decoration: none;
 }
+.nav-small{
+    font-size: 10px;
+}
 .side-nav li a {
     border-bottom: 1px solid #1D1C1C;
 }
@@ -77,7 +80,6 @@ padding-left: 10px;
 position: relative;
 text-decoration: none;
 font-size: 14px;
-
 }
 .side-nav {
     list-style: none outside none;
@@ -114,6 +116,14 @@ font-size: 14px;
     color: #FFF;
     margin-left: 4px;
     padding: 2px 8px 2px 6px;    
+}
+
+.nots-white {
+    background-color: #191970;
+    border-radius: 10px;
+    color: #FFF;
+    margin-left: 4px;
+    padding: 2px 8px 2px 6px;
 }
 .breadcrumbs {
 background: #fbfbfb;
@@ -334,7 +344,6 @@ color: #fff;
 .logo:hover{
     text-decoration: none;
     color: #fff;
-    background: 
 }
 
 .summary{
@@ -378,7 +387,7 @@ color: #fff;
 
 }  
     .button_save_settings button {
-        font: normal;
+        font-style: normal;
     }     
 
 
@@ -398,7 +407,7 @@ color: #fff;
             width: 24px;
         }
     .not_upd:hover {
-        background-color: #367FA9
+        background-color: #367FA9;
     }
     .not_del {
         background-color: #bd362f;

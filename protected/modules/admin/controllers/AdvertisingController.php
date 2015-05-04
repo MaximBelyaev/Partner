@@ -1,10 +1,17 @@
 <?php
 
-class ReferralsController extends AdminController
+class AdvertisingController extends AdminController
 {
-    const NOTVIEW = 1;
-    const ATTACH = 2;
-    const CANCEL = 3;
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionView($id)
+	{
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
 
 	/**
 	 * Creates a new model.
@@ -12,17 +19,14 @@ class ReferralsController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new Referrals;
+		$model=new Advertising;
 		$this->performAjaxValidation($model);
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Referrals']))
+		if(isset($_POST['Advertising']))
 		{
-			$model->attributes=$_POST['Referrals'];
-			if($model->save()){
-				$this->redirect(array('index','id'=>$model->id));
-			}
+			$model->attributes=$_POST['Advertising'];
+			if($model->save())
+				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+				$this->refresh();
 		}
 
 		$this->render('create',array(
@@ -42,13 +46,12 @@ class ReferralsController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Referrals']))
+		if(isset($_POST['Advertising']))
 		{
-			$model->attributes=$_POST['Referrals'];
-			if($model->save()) {
-                Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
-                $this->refresh();
-            }
+			$model->attributes=$_POST['Advertising'];
+			if($model->save())
+				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+				$this->refresh();
 		}
 
 		$this->render('update',array(
@@ -67,7 +70,7 @@ class ReferralsController extends AdminController
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -75,38 +78,34 @@ class ReferralsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model=new Referrals('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Referrals']))
-            $model->attributes=$_GET['Referrals'];
-
-        $this->render('index',array(
-            'model'=>$model,
-        ));
+		$dataProvider=new CActiveDataProvider('Advertising');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Referrals the loaded model
+	 * @return Advertising the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Referrals::model()->findByPk($id);
+		$model=Advertising::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,"Клиент с ID $id был удален или не создан");
+			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Referrals $model the model to be validated
+	 * @param Advertising $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='create-referral-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='advertising-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

@@ -43,6 +43,7 @@ class Referrals extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email', 'required'),
+			array('email', 'email'),
 			array('id, tz, user_id', 'numerical', 'integerOnly'=>true),
 			array('email, site, region, request_type, promo', 'length', 'max'=>150),
 			array('requests, user_from, status', 'length', 'max'=>255),
@@ -142,6 +143,7 @@ class Referrals extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
+		$this->date = date('d.m.Y H:m', strtotime($this->date));
     }
 
 
@@ -240,11 +242,11 @@ class Referrals extends CActiveRecord
 		return $full_price;
 	}
 
-
 	public function getThisMonthProfit()
 	{
 		$refs = $this->getThisMonthPayedReferrals();
-		if (!empty($refs)) {
+		if (!empty($refs))
+		{
 			$full_price = array_reduce(
 				$refs, 
 				function($c,$v){ 
@@ -252,12 +254,12 @@ class Referrals extends CActiveRecord
 				}
 			);
 			$full_price = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
-		} else {
+		} else
+			{
 			$full_price = 0;
-		}
+			}
 		return $full_price;
 	}
-
 
     /**
      * Даем прибыль партнеру
