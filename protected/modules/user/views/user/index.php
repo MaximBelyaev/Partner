@@ -15,10 +15,11 @@ $this->setPageTitle("Главная | Партнерская программа 
 			data-start и data-end - это промежуток времени для которого выбирается статистика.
 			формат - количество СЕКУНД и эпохи UNIX
 		-->
-		<button class="last_week" data-start="14274144000" data-end="14300928000">За неделю</button>
-		<button class="last_month" data-start="" data-end="1430092800000">За месяц</button>
-		<button class="last_quater" data-start="" data-end="1430092800000">За квартал</button>
-		<button class="last_year" data-start="" data-end="1430092800000">За год</button>
+		<?php var_dump($times); ?>
+		<button class="last_week" data-start="<?= $times['last_week'] ?>" data-end="<?= $times['now'] ?>">За неделю</button>
+		<button class="last_month" data-start="<?= $times['last_month'] ?>" data-end="<?= $times['now'] ?>">За месяц</button>
+		<button class="last_quater" data-start="<?= $times['last_quater'] ?>" data-end="<?= $times['now'] ?>">За квартал</button>
+		<button class="last_year" data-start="<?= $times['last_year'] ?>" data-end="<?= $times['now'] ?>">За год</button>
 	</div>
 </div>
 

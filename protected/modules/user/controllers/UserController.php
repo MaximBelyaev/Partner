@@ -26,6 +26,17 @@ class UserController extends MyUserController
 		$this->layout = '/layouts/cabinet';
 		$user = User::model()->findByPk(Yii::app()->user->id);
 
+
+        # подготовим информацию для кнопок с последними отрезками
+        $times = array(
+        	"now" => strtotime("now"),
+            "last_week" => strtotime("-1 week"),
+            "last_month" => strtotime("-1 month"),
+            "last_quater" => strtotime("-3 month"),
+            "last_year" => strtotime("-1 year"),
+        );
+
+
 		# статистика для отплаты за клик
 		if ($user->use_click_pay) {
 			$requests = Requests::model()->findAll(
@@ -146,8 +157,9 @@ class UserController extends MyUserController
     	}
 
         $this->render('index', array(
-            'user'=>$user,
-            'statistic'=>$statistic,
+            'user'		=> $user,
+            'statistic' => $statistic,
+            'times'		=> $times,
         ));
     }
 
@@ -449,13 +461,23 @@ class UserController extends MyUserController
     }
 
 
-    public function actionRange()
-    {
-        $user = User::model()->findByPk(Yii::app()->user->id);
-        $get = $_GET;
-        $data = $user->getRangeData($get['start'], $get['end']);
-        echo json_encode(array('get' => $get, 'data' => $data));
-        Yii::app()->end();
-    }
+	public function actionRange()
+	{
+		$user = User::model()->findByPk(Yii::app()->user->id);
+		$get = $_GET;
+		$chart = new Chart(Yii::app()->user->id);
+		$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
+		$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
+		$payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
+//        $data = $user->getRangeData($get['start'], $get['end']);
+		echo json_encode(array(
+			'get' => $get, 
+			'requests' => $requests, 
+			'referrals' => $referrals,
+			'payed' => $payed, 
+			'chart' => $chart
+		));
+		Yii::app()->end();
+	}
 
 }

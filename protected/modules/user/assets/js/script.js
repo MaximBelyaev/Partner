@@ -1,20 +1,10 @@
 jQuery(document).ready(function($) {
 	
-	var $lw = $('.last_week');
+	var $lw = $('.last_quater');
 	var date_start = $lw.data('start');
 	var date_end   = $lw.data('end');
+	var plot;
 	loadRangeData(date_start, date_end);
-
-	$.plot("#chart", [
-		{ data: [[1420114607000, 12], [1422793007000, 55], [1425212207000, 45], [1427458607000, 0], [1430137007000, 85]] },
-		{ data: [[1420114607000, 32], [1422793007000, 25], [1425212207000, 105], [1427458607000, 20], [1430137007000, 45]] }
-	],
-	{
-		xaxis: {
-			mode: "time",
-			timeformat: "%d/%m/%y",
-		}
-	});
 
 	$('.input-daterange').datepicker({
 		endDate: '27-04-2015',
@@ -26,6 +16,13 @@ jQuery(document).ready(function($) {
 		//startDate: ''
 	}).on('changeDate', function(e){
     });
+
+	$('.chart_buttons').find('button').on('click', function(event) {
+		event.preventDefault();
+		var start = $(this).data('start');
+		var end   = $(this).data('end');
+		loadRangeData(start, end);		
+	});
 
 	$('#show_range').on('click', function(event) {
     	event.preventDefault();
@@ -47,14 +44,28 @@ function loadRangeData(start, end) {
 	})
 	.done(function(ans) {
 		console.log(ans);
+		plot = $.plot("#chart", [
+			{ data: ans.requests },
+			{ data: ans.referrals },
+			{ data: ans.payed },
+		],
+		{
+			xaxis: {
+				mode: "time",
+				timeformat: "%d/%m/%y",
+			}
+		});
+		//plot.setData(ans.data);
+		//plot.draw();
 		console.log("success");
 	})
-	.fail(function() {
+	.fail(function(ans) {
 		console.log("error");
+		console.log(ans.responseText);
 	})
 	.always(function(ans) {
-		console.log(ans);
 	});
 	
-	console.log(start, end);
+	console.log(start);
+	console.log(end);
 }
