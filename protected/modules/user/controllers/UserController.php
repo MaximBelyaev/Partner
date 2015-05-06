@@ -466,15 +466,30 @@ class UserController extends MyUserController
 		$user = User::model()->findByPk(Yii::app()->user->id);
 		$get = $_GET;
 		$chart = new Chart(Yii::app()->user->id);
-		$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
-		$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
-		$payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
-//        $data = $user->getRangeData($get['start'], $get['end']);
+		if (!$user->use_click_pay) {
+			$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
+			$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
+			$payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
+			
+			$charts = array(
+				'requests' => $requests, 
+				'referrals' => $referrals,
+				'payed' => $payed, 
+			);
+		} else {
+			$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
+			$charts = array(
+				'requests' => $requests, 
+			);
+		}
+		$stats = $chart->getRangeStat($get['start'], $get['end']);
+
+//  		$data = $user->getRangeData($get['start'], $get['end']);
 		echo json_encode(array(
-			'get' => $get, 
-			'requests' => $requests, 
-			'referrals' => $referrals,
-			'payed' => $payed, 
+			'user'=>$user,
+			'get' => $get,
+			'stats' => $stats,
+			'charts' => $charts,
 			'chart' => $chart
 		));
 		Yii::app()->end();

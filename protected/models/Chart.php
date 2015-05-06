@@ -178,6 +178,135 @@ class Chart
 		return $requests;
 	}
 
+	public function getRangeStat($start, $end) {
+
+		if (!is_null($this->user)) {
+			$rqs = Requests::model()->findAll(
+				array(
+					'select'	=> 'date',
+					'condition'	=> 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+					'params'	=> array(
+						':user'  => $this->user->id, 
+						':ucp'   => $this->user->use_click_pay, 
+						':start' => $start, 
+						':end'   => $end,
+					),
+					'distinct'	=> true, 
+					'order'		=> 'date DESC'
+				)
+			);
+
+			$all_rqs = Requests::model()->findAll(
+				array(
+					'select'	=> '*',
+					'condition'	=> 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+					'params'	=> array(
+						':user'  => $this->user->id, 
+						':ucp'   => $this->user->use_click_pay, 
+						':start' => $start, 
+						':end'   => $end,
+					),
+					'order'		=> 'date DESC'
+				)
+			);
+
+			$refs = Referrals::model()->findAll(
+				array(
+					'select' => '*',
+					'condition' => 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end',
+					'params' => array(
+						':user'  => $this->user->id, 
+						':start' => $start, 
+						':end'   => $end,
+					),
+				)
+			);
+
+
+
+			$requests = array();
+			$all_time_total = array(
+				'requests'	=> 0,
+				'referrals'	=> 0,
+				'payed'		=> 0,
+				'profit'	=> 0,					
+			);
+			foreach ($rqs as $key => $rq) {
+
+				$rq_date = $rq->date;
+				$month_date = date('Y-m', strtotime($rq_date));
+
+				$rus_date = Yii::app()->locale->getMonthName(
+					(int)date("m",strtotime($rq_date)), "wide", true
+				) . " " . date("Y",strtotime($rq_date));
+				
+				if (!isset($requests[$month_date]['total'])) {
+					$requests[$month_date]['total'] = array(
+						'requests'	=> 0,
+						'referrals'	=> 0,
+						'payed'		=> 0,
+						'profit'	=> 0,					
+					);
+				}
+
+				$rq_stat = array(
+					'date'		=> $rq_date,
+					'requests'	=> 0,
+					'referrals'	=> 0,
+					'payed'		=> 0,
+					'profit'	=> 0,
+				);
+
+				foreach ( $all_rqs as $allrqkey => $allrq ) {
+					if ($rq_date == $allrq->date) {
+						$requests[ $month_date ][ 'total' ][ 'requests' ]++;
+						$all_time_total[ 'requests' ]++;
+						$rq_stat[ 'requests' ]++;
+					}
+				}
+
+
+
+				foreach ($refs as $rkey => $ref) {
+
+					$ref_date = date('Y-m-d',strtotime($ref->date));
+
+					if ($ref_date == $rq_date) {
+					
+						$requests[ $month_date ][ 'total' ][ 'referrals' ]++;
+						$all_time_total[ 'referrals' ]++;
+						$rq_stat[ 'referrals' ]++;
+
+						if ($ref->status == Referrals::$STATUS_APPLIED) {
+						
+							$rq_stat[ 'payed' ]++;
+							$all_time_total[ 'payed' ]++;
+							$requests[ $month_date ][ 'total' ][ 'payed' ]++;
+							
+							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
+							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
+							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
+						
+						}
+
+					}
+
+				}
+
+				$requests[$month_date]['rus_date'] = $rus_date;
+				$requests[$month_date]['stat'][]   = $rq_stat;
+
+			}
+			return array('stats'=>$requests, 'all_time_total'=>$all_time_total);
+		} else {
+
+		}
+
+	}
+
+
+
+
 }
 
 ?>

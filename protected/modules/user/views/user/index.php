@@ -52,8 +52,11 @@ $this->setPageTitle("Главная | Партнерская программа 
 			Высокой вам конверсии! 
 		</p>		
 		<?php } ?>
-
-
+	
+	<section id="stats">
+		
+	</section>	
+	<!--
     <?php if ($user->use_click_pay) { ?>
 
 			<?php foreach ($statistic as $i => $month){ ?>
@@ -123,7 +126,7 @@ $this->setPageTitle("Главная | Партнерская программа 
 			<?php } ?>
 
     <?php } ?>
-
+	-->
 
     </div>
 </div>

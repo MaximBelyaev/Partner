@@ -194,6 +194,13 @@ h3.month_header {
 	margin-bottom: 30px;
 	width: 100%;
 }
+.total_month_stat {
+	display: table;
+	margin-top: 20px;
+}
+	.total_month_stat .stat_row div{
+		width: 20%;
+	} 
 	.day {
 		margin-bottom: 2px;
 	}
@@ -202,6 +209,9 @@ h3.month_header {
 		display: table-row;
 		width: 100%;
 	} 
+	.stat_row:nth-child(odd) {
+		background-color: #E5E6F2;
+	}
 	.stat_header {
 		font-weight: 600;
 	}
