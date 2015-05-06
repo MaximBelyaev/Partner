@@ -15,23 +15,12 @@ $this->setPageTitle("Главная | Партнерская программа 
 			data-start и data-end - это промежуток времени для которого выбирается статистика.
 			формат - количество СЕКУНД и эпохи UNIX
 		-->
-		<?php var_dump($times); ?>
 		<button class="last_week" data-start="<?= $times['last_week'] ?>" data-end="<?= $times['now'] ?>">За неделю</button>
 		<button class="last_month" data-start="<?= $times['last_month'] ?>" data-end="<?= $times['now'] ?>">За месяц</button>
 		<button class="last_quater" data-start="<?= $times['last_quater'] ?>" data-end="<?= $times['now'] ?>">За квартал</button>
 		<button class="last_year" data-start="<?= $times['last_year'] ?>" data-end="<?= $times['now'] ?>">За год</button>
 	</div>
 </div>
-
-<div class="input-daterange">
-    <input type="text" class="range range_start input-small" value="27-04-2015" />
-    <span class="add-on">to</span>
-    <input type="text" class="range range_end input-small" value="27-04-2015" />
-    <button id="show_range">
-    	Показать
-    </button>
-</div>
-
 
 
 <div class="small-box bg-green">
@@ -40,6 +29,28 @@ $this->setPageTitle("Главная | Партнерская программа 
 		<h3 class="stat_header">
 			Ваша статистика:
 		</h3>
+		<div class="main_month_stat">
+			<div class="stat_row stat_header">
+				<div class="datecol">
+					Дата 
+					<label id="date_icon" for="range_ch" title="Выберите временной промежуток"></label>
+					<input type="checkbox" id="range_ch">
+					<div class="input-daterange" data-enddate="<?= date('d-m-Y', $times['now']) ?>" data-startdate="01-01-2014">
+						<input type="text" class="range range_start input-small" value="<?= date('d-m-Y', $times['last_quater']) ?>" />
+						<input type="text" class="range range_end input-small" value="<?= date('d-m-Y', $times['now']) ?>" />
+						<button id="show_range">
+							Показать
+						</button>
+					</div>
+				</div>
+				<div>Переходы</div>
+				<?php if (!$user->use_click_pay) { ?>
+				<div>Заявки</div>
+				<div>Заказы</div>
+				<?php } ?>
+				<div>Прибыль</div>
+			</div>
+		</div>
 		<?php } else { ?>
 		<h3 class="stat_header">
 			Здесь будет ваша статистика!

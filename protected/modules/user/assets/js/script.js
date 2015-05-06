@@ -1,10 +1,20 @@
 jQuery(document).ready(function($) {
 	
 	var $lw = $('.last_quater');
-	var date_start = $lw.data('start');
-	var date_end   = $lw.data('end');
-	var plot;
+	var date_start = $lw.data('start'),
+		date_end   = $lw.data('end'),
+		$daterange = $('.input-daterange'),
+		plot;
 	loadRangeData(date_start, date_end);
+
+	$('body').on('click', function(event) {
+		console.log( $(event.target).prop('id') );
+		if(($(event.target).prop('id') != 'range_ch')) {
+			console.log( $('#range_ch').prop('checked') );
+			if (!($(event.target).hasClass('input-daterange') || $(event.target).parents('.input-daterange').length)) {
+			}
+		}
+	});
 
 	$('#stats').on('click', '.month_header', function(event) {
 		$(this).toggleClass("open");
@@ -12,10 +22,9 @@ jQuery(document).ready(function($) {
 
 
 
-
 	$('.input-daterange').datepicker({
-		endDate: '27-04-2015',
-		startDate: '01-01-2014',
+		startDate: $daterange.data('startdate'),
+		endDate: $daterange.data('enddate'),
 		format: 'dd-mm-yyyy',
 		language: 'ru',
 		todayBtn: true,
@@ -79,15 +88,17 @@ function loadRangeData(start, end) {
 
 function generateStatsHtml(stats) {
 	var $stats = $('<div>');
+	var $month_stat = $('<div>').addClass('month_stat');
+
 	$.each(stats.stats, function(index, val) {
 		
 			var $month = $('<div>').addClass('month');
 			var $h3 = $('<h3>').addClass('month_header').text(val.rus_date);
 
 			if( val.stat.length ) {
-				console.log(index);
 				var $month_stat = $('<div>').addClass('month_stat');
 				
+				/*
 				var $stat_header = $('<div>').addClass('stat_row stat_header day');
 				
 				$stat_header.append($('<div>').text('Дата'));
@@ -97,13 +108,15 @@ function generateStatsHtml(stats) {
 				$stat_header.append($('<div>').text('Прибыль'));
 				
 				$month_stat.append($stat_header) 
-				
+				*/
 				$.each(val.stat, function(i, st) {
 					var $stat_row = $('<div>').addClass('stat_row day');
 					$stat_row.append($('<div>').text(st.date));
 					$stat_row.append($('<div>').text(st.requests));
-					$stat_row.append($('<div>').text(st.referrals));
-					$stat_row.append($('<div>').text(st.payed));
+					if (stats.use_click_pay != '1') {	
+						$stat_row.append($('<div>').text(st.referrals));
+						$stat_row.append($('<div>').text(st.payed));
+					};
 					$stat_row.append($('<div>').text(st.profit));
 					$month_stat.append($stat_row);
 				});
@@ -111,8 +124,10 @@ function generateStatsHtml(stats) {
 				var $stat_total = $('<div>').addClass('stat_row day month_total');
 					$stat_total.append($('<div>').text("Всего"));
 					$stat_total.append($('<div>').text(val.total.requests));
-					$stat_total.append($('<div>').text(val.total.referrals));
-					$stat_total.append($('<div>').text(val.total.payed));
+					if (stats.use_click_pay != '1') {	
+						$stat_total.append($('<div>').text(val.total.referrals));
+						$stat_total.append($('<div>').text(val.total.payed));
+					}
 					$stat_total.append($('<div>').text(val.total.profit));
 					$month_stat.append($stat_total);
 			};
@@ -127,8 +142,10 @@ function generateStatsHtml(stats) {
 	var $all_time = $('<div>').addClass('stat_row day');
 	$all_time.append($('<div>').text("За все время"));
 	$all_time.append($('<div>').text(stats.all_time_total.requests));
-	$all_time.append($('<div>').text(stats.all_time_total.referrals));
-	$all_time.append($('<div>').text(stats.all_time_total.payed));
+	if (stats.use_click_pay != '1') {	
+		$all_time.append($('<div>').text(stats.all_time_total.referrals));
+		$all_time.append($('<div>').text(stats.all_time_total.payed));
+	}
 	$all_time.append($('<div>').text(stats.all_time_total.profit));
 	$total_month_stat.append($all_time);
 	$stats.append($total_month_stat);

@@ -180,6 +180,15 @@ class Chart
 
 	public function getRangeStat($start, $end) {
 
+		$start = $this->formatDate($start);
+		$end   = $this->formatDate($end);
+
+		$click_pay = Setting::model()->find(array(
+			'select' => 'value',
+			'condition'	=> 'name="click_pay"'
+		));
+		$click_pay = $click_pay->value;
+
 		if (!is_null($this->user)) {
 			$rqs = Requests::model()->findAll(
 				array(
@@ -210,17 +219,19 @@ class Chart
 				)
 			);
 
-			$refs = Referrals::model()->findAll(
-				array(
-					'select' => '*',
-					'condition' => 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end',
-					'params' => array(
-						':user'  => $this->user->id, 
-						':start' => $start, 
-						':end'   => $end,
-					),
-				)
-			);
+			if (!$this->user->use_click_pay) {
+				$refs = Referrals::model()->findAll(
+					array(
+						'select' => '*',
+						'condition' => 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end',
+						'params' => array(
+							':user'  => $this->user->id, 
+							':start' => $start, 
+							':end'   => $end,
+						),
+					)
+				);
+			} else { $refs = array(); }
 
 
 
@@ -262,6 +273,12 @@ class Chart
 						$requests[ $month_date ][ 'total' ][ 'requests' ]++;
 						$all_time_total[ 'requests' ]++;
 						$rq_stat[ 'requests' ]++;
+
+						if ($this->user->use_click_pay) {
+							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+(($this->user->use_click_pay&&$this->user->click_pay)?$this->user->click_pay:$click_pay);
+							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+(($this->user->use_click_pay&&$this->user->click_pay)?$this->user->click_pay:$click_pay);
+							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+(($this->user->use_click_pay&&$this->user->click_pay)?$this->user->click_pay:$click_pay);
+						}
 					}
 				}
 
@@ -297,7 +314,11 @@ class Chart
 				$requests[$month_date]['stat'][]   = $rq_stat;
 
 			}
-			return array('stats'=>$requests, 'all_time_total'=>$all_time_total);
+			return array(
+				'stats' => $requests, 
+				'all_time_total' => $all_time_total, 
+				'use_click_pay' => (int)$this->user->use_click_pay
+			);
 		} else {
 
 		}

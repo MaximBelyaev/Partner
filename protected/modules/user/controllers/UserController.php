@@ -487,6 +487,7 @@ class UserController extends MyUserController
 //  		$data = $user->getRangeData($get['start'], $get['end']);
 		echo json_encode(array(
 			'user'=>$user,
+            'use_click_pay'=>$user->use_click_pay,
 			'get' => $get,
 			'stats' => $stats,
 			'charts' => $charts,
