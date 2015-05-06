@@ -25,9 +25,52 @@
 	.chart_buttons button:hover {
 		background-color: #1C6D9C;
 	}
-	.input-daterange {
-		position: relative;
+	#date_icon {
+		
 	}
+	#range_ch {
+		display: none;
+	}
+	#range_ch:checked + .input-daterange {
+		display: block;
+	} 
+	.main_month_stat .input-daterange {
+		background-color: #ffffff;
+		border: 1px solid #ccc;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 3px;
+		box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		display: none;
+		bottom: 40px;
+		left: 0;
+		padding: 10px;
+		position: absolute;
+		width: 455px;
+	}
+		.main_month_stat .input-daterange .range_start,
+		.main_month_stat .input-daterange .range_end {
+			border: 1px solid #ccc;
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			padding: 5px;
+			border-radius: 1px;
+		} 
+		.main_month_stat .input-daterange .range_start {
+			border-radius: 2px;
+			margin-right: 5px;
+		}
+		.main_month_stat .input-daterange .range_end {
+			border-radius: 2px;
+			margin: 0 5px;
+		}
+		#show_range {
+			background: #eeeeee;
+			border: 1px solid #ccc;
+			-webkit-border-radius: 2px;
+			-moz-border-radius: 2px;
+			border-radius: 2px;
+			padding: 5px;
+		}
+
 	.datepicker {
 		position: absolute;
 	}
@@ -176,14 +219,16 @@ h3.month_header {
 	text-align: left;
 	font-size: 17px;
 	margin-bottom: 0;
-	margin-top: 15px;
+	margin-top: 5px;
 	padding: 10px;
 }
 .month_header.open {
 	background-color: #3c8dbc;
 	color: #FFF;
 }
+.main_stat_header {
 
+}
 .month_header + .month_stat {
 	display: none;
 }
@@ -191,9 +236,33 @@ h3.month_header {
 	display: table;
 }
 .month_stat {
-	margin-bottom: 30px;
+	width: 100%;
+	display: table;
+}
+.main_month_stat {
+	display: table;
 	width: 100%;
 }
+	.main_month_stat .datecol {
+		width: 20%;
+		position: relative;
+	}
+#date_icon {
+	background-image: url(../img/star_icon.png);
+	background-size: cover;
+	cursor: pointer;
+	display: inline-block;
+	height: 20px;
+	float: right;
+	width: 20px;
+}
+.total_month_stat {
+	display: table;
+	margin-top: 10px;
+}
+	.total_month_stat .stat_row div{
+		width: 20%;
+	} 
 	.day {
 		margin-bottom: 2px;
 	}
@@ -202,6 +271,9 @@ h3.month_header {
 		display: table-row;
 		width: 100%;
 	} 
+	.stat_row:nth-child(odd) {
+		background-color: #E5E6F2;
+	}
 	.stat_header {
 		font-weight: 600;
 	}
@@ -209,6 +281,7 @@ h3.month_header {
 			border-top: 1px solid #eee;
 			display: table-cell;
 			padding: 10px;
+			width: 20%;
 		}
 .month_total {
 	background-color: #eee;
