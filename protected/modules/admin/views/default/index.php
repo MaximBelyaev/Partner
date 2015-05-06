@@ -14,6 +14,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $referralModel,
+    'enablePagination' => false,
     'columns' => array(
         'date',
         'email',
@@ -34,6 +35,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $userModel,
+    'enablePagination' => false,
     'columns' => array(
         'reg_date',
         'username',
@@ -46,6 +48,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 </div>
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $statedsModel,
+    'enablePagination' => false,
     'columns' => array(
         'date',
         array(

@@ -280,4 +280,16 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#clickpay-checker').is(":checked") ? $('#hidden-clickpay').show() : $('#hidden-clickpay').hide();
+        $('#clickpay-checker').change(function(){
+            if (this.checked) {
+                $('#hidden-clickpay').show();
+            } else {
+                $('#hidden-clickpay').hide();
+            }
+        });
+    });
+</script>
 </html>

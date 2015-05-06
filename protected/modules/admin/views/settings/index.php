@@ -1,4 +1,4 @@
-<?php  
+<?php
 $this->breadcrumbs=array(
 	'Настройки',
 );
@@ -7,38 +7,57 @@ $this->setPageTitle("Настройки | Партнерская програм�
 
 <div class="head">
 	<h5>Настройки</h5>
-	<div class="button_save">
-		<?php /*echo CHtml::link('<i class="icon-plus"></i> Добавить',array('/admin/user/create'), array('class'=>'btn btn-success',)); */?>
-	</div>
 </div>
 
-
 <div class="form">
+		<?php echo CHtml::beginForm(); ?>
 
-
-	<?php echo CHtml::beginForm(); ?>
-
-	<!---- Flash message ---->
-	<?php $this->beginWidget('FlashWidget',array(
-		'params'=>array(
-			'model' => $model,
-		)));
-	$this->endWidget(); ?>
-	<!---- End Flash message ---->
-
-	<div class="clear"></div>
-
-	<?php foreach ($model as $key => $value) { ?>
-	<div class="setting">
-		<p><?= $value->header ?></p>
-		<?php echo CHtml::activeTextArea($value,"[$key]value", array('rows'=>2)); ?>
+	<div class="row">
+		<?php echo "Разрешить оплату за переход" ?>
+		<?php echo CHtml::activeCheckBox($model[0],"[0]status", array('id' => 'clickpay-checker')) ?>
 	</div>
 
-	<?php } ?>
-
-	<div class="button_save_settings">
-		<?php echo CHtml::submitButton('Сохранить', array('class'=>'btn btn-success')); ?>
+	<div class="row" id="hidden-clickpay" style="display:none">
+		<?php echo "Размер оплаты" ?>
+		<?php echo CHtml::activeTextField($model[0],"[0]value", array('value' => $model[0]->value ?
+			$model[0]->value : 2)) ?>
 	</div>
-	<?php echo CHtml::endForm(); ?>
+	<div class="row">
+		<?php echo "Сделать фиксированную оплату" ?>
+		<?php echo CHtml::activeCheckBox($model[6],"[6]status", array('id' => 'clickpay-checker')) ?>
+	</div>
 
+	<div class="row" id="hidden-clickpay" style="display:none">
+		<?php echo "Размер оплаты" ?>
+		<?php echo CHtml::activeTextField($model[6],"[6]value", array('value' => $model[6]->value ?
+			$model[6]->value : 500)) ?>
+	</div>
+
+	<div class="form-group">
+		<?php echo "Платёжные системы" ?>
+	<div class="row">
+		<?php echo $model[2]->header ?>
+		<?php echo CHtml::activeCheckBox($model[2],"[2]status") ?>
+	</div>
+
+	<div class="row">
+		<?php echo $model[3]->header ?>
+		<?php echo CHtml::activeCheckBox($model[3],"[3]status") ?>
+	</div>
+
+	<div class="row">
+		<?php echo $model[4]->header ?>
+		<?php echo CHtml::activeCheckBox($model[4],"[4]status") ?>
+	</div>
+
+	<div class="row">
+		<?php echo $model[5]->header ?>
+		<?php echo CHtml::activeCheckBox($model[5],"[5]status") ?>
+	</div>
+	</div>
+
+	<div class="row">
+		<?php echo CHtml::submitButton('Сохранить'); ?>
+		<?php echo CHtml::endForm(); ?>
+	</div>
 </div><!-- form -->

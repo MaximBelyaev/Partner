@@ -73,6 +73,11 @@
         <?php echo $form->error($model,'status'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model,'recreate_interval'); ?>
+        <?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
+    </div>
+
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
