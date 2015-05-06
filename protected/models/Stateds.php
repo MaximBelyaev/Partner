@@ -19,6 +19,7 @@ class Stateds extends CActiveRecord
 	const STATUS_DENIED  = 'Отказано в оплате';
     
     protected $_oldStatus;
+	protected $_oldRecreateInterval;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -102,7 +103,7 @@ class Stateds extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('money',$this->money,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('status',$this->status,true);
 		$criteria->compare('pay_type',$this->pay_type,true);
 		$criteria->compare('requisites',$this->requisites,true);
 		$criteria->compare('description',$this->description,true);
@@ -143,38 +144,38 @@ class Stateds extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
+		$this->_oldRecreateInterval = $this->recreate_interval;
     }
 
     /**
      * Даем прибыль партнеру
      */
     protected function beforeSave()
-    {
-        if(parent::beforeSave())
-		{
-            if($this->status !== $this->_oldStatus)
-            {
-                if($this->_oldStatus == self::STATUS_DENIED){
-                    $this->status = $this->_oldStatus;
-                }
-            }
-        }
+	{
+		if (parent::beforeSave()) {
+			if ($this->status !== $this->_oldStatus) {
+				if ($this->_oldStatus == self::STATUS_DENIED) {
+					$this->status = $this->_oldStatus;
+				}
+			}
+		}
 
 		/**
-		* Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
-		*/
-		$this->recreate_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + $this->recreate_interval * 24 * 60 * 60);
-
-		if ($this->recreate_interval === '1')
+		 * Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
+		 */
+		//$this->recreate_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + $this->recreate_interval * 24 * 60 * 60);
+		if ($this->_oldRecreateInterval !== $this->recreate_interval)
 		{
-			$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime(date('Y-m-d H:i:s'))));
+			if ($this->recreate_interval === '1')
+			{
+				$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', time()));
+			}
+			if ($this->recreate_interval === '0')
+			{
+				$this->recreate_date = '';
+			}
 		}
-		if ($this->recreate_interval === '0')
-		{
-			$this->recreate_date = '';
-		}
-
-        return true;
+		return true;
     }
 
 	protected function afterSave()
@@ -187,7 +188,8 @@ class Stateds extends CActiveRecord
 		//
 		$email->send();
     
-        if($this->isNewRecord){
+        if($this->isNewRecord)
+		{
             $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
             $profit->profit -= $this->money;
             $profit->save();
@@ -220,7 +222,6 @@ class Stateds extends CActiveRecord
                 $profit->save();
             }
         }
-
         parent::afterSave();
     }
 
@@ -238,21 +239,4 @@ class Stateds extends CActiveRecord
 			$not->delete();
 		}
     }
-
-	public function setRecreateDate($interval = null)
-	{
-		$this->recreate_interval = $interval;
-		$this->save();
-		if ($interval == 0)
-		{
-			$this->recreate_date = 0;
-		}
-		if ($interval == 'month')
-		{
-			$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime(date('Y-m-d H:i:s'))));
-			return $this->recreate_date;
-		}
-
-
-	}
 }

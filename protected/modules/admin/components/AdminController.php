@@ -63,7 +63,8 @@ class AdminController extends CController
         );
     }
 
-    public function init() {
+    public function init()
+    {
         parent::init();
 
         $model = new Referrals;
@@ -78,6 +79,27 @@ class AdminController extends CController
             Yii::app()->user->setState('language', 'ru');
         }
         $this->notifications_count = Notifications::model()->count("is_new = 1");
-	}
 
+        $oldModels = Stateds::model()->findAll();
+        $modelsToCreate = [];
+        foreach ($oldModels as $oldModel)
+        {
+            $oldRecreateDate = strtotime($oldModel->recreate_date);
+            if ((time() >= $oldRecreateDate))
+            {
+                $modelsToCreate[] = $oldModel;
+            }
+        }
+
+        foreach ($modelsToCreate as $oldModel)
+        {
+            $newModel = new Stateds;
+            $newModel->attributes = $oldModel->attributes;
+            $newModel->date = $oldModel->recreate_date;
+            $newModel->status = Stateds::STATUS_WAITING;
+            $newModel->save();
+            $oldModel->recreate_interval = '0';
+            $modelsToCreate[] = $newModel;
+        }
+	}
 }

@@ -26,12 +26,11 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, value', 'required'),
 			array('name', 'length', 'max'=>128),
-			array('value', 'length', 'max'=>4095),
+			array('value, status', 'length', 'max'=>4095),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('setting_id, name, value', 'safe', 'on'=>'search'),
+			array('setting_id, name, value, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +54,7 @@ class Setting extends CActiveRecord
 			'setting_id' => 'ID',
 			'name' => 'Имя',
 			'value' => 'Значение',
+			'status' => 'Статус'
 		);
 	}
 
@@ -79,6 +79,7 @@ class Setting extends CActiveRecord
 		$criteria->compare('setting_id',$this->setting_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('value',$this->value,true);
+		$criteria->compare('status',$this->status,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
