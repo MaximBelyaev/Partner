@@ -23,6 +23,7 @@ class AdminController extends CController
     public $notifications_count;
     public $newUser;
     public $newReferral;
+    public $settingsList;
 
     /**
      * @return array action filters
@@ -67,10 +68,12 @@ class AdminController extends CController
     {
         parent::init();
 
+        //Делаем модели для модальных окон создания партнёра и клиента
         $model = new Referrals;
         $this->newReferral = $model;
         $model = new User;
         $this->newUser = $model;
+
         Yii::app()->onBeginRequest = array('AdminController', 'r');
 
         if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages']))
@@ -80,7 +83,11 @@ class AdminController extends CController
         }
         $this->notifications_count = Notifications::model()->count("is_new = 1");
 
-        $oldModels = Stateds::model()->findAll();
+        //Инициация функции повторного платежа
+        $oldModels = Stateds::model()->findAll(array(
+            'select'	=> '*',
+            'condition'	=> 'recreate_interval != ""',
+        ));
         $modelsToCreate = [];
         foreach ($oldModels as $oldModel)
         {
@@ -90,7 +97,7 @@ class AdminController extends CController
                 $modelsToCreate[] = $oldModel;
             }
         }
-
+        var_dump($modelsToCreate);
         foreach ($modelsToCreate as $oldModel)
         {
             $newModel = new Stateds;
@@ -99,7 +106,7 @@ class AdminController extends CController
             $newModel->status = Stateds::STATUS_WAITING;
             $newModel->save();
             $oldModel->recreate_interval = '0';
-            $modelsToCreate[] = $newModel;
+            $oldModel->save();
         }
 	}
 }

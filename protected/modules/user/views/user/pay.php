@@ -28,7 +28,7 @@ $this->setPageTitle("Вывод средств | Партнерская прог
 
         <div class="row">
             <?php echo $form->labelEx($model,'pay_type'); ?>
-            <?php echo $form->dropDownList($model,'pay_type',array('WebMoney'=>'WebMoney (рубли)','Яndex деньги'=>'Яndex деньги'), array('class'=>'form-control')); ?>
+            <?php echo $form->radioButtonList($model,'pay_type',$settings, array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'pay_type'); ?>
         </div>
 

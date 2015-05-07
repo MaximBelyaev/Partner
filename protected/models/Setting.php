@@ -92,6 +92,27 @@ class Setting extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Settings the static model class
 	 */
+
+	public function setDisplayIcon()
+	{
+		if ($this->name === 'qiwi')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+		}
+		else if ($this->name === 'webmoney')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+		}
+		else if ($this->name === 'paypal')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+		}
+		else if ($this->name === 'yandex_money')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+		}
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

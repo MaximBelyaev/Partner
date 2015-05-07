@@ -347,7 +347,7 @@ class UserController extends MyUserController
                 $identity->authenticate();
                 Yii::app()->user->login($identity,1);
                 if ((Yii::app()->user->role) == 'admin') {
-                    $this->redirect('/admin/referrals/index');
+                    $this->redirect('/admin/default/index');
                 } else {
                     $this->redirect('/user/user/index');
                 }
@@ -377,6 +377,16 @@ class UserController extends MyUserController
     public function actionPayRequest()
     {
         $model = new Stateds;
+
+        $settings = [];
+        for ($i = 2; $i < 6; $i++)
+        {
+            if ($this->settingsList[$i]['status'] === '1')
+            {
+                $settings[$this->settingsList[$i]->header] = $this->settingsList[$i]->setDisplayIcon();
+            }
+        }
+
         if(isset($_POST['Stateds']))
         {
             $model->attributes=$_POST['Stateds'];
@@ -384,7 +394,7 @@ class UserController extends MyUserController
                 $this->redirect(array('index'));
             }
         }
-        $this->render('pay', array('model'=>$model));
+        $this->render('pay', array('model'=>$model, 'settings'=>$settings));
     }
 
     /**

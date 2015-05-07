@@ -304,4 +304,40 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#vk-checker').is(":checked") ? $('#hidden-vk').show() : $('#hidden-vk').hide();
+        $('#vk-checker').change(function(){
+            if (this.checked) {
+                $('#hidden-vk').show();
+            } else {
+                $('#hidden-vk').hide();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#skype-checker').is(":checked") ? $('#hidden-skype').show() : $('#hidden-skype').hide();
+        $('#skype-checker').change(function(){
+            if (this.checked) {
+                $('#hidden-skype').show();
+            } else {
+                $('#hidden-skype').hide();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#email-checker').is(":checked") ? $('#hidden-email').show() : $('#hidden-email').hide();
+        $('#email-checker').change(function(){
+            if (this.checked) {
+                $('#hidden-email').show();
+            } else {
+                $('#hidden-email').hide();
+            }
+        });
+    });
+</script>
 </html>

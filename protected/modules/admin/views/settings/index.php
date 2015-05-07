@@ -55,6 +55,35 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	</div>
 	</div>
 
+	<!--Связь-->
+	<div class="row">
+		<?php echo $model[10]->header ?>
+		<?php echo CHtml::activeCheckBox($model[10],"[10]status", array('id' => 'vk-checker')) ?>
+	</div>
+
+	<div class="row" id="hidden-vk" style="display:none">
+		<?php echo CHtml::activeTextField($model[10],"[10]value") ?>
+	</div>
+
+		<div class="row">
+			<?php echo $model[11]->header ?>
+		<?php echo CHtml::activeCheckBox($model[11],"[11]status", array('id' => 'email-checker')) ?>
+	</div>
+
+	<div class="row" id="hidden-email" style="display:none">
+		<?php echo CHtml::activeTextField($model[11],"[11]value") ?>
+	</div>
+
+		<div class="row">
+			<?php echo $model[12]->header ?>
+		<?php echo CHtml::activeCheckBox($model[12],"[12]status", array('id' => 'skype-checker')) ?>
+	</div>
+
+	<div class="row" id="hidden-skype" style="display:none">
+		<?php echo CHtml::activeTextField($model[12],"[12]value") ?>
+	</div>
+	<!--Конец блока связи-->
+
 	<div class="form-group">
 		<?php echo "Платёжные системы" ?>
 	<div class="row">

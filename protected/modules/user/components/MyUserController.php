@@ -6,6 +6,7 @@ class MyUserController extends Controller
     public $news_to_watch;
     public $news;
     public $news_views;
+    public $settingsList;
     /**
      * @return array action filters
      */
@@ -54,6 +55,9 @@ class MyUserController extends Controller
         
         $this->news_to_watch = count($news) - count($news_views);
         $this->news = $news;
-        $this->news_views = $news_views;     
+        $this->news_views = $news_views;
+
+        //Список настроек партнёра
+        $this->settingsList = Setting::model()->findAll();
     }
 }

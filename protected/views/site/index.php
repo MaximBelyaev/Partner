@@ -169,7 +169,7 @@
       <?php $form=$this->beginWidget('CActiveForm', array(
             'action'=>array('user/user/registration'),
             'id'=>'registration-form',
-            'enableClientValidation'=>true,
+            'enableClientValidation'=>false,
             'enableAjaxValidation' => true,
             'clientOptions'=>array(
                 'validateOnSubmit'=>true,
@@ -200,7 +200,8 @@
         <?php $form=$this->beginWidget('CActiveForm', array(
             'action'=>array('user/user/login'),
             'id'=>'login-form',
-            'enableClientValidation'=>true,
+            'enableClientValidation'=>false,
+            'enableAjaxValidation'=>true,
             'clientOptions'=>array(
                 'validateOnSubmit'=>true,
             ),
