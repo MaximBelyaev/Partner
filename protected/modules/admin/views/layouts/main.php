@@ -292,4 +292,16 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#fixedpay-checker').is(":checked") ? $('#hidden-fixedpay').show() : $('#hidden-fixedpay').hide();
+        $('#fixedpay-checker').change(function(){
+            if (this.checked) {
+                $('#hidden-fixedpay').show();
+            } else {
+                $('#hidden-fixedpay').hide();
+            }
+        });
+    });
+</script>
 </html>
