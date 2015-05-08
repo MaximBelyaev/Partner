@@ -26,7 +26,7 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max'=>128),
+			array('name, header', 'length', 'max'=>128),
 			array('value, status', 'length', 'max'=>4095),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

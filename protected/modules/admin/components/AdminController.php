@@ -97,8 +97,8 @@ class AdminController extends CController
                 $modelsToCreate[] = $oldModel;
             }
         }
-        var_dump($modelsToCreate);
-        foreach ($modelsToCreate as $oldModel)
+
+       /** foreach ($modelsToCreate as $oldModel)
         {
             $newModel = new Stateds;
             $newModel->attributes = $oldModel->attributes;
@@ -107,6 +107,6 @@ class AdminController extends CController
             $newModel->save();
             $oldModel->recreate_interval = '0';
             $oldModel->save();
-        }
+        } **/
 	}
 }
