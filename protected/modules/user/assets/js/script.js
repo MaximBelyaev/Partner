@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 	
-	var $lw = $('.last_quater');
+	var $lw = $('.last_quater').addClass('current_range');
 	var date_start = $lw.data('start'),
 		date_end   = $lw.data('end'),
 		$daterange = $('.input-daterange'),
@@ -8,19 +8,24 @@ jQuery(document).ready(function($) {
 	loadRangeData(date_start, date_end);
 
 	$('body').on('click', function(event) {
-		console.log( $(event.target).prop('id') );
-		if(($(event.target).prop('id') != 'range_ch')) {
-			console.log( $('#range_ch').prop('checked') );
-			if (!($(event.target).hasClass('input-daterange') || $(event.target).parents('.input-daterange').length)) {
+		if(($(event.target).prop('id') != 'date_icon')) {
+			if(!(
+				event.target.classList.contains('input-daterange') || 
+				$(event.target).parents('.input-daterange').length || 
+				event.target.classList.contains('datepicker') || 
+				event.target.classList.contains('day') || 
+				$(event.target).parents('.datepicker').length))
+			{
+				$('.input-daterange').hide();
 			}
+		} else {
+			$('.input-daterange').toggle();		
 		}
 	});
 
 	$('#stats').on('click', '.month_header', function(event) {
 		$(this).toggleClass("open");
 	});
-
-
 
 	$('.input-daterange').datepicker({
 		startDate: $daterange.data('startdate'),
@@ -35,6 +40,8 @@ jQuery(document).ready(function($) {
 
 	$('.chart_buttons').find('button').on('click', function(event) {
 		event.preventDefault();
+		$('.chart_buttons').find('button').removeClass('current_range');
+		$(this).addClass('current_range');
 		var start = $(this).data('start');
 		var end   = $(this).data('end');
 		loadRangeData(start, end);		
@@ -42,6 +49,7 @@ jQuery(document).ready(function($) {
 
 	$('#show_range').on('click', function(event) {
     	event.preventDefault();
+		$('.chart_buttons').find('button').removeClass('current_range');
 		var start = $('.range_start').val();
 		var end   = $('.range_end').val();
 		loadRangeData(start, end);
