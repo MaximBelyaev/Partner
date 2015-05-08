@@ -33,8 +33,7 @@ $this->setPageTitle("Главная | Партнерская программа 
 			<div class="stat_row stat_header">
 				<div class="datecol">
 					Дата 
-					<label id="date_icon" for="range_ch" title="Выберите временной промежуток"></label>
-					<input type="checkbox" id="range_ch">
+					<div id="date_icon" title="Выберите временной промежуток"></div>
 					<div class="input-daterange" data-enddate="<?= date('d-m-Y', $times['now']) ?>" data-startdate="01-01-2014">
 						<input type="text" class="range range_start input-small" value="<?= date('d-m-Y', $times['last_quater']) ?>" />
 						<input type="text" class="range range_end input-small" value="<?= date('d-m-Y', $times['now']) ?>" />
