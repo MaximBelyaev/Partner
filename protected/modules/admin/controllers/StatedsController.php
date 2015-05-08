@@ -16,6 +16,7 @@ class StatedsController extends AdminController
 		if(isset($_POST['Stateds']))
 		{
 			$model->attributes=$_POST['Stateds'];
+			$model->setRecreate();
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -33,6 +34,7 @@ class StatedsController extends AdminController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$old_interval = $model->recreate_interval;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -40,6 +42,10 @@ class StatedsController extends AdminController
 		if(isset($_POST['Stateds']))
 		{
 			$model->attributes=$_POST['Stateds'];
+			if ($old_interval !== $model->recreate_interval)
+			{
+				$model->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', time()));
+			}
 			if($model->save()){
                 Yii::app()->user->setFlash('success', Yii::t('main', 'Данные успешно сохранены!'));
 				$this->refresh();

@@ -86,7 +86,7 @@ class AdminController extends CController
         //Инициация функции повторного платежа
         $oldModels = Stateds::model()->findAll(array(
             'select'	=> '*',
-            'condition'	=> 'recreate_interval != ""',
+            'condition'	=> 'recreate_date != ""',
         ));
         $modelsToCreate = [];
         foreach ($oldModels as $oldModel)
@@ -98,15 +98,17 @@ class AdminController extends CController
             }
         }
 
-       /** foreach ($modelsToCreate as $oldModel)
+       foreach ($modelsToCreate as $oldModel)
         {
             $newModel = new Stateds;
             $newModel->attributes = $oldModel->attributes;
-            $newModel->date = $oldModel->recreate_date;
             $newModel->status = Stateds::STATUS_WAITING;
+            $newModel->date = $oldModel->recreate_date;
+            $newModel->setRecreate();
             $newModel->save();
             $oldModel->recreate_interval = '0';
+            $oldModel->recreate_date = '';
             $oldModel->save();
-        } **/
+        }
 	}
 }

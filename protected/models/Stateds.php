@@ -144,7 +144,6 @@ class Stateds extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
-		$this->_oldRecreateInterval = $this->recreate_interval;
     }
 
     /**
@@ -164,17 +163,6 @@ class Stateds extends CActiveRecord
 		 * Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
 		 */
 		//$this->recreate_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + $this->recreate_interval * 24 * 60 * 60);
-		if ($this->_oldRecreateInterval !== $this->recreate_interval)
-		{
-			if ($this->recreate_interval === '1')
-			{
-				$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', time()));
-			}
-			if ($this->recreate_interval === '0')
-			{
-				$this->recreate_date = '';
-			}
-		}
 		return true;
     }
 
@@ -239,4 +227,16 @@ class Stateds extends CActiveRecord
 			$not->delete();
 		}
     }
+
+	public function setRecreate ()
+	{
+			if ($this->recreate_interval === '1')
+			{
+				$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime($this->date)));
+			}
+			if ($this->recreate_interval === '0')
+			{
+				$this->recreate_date = '';
+			}
+	}
 }
