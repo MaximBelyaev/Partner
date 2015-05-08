@@ -84,7 +84,7 @@ class AdminController extends CController
         $this->notifications_count = Notifications::model()->count("is_new = 1");
 
         //Инициация функции повторного платежа
-        $oldModels = Stateds::model()->findAll(array(
+        $oldModels = Referrals::model()->findAll(array(
             'select'	=> '*',
             'condition'	=> 'recreate_date != ""',
         ));
@@ -98,11 +98,13 @@ class AdminController extends CController
             }
         }
 
+
        foreach ($modelsToCreate as $oldModel)
         {
-            $newModel = new Stateds;
+            $newModel = new Referrals;
             $newModel->attributes = $oldModel->attributes;
-            $newModel->status = Stateds::STATUS_WAITING;
+            $newModel->id = '';
+            $newModel->status = Referrals::$STATUS_REQUEST;
             $newModel->date = $oldModel->recreate_date;
             $newModel->setRecreate();
             $newModel->save();
