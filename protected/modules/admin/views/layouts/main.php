@@ -8,6 +8,12 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl ?>/css/main.css">
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/bootstrap.js"></script>
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
+    
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/main.js"></script>
 </head>
 <body>
@@ -44,7 +50,7 @@
             ),
             array(
                 'label'=>'Статистика',
-                'url'=>array('/admin/referrals/index'),
+                'url'=>array('/admin/statistics/index'),
             ),
             array(
                 'label'=>'<i class="icon-user"></i>Партнеры',
@@ -58,7 +64,7 @@
             ),
             array(
                 'label'=>'Статистика',
-                'url'=>array('/admin/user/index'),
+                'url'=>array('/admin/statistics/index'),
             ),
             array(
                 'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',

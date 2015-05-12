@@ -53,6 +53,7 @@ class AdminController extends CController
                     'view', 'create', 'update', 
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
+                    'range',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
                 ),
@@ -97,7 +98,6 @@ class AdminController extends CController
                 $modelsToCreate[] = $oldModel;
             }
         }
-        var_dump($modelsToCreate);
         foreach ($modelsToCreate as $oldModel)
         {
             $newModel = new Stateds;

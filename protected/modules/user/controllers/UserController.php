@@ -494,7 +494,6 @@ class UserController extends MyUserController
 		}
 		$stats = $chart->getRangeStat($get['start'], $get['end']);
 
-//  		$data = $user->getRangeData($get['start'], $get['end']);
 		echo json_encode(array(
 			'user'=>$user,
             'use_click_pay'=>$user->use_click_pay,
