@@ -248,6 +248,71 @@ class Chart
 		return $requests;
 	}
 
+	public function getRangeAllStat($start, $end) {
+
+		$stats = array();
+		$start = $this->formatDate($start);
+		$end   = $this->formatDate($end);
+
+		# все новые партнеры
+		$stats['new_partners'] = count(User::model()->findAll(
+			array(
+				'select'	=> 'reg_date',
+				'condition'	=> 'UNIX_TIMESTAMP(reg_date) > :start and UNIX_TIMESTAMP(reg_date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+				),
+			)
+		));
+
+		# все переходы
+		$stats['requests'] = count(Requests::model()->findAll(
+			array(
+				'select'	=> 'date',
+				'condition'	=> 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+				),
+			)
+		));
+
+		# все клиенты
+		$stats['referrals'] = count(Referrals::model()->findAll(
+			array(
+				'select'	=> 'date',
+				'condition'	=> 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+				),
+			)
+		));
+
+		# все заказы 
+		$payed = Referrals::model()->findAll(
+			array(
+				'select'	=> 'date, money',
+				'condition'	=> 'status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+					':status' => Referrals::$STATUS_APPLIED,
+				),
+			)
+		);
+
+		$stats['payed'] = count($payed);
+		$profit = 0;
+		foreach ($payed as $p) {
+			$profit = $profit + $p->money;
+		}
+		$stats['profit'] = $profit;
+		return $stats;
+
+	}
+
 	public function getRangeStat($start, $end) {
 
 		$start = $this->formatDate($start);
@@ -389,14 +454,8 @@ class Chart
 				'all_time_total' => $all_time_total, 
 				'use_click_pay' => (int)$this->user->use_click_pay
 			);
-		} else {
-
 		}
-
 	}
-
-
-
 
 }
 

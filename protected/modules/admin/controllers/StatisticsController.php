@@ -21,26 +21,56 @@ class StatisticsController extends AdminController
 		));
 	}
 
-	public function actionRange($start, $end, $type)
+	public function actionRange($start, $end, $type, $output_type)
 	{
 		$chart = new Chart();
-		$charts = array();
+		if ($output_type == 'chart' || $output_type == 'both') {
+			$charts = array();
+		}
+		if ($output_type == 'table' || $output_type == 'both') {
+			$stats = array();
+		}
+
 		if ($type == 'user') {
-			$charts['user'] = $chart->getRangeUsersData($start, $end);
+
+			if ($output_type == 'chart' || $output_type == 'both') {
+				$charts['user'] = $chart->getRangeUsersData($start, $end);
+			}
+			if ($output_type == 'table' || $output_type == 'both') {
+				// $stats['user'] = $chart->getRangeUsersData($start, $end);
+			}
+
 		} elseif ($type == 'referrals') {
-			$charts['referrals'] = $chart->getRangeReferralsData($start, $end, false, 'distinct');
+
+			if ($output_type == 'chart' || $output_type == 'both') {
+				$charts['referrals'] = $chart->getRangeReferralsData($start, $end, false, 'distinct');
+			}
+			if ($output_type == 'table' || $output_type == 'both') {
+				// $stats['referrals'] = $chart->getRangeReferralsData($start, $end, false, 'distinct');	
+			}
+
 		} elseif ($type == 'requests') {
-			$charts['requests'] = $chart->getRangeRequestsData($start, $end);			
+
+			if ($output_type == 'chart' || $output_type == 'both') {
+				$charts['requests'] = $chart->getRangeRequestsData($start, $end);			
+			}
+			if ($output_type == 'table' || $output_type == 'both') {
+				// $stats['requests'] = $chart->getRangeRequestsData($start, $end);
+			}
+
 		} elseif ($type == 'referrals_z') {
 			$charts['referrals_z'] = $chart->getRangeReferralsData($start, $end);			
 		} elseif ($type == 'payed') {
 			$charts['payed'] = $chart->getRangeReferralsData($start, $end, 'payed');
 		}
 
-		echo json_encode(array(
-			'charts' => $charts,
-			'chart' => $chart
-		));
+		$stats = $chart->getRangeAllStat($start, $end);
+		$return = array(
+			'chart' => $chart,
+		);
+		if (isset($charts)) { $return['charts'] = $charts; }
+		if (isset($stats)) { $return['stats'] = $stats; }
+		echo json_encode($return);
 		Yii::app()->end();
 	}
 }
