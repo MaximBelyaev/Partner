@@ -120,7 +120,7 @@
             <?php $form=$this->beginWidget('CActiveForm', array(
                 'action'=>array('referrals/create'),
                 'id'=>'create-referral-form',
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
                 'clientOptions'=>array(
                     'validateOnSubmit'=>true,
                 ),
@@ -164,6 +164,12 @@
                 <?php echo $form->dropDownList($newReferral,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
                 <?php echo $form->error($newReferral,'status'); ?>
             </div>
+
+            <div class="form-group">
+                <?php echo $form->labelEx($newReferral,'recreate_interval'); ?>
+                <?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
+            </div>
+
             <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'), array('success' => 'function()
             { alert("Клиент успешно добавлен"); }'), array('class' => 'btn btn-success')); ?>
 
@@ -296,10 +302,6 @@
                 $('#hidden-clickpay').hide();
             }
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
         $('#fixedpay-checker').is(":checked") ? $('#hidden-fixedpay').show() : $('#hidden-fixedpay').hide();
         $('#fixedpay-checker').change(function(){
             if (this.checked) {
@@ -308,10 +310,6 @@
                 $('#hidden-fixedpay').hide();
             }
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
         $('#vk-checker').is(":checked") ? $('#hidden-vk').show() : $('#hidden-vk').hide();
         $('#vk-checker').change(function(){
             if (this.checked) {
@@ -320,10 +318,6 @@
                 $('#hidden-vk').hide();
             }
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
         $('#skype-checker').is(":checked") ? $('#hidden-skype').show() : $('#hidden-skype').hide();
         $('#skype-checker').change(function(){
             if (this.checked) {
@@ -332,10 +326,6 @@
                 $('#hidden-skype').hide();
             }
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
         $('#email-checker').is(":checked") ? $('#hidden-email').show() : $('#hidden-email').hide();
         $('#email-checker').change(function(){
             if (this.checked) {

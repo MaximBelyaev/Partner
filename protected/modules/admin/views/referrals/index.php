@@ -29,6 +29,11 @@ $this->setPageTitle("Список клиентов | Партнерская пр
         ),
         'money',
         'date',
+        array(
+            'name' => 'recreate_interval',
+            'type' => 'raw',
+            'value' => '$data->getFormatIcons()',
+        ),
 		/*'id',*/
         array(
             'name' => 'status',
@@ -69,6 +74,5 @@ $this->setPageTitle("Список клиентов | Партнерская пр
             ),
         ),
 	),
-)); 
-
+));
 ?>

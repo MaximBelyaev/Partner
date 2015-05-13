@@ -29,12 +29,13 @@ class Banners extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('width, height', 'required'),
 			array('width, height', 'numerical', 'integerOnly'=>true),
 			array('type, name, image', 'length', 'max'=>255),
+			array('video_link', 'length', 'max'=>255),
+			array('code', 'length', 'max'=>65000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, name, image, width, height', 'safe', 'on'=>'search'),
+			array('id, type, name, image, width, height, video_link', 'safe', 'on'=>'search'),
 			array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true, 'on'=>'update'),
 		);
 	}
@@ -62,6 +63,7 @@ class Banners extends CActiveRecord
 			'image' => 'Изображение',
 			'width' => 'Ширина',
 			'height' => 'Высота',
+			'video_link' => 'Рекламное видео',
 		);
 	}
 
@@ -101,6 +103,18 @@ class Banners extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Banners the static model class
 	 */
+
+	protected function beforeSave()
+	{
+		if (parent::beforeSave()) {
+			if ($this->type === 'gif')
+			{
+
+			}
+		}
+		return true;
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

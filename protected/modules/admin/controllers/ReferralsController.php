@@ -13,13 +13,14 @@ class ReferralsController extends AdminController
 	public function actionCreate()
 	{
 		$model=new Referrals;
-		$this->performAjaxValidation($model);
+		$model->date = date('Y-m-d H:i:s', time());
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Referrals']))
 		{
 			$model->attributes=$_POST['Referrals'];
+			$model->setRecreate();
 			if($model->save()){
 				$this->redirect(array('index','id'=>$model->id));
 			}
@@ -38,6 +39,7 @@ class ReferralsController extends AdminController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$old_interval = $model->recreate_interval;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -45,6 +47,14 @@ class ReferralsController extends AdminController
 		if(isset($_POST['Referrals']))
 		{
 			$model->attributes=$_POST['Referrals'];
+			if ($old_interval !== $model->recreate_interval)
+			{
+				$model->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', time()));
+			}
+			if ($model->recreate_interval == '0')
+			{
+				$model->recreate_date = '';
+			}
 			if($model->save()) {
                 Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
                 $this->refresh();

@@ -369,14 +369,20 @@ class UserController extends MyUserController
 
 	public function actionCommercial()
 	{
+        $bannersList = Banners::model()->findAll();
         $this->render('commercial', array(
         	'user' => $this->user,
+            'bannersList' => $bannersList
         ));
 	}
 
     public function actionPayRequest()
     {
         $model = new Stateds;
+        $list=new Stateds('search');
+        $list->unsetAttributes();  // clear any default values
+        if(isset($_GET['Stateds']))
+            $list->attributes=$_GET['Stateds'];
 
         $settings = [];
         for ($i = 2; $i < 6; $i++)
@@ -394,7 +400,7 @@ class UserController extends MyUserController
                 $this->redirect(array('index'));
             }
         }
-        $this->render('pay', array('model'=>$model, 'settings'=>$settings));
+        $this->render('pay', array('model'=>$model, 'settings'=>$settings, 'list' => $list));
     }
 
     /**

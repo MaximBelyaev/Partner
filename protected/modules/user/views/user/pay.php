@@ -45,9 +45,28 @@ $this->setPageTitle("Вывод средств | Партнерская прог
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Вывести' : 'Save', array('class'=>'btn btn-primary')); ?>
+            <?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Save', array('class'=>'btn btn-primary')); ?>
         </div>
 
         <?php $this->endWidget(); ?>
     </div>
 </div><!-- form -->
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'stateds-grid',
+    'dataProvider'=>$list->search(),
+    'filter'=>$list,
+    'columns'=>array(
+        'date',
+        array(
+            'name' => 'pay_type',
+            'type' => 'raw',
+            'value' => function($data) use ($settings) {
+                return $settings[$data->pay_type];
+            }
+        ),
+        'requisites',
+        'money',
+        'status',
+    ),
+)); ?>

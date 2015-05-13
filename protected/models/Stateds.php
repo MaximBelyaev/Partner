@@ -41,10 +41,10 @@ class Stateds extends CActiveRecord
 			array('money', 'length', 'max' => 8),
 			array('money', 'numerical', 'min' => 0,'max'=>Yii::app()->user->isAdmin ? 9999999999 :User::model()->findByPk(Yii::app()->user->id)->profit),
 			array('pay_type, requisites', 'length', 'max'=>50),
-			array('description, status, date, recreate_interval, recreate_date', 'safe'),
+			array('description, status, date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, money, status, pay_type, date, requisites, description, recreate_interval, recreate_date',
+			array('id, user_id, money, status, pay_type, date, requisites, description',
 				'safe', 'on'=>'search'),
 		);
 	}
@@ -76,8 +76,6 @@ class Stateds extends CActiveRecord
 			'description' => 'Дополнительно',
             'user' => 'От партнера',
             'date' => 'Дата добавления',
-			'recreate_interval' => 'Постоянная оплата',
-			'recreate_date' => 'Дата повторной заявки'
 		);
 	}
 
@@ -107,8 +105,6 @@ class Stateds extends CActiveRecord
 		$criteria->compare('pay_type',$this->pay_type,true);
 		$criteria->compare('requisites',$this->requisites,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('recreate_interval',$this->recreate_interval,true);
-		$criteria->compare('recreate_date',$this->recreate_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -144,7 +140,6 @@ class Stateds extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
-		$this->_oldRecreateInterval = $this->recreate_interval;
     }
 
     /**
@@ -163,18 +158,6 @@ class Stateds extends CActiveRecord
 		/**
 		 * Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
 		 */
-		//$this->recreate_date = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s')) + $this->recreate_interval * 24 * 60 * 60);
-		if ($this->_oldRecreateInterval !== $this->recreate_interval)
-		{
-			if ($this->recreate_interval === '1')
-			{
-				$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', time()));
-			}
-			if ($this->recreate_interval === '0')
-			{
-				$this->recreate_date = '';
-			}
-		}
 		return true;
     }
 

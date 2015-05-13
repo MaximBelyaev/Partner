@@ -13,6 +13,11 @@ $this->setPageTitle("Настройки | Партнерская програм�
 		<?php echo CHtml::beginForm(); ?>
 
 	<div class="row">
+		<?php echo "Название сайта" ?>
+		<?php echo CHtml::activetextField($model[13],"[13]value", array('value' => $model[13]->value)) ?>
+	</div>
+
+	<div class="row">
 		<?php echo "Разрешить оплату за переход" ?>
 		<?php echo CHtml::activeCheckBox($model[0],"[0]status", array('id' => 'clickpay-checker')) ?>
 	</div>
@@ -37,19 +42,22 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	<div class="form-group">
 		<?php echo "Начисления для ролей" ?>
 	<div class="row">
-		<?php echo $model[9]->header ?>
+		<?php echo CHtml::activeTextField($model[9],"[9]header", array('value' => $model[9]->header ?
+			$model[9]->header : 'Cтандартный')) ?>
 		<?php echo CHtml::activeTextField($model[9],"[9]value", array('value' => $model[9]->value ?
 			$model[9]->value : '15%')) ?>
 	</div>
 
 	<div class="row">
-		<?php echo $model[8]->header ?>
+		<?php echo CHtml::activeTextField($model[8],"[8]header", array('value' => $model[8]->header ?
+			$model[8]->header : 'Расширенный')) ?>
 		<?php echo CHtml::activeTextField($model[8],"[8]value", array('value' => $model[8]->value ?
 			$model[8]->value : '17%')) ?>
 	</div>
 
 	<div class="row">
-		<?php echo $model[7]->header ?>
+		<?php echo CHtml::activeTextField($model[7],"[7]header", array('value' => $model[7]->header ?
+			$model[7]->header : 'VIP')) ?>
 		<?php echo CHtml::activeTextField($model[7],"[7]value", array('value' => $model[7]->value ?
 			$model[7]->value : '20%')) ?>
 	</div>

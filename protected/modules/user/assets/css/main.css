@@ -388,6 +388,13 @@ h3.stat_header {
 	width: 20px;
 	height: 20px;
 	margin-bottom: -6px;
+}.iconSettings {
+	background: url(../img/icn_settings.png) no-repeat;
+	background-position: 50% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-bottom: -6px;
 }
 .iconAds {
 	background: url(../img/rek.png) no-repeat;

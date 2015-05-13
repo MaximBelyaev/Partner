@@ -26,7 +26,7 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'length', 'max'=>128),
+			array('name, header', 'length', 'max'=>128),
 			array('value, status', 'length', 'max'=>4095),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -97,19 +97,19 @@ class Setting extends CActiveRecord
 	{
 		if ($this->name === 'qiwi')
 		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/qiwi_icon.jpg>";
 		}
 		else if ($this->name === 'webmoney')
 		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/webmoney_icon2.png>";
 		}
 		else if ($this->name === 'paypal')
 		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/paypal_icon.png>";
 		}
 		else if ($this->name === 'yandex_money')
 		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/yandexmoney_icon.png>";
 		}
 	}
 

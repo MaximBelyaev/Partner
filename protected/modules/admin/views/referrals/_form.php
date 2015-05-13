@@ -13,7 +13,7 @@
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>false,
 )); ?>
 
     <div class="head">
@@ -64,6 +64,11 @@
 		<?php echo $form->dropDownList($model,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
 		<?php echo $form->error($model,'status'); ?>
 	</div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model,'recreate_interval'); ?>
+        <?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
+    </div>
 
 <?php $this->endWidget(); ?>
 

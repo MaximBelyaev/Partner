@@ -46,12 +46,13 @@ class Referrals extends CActiveRecord
 			array('email', 'email'),
 			array('id, tz, user_id', 'numerical', 'integerOnly'=>true),
 			array('email, site, region, request_type, promo', 'length', 'max'=>150),
-			array('requests, user_from, status', 'length', 'max'=>255),
+			array('requests, user_from, status, recreate_interval, recreate_date', 'length', 'max'=>255),
 			array('money', 'length', 'max'=>8),
 			array('date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, email, site, region, tz, request_type, requests, user_from, money, status, user_id, date', 'safe', 'on'=>'search'),
+			array('id, email, site, region, tz, request_type, requests, user_from, money, status, user_id, date,
+			recreate_interval, recreate_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +84,8 @@ class Referrals extends CActiveRecord
 			'status' => 'Статус',
 			'user_id' => 'User',
 			'user' => 'От партнера',
+			'recreate_interval' => 'Формат',
+			'recreate_date' => 'Дата повторной оплаты',
 			'date' => 'Дата заявки',
             'promo' => 'Промо код',
 		);
@@ -118,6 +121,8 @@ class Referrals extends CActiveRecord
 		$criteria->compare('status',$this->status,true);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('date',$this->date);
+		$criteria->compare('recreate_interval',$this->recreate_interval,true);
+		$criteria->compare('recreate_date',$this->recreate_date,true);
 		$criteria->order = 'date DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -144,7 +149,6 @@ class Referrals extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
-		$this->date = date('d.m.Y H:m', strtotime($this->date));
     }
 
 
@@ -298,4 +302,24 @@ class Referrals extends CActiveRecord
         }
         return true;
     }
+
+	public function setRecreate ()
+	{
+		if ($this->recreate_interval === '1')
+		{
+			$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime($this->date)));
+		}
+		if ($this->recreate_interval === '0')
+		{
+			$this->recreate_date = '';
+		}
+	}
+
+	public function getFormatIcons ()
+	{
+		if ($this->recreate_interval === '1')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/month_pay.png>";
+		}
+	}
 }

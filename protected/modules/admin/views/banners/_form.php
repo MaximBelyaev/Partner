@@ -38,7 +38,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->textField($model,'type',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->dropDownList($model,'type', $typesList); ?>
 		<?php echo $form->error($model,'type'); ?>
 	</div>
 
@@ -66,6 +66,12 @@
 		<?php echo $form->error($model,'image'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'video_link'); ?>
+		<?php echo $form->textField($model, 'video_link'); ?>
+		<?php echo $form->error($model,'video_link'); ?>
+	</div>
+
 	<?php if($model->isNewRecord!='1'){ ?>
 	<div class="row">
 		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/'.$model->image,"image",array("width"=>200)); }?>
@@ -74,3 +80,4 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+

@@ -40,7 +40,25 @@
                     ) . '</span>', array('/user/news/index')); ?>
             </li>
             <li class="active">
-                <?= CHtml::link('<span class="iconComments"></span> <span>Связь с админом</span>', 'http://vk.com/im?sel=18424819', array('target'=>'blank')); ?>
+                <?= CHtml::link('<span class="iconSettings"></span> <span>Настройки</span>', array('/user/user/data')); ?>
+            </li>
+            <li class="active">
+                    <span class='iconComments'></span><span>Связь с админом</span>
+            </li>
+            <li class="active">
+                <?= (Yii::app()->controller->settingsList['vk']->status == 1) ?
+                    CHtml::link('<span>Вконтакте</span>',
+                    Yii::app()->controller->settingsList['vk']->value, array('target'=>'blank')) : ""; ?>
+            </li>
+            <li class="active">
+                <?= (Yii::app()->controller->settingsList['email']->status == 1) ?
+                    CHtml::link('<span>Почта</span>',
+                        "mailto:" . Yii::app()->controller->settingsList['email']->value) : ""; ?>
+            </li>
+            <li class="active">
+                <?= (Yii::app()->controller->settingsList['skype']->status == 1) ?
+                    CHtml::link('<span>Скайп</span>',
+                    "skype:" . Yii::app()->controller->settingsList['skype']->value) : ""; ?>
             </li>
         </ul>
         <?php endif; ?>
