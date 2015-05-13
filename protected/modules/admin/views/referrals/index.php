@@ -10,9 +10,6 @@ $this->setPageTitle("Список клиентов | Партнерская пр
 
 <div class="head">
     <h5>Управление клиентами</h5>
-    <div class="button_save">
-        <?php echo CHtml::link('<i class="icon-plus"></i> Добавить',array('/admin/referrals/create'), array('class'=>'btn btn-default',)); ?>
-    </div>
 </div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(

@@ -21,10 +21,7 @@
         </div>
         <ul class="sidebar-menu">
             <li class="active">
-            	<?= CHtml::link('<span class="iconNewCredit"></span> <span>На счету:&nbsp;'.$model->profit.'&nbsp; руб</span>', array('/user/user/payRequest')); ?>
-            </li>
-            <li class="active">
-                <?= CHtml::link('<span class="iconNewMoney"></span> <span>Вывести деньги</span>', array('/user/user/payRequest')); ?>
+                <?= CHtml::link('<span class="iconNewMoney"></span> <span>Вывод средств:&nbsp;'.$model->profit.'&nbsp; р.</span>', array('/user/user/payRequest')); ?>
             </li>
             <li class="active">
                 <?= CHtml::link('<span class="iconAds"></span> <span>Рекламные материалы</span>', array('/user/user/commercial')); ?>
@@ -43,7 +40,7 @@
                 <?= CHtml::link('<span class="iconSettings"></span> <span>Настройки</span>', array('/user/user/data')); ?>
             </li>
             <li class="active">
-                    <span class='iconComments'></span><span>Связь с админом</span>
+                <?= CHtml::link('<span class="iconComments"></span> <span>Связь с админом</span>'); ?>
             </li>
             <li class="active">
                 <?= (Yii::app()->controller->settingsList['vk']->status == 1) ?
@@ -60,6 +57,13 @@
                     CHtml::link('<span>Скайп</span>',
                     "skype:" . Yii::app()->controller->settingsList['skype']->value) : ""; ?>
             </li>
+            <li class="active">
+                <?= (!Yii::app()->user->isGuest) ?
+                    CHtml::link('<span class="iconLogout"></span><span>Выйти</span>',
+                        '/user/user/logout') : ""; ?>
+            </li>
+
+
         </ul>
         <?php endif; ?>
     </section>

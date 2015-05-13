@@ -2,10 +2,9 @@
 
 class SettingsController extends AdminController
 {
-
 	public function actionIndex()
 	{
-		$model = Setting::model()->findAll();
+		$model = $this->settingsList;
 
 		if(isset($_POST['Setting']))
 		{

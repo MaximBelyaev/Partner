@@ -83,6 +83,14 @@ class AdminController extends CController
         }
         $this->notifications_count = Notifications::model()->count("is_new = 1");
 
+        //Список настроек
+        $this->settingsList = Setting::model()->findAll();
+        for ($i = 0; $i < count($this->settingsList); $i++)
+        {
+            $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+            unset($this->settingsList[$i]);
+        }
+
         //Инициация функции повторного платежа
         $oldModels = Referrals::model()->findAll(array(
             'select'	=> '*',

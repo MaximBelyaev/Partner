@@ -14,104 +14,105 @@ $this->setPageTitle("Настройки | Партнерская програм�
 
 	<div class="row">
 		<?php echo "Название сайта" ?>
-		<?php echo CHtml::activetextField($model[13],"[13]value", array('value' => $model[13]->value)) ?>
+		<?php echo CHtml::activetextField($model['landing_link'],"['landing_link']value",
+			array('value' => $model['landing_link']->value)) ?>
 	</div>
 
 	<div class="row">
 		<?php echo "Разрешить оплату за переход" ?>
-		<?php echo CHtml::activeCheckBox($model[0],"[0]status", array('id' => 'clickpay-checker')) ?>
+		<?php echo CHtml::activeCheckBox($model['click_pay'],"['click_pay']status", array('id' => 'clickpay-checker')) ?>
 	</div>
 
 	<div class="row" id="hidden-clickpay" style="display:none">
 		<?php echo "Размер оплаты" ?>
-		<?php echo CHtml::activeTextField($model[0],"[0]value", array('value' => $model[0]->value ?
-			$model[0]->value : 2)) ?>
+		<?php echo CHtml::activeTextField($model['click_pay'],"[click_pay]value",
+			array('value' => $model['click_pay']->value ? $model['click_pay']->value : 2)) ?>
 	</div>
 
 	<div class="row">
 		<?php echo "Сделать фиксированную оплату" ?>
-		<?php echo CHtml::activeCheckBox($model[6],"[6]status", array('id' => 'fixedpay-checker')) ?>
+		<?php echo CHtml::activeCheckBox($model['fixed_pay'],"['fixed_pay']status", array('id' => 'fixedpay-checker')) ?>
 	</div>
 
 	<div class="row" id="hidden-fixedpay" style="display:none">
 		<?php echo "Размер оплаты" ?>
-		<?php echo CHtml::activeTextField($model[6],"[6]value", array('value' => $model[6]->value ?
-			$model[6]->value : 500)) ?>
+		<?php echo CHtml::activeTextField($model['fixed_pay'],"['fixed_pay']value",
+			array('value' => $model['fixed_pay']->value ? $model['fixed_pay']->value : 500)) ?>
 	</div>
 
 	<div class="form-group">
 		<?php echo "Начисления для ролей" ?>
 	<div class="row">
-		<?php echo CHtml::activeTextField($model[9],"[9]header", array('value' => $model[9]->header ?
-			$model[9]->header : 'Cтандартный')) ?>
-		<?php echo CHtml::activeTextField($model[9],"[9]value", array('value' => $model[9]->value ?
-			$model[9]->value : '15%')) ?>
+		<?php echo CHtml::activeTextField($model['standard'],"['standard']header", 
+			array('value' => $model['standard']->header ? $model['standard']->header : 'Cтандартный')) ?>
+		<?php echo CHtml::activeTextField($model['standard'],"['standard']value", 
+			array('value' => $model['standard']->value ? $model['standard']->value : '15%')) ?>
 	</div>
 
 	<div class="row">
-		<?php echo CHtml::activeTextField($model[8],"[8]header", array('value' => $model[8]->header ?
-			$model[8]->header : 'Расширенный')) ?>
-		<?php echo CHtml::activeTextField($model[8],"[8]value", array('value' => $model[8]->value ?
-			$model[8]->value : '17%')) ?>
+		<?php echo CHtml::activeTextField($model['extended'],"['extended']header",
+			array('value' => $model['extended']->header ? $model['extended']->header : 'Расширенный')) ?>
+		<?php echo CHtml::activeTextField($model['extended'],"['extended']value",
+			array('value' => $model['extended']->value ? $model['extended']->value : '17%')) ?>
 	</div>
 
 	<div class="row">
-		<?php echo CHtml::activeTextField($model[7],"[7]header", array('value' => $model[7]->header ?
-			$model[7]->header : 'VIP')) ?>
-		<?php echo CHtml::activeTextField($model[7],"[7]value", array('value' => $model[7]->value ?
-			$model[7]->value : '20%')) ?>
+		<?php echo CHtml::activeTextField($model['vip'],"['vip']header",
+			array('value' => $model['vip']->header ? $model['vip']->header : 'VIP')) ?>
+		<?php echo CHtml::activeTextField($model['vip'],"['vip']value",
+			array('value' => $model['vip']->value ? $model['vip']->value : '20%')) ?>
 	</div>
 	</div>
 
 	<!--Связь-->
 	<div class="row">
-		<?php echo $model[10]->header ?>
-		<?php echo CHtml::activeCheckBox($model[10],"[10]status", array('id' => 'vk-checker')) ?>
+		<?php echo $model['vk']->header ?>
+		<?php echo CHtml::activeCheckBox($model['vk'],"['vk']status", array('id' => 'vk-checker')) ?>
 	</div>
 
 	<div class="row" id="hidden-vk" style="display:none">
-		<?php echo CHtml::activeTextField($model[10],"[10]value") ?>
+		<?php echo CHtml::activeTextField($model['vk'],"['vk']value") ?>
 	</div>
 
 		<div class="row">
-			<?php echo $model[11]->header ?>
-		<?php echo CHtml::activeCheckBox($model[11],"[11]status", array('id' => 'email-checker')) ?>
+			<?php echo $model['email']->header ?>
+		<?php echo CHtml::activeCheckBox($model['email'],"['email']status", array('id' => 'email-checker')) ?>
 	</div>
 
 	<div class="row" id="hidden-email" style="display:none">
-		<?php echo CHtml::activeTextField($model[11],"[11]value") ?>
+		<?php echo CHtml::activeTextField($model['email'],"['email']value") ?>
 	</div>
 
 		<div class="row">
-			<?php echo $model[12]->header ?>
-		<?php echo CHtml::activeCheckBox($model[12],"[12]status", array('id' => 'skype-checker')) ?>
+			<?php echo $model['skype']->header ?>
+		<?php echo CHtml::activeCheckBox($model['skype'],"['skype']status", array('id' => 'skype-checker')) ?>
 	</div>
 
 	<div class="row" id="hidden-skype" style="display:none">
-		<?php echo CHtml::activeTextField($model[12],"[12]value") ?>
+		<?php echo CHtml::activeTextField($model['skype'],"['skype']value") ?>
 	</div>
 	<!--Конец блока связи-->
 
 	<div class="form-group">
 		<?php echo "Платёжные системы" ?>
 	<div class="row">
-		<?php echo $model[2]->header ?>
-		<?php echo CHtml::activeCheckBox($model[2],"[2]status") ?>
+		<?php echo $model['qiwi']->header ?>
+		<?php echo CHtml::activeCheckBox($model['qiwi'],"['qiwi']status") ?>
 	</div>
 
 	<div class="row">
-		<?php echo $model[3]->header ?>
-		<?php echo CHtml::activeCheckBox($model[3],"[3]status") ?>
+		<?php echo $model['webmoney']->header ?>
+		<?php echo CHtml::activeCheckBox($model['webmoney'],"['webmoney']status") ?>
 	</div>
 
 	<div class="row">
-		<?php echo $model[4]->header ?>
-		<?php echo CHtml::activeCheckBox($model[4],"[4]status") ?>
+		<?php echo $model['yandex_money']->header ?>
+		<?php echo CHtml::activeCheckBox($model['yandex_money'],"['yandex_money']status") ?>
 	</div>
 
 	<div class="row">
-		<?php echo $model[5]->header ?>
-		<?php echo CHtml::activeCheckBox($model[5],"[5]status") ?>
+		<?php echo $model['paypal']->header ?>
+		<?php echo CHtml::activeCheckBox($model['paypal'],"['paypal']status") ?>
 	</div>
 	</div>
 
