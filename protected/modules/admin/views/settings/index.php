@@ -13,6 +13,11 @@ $this->setPageTitle("Настройки | Партнерская програм�
 		<?php echo CHtml::beginForm(); ?>
 
 	<div class="row">
+		<?php echo "Название сайта" ?>
+		<?php echo CHtml::activetextField($model[13],"[13]value", array('value' => $model[13]->value)) ?>
+	</div>
+
+	<div class="row">
 		<?php echo "Разрешить оплату за переход" ?>
 		<?php echo CHtml::activeCheckBox($model[0],"[0]status", array('id' => 'clickpay-checker')) ?>
 	</div>

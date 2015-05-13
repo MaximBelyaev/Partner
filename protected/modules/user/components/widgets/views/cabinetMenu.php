@@ -40,22 +40,25 @@
                     ) . '</span>', array('/user/news/index')); ?>
             </li>
             <li class="active">
+                <?= CHtml::link('<span class="iconSettings"></span> <span>Настройки</span>', array('/user/user/data')); ?>
+            </li>
+            <li class="active">
                     <span class='iconComments'></span><span>Связь с админом</span>
             </li>
             <li class="active">
-                <?= (Yii::app()->controller->settingsList[10]->status == 1) ?
+                <?= (Yii::app()->controller->settingsList['vk']->status == 1) ?
                     CHtml::link('<span>Вконтакте</span>',
-                    Yii::app()->controller->settingsList[10]->value, array('target'=>'blank')) : ""; ?>
+                    Yii::app()->controller->settingsList['vk']->value, array('target'=>'blank')) : ""; ?>
             </li>
             <li class="active">
-                <?= (Yii::app()->controller->settingsList[11]->status == 1) ?
+                <?= (Yii::app()->controller->settingsList['email']->status == 1) ?
                     CHtml::link('<span>Почта</span>',
-                        "mailto:" . Yii::app()->controller->settingsList[11]->value) : ""; ?>
+                        "mailto:" . Yii::app()->controller->settingsList['email']->value) : ""; ?>
             </li>
             <li class="active">
-                <?= (Yii::app()->controller->settingsList[12]->status == 1) ?
+                <?= (Yii::app()->controller->settingsList['skype']->status == 1) ?
                     CHtml::link('<span>Скайп</span>',
-                    "skype:" . Yii::app()->controller->settingsList[12]->value) : ""; ?>
+                    "skype:" . Yii::app()->controller->settingsList['skype']->value) : ""; ?>
             </li>
         </ul>
         <?php endif; ?>

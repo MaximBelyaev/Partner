@@ -59,5 +59,10 @@ class MyUserController extends Controller
 
         //Список настроек партнёра
         $this->settingsList = Setting::model()->findAll();
+        for ($i = 0; $i < count($this->settingsList); $i++)
+        {
+            $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+            unset($this->settingsList[$i]);
+        }
     }
 }

@@ -98,7 +98,6 @@ class AdminController extends CController
             }
         }
 
-
        foreach ($modelsToCreate as $oldModel)
         {
             $newModel = new Referrals;

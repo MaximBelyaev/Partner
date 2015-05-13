@@ -15,11 +15,16 @@ class BannersController extends AdminController
 
 	/**
 	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * If creation is successful, the browser will be redirected to t;he 'view' page.
 	 */
 	public function actionCreate()
 	{
 		$model=new Banners;
+		$typesList = array(
+			'gif' => 'GIF',
+			'flash' => 'Flash',
+			'promovideo' => 'Рекламное видео'
+		);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -31,13 +36,19 @@ class BannersController extends AdminController
 			$fileName = "{$rnd}-{$uploadedFile}";
 			$model->image = $fileName;
 			if($model->save())
-				$uploadedFile->saveAs(Yii::app()->basePath.'/../images/'.$fileName);
+			{
+				if ($uploadedFile)
+				{
+					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+				}
 				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 				$this->refresh();
+			}
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+			'typesList'=>$typesList,
 		));
 	}
 
@@ -62,7 +73,7 @@ class BannersController extends AdminController
 
 				if(!empty($uploadedFile))  // check if uploaded file is set or not
 				{
-					$uploadedFile->saveAs(Yii::app()->basePath . '/../images/' . $model->image);
+					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/' . $model->image);
 					Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 					$this->refresh();
 				}
