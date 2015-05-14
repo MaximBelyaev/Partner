@@ -25,6 +25,8 @@ class AdminController extends CController
     public $newReferral;
     public $settingsList;
 
+    public $landings;
+
     /**
      * @return array action filters
      */
@@ -53,7 +55,7 @@ class AdminController extends CController
                     'view', 'create', 'update', 
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
-                    'range',
+                    'range', 'change',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
                 ),
@@ -65,9 +67,20 @@ class AdminController extends CController
         );
     }
 
-    public function init()
-    {
-        parent::init();
+	public function init()
+	{
+		parent::init();
+
+		$landings = Landings::model()->findAll();
+		if (count($landings) > 1) {
+			$lands = array( 0 => 'Все' );
+			foreach ($landings as $l) {
+				$lands[ $l->land_id ] = $l->name; 
+			} 
+			$this->landings = $lands;
+		} else {
+			$this->landings = false;
+		}
 
         //Делаем модели для модальных окон создания партнёра и клиента
         $model = new Referrals;

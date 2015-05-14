@@ -20,6 +20,13 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner top-nav">
         <div class="container-fluid">
+            <div class="nav pull-left landing_select">
+				<?php echo CHtml::dropDownList(
+						'landing_select', Yii::app()->session['landing'],
+						Yii::app()->controller->landings,
+						array('id' => 'landing_select')
+				); ?>
+            </div>
             <ul class="nav pull-right">
                 <li><?php echo CHtml::link($this->notifications_count ? "Уведомления <strong class='nots-white'>+{$this->notifications_count}</strong>" : "Уведомления",
                         array('notifications/index')); ?></li>

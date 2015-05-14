@@ -41,7 +41,14 @@ body {
     padding-right: 20px;
 }
 .top-nav {
-    margin-left: 210px;
+    margin-left: 273px;
+}
+.landing_select {
+    padding: 4px 20px 0;
+}
+#landing_select {
+    width: 100px;
+    margin: 0;
 }
 .branding {
     display: inline-block;

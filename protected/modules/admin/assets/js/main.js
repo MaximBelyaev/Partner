@@ -13,5 +13,27 @@ $( document ).ready(function() {
     });
 
 
+    $('#landing_select').on('change', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/admin/landings/change',
+            type: 'POST',
+            dataType: 'json',
+            data: {land: $(this).val()},
+        })
+        .done(function(x) {
+            console.log("success");
+            window.location.reload();
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function(x) {
+            console.log(x);
+            console.log("complete");
+        });
+        
+    });
+
 });
 

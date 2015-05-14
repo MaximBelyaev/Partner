@@ -79,6 +79,18 @@ class LandingsController extends AdminController
 	}
 
 
+	public function actionChange() 
+	{
+		if (isset($_POST['land'])) {
+			Yii::app()->session['landing'] = $_POST['land'];
+			echo json_encode(array('status'=>'success'));
+		} else {
+			echo json_encode(array('status'=>'fail'));
+		}
+		Yii::app()->end();
+	}
+
+
 	protected function performAjaxValidation($model)
 	{
 		if( isset($_POST['ajax']) && ($_POST['ajax'] === 'landings-form') )
