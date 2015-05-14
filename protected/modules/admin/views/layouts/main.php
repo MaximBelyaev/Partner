@@ -8,12 +8,25 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl ?>/css/main.css">
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/bootstrap.js"></script>
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
+    
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/main.js"></script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner top-nav">
         <div class="container-fluid">
+            <div class="nav pull-left landing_select">
+				<?php echo CHtml::dropDownList(
+						'landing_select', Yii::app()->session['landing'],
+						Yii::app()->controller->landings,
+						array('id' => 'landing_select')
+				); ?>
+            </div>
             <ul class="nav pull-right">
                 <li><?php echo CHtml::link($this->notifications_count ? "Уведомления <strong class='nots-white'>+{$this->notifications_count}</strong>" : "Уведомления",
                         array('notifications/index')); ?></li>
@@ -44,7 +57,7 @@
             ),
             array(
                 'label'=>'Статистика',
-                'url'=>array('/admin/referrals/index'),
+                'url'=>array('/admin/statistics/index'),
             ),
             array(
                 'label'=>'<i class="icon-user"></i>Партнеры',
@@ -58,7 +71,7 @@
             ),
             array(
                 'label'=>'Статистика',
-                'url'=>array('/admin/user/index'),
+                'url'=>array('/admin/statistics/index'),
             ),
             array(
                 'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',

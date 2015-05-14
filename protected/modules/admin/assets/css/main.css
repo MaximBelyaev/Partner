@@ -7,22 +7,20 @@ body {
 .clear {
     clear: both;
 }
-#sidebar {
-    background: #f4f4f4;
-}
 
 .grid-view{
     padding: 20px 10px;
 }
 
 #sidebar {
+    background: #f4f4f4;
     height: 100%;
     left: 0;
     overflow: auto;
     position: fixed !important;
     top: -1px;
     width: 273px;
-    z-index: 3000;
+    z-index: 3;
     box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.07);
     -webkit-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: inset -3px 0px 8px -4px rgba(0, 0, 0, 0.1);
@@ -33,7 +31,7 @@ body {
     padding-top: 39px;
 }
 .navbar-fixed-top, .navbar-fixed-bottom {
-    z-index: 1200;
+    z-index: 3;
 }
 .navbar-inner {
     background: #3c8dbc;
@@ -43,7 +41,14 @@ body {
     padding-right: 20px;
 }
 .top-nav {
-    margin-left: 210px;
+    margin-left: 273px;
+}
+.landing_select {
+    padding: 4px 20px 0;
+}
+#landing_select {
+    width: 100px;
+    margin: 0;
 }
 .branding {
     display: inline-block;
@@ -420,3 +425,126 @@ color: #fff;
     .not_del:hover {
         background-color: #A52B25;
     }   
+
+/* ============== Statistics ================= */
+.stats_block {
+    padding: 10px 20px 0;
+}
+.top_buttons {
+    position: relative;
+}
+
+.chart_wrap, .table_wrap {
+    height: 250px;
+    position: relative;
+    padding: 20px;
+}
+#chart {
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    width: 80%;
+}
+.chart_buttons, .table_buttons{
+    float: right;
+    margin-right: 3%;
+    width: 15%;
+}
+
+	.table_buttons button, .table_top_buttons button, 
+	.chart_buttons button, .top_buttons button {
+        background-color: #3C8DBC;
+        border: 1px solid #1C6D9C;
+        color: #FFF;
+        cursor: pointer;
+        outline: none;
+        margin-bottom: 10px;
+        padding: 5px 10px;
+    }
+    .chart_buttons button, .table_buttons button {
+        display: block;
+        width: 100%;
+    }
+    .chart_buttons button:hover, .top_buttons button:hover {
+        background-color: #1C6D9C;
+    }
+    .chart_buttons .current_type, .top_buttons .current_range, 
+    .table_buttons .current_type, .table_top_buttons .current_range {
+        background-color: #00a65a;
+        border-color: #008d4c;
+    }
+    .chart_buttons .current_type:hover, .top_buttons .current_range:hover
+    .table_buttons .current_type:hover, .table_top_buttons .current_range:hover {
+        background-color: #008d4c;
+    }
+.buttons {
+    position: relative;
+}
+.input-daterange {
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        top: 30px;
+        left: 0;
+        padding: 10px;
+        position: absolute;
+        width: 465px;
+        z-index: 5;
+    }
+        .input-daterange .range_start,
+        .input-daterange .range_end {
+            border: 1px solid #ccc;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            margin-top: 0;
+            margin-bottom: 0;
+            border-radius: 1px;
+            width: 165px;
+        } 
+        .input-daterange .range_start {
+            border-radius: 2px;
+            margin-right: 5px;
+        }
+        .input-daterange .range_end {
+            border-radius: 2px;
+            margin: 0 5px;
+        }
+        #show_range, #table_show_range {
+            background: #eeeeee;
+            border: 1px solid #ccc;
+            color: #000;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            padding: 5px 10px;
+            width: 85px;
+            margin-bottom: 0;
+            font-size: 13px;
+        }
+
+    .datepicker {
+        position: absolute;
+    } 
+
+
+.stats_row {
+	font-size: 20px;
+}
+.stats_content .stats_row {
+	background-color: #F8F8FC;	
+}
+.stats_header {
+	background-color: #EEE;
+}
+.stats_row p {
+	display: inline-block;
+	margin: 0;
+	padding: 10px 20px;
+	width: 15%;
+}
+.land_icon {
+    width: 50px;
+}

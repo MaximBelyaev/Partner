@@ -25,8 +25,6 @@ class AdminController extends CController
     public $newReferral;
     public $settingsList;
 
-    public $landings;
-
     /**
      * @return array action filters
      */
@@ -55,7 +53,7 @@ class AdminController extends CController
                     'view', 'create', 'update', 
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
-                    'range', 'change',
+                    'range',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
                 ),
@@ -67,20 +65,9 @@ class AdminController extends CController
         );
     }
 
-	public function init()
-	{
-		parent::init();
-
-		$landings = Landings::model()->findAll();
-		if (count($landings) > 1) {
-			$lands = array( 0 => 'Все' );
-			foreach ($landings as $l) {
-				$lands[ $l->land_id ] = $l->name; 
-			} 
-			$this->landings = $lands;
-		} else {
-			$this->landings = false;
-		}
+    public function init()
+    {
+        parent::init();
 
         //Делаем модели для модальных окон создания партнёра и клиента
         $model = new Referrals;
@@ -97,14 +84,6 @@ class AdminController extends CController
         }
         $this->notifications_count = Notifications::model()->count("is_new = 1");
 
-        //Список настроек
-        $this->settingsList = Setting::model()->findAll();
-        for ($i = 0; $i < count($this->settingsList); $i++)
-        {
-            $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
-            unset($this->settingsList[$i]);
-        }
-
         //Инициация функции повторного платежа
         $oldModels = Referrals::model()->findAll(array(
             'select'	=> '*',
@@ -119,8 +98,12 @@ class AdminController extends CController
                 $modelsToCreate[] = $oldModel;
             }
         }
+<<<<<<< HEAD
+        foreach ($modelsToCreate as $oldModel)
+=======
 
        foreach ($modelsToCreate as $oldModel)
+>>>>>>> 935000b2d7f8678c8d1621e4477553883083d578
         {
             $newModel = new Referrals;
             $newModel->attributes = $oldModel->attributes;

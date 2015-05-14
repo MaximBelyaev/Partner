@@ -68,7 +68,7 @@ class ApiController extends Controller
 		$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
 
 		# тут мы проверим, был ли уже заказ с таким email
-		$back = Referrals::model()->find('email LIKE "%' . $referral->email . '%" AND user_id != 0');
+		$back = Referrals::model()->find('email ="' . trim($referral->email) . '" AND user_id != 0');
 
 		# если человек с таким email уже был, 
 		# то новому заказу мы присваиваем имеющегося партнера
@@ -76,7 +76,7 @@ class ApiController extends Controller
 			$referral->user_id = (int)$back->user_id;
 		} elseif($partner_site) {
 			$q = new CDbCriteria( array(
-				'condition' => "site LIKE '%$partner_site%'",
+				'condition' => "site='$partner_site'",
 			));
 			$user = User::model()->find($q);
 			if ($user) {

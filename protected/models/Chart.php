@@ -22,7 +22,6 @@ class Chart
 				throw new CException("Указанный пользователь не найден");
 			}
 		} else {
-			throw new CException("Неверно указан пользователь");
 		}
 	}
 
@@ -31,6 +30,43 @@ class Chart
 		else if ( (int)$date > 0 ){ $date = (int)($date); }
 		return $date;
 	}
+
+	public function getRangeUsersData($start, $end)
+	{
+		$start = $this->formatDate($start);
+		$end   = $this->formatDate($end);
+		$dotsCount = Yii::app()->params['chartTimePoints'];
+		$delta = ($end-$start)/$dotsCount;
+
+
+		$users = User::model()->findAll(array(
+			'select'    => '*',
+			'condition' => 'UNIX_TIMESTAMP(reg_date) > :start and UNIX_TIMESTAMP(reg_date) < :end ',
+			'params'    => array( 
+				':start'  => $start, 
+				':end'    => $end 
+			),
+		));
+
+
+		$d = array();
+		for($i = 0; $i < $dotsCount; $i++) {
+			$intervalStart = $start + $delta*$i;
+			$intervalEnd   = $start + $delta*($i+1);
+			# var_dump('is - ' . $intervalStart);
+			# var_dump('ie - ' . $intervalEnd);
+			$d[$i][0]  = $intervalStart*1000;
+			$d[$i][1] = 0;
+			foreach ($users as $usr) {
+				if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd ) {
+					$d[$i][1]++;
+				}
+			}
+		}
+
+		return $d;
+	}
+
 
 	public function getRangeRequestsData($start, $end, $use_click_pay = null) {
 		
@@ -72,7 +108,7 @@ class Chart
 			':start' => $start, 
 			':end' => $end 
 		);
-		if (!is_null($use_click_pay)) {
+		if (is_null($use_click_pay)) {
 			$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
 		} else {
 			$condition = 'click_pay = :click_pay and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
@@ -102,7 +138,7 @@ class Chart
 	}
 
 
-	public function getRangeReferralsData($start, $end, $payed = false) {
+	public function getRangeReferralsData($start, $end, $payed = false, $distinct = false) {
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
 		
@@ -111,9 +147,18 @@ class Chart
 
 		if(is_null($this->user)) {
 			$data = $this->getAllRangeReferrals($start, $end);
+			if ( $payed ) {
+				$data = $this->getAllRangePayedReferrals($start, $end);
+			} elseif( $distinct ) {
+				$data = $this->getAllRangeDistinctReferrals($start, $end);
+			} else {
+				$data = $this->getAllRangeReferrals($start, $end);
+			}
 		} else {
-			if ($payed) {
+			if ( $payed ) {
 				$data = $this->getUserRangePayedReferrals($start, $end);
+			} elseif( $distinct ) {
+				$data = $this->getUserRangeDistinctReferrals($start, $end);
 			} else {
 				$data = $this->getUserRangeReferrals($start, $end);
 			}
@@ -139,13 +184,38 @@ class Chart
 		return $d;
 	}
 
-	public function getAllRangeReferrals($start, $end) {
+	public function getAllRangeReferrals( $start, $end ) {
 		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
 		$params    = array( 
 			':start' => $start, 
 			':end' => $end 
 		);
 		return $this->getRangeReferrals($condition, $params);
+	}
+
+	public function getAllRangePayedReferrals( $start, $end ) {
+		$condition = 'status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
+		$params    = array( 
+			':status' => Referrals::$STATUS_APPLIED, 
+			':start' => $start, 
+			':end' => $end 
+		);
+		return $this->getRangeReferrals($condition, $params);
+
+	}
+	public function getAllRangeDistinctReferrals( $start, $end ) {
+		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
+		$params    = array( 
+			':start' => $start, 
+			':end' => $end 
+		);
+		$requests = Referrals::model()->findAll(array(
+			'select' => 'email, date',
+			'distinct' => true,
+			'condition' => $condition,
+			'params' => $params,
+		));
+		return $requests;
 	}
 
 	public function getUserRangeReferrals($start, $end) {
@@ -176,6 +246,71 @@ class Chart
 			'params' => $params,
 		));
 		return $requests;
+	}
+
+	public function getRangeAllStat($start, $end) {
+
+		$stats = array();
+		$start = $this->formatDate($start);
+		$end   = $this->formatDate($end);
+
+		# все новые партнеры
+		$stats['new_partners'] = count(User::model()->findAll(
+			array(
+				'select'	=> 'reg_date',
+				'condition'	=> 'UNIX_TIMESTAMP(reg_date) > :start and UNIX_TIMESTAMP(reg_date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+				),
+			)
+		));
+
+		# все переходы
+		$stats['requests'] = count(Requests::model()->findAll(
+			array(
+				'select'	=> 'date',
+				'condition'	=> 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+				),
+			)
+		));
+
+		# все клиенты
+		$stats['referrals'] = count(Referrals::model()->findAll(
+			array(
+				'select'	=> 'date',
+				'condition'	=> 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+				),
+			)
+		));
+
+		# все заказы 
+		$payed = Referrals::model()->findAll(
+			array(
+				'select'	=> 'date, money',
+				'condition'	=> 'status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
+				'params'	=> array(
+					':start' => $start, 
+					':end'   => $end,
+					':status' => Referrals::$STATUS_APPLIED,
+				),
+			)
+		);
+
+		$stats['payed'] = count($payed);
+		$profit = 0;
+		foreach ($payed as $p) {
+			$profit = $profit + $p->money;
+		}
+		$stats['profit'] = $profit;
+		return $stats;
+
 	}
 
 	public function getRangeStat($start, $end) {
@@ -319,14 +454,8 @@ class Chart
 				'all_time_total' => $all_time_total, 
 				'use_click_pay' => (int)$this->user->use_click_pay
 			);
-		} else {
-
 		}
-
 	}
-
-
-
 
 }
 

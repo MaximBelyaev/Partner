@@ -71,8 +71,6 @@ $this->setPageTitle("Список партнеров | Партнерская п
 		'active',
 		'telephone',
 		*/
-
-        
         array(
             'header'=>'Действия',
             'class'=>'CButtonColumn',

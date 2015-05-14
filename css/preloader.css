@@ -1,0 +1,60 @@
+.preloader{
+	display: none;
+	width: 76px;
+	height: 90px;
+	position: absolute;
+	left: 46%;
+	background-size: 70%;
+	background-repeat: no-repeat;
+	top: 37%;
+	-webkit-animation: play 0.4s infinite;
+	animation: play 0.4s infinite;
+}
+.preloader_wrap {
+	display: none;
+	background-color: rgb(0,0,0);
+	opacity: 0.2;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+@-webkit-keyframes play {
+	0% { background-image: url(/css/preloader/0.png); } 
+	6,25% { background-image: url(/css/preloader/0.png); } 
+	12,5% { background-image: url(/css/preloader/1.png); }
+	18,75% { background-image: url(/css/preloader/2.png); }
+	25% { background-image: url(/css/preloader/3.png); } 
+	31,25% { background-image: url(/css/preloader/4.png); }
+	37,5% { background-image: url(/css/preloader/5.png); }
+	43,75% { background-image: url(/css/preloader/6.png); } 
+	50% { background-image: url(/css/preloader/7.png); }
+	56,25% { background-image: url(/css/preloader/8.png); }
+	62,5% { background-image: url(/css/preloader/9.png); } 
+	68,75% { background-image: url(/css/preloader/10.png); }
+	75% { background-image: url(/css/preloader/11.png); }
+	81,25% { background-image: url(/css/preloader/12.png); } 
+	87,5% { background-image: url(/css/preloader/13.png); }
+	93,75% { background-image: url(/css/preloader/14.png); }
+	100% { background-image: url(/css/preloader/15.png); }
+}
+@keyframes play {
+	6,25% { background-image: url(/css/preloader/0.png); } 
+	12,5% { background-image: url(/css/preloader/1.png); }
+	18,75% { background-image: url(/css/preloader/2.png); }
+	25% { background-image: url(/css/preloader/3.png); } 
+	31,25% { background-image: url(/css/preloader/4.png); }
+	37,5% { background-image: url(/css/preloader/5.png); }
+	43,75% { background-image: url(/css/preloader/6.png); } 
+	50% { background-image: url(/css/preloader/7.png); }
+	56,25% { background-image: url(/css/preloader/8.png); }
+	62,5% { background-image: url(/css/preloader/9.png); } 
+	68,75% { background-image: url(/css/preloader/10.png); }
+	75% { background-image: url(/css/preloader/11.png); }
+	81,25% { background-image: url(/css/preloader/12.png); } 
+	87,5% { background-image: url(/css/preloader/13.png); }
+	93,75% { background-image: url(/css/preloader/14.png); }
+	100% { background-image: url(/css/preloader/15.png); }
+}

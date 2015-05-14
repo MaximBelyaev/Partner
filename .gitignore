@@ -7,3 +7,5 @@ protected/runtime/*
 protected/data/*.db
 
 uploads/news/*
+*.sublime-project
+*.sublime-workspace
