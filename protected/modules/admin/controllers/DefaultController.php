@@ -14,16 +14,14 @@ class DefaultController extends AdminController
         //Лучшие партнёры за 30 дней
         $bestPartnersModel = User::model()->search('4', 'month_profit desc');
 
-
         $this->render('index',array(
             'userModel'=>$userModel,
             'referralModel'=>$referralModel,
             'statedsModel'=>$statedsModel,
             'bestPartnersModel'=>$bestPartnersModel,
         ));
-
-
     }
+
     public function recursion($model, $s = 0)
     {
         $start = $s;
