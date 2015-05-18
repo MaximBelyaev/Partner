@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Installation Script</title>
+    <title>Конфигурация базы данных</title>
 </head>
 <body>
 
-<form method="post" action="install.php">
+<form method="post" action="setup.php">
     <label for="username">Имя пользователя</label>
     <input type="text" name="db_username" id="username">
 
@@ -27,6 +27,7 @@ function tryConnection ()
 $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST['db_password']);
     if (!$connection)
     {
+        $_SESSION['isConfiguredDatabase'] = false;
         die("Соединение с базой данных не установлено: " . mysqli_connect_error());
     }
     else {
@@ -46,6 +47,8 @@ $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST[
                 ";dbname=" . $_POST['db_database'], $file_contents);
             file_put_contents($path_to_file, $file_contents);
         }
+        $_SESSION['isConfiguredDatabase'] = true;
+        header('Location: /activate.php');
     }
 
 }
