@@ -385,11 +385,11 @@ class UserController extends MyUserController
             $list->attributes=$_GET['Stateds'];
 
         $settings = [];
-        for ($i = 2; $i < 6; $i++)
+        foreach ($this->settingsList as $setting)
         {
-            if ($this->settingsList[$i]['status'] === '1')
+            if ($setting->status === '1' and  $setting->type === 'pay_service')
             {
-                $settings[$this->settingsList[$i]->header] = $this->settingsList[$i]->setDisplayIcon();
+                $settings[$setting->header] = $setting->setDisplayIcon();
             }
         }
 

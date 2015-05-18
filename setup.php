@@ -24,6 +24,7 @@
 <?php
 function tryConnection ()
 {
+    //Проверяем подключение к базе по введённым данным
 $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST['db_password']);
     if (!$connection)
     {
