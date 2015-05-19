@@ -30,6 +30,7 @@ class BannersController extends AdminController
 
 		if(isset($_POST['Banners']))
 		{
+			//Загрузка изображения
 			$rnd = rand(0,9999);
 			$model->attributes=$_POST['Banners'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
@@ -70,13 +71,14 @@ class BannersController extends AdminController
 			$model->attributes=$_POST['Banners'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
 			if($model->save())
-
-				if(!empty($uploadedFile))  // check if uploaded file is set or not
+			{
+				if(!empty($uploadedFile))  // проверка, присутствует ли изображение
 				{
 					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/' . $model->image);
 					Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 					$this->refresh();
 				}
+			}
 		}
 
 		$this->render('update',array(
