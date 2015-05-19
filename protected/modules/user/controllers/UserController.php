@@ -163,16 +163,24 @@ class UserController extends MyUserController
         ));
     }
 
+    public function actionFile()
+    {
+        header('Content-type: application/txt');//тут тип
+        header('Content-Disposition: attachment; filename="prt_' . Yii::app()->user->id . '.txt"');//имя
+        echo 'prt ' . Yii::app()->user->id;//файл
+    }
 
-    public function actionData() {
+
+    public function actionData()
+    {
         $model = User::model()->findByPk(Yii::app()->user->id);
 
         $this->performAjaxValidation($model);
         
         if(isset($_POST['User']))
         {
-            $model->old_site = $model->site; 
-            $model->attributes=$_POST['User'];
+            $model->old_site    = $model->site; 
+            $model->attributes  = $_POST['User'];
             if($model->save())
             {
                 Yii::app()->user->setFlash('success', "Данные успешно сохранены!");

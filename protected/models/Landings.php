@@ -41,5 +41,17 @@ class Landings extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function getIcon()
+	{
+		if ($this->icon) {
+			return "<img 
+				src='" . Yii::app()->params['uploadPath'] . $this->icon . "' 
+				class='land_icon'
+				title='" . $this->name . "'
+			>";
+		}
+		return '';
+	}
 }
 

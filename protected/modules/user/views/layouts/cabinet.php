@@ -30,7 +30,6 @@
             'items'=>array(
                 array('label'=>'Войти', 'url'=>array('/user/user/login'), 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'btn btn-success')),
                 array('label'=>'Регистрация', 'url'=>array('/user/user/registration'), 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'btn btn-success')),
-                array('label'=>'Выйти', 'url'=>array('/user/user/logout'), 'visible'=>!Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'btn btn-success'))
             ),
         )); ?>
     </nav>

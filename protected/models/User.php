@@ -30,6 +30,9 @@ class User extends CActiveRecord
 	public $referrals_count;
 	public $referrals_payed_count;
 	public $old_site = '';
+	public $month_profit;
+
+	public $warnings = array();
 
 	public function getProfit()
 	{
@@ -89,7 +92,7 @@ class User extends CActiveRecord
 			array('site', 'url', 'defaultScheme' => 'http'),
 			array('site, promo_code, money, requests_count, referrals_count, status, use_click_pay,
 			referrals_payed_count, id, role, username, full_profit, name, password, reg_date,
-			birth_date, sex, country, region, city, avatar, verification, active, telephone', 'safe', 'on' => 'search'),
+			birth_date, sex, country, region, city, avatar, verification, active, telephone, month_profit', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -137,6 +140,7 @@ class User extends CActiveRecord
 			'referrals_payed_count' => 'Всего заказов',
 			'use_click_pay' => 'Формат',
 			'click_pay' => 'Стоимость перехода',
+			'month_profit' => 'Прибыль за 30 дней'
 		);
 	}
 
@@ -156,6 +160,7 @@ class User extends CActiveRecord
 		$referrals_table = Referrals::model()->tableName();
 		$referrals_count_sql = "(SELECT COUNT(*) FROM $referrals_table reft WHERE reft.user_id = t.id) ";
 		$referrals_payed_sql = "(SELECT COUNT(*) FROM $referrals_table reft WHERE reft.user_id = t.id AND reft.status = 'Оплачено') ";
+		$month_profit_sql = "(SELECT SUM(money) FROM $referrals_table reft WHERE reft.user_id = t.id AND reft.date BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()) ";
 
 
 		$criteria->select = array(
@@ -163,11 +168,13 @@ class User extends CActiveRecord
 			$requests_count_sql . "as requests_count",
 			$referrals_count_sql . "as referrals_count",
 			$referrals_payed_sql . "as referrals_payed_count",
+			$month_profit_sql . "as month_profit",
 		);
 
 		$criteria->compare($requests_count_sql, $this->requests_count);
 		$criteria->compare($referrals_count_sql, $this->referrals_count);
 		$criteria->compare($referrals_payed_sql, $this->referrals_payed_count);
+		$criteria->compare($month_profit_sql, $this->month_profit);
 
 		$criteria->compare('t.id', $this->id);
 		$criteria->compare('t.reg_date', $this->reg_date, true);
@@ -205,6 +212,10 @@ class User extends CActiveRecord
 					'money.full_profit' => array(
 						'asc' => 'money.full_profit',
 						'desc' => 'money.full_profit DESC',
+					),
+					'month_profit' => array(
+						'asc' => 'month_profit',
+						'desc' => 'month_profit DESC',
 					),
 					'*',
 				),
@@ -253,6 +264,13 @@ class User extends CActiveRecord
 	{
 		parent::beforeSave();
 		
+		# если введен новый сайт и не установлен старый сайт
+		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
+			# устанавливаем сайт для подтверждения
+			$this->unc_site = $this->site;
+			# а старый сайт вернем
+			$this->site = $this->old_site;
+		}
 		/*
 		$this->site = trim(trim($this->site), '/');
 		if ($this->site != '') {
@@ -260,7 +278,7 @@ class User extends CActiveRecord
 			$host = parse_url($this->site, PHP_URL_HOST);
 			if (is_null($host)) {
 				$this->addError('site',
-					"Не удалось разобрать введенний URL. <br> 
+					"Не удалось разобрать введенный URL. <br> 
 					Попробуйте ввести заново или изменить формат ввода");
 			}
 			$is_excepted = Setting::model()->find('name = "exception_sites" AND value LIKE "%' . $host . '%"');
@@ -374,6 +392,11 @@ class User extends CActiveRecord
 		parent::afterFind();
 		$this->reg_date = date('d.m.Y', strtotime($this->reg_date));
 		$this->birth_date = date('d.m.Y', strtotime($this->birth_date));
+
+		if ($this->unc_site) {
+			$this->warnings['site'] = "У вас есть неподтвержденный сайт " . $this->unc_site . ".<br>Вставьте данный файл в корень вашего сайта <a href='/user/user/file'>prt_" . $this->id .  ".txt</a>";
+		}
+		return true;
 	}
 
 

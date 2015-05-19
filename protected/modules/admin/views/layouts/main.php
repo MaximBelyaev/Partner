@@ -21,11 +21,14 @@
     <div class="navbar-inner top-nav">
         <div class="container-fluid">
             <div class="nav pull-left landing_select">
-				<?php echo CHtml::dropDownList(
-						'landing_select', Yii::app()->session['landing'],
-						Yii::app()->controller->landings,
-						array('id' => 'landing_select')
-				); ?>
+
+				<?php if (Yii::app()->controller->landings) {
+					echo CHtml::dropDownList(
+							'landing_select', Yii::app()->session['landing'],
+							Yii::app()->controller->landings,
+							array('id' => 'landing_select')
+					); 
+				} ?>
             </div>
             <ul class="nav pull-right">
                 <li><?php echo CHtml::link($this->notifications_count ? "Уведомления <strong class='nots-white'>+{$this->notifications_count}</strong>" : "Уведомления",
@@ -45,21 +48,25 @@
     <?php $this->widget('zii.widgets.CMenu',array(
         'items'=>array(
 
-            array(
+			array(
+                'label'=>'<i class="icon-home"></i>Лендинги',
+                'url'=>array('/admin/landings/index'),
+			),
+			array(
                 'label'=>'<i class="icon-home"></i>Клиенты',
                 'url'=>array('/admin/referrals/index'),
-            ),
-            array(
+			),
+			array(
                 'label'=>'Добавить клиента',
                 'url'=>'#createRefModal',
                 'linkOptions' => array('data-toggle'=>'modal',
                 'data-target' => '#createRefModal'),
-            ),
-            array(
+			),
+			array(
                 'label'=>'Статистика',
                 'url'=>array('/admin/statistics/index'),
-            ),
-            array(
+			),
+			array(
                 'label'=>'<i class="icon-user"></i>Партнеры',
                 'url'=>array('/admin/user/index'),
             ),
@@ -171,6 +178,14 @@
                 <?php echo $form->dropDownList($newReferral,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
                 <?php echo $form->error($newReferral,'status'); ?>
             </div>
+
+			<?php if (Yii::app()->controller->landings) { ?>
+			<div class="form-group">
+				<?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
+				<?php echo $form->dropDownList( $newReferral, 'land_id', Yii::app()->controller->landings ); ?>
+				<?php echo $form->error( $newReferral, 'land_id' ); ?>
+			</div>
+			<?php } ?>
 
             <div class="form-group">
                 <?php echo $form->labelEx($newReferral,'recreate_interval'); ?>

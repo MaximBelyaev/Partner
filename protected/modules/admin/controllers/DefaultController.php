@@ -11,12 +11,18 @@ class DefaultController extends AdminController
         $userModel = User::model()->search('4', 't.id desc');
         $referralModel = Referrals::model()->search('4', 't.id desc');
         $statedsModel = Stateds::model()->search('4', 't.id desc');
+        //Лучшие партнёры за 30 дней
+        $bestPartnersModel = User::model()->search('4', 'month_profit desc');
+
 
         $this->render('index',array(
-            'referralModel'=>$referralModel,
             'userModel'=>$userModel,
+            'referralModel'=>$referralModel,
             'statedsModel'=>$statedsModel,
+            'bestPartnersModel'=>$bestPartnersModel,
         ));
+
+
     }
     public function recursion($model, $s = 0)
     {

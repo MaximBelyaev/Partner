@@ -53,11 +53,11 @@
 		<?php echo $form->error($model,'money'); ?>
 	</div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model,'site'); ?>
-        <?php echo $form->textField($model,'site'); ?>
-        <?php echo $form->error($model,'site'); ?>
-    </div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'site'); ?>
+		<?php echo $form->textField($model,'site'); ?>
+		<?php echo $form->error($model,'site'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
@@ -65,10 +65,18 @@
 		<?php echo $form->error($model,'status'); ?>
 	</div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model,'recreate_interval'); ?>
-        <?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
-    </div>
+	<?php if(Yii::app()->controller->landings){ ?>
+	<div class="form-group">
+		<?php echo $form->labelEx( $model, 'land_id' ); ?>
+		<?php echo $form->dropDownList( $model, 'land_id', Yii::app()->controller->landings ); ?>
+		<?php echo $form->error( $model, 'land_id' ); ?>
+	</div>
+	<?php } ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'recreate_interval'); ?>
+		<?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
+	</div>
 
 <?php $this->endWidget(); ?>
 

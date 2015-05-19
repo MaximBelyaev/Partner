@@ -5,7 +5,7 @@
 $this->setPageTitle("Рекламные материалы | Партнерская программа Павлуцкого Александра");
 ?>
     <text>Рекламная ссылка:</text>
-    <textarea rows="1"><?= $this->settingsList['landing_link']->value ?></textarea><br>
+    <textarea><?= $this->settingsList['landing_link']->value ?></textarea><br>
 <?php echo CHtml::beginForm(); ?>
 <?php echo CHtml::errorSummary($this->user); ?>
     <div class="row">
@@ -34,11 +34,9 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
             if ($banner->type == 'gif')
             {?>
               <li>  <?php $this->renderPartial('_gifcode', array('settingsList' => $this->settingsList, 'user' => $this->user,
-                'banner'=>$banner));
-?>
+                'banner'=>$banner)); ?>
         <text>Код:</text>
         <textarea><?= $banner->code; ?></textarea> </li>
-<?php
-            }
+<?php       }
         }
 ?>

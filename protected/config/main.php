@@ -103,6 +103,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
+        'uploadPath' => '/uploads/',
         'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
         'profit_percent' => 15,
         'adminName'  => 'Александр Павлуцкий',

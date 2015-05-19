@@ -171,7 +171,10 @@
 			width: 100%;
 			margin-bottom: 10px;
 		}
-
+		.warn {
+			color: #CF7801;
+			font-size: 11px;
+		}
 
 
 /* ================== Grid View ================= */
@@ -388,8 +391,17 @@ h3.stat_header {
 	width: 20px;
 	height: 20px;
 	margin-bottom: -6px;
-}.iconSettings {
+}
+.iconSettings {
 	background: url(../img/icn_settings.png) no-repeat;
+	background-position: 50% 100%;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-bottom: -6px;
+}
+.iconLogout {
+	background: url(../img/icon_quit.png) no-repeat;
 	background-position: 50% 100%;
 	display: inline-block;
 	width: 20px;

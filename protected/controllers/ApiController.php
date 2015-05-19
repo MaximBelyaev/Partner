@@ -9,15 +9,14 @@ class ApiController extends Controller
 	{
 		$site = isset($_GET['ref']) ? $_GET['ref'] : '';
 		$ip = isset($_GET['ip']) ? $_GET['ip'] : '';
-		$refer_id = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';;
+		$refer_id = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
+		$land_id = isset($_GET['land_id']) ? (int)$_GET['land_id'] : 1;
 
 		if (is_int($refer_id)) {
 			$user_id = $refer_id;
 			$user = User::model()->findByPk($user_id);
 		} else {
-			$q = new CDbCriteria( array(
-				'condition' => "site LIKE '%$site%'",
-			));
+			$q = new CDbCriteria( array( 'condition' => "site LIKE '%$site%'" ) );
 			$user = User::model()->find($q);
 			if ($user) {
 				$user_id = $user->id;
@@ -28,6 +27,7 @@ class ApiController extends Controller
 
 		$r = new Requests();
 		$r->ip = $ip;
+		$r->land_id = $land_id;
 		$r->date = date('Y-m-d');
 		if ($user && $user->use_click_pay) {
 			$r->click_pay = $user->use_click_pay;
@@ -63,6 +63,7 @@ class ApiController extends Controller
 		$referral->requests  = isset($_GET['requests']) ? trim($_GET['requests']) : '';
 		$referral->user_from = isset($_GET['user_from']) ? trim($_GET['user_from']) : '';
 		$referral->promo = isset($_GET['promo_code']) ? trim($_GET['promo_code']) : '';
+		$referral->land_id = isset($_GET['land_id']) ? (int)$_GET['land_id'] : 1;
 		
 		$partner_site = isset($_GET['ref']) ? $_GET['ref'] : '';
 		$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
@@ -75,9 +76,7 @@ class ApiController extends Controller
 		if ($back && (int)$back->user_id) {
 			$referral->user_id = (int)$back->user_id;
 		} elseif($partner_site) {
-			$q = new CDbCriteria( array(
-				'condition' => "site='$partner_site'",
-			));
+			$q = new CDbCriteria( array( 'condition' => "site='$partner_site'" ) );
 			$user = User::model()->find($q);
 			if ($user) {
 				$referral->user_id = $user->user_id;
@@ -91,7 +90,7 @@ class ApiController extends Controller
 		
 		$referral->save();
 		echo "<pre>";
-		var_dump($referral);
+		#var_dump($referral);
 		echo "</pre>";
 	} 
 }

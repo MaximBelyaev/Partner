@@ -10,8 +10,10 @@
 class Chart
 {
 	public $user = null;
+	protected $l;
 
 	public function __construct($user = null) {
+		$this->l = Yii::app()->session['landing']; 
 		if ($user instanceof User ) {
 			$this->user = $user;
 		} else if ((int)($user) > 0) {
@@ -21,7 +23,6 @@ class Chart
 			} else {
 				throw new CException("Указанный пользователь не найден");
 			}
-		} else {
 		}
 	}
 
@@ -106,13 +107,18 @@ class Chart
 	public function getAllRangeRequests($start, $end, $use_click_pay) {
 		$params    = array( 
 			':start' => $start, 
-			':end' => $end 
+			':end' 	 => $end
 		);
+		$date_line = ' UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		if (is_null($use_click_pay)) {
-			$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
+			$condition = $date_line;
 		} else {
-			$condition = 'click_pay = :click_pay and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
+			$condition = 'click_pay = :click_pay and ' . $date_line; 
 			$params[':click_pay'] = $use_click_pay;
+		}
+		if ($this->l) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
 		}
 		return $this->getRangeRequests($condition, $params);
 	}
@@ -190,6 +196,10 @@ class Chart
 			':start' => $start, 
 			':end' => $end 
 		);
+		if ( $this->l ) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
 		return $this->getRangeReferrals($condition, $params);
 	}
 
@@ -200,6 +210,10 @@ class Chart
 			':start' => $start, 
 			':end' => $end 
 		);
+		if ( $this->l ) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
 		return $this->getRangeReferrals($condition, $params);
 
 	}
@@ -209,6 +223,10 @@ class Chart
 			':start' => $start, 
 			':end' => $end 
 		);
+		if ( $this->l ) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
 		$requests = Referrals::model()->findAll(array(
 			'select' => 'email, date',
 			'distinct' => true,
@@ -267,50 +285,69 @@ class Chart
 		));
 
 		# все переходы
+		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+		$params = array(
+			':start' => $start, 
+			':end'   => $end,
+		);
+		if ($this->l) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
+
 		$stats['requests'] = count(Requests::model()->findAll(
 			array(
 				'select'	=> 'date',
-				'condition'	=> 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
-				'params'	=> array(
-					':start' => $start, 
-					':end'   => $end,
-				),
+				'condition'	=> $condition, 
+				'params'	=> $params,
 			)
 		));
 
 		# все клиенты
+		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+		$params = array(
+			':start' => $start, 
+			':end'   => $end,
+		);
+		if ($this->l) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
 		$stats['referrals'] = count(Referrals::model()->findAll(
 			array(
 				'select'	=> 'date',
-				'condition'	=> 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
-				'params'	=> array(
-					':start' => $start, 
-					':end'   => $end,
-				),
+				'condition'	=> $condition, 
+				'params'	=> $params,
 			)
 		));
 
 		# все заказы 
+
+		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+		$params = array(
+			':start'  => $start, 
+			':end'    => $end,
+			':status' => Referrals::$STATUS_APPLIED,
+		);
+		if ($this->l) {
+			$condition .= ' and land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
 		$payed = Referrals::model()->findAll(
 			array(
 				'select'	=> 'date, money',
-				'condition'	=> 'status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end', 
-				'params'	=> array(
-					':start' => $start, 
-					':end'   => $end,
-					':status' => Referrals::$STATUS_APPLIED,
-				),
+				'condition'	=> 'status = :status and ' . $condition, 
+				'params'	=> $params
 			)
 		);
-
 		$stats['payed'] = count($payed);
 		$profit = 0;
 		foreach ($payed as $p) {
 			$profit = $profit + $p->money;
 		}
 		$stats['profit'] = $profit;
+		
 		return $stats;
-
 	}
 
 	public function getRangeStat($start, $end) {

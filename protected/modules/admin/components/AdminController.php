@@ -70,7 +70,7 @@ class AdminController extends CController
 	public function init()
 	{
 		parent::init();
-
+        Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
 		if (count($landings) > 1) {
 			$lands = array( 0 => 'Все' );
@@ -96,6 +96,14 @@ class AdminController extends CController
             Yii::app()->user->setState('language', 'ru');
         }
         $this->notifications_count = Notifications::model()->count("is_new = 1");
+
+        //Список настроек
+        $this->settingsList = Setting::model()->findAll();
+        for ($i = 0; $i < count($this->settingsList); $i++)
+        {
+            $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+            unset($this->settingsList[$i]);
+        }
 
         //Инициация функции повторного платежа
         $oldModels = Referrals::model()->findAll(array(

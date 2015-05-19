@@ -61,5 +61,14 @@ $this->setPageTitle("Главное меню | Партнерская прогр
     ))); ?>
 
 <div class="head">
-    <h5>Лучшие партнёры</h5>
+    <h5>Лучшие партнёры за 30 дней</h5>
 </div>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'dataProvider' => $bestPartnersModel,
+    'enablePagination' => false,
+    'columns' => array(
+        'username',
+        'referrals_count',
+        'requests_count',
+        'month_profit',
+    ))); ?>

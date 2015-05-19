@@ -21,7 +21,7 @@ class StatisticsController extends AdminController
 		));
 	}
 
-	public function actionRange($start, $end, $type, $output_type)
+	public function actionRange($start, $end, $type, $output_type = 'both')
 	{
 		$chart = new Chart();
 		if ($output_type == 'chart' || $output_type == 'both') {
