@@ -59,7 +59,7 @@ $(document).ready(function() {
         var start = $('.current_range').data('start');
         var end   = $('.current_range').data('end');
         var type  = $(this).data('type');
-        loadRangeData(start, end, type);      
+        loadRangeData(start, end, type, 'chart');      
     });
 
     $('.table_top_buttons').find('button').not('#date_table').not('#table_show_range').on('click', function(event) {
@@ -79,7 +79,7 @@ $(document).ready(function() {
         var start = $(this).data('start');
         var end   = $(this).data('end');
         var type  = $('.current_type').data('type');
-        loadRangeData(start, end, type);
+        loadRangeData(start, end, type, 'chart');
     });
 
     $('#show_range').on('click', function(event) {
@@ -92,7 +92,7 @@ $(document).ready(function() {
         di.setAttribute('data-start', start);
         di.setAttribute('data-end', end);
         var type  = $('.current_type').data('type');
-        loadRangeData(start, end, type);
+        loadRangeData(start, end, type, 'chart');
     });
 
     $('#table_show_range').on('click', function(event) {
@@ -163,6 +163,7 @@ function loadRangeData(start, end, type, output_type) {
 		console.log(ans.responseText);
 	})
 	.always(function(ans) {
+        console.log(ans);
 		if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
 			$('.chart_wrap .preloader').add('.chart_wrap .preloader_wrap').fadeOut('200');
 		} 

@@ -32,6 +32,8 @@ class User extends CActiveRecord
 	public $old_site = '';
 	public $month_profit;
 
+	public $warnings = array();
+
 	public function getProfit()
 	{
 		if ($this->money)
@@ -262,6 +264,13 @@ class User extends CActiveRecord
 	{
 		parent::beforeSave();
 		
+		# если введен новый сайт и не установлен старый сайт
+		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
+			# устанавливаем сайт для подтверждения
+			$this->unc_site = $this->site;
+			# а старый сайт вернем
+			$this->site = $this->old_site;
+		}
 		/*
 		$this->site = trim(trim($this->site), '/');
 		if ($this->site != '') {
@@ -269,7 +278,7 @@ class User extends CActiveRecord
 			$host = parse_url($this->site, PHP_URL_HOST);
 			if (is_null($host)) {
 				$this->addError('site',
-					"Не удалось разобрать введенний URL. <br> 
+					"Не удалось разобрать введенный URL. <br> 
 					Попробуйте ввести заново или изменить формат ввода");
 			}
 			$is_excepted = Setting::model()->find('name = "exception_sites" AND value LIKE "%' . $host . '%"');
@@ -383,6 +392,11 @@ class User extends CActiveRecord
 		parent::afterFind();
 		$this->reg_date = date('d.m.Y', strtotime($this->reg_date));
 		$this->birth_date = date('d.m.Y', strtotime($this->birth_date));
+
+		if ($this->unc_site) {
+			$this->warnings['site'] = "У вас есть неподтвержденный сайт " . $this->unc_site . ".<br>Вставьте данный файл в корень вашего сайта <a href='/user/user/file'>prt_" . $this->id .  ".txt</a>";
+		}
+		return true;
 	}
 
 

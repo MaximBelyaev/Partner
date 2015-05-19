@@ -13,7 +13,7 @@ class SettingsController extends AdminController
 			{
 				if(isset($_POST['Setting'][$i]))
 				{
-					$item->attributes=$_POST['Setting'][$i];
+					$item->attributes = $_POST['Setting'][$i];
 				}
 				$valid = $item->validate() && $valid;
 			}

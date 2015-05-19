@@ -70,7 +70,7 @@ class AdminController extends CController
 	public function init()
 	{
 		parent::init();
-
+        Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
 		if (count($landings) > 1) {
 			$lands = array( 0 => 'Все' );

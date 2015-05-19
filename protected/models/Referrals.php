@@ -44,7 +44,7 @@ class Referrals extends CActiveRecord
 		return array(
 			array('email', 'required'),
 			array('email', 'email'),
-			array('id, tz, user_id', 'numerical', 'integerOnly'=>true),
+			array('id, tz, user_id, land_id', 'numerical', 'integerOnly'=>true),
 			array('email, site, region, request_type, promo', 'length', 'max'=>150),
 			array('requests, user_from, status, recreate_interval, recreate_date', 'length', 'max'=>255),
 			array('money', 'length', 'max'=>8),
@@ -62,7 +62,8 @@ class Referrals extends CActiveRecord
 	public function relations()
 	{
 		return array(
-            'user'=> array(self::BELONGS_TO, 'User', 'user_id'),
+			'user'		=> array( self::BELONGS_TO, 'User', 'user_id' ),
+			'landing'	=> array( self::BELONGS_TO, 'Landings', 'land_id' ),
 		);
 	}
 
@@ -72,22 +73,23 @@ class Referrals extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'email' => 'Email',
-			'site' => 'Адрес сайта',
-			'region' => 'Регион сбора запросов',
-			'tz' => 'Нужно ли ТЗ копирайтеру?',
+			'id'		=> 'ID',
+			'user_id'	=> 'User',
+			'land_id'	=> 'Лендинг',
+			'email'		=> 'Email',
+			'site'		=> 'Адрес сайта',
+			'region'	=> 'Регион сбора запросов',
+			'tz'		=> 'Нужно ли ТЗ копирайтеру?',
+			'requests'	=> 'Пример нужных запросов',
+			'user_from'	=> 'От какого партнера',
+			'money'		=> 'Сумма',
+			'status'	=> 'Статус',
+			'user'		=> 'От партнера',
+			'date'		=> 'Дата заявки',
+			'promo'		=> 'Промо код',
 			'request_type' => 'Какие запросы нужны?',
-			'requests' => 'Пример нужных запросов',
-			'user_from' => 'От какого партнера',
-			'money' => 'Сумма',
-			'status' => 'Статус',
-			'user_id' => 'User',
-			'user' => 'От партнера',
-			'recreate_interval' => 'Формат',
 			'recreate_date' => 'Дата повторной оплаты',
-			'date' => 'Дата заявки',
-            'promo' => 'Промо код',
+			'recreate_interval' => 'Формат',
 		);
 	}
 
@@ -107,22 +109,26 @@ class Referrals extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('site',$this->site,true);
-		$criteria->compare('region',$this->region,true);
-		$criteria->compare('tz',$this->tz);
-		$criteria->compare('request_type',$this->request_type,true);
-		$criteria->compare('requests',$this->requests,true);
-		$criteria->compare('user_from',$this->user_from,true);
-		$criteria->compare('money',$this->money,true);
-		$criteria->compare('status',$this->status,true);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('date',$this->date);
-		$criteria->compare('recreate_interval',$this->recreate_interval,true);
-		$criteria->compare('recreate_date',$this->recreate_date,true);
+		if (isset(Yii::app()->session['landing']) && Yii::app()->session['landing'] > 0) {
+			$criteria->compare('land_id', Yii::app()->session['landing']);
+		}
+
+		$criteria->compare('id',$this->id)
+			->compare('email',$this->email,true)
+			->compare('site',$this->site,true)
+			->compare('region',$this->region,true)
+			->compare('tz',$this->tz)
+			->compare('request_type',$this->request_type,true)
+			->compare('requests',$this->requests,true)
+			->compare('user_from',$this->user_from,true)
+			->compare('money',$this->money,true)
+			->compare('status',$this->status,true)
+			->compare('user_id',$this->user_id)
+			->compare('date',$this->date)
+			->compare('recreate_interval',$this->recreate_interval,true)
+			->compare('recreate_date',$this->recreate_date,true);
 		$criteria->order = 'date DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -322,4 +328,12 @@ class Referrals extends CActiveRecord
 			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/month_pay.png>";
 		}
 	}
+
+	public function getLandingIcon()
+	{
+		if (!is_null($this->landing)) {
+			return $this->landing->getIcon();
+		}
+	}
+
 }

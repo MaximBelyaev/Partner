@@ -27,11 +27,18 @@ class MyUserController extends Controller
     {
         return array(
             array('allow',
-                'actions' => array('login', 'registration', 'captcha', 'verify', 'foget'),
+                'actions' => array(
+                	'login', 'registration', 'captcha', 
+                	'verify', 'foget'
+                ),
                 'users' => array('*'),// для всех
             ),
             array('allow',
-                'actions' => array('index', 'range', 'logout', 'commercial', 'data', 'view', 'payRequest'),
+                'actions' => array(
+                	'index', 'range', 'logout', 
+                	'file', 'commercial', 'data', 
+                	'view', 'payRequest'
+                ),
                 'roles' => array('user'),// для авторизованных
             ),
             array('deny', // deny all users
@@ -42,9 +49,21 @@ class MyUserController extends Controller
 
     public function init()
     {
-        parent::init();
-        $this->user = User::model()->findByPk((int)Yii::app()->user->id);
+		parent::init();
+		$this->user = User::model()->findByPk((int)Yii::app()->user->id);
         
+		if(isset($this->user) && $this->user->unc_site) {
+			# если файла на сервере нет, то появится ошибка 404
+			# с помощью @ мы ее глушим
+			if( @fopen($this->user->unc_site . '/prt_' . $this->user->id . ".txt", 'r') ) {
+				# значит у пользователя есть доступ к сайту 
+				# и он может в него положить файл
+				$this->user->site 		= $this->user->unc_site;
+				$this->user->unc_site 	= '';
+				$this->user->save();
+			}
+		}
+
 
         if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
             Yii::app()->setLanguage('ru');
