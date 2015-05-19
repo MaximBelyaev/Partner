@@ -90,6 +90,7 @@ class Referrals extends CActiveRecord
 			'request_type' => 'Какие запросы нужны?',
 			'recreate_date' => 'Дата повторной оплаты',
 			'recreate_interval' => 'Формат',
+			'landing' => 'Лендинг',
 		);
 	}
 

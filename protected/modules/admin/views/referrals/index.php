@@ -35,6 +35,11 @@ $columns = array(
         'value' => '$data->status',
         'filter' => CHtml::activeDropDownList($model, 'status',array('Заявка'=>'Заявка','Оплачено'=>'Оплачено'), array('empty'=>'Все')),
     ),
+    array(
+        'name' => 'landing',
+        'type' => 'raw',
+        'value' => '$data->getLandingIcon()',
+    ),
     /*
     'region',
     'requests',

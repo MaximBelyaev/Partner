@@ -49,7 +49,7 @@
         'items'=>array(
 
 			array(
-                'label'=>'<i class="icon-home"></i>Лендинги',
+                'label'=>'<i class="icon-star"></i>Лендинги',
                 'url'=>array('/admin/landings/index'),
 			),
 			array(
