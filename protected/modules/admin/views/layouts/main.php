@@ -82,7 +82,7 @@
             ),
             array(
                 'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',
-                'url'=>array('/admin/advertising/index'),
+                'url'=>array('/admin/banners/index'),
             ),
             array(
                 'label'=>'Добавить баннер',
@@ -188,12 +188,13 @@
 			<?php } ?>
 
             <div class="form-group">
-                <?php echo $form->labelEx($newReferral,'recreate_interval'); ?>
+                <label class="required" for="Referrals_recreate_interval">
+                    Постоянная оплата
+                </label>
                 <?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
             </div>
 
-            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'), array('success' => 'function()
-            { alert("Клиент успешно добавлен"); }'), array('class' => 'btn btn-success')); ?>
+            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'), array('class' => 'btn btn-success')); ?>
 
             <?php $this->endWidget(); ?>
         </div>
