@@ -16,9 +16,7 @@ $this->setPageTitle("Редактирование информации | Пар�
 	'enableAjaxValidation'=>true,
 )); ?>
 
-	
 	<h3>Редактирование информации</h3>
-	
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'username'); ?>
@@ -54,11 +52,10 @@ $this->setPageTitle("Редактирование информации | Пар�
 		</label>
 		<?php echo $form->textField($model,'site',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'site'); ?>
-		<?php if ($model->warnings['site']) { ?>
+		<?php if (isset($model->warnings['site'])) { ?>
 			<div class="warn"><?= $model->warnings['site'] ?></div>
 		<?php } ?>
 	</div>
-
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'skype'); ?>
