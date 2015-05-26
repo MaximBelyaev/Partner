@@ -194,7 +194,24 @@
                 <?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
             </div>
 
-            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'), array('class' => 'btn btn-success')); ?>
+            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'),
+                array(
+                    'dataType'=>'json',
+                    'type'=>'post',
+                    'success'=>'function(data) {
+                        if(data.status=="success"){
+                         $("#formResult").html("Клиент добавлен успешно.");
+                         $("#create-referral-form")[0].reset();
+                        }
+                         else{
+                        $.each(data, function(key, val) {
+                        $("#create-referral #"+key+"_em_").text(val);
+                        $("#create-referral #"+key+"_em_").show();
+                        });
+                        }
+                    }',
+                ),
+                array('class' => 'btn btn-success')); ?>
 
             <?php $this->endWidget(); ?>
         </div>
@@ -213,6 +230,8 @@
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
+
+            <div class="errorMessage" id="formResult"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="form-group">
@@ -251,7 +270,24 @@
                 <?php echo $form->error($newUser,'click_pay'); ?>
             </div>
 
-            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('user/create'), array('class' => 'btn btn-success')); ?>
+            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('user/create'),
+                array(
+                    'dataType'=>'json',
+                    'type'=>'post',
+                    'success'=>'function(data) {
+                        if(data.status=="success"){
+                         $("#formResult").html("Партнёр добавлен успешно.");
+                         $("#create-user-form")[0].reset();
+                        }
+                         else{
+                        $.each(data, function(key, val) {
+                        $("#create-user-form #"+key+"_em_").text(val);
+                        $("#create-user-form #"+key+"_em_").show();
+                        });
+                        }
+                    }',
+                ),
+                array('class' => 'btn btn-success')); ?>
 
             <?php $this->endWidget(); ?>
         </div>

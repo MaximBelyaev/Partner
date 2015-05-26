@@ -15,6 +15,15 @@ class UserController extends AdminController
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
+
+			$valid=$model->validate();
+			if($valid){
+				echo CJSON::encode(array(
+					'status'=>'success'
+				));
+				Yii::app()->end();
+			}
+
             if($model->save())
             {
                 Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
