@@ -5,11 +5,6 @@
 $this->breadcrumbs=array(
 	'Рекламные материалы',
 );
-
-$this->menu=array(
-	array('label'=>'Create Banners', 'url'=>array('create')),
-	array('label'=>'Manage Banners', 'url'=>array('admin')),
-);
 ?>
 <div class="head">
 	<h5>Рекламные материалы</h5>
@@ -17,7 +12,9 @@ $this->menu=array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	'dataProvider' => $dataProvider,
+	'dataProvider' => $model->search(),
+	//'dataProvider' => $dataProvider,
+	'filter' => $model,
 	'columns' => array(
 		'name',
 		'type',
@@ -28,6 +25,30 @@ $this->menu=array(
 		),
 		'height',
 		'width',
-		'video_link'
+		'video_link',
+		array(
+			'header'=>'Действия',
+			'class'=>'CButtonColumn',
+			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+			'buttons'=>array
+			(
+				'update' => array
+				(
+					'label'=>'',
+					'options' => array(
+						'class' => "icon-pencil icon-white"
+					),
+					'imageUrl'=>'',
+				),
+				'delete' => array
+				(
+					'label'=>'',
+					'options' => array(
+						'class' => "icon-trash icon-white"
+					),
+					'imageUrl'=>'',
+				),
+			),
+		),
 	),
 ));

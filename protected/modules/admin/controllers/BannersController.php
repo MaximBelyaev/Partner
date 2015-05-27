@@ -6,6 +6,12 @@ class BannersController extends AdminController
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
+	private $typesList = array(
+		'gif' => 'GIF',
+		'flash' => 'Flash',
+		'promovideo' => 'Рекламное видео'
+	);
+
 	public function actionView($id)
 	{
 		$this->render('view',array(
@@ -20,11 +26,6 @@ class BannersController extends AdminController
 	public function actionCreate()
 	{
 		$model=new Banners;
-		$typesList = array(
-			'gif' => 'GIF',
-			'flash' => 'Flash',
-			'promovideo' => 'Рекламное видео'
-		);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -35,21 +36,20 @@ class BannersController extends AdminController
 			$model->attributes=$_POST['Banners'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
 			$fileName = "{$rnd}-{$uploadedFile}";
-			$model->image = $fileName;
-			if($model->save())
-			{
 				if ($uploadedFile)
 				{
 					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+					$model->image = $fileName;
 				}
+			$model->save();
 				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 				$this->refresh();
-			}
 		}
+
 
 		$this->render('create',array(
 			'model'=>$model,
-			'typesList'=>$typesList,
+			'typesList'=>$this->typesList,
 		));
 	}
 
@@ -67,21 +67,24 @@ class BannersController extends AdminController
 
 		if(isset($_POST['Banners']))
 		{
-			$_POST['Banners']['image'] = $model->image;
+			$_POST['Banners']['image'] = $model->image;;
 			$model->attributes=$_POST['Banners'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
-			if($model->save())
-			{
-				if(!empty($uploadedFile))  // проверка, присутствует ли изображение
+			if(!empty($uploadedFile))  // проверка, присутствует ли изображение
 				{
-					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/' . $model->image);
+					$rnd = rand(0,9999);
+					$fileName = "{$rnd}-{$uploadedFile}";
+					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+					unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
+					$model->image = $fileName;
+					$model->save();
 					Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 					$this->refresh();
 				}
-			}
 		}
 
 		$this->render('update',array(
+			'typesList'=>$this->typesList,
 			'model'=>$model,
 		));
 	}
@@ -93,7 +96,13 @@ class BannersController extends AdminController
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+		if ($model->image)
+		{
+			unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
+			$model->image = '';
+		}
+		$model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -105,9 +114,13 @@ class BannersController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Banners');
+		$model=new Banners('search');
+		$model->unsetAttributes();
+		if(isset($_GET['Banners']))
+			$model->attributes=$_GET['Banners'];
+
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'model'=>$model
 		));
 	}
 

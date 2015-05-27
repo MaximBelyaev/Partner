@@ -27,6 +27,15 @@
         <div class="clear"></div>
     </div>
 
+	<!---- Flash message ---->
+	<?php $this->beginWidget('FlashWidget',array(
+		'params'=>array(
+			'model' => $model,
+			'form' => $form,
+		)));
+	$this->endWidget(); ?>
+	<!---- End Flash message ---->
+
 	<div class="row">
 		<?php //echo $form->labelEx($model,'user_id'); ?>
 		<label for="Referrals_user_id">Привязать к партнеру</label>

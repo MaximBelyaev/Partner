@@ -134,11 +134,13 @@
             <?php $form=$this->beginWidget('CActiveForm', array(
                 'action'=>array('referrals/create'),
                 'id'=>'create-referral-form',
-                'enableAjaxValidation' => false,
+                'enableAjaxValidation' => true,
                 'clientOptions'=>array(
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
+
+            <div class="errorMessage" id="formResult"></div>
             <h4 class="modal-title">Добавить клиента</h4>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="form-group">
@@ -231,7 +233,7 @@
                 ),
             )); ?>
 
-            <div class="errorMessage" id="formResult"></div>
+            <div class="errorMessage" id="formResultUser"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="form-group">
@@ -276,7 +278,7 @@
                     'type'=>'post',
                     'success'=>'function(data) {
                         if(data.status=="success"){
-                         $("#formResult").html("Партнёр добавлен успешно.");
+                         $("#formResultUser").html("Партнёр добавлен успешно.");
                          $("#create-user-form")[0].reset();
                         }
                          else{

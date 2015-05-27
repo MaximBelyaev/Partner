@@ -18,7 +18,7 @@
     <label for="database">База данных</label>
     <input type="text" name="db_database" id="database">
 
-    <input type="submit" value="click" name="submit"> <!-- assign a name for the button -->
+    <input type="submit" value="Подтвердить" name="submit"> <!-- assign a name for the button -->
 </form>
 
 <?php

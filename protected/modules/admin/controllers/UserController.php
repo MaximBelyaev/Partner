@@ -15,6 +15,7 @@ class UserController extends AdminController
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
+			$model->save();
 
 			$valid=$model->validate();
 			if($valid){

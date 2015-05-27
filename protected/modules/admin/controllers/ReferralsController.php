@@ -20,6 +20,7 @@ class ReferralsController extends AdminController
 		{
 			$model->attributes=$_POST['Referrals'];
 			$model->setRecreate();
+			$model->save();
 
 			$valid=$model->validate();
 			if($valid){
