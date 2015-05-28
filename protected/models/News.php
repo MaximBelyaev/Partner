@@ -149,7 +149,7 @@ class News extends CActiveRecord
 			$email->contentType = 'utf-8';
 			$email->subject = "Партнерка по семантике: {$this->header}";
 			$email->message = str_replace('src="', 'src="' . Yii::app()->getBaseUrl(true), $this->text);
-			$email->send();
+			# $email->send();
 		}
 	}
 

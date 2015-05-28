@@ -103,12 +103,38 @@ class DefaultController extends AdminController
         $this->render('login',array('model'=>$model));
     }
 
-    /**
-     * Logs out the current user and redirect to homepage.
-     */
-    public function actionLogout()
-    {
-        Yii::app()->user->logout();
-        $this->redirect(Yii::app()->homeUrl);
-    }
+	/**
+	 * Logs out the current user and redirect to homepage.
+	 */
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->homeUrl);
+	}
+
+
+
+	public function actionUpdate()
+	{
+		# получим лицензионный код покупателя
+		$l = file_get_contents('license.txt');
+		if ($l)
+		{
+			# ссылка на сервер для обновления
+			$zipFileURL = 'http://prtserver.loc/api/update/' . $l;
+			$data = file_get_contents($zipFileURL);
+
+			if($data)
+			{
+				$load_path = 'uploads/update_archive.zip';
+				if( file_put_contents( $load_path, $data ) )
+				{
+					$zip = new ZipArchive();
+					$zip->open($load_path);
+					$zip->extractTo('./');
+					$zip->close();
+				}
+			}
+		}
+	}
 }

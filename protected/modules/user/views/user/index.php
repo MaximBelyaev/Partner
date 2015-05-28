@@ -25,6 +25,9 @@ $this->setPageTitle("Главная | Партнерская программа 
 
 <div class="small-box bg-green">
     <div class="inner">
+    	<h3>
+    		Обновлено!
+    	</h3>
 		<?php if (count($statistic) ) { ?>
 		<h3 class="stat_header">
 			Ваша статистика:
