@@ -5,7 +5,7 @@ $this->setPageTitle("Список лендингов");
 ?>
 
 <div class="head">
-	<h5>Управление партнерами</h5>
+	<h5>Лэндинги</h5>
 	<div class="button_save">
 		<?php echo CHtml::link('<i class="icon-plus"></i> Добавить',array('/admin/landings/create'), array('class'=>'btn btn-success',)); ?>
 	</div>

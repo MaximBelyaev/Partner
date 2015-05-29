@@ -16,9 +16,7 @@ $this->setPageTitle("Редактирование информации | Пар�
 	'enableAjaxValidation'=>true,
 )); ?>
 
-	
 	<h3>Редактирование информации</h3>
-	
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'username'); ?>
@@ -58,7 +56,6 @@ $this->setPageTitle("Редактирование информации | Пар�
 			<div class="warn"><?= $model->warnings['site'] ?></div>
 		<?php } ?>
 	</div>
-
 
 	<div class="row">
 		<?php //echo $form->labelEx($model,'skype'); ?>
