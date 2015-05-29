@@ -9,7 +9,7 @@
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/bootstrap.js"></script>
     <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
-    
+
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
     <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
@@ -27,7 +27,7 @@
 							'landing_select', Yii::app()->session['landing'],
 							Yii::app()->controller->landings,
 							array('id' => 'landing_select')
-					); 
+					);
 				} ?>
             </div>
             <ul class="nav pull-right">
@@ -232,7 +232,6 @@
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
-
             <div class="errorMessage" id="formResultUser"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -268,7 +267,7 @@
 
             <div class="form-group" id="hidden" style="display:none">
                 <?php echo $form->labelEx($newUser,'click_pay'); ?>
-                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => '2')); ?>
+                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['click_pay']->value)); ?>
                 <?php echo $form->error($newUser,'click_pay'); ?>
             </div>
 

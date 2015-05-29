@@ -4,7 +4,11 @@
     <title>Конфигурация базы данных</title>
 </head>
 <body>
-
+<?php
+    $config = include(dirname(__FILE__) . '/protected/config/main.php');
+    if ($config['params']['dbsetup'] !== "activated")
+    {
+?>
 <form method="post" action="setup.php">
     <label for="username">Имя пользователя</label>
     <input type="text" name="db_username" id="username">
@@ -20,6 +24,11 @@
 
     <input type="submit" value="Подтвердить" name="submit"> <!-- assign a name for the button -->
 </form>
+
+<?php
+    }
+    else echo "База данных уже установлена"
+?>
 
 <?php
 function tryConnection ()
@@ -56,7 +65,6 @@ $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST[
         }
         header('Location: /activate.php');
     }
-
 }
     if (isset($_POST['submit']))
     {

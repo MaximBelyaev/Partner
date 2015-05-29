@@ -9,6 +9,14 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	<h5>Настройки</h5>
 </div>
 
+<!---- Flash message ---->
+<?php $this->beginWidget('FlashWidget',array(
+	'params'=>array(
+		'model' => $model,
+	)));
+$this->endWidget(); ?>
+<!---- End Flash message ---->
+
 <div class="form">
 		<?php echo CHtml::beginForm(); ?>
 

@@ -4,7 +4,11 @@
     <title>Активация</title>
 </head>
 <body>
-
+<?php
+    $config = include(dirname(__FILE__) . '/protected/config/main.php');
+    if ($config['params']['activation'] !== "activated")
+    {
+?>
 <form method="post" action="activate.php">
     <label for="license">Лицензионный код</label>
     <input type="text" name="license_code" id="license">
@@ -12,20 +16,25 @@
 </form>
 
 <?php
+    }
+    else echo "Лицензия уже активирована."
+?>
+
+<?php
 function tryActivate ()
 {
-    //Получаем код и ссылку
-    $licenceCode = file_get_contents("license.txt");
-    $zipFileURL = 'http://prtserver.shvets.net/api/check/' . $licenceCode;
-    $data = file_get_contents($zipFileURL);
-
     //Сохраняем старое значение (неактивированная лицензия)
     $config = include(dirname(__FILE__) . '/protected/config/main.php');
     $activation = $config['params']['activation'];
     $activatedState = "activated";
 
+    //Получаем код и ссылку
+    $licenseCode = file_get_contents("license.txt");
+    $zipFileURL = 'http://prtserver.shvets.net/api/check/' . $licenseCode;
+    $data = file_get_contents($zipFileURL);
+
     //Проверяем, совпадает ли код с кодом из файла и по базе данных админки с лицензиями
-    if ($_POST['license_code'] === $licenceCode and $data === "exists")
+    if ($_POST['license_code'] === $licenseCode and $data === "exists")
     {
         //Заменяем строку в конфиге
         $path_to_file = dirname(__FILE__) . '/protected/config/main.php';
