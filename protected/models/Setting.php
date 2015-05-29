@@ -27,10 +27,10 @@ class Setting extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, header', 'length', 'max'=>128),
-			array('value, status', 'length', 'max'=>4095),
+			array('value, status, type', 'length', 'max'=>4095),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('setting_id, name, value, status', 'safe', 'on'=>'search'),
+			array('setting_id, name, value, status, type', 'safe', 'on'=>'search'),
 		);
 	}
 

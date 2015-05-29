@@ -83,7 +83,9 @@
 	<?php } ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'recreate_interval'); ?>
+		<label class="required" for="Referrals_recreate_interval">
+			Постоянная оплата
+		</label>
 		<?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
 	</div>
 
