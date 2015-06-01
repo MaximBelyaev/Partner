@@ -66,12 +66,32 @@
 		<?php echo $form->error($model,'site'); ?>
 	</div>
 
-	<div class="row" id="hidden" style="display:none">
+	<div class="row" id="hidden2" style="display:none">
 		<?php echo $form->labelEx($model,'click_pay'); ?>
-		<?php echo $form->textField($model,'click_pay', array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => isset($model->click_pay) ?
+			 $model->click_pay : '2')); ?>
 		<?php echo $form->error($model,'click_pay'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+	$(document).ready(function() {
+		var e = document.getElementById("User_use_click_pay");
+		var defaultValue = document.getElementById("User_use_click_pay").options[e.selectedIndex].value;
+		if (defaultValue == "1")
+		{
+			$("#hidden2").show();
+		}
+
+		$('#User_use_click_pay').change(function(){
+			if ($(this).val() == "1") {
+				$("#hidden2").show();
+			} else {
+				$("#hidden2").hide();
+			}
+		});
+	});
+</script>

@@ -20,7 +20,7 @@
 			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</div>
 		<div class="button_save">
-			<?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/advertising/index'), array('class'=>'btn btn-success',)); ?>
+			<?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/banners/index'), array('class'=>'btn btn-success',)); ?>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -74,7 +74,7 @@
 
 	<?php if($model->isNewRecord!='1'){ ?>
 	<div class="row">
-		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/images/'.$model->image,"image",array("width"=>200)); }?>
+		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); }?>
 	</div>
 
 <?php $this->endWidget(); ?>

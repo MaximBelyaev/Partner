@@ -14,13 +14,22 @@ class ReferralsController extends AdminController
 	{
 		$model=new Referrals;
 		$model->date = date('Y-m-d H:i:s', time());
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Referrals']))
 		{
 			$model->attributes=$_POST['Referrals'];
 			$model->setRecreate();
+			$model->save();
+
+			$valid=$model->validate();
+			if($valid){
+				echo CJSON::encode(array(
+					'status'=>'success'
+				));
+				Yii::app()->end();
+			}
+
 			if($model->save()){
 				$this->redirect(array('index','id'=>$model->id));
 			}

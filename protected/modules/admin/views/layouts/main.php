@@ -49,7 +49,7 @@
         'items'=>array(
 
 			array(
-                'label'=>'<i class="icon-home"></i>Лендинги',
+                'label'=>'<i class="icon-star"></i>Лендинги',
                 'url'=>array('/admin/landings/index'),
 			),
 			array(
@@ -82,7 +82,7 @@
             ),
             array(
                 'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',
-                'url'=>array('/admin/advertising/index'),
+                'url'=>array('/admin/banners/index'),
             ),
             array(
                 'label'=>'Добавить баннер',
@@ -134,11 +134,13 @@
             <?php $form=$this->beginWidget('CActiveForm', array(
                 'action'=>array('referrals/create'),
                 'id'=>'create-referral-form',
-                'enableAjaxValidation' => false,
+                'enableAjaxValidation' => true,
                 'clientOptions'=>array(
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
+
+            <div class="errorMessage" id="formResult"></div>
             <h4 class="modal-title">Добавить клиента</h4>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="form-group">
@@ -188,12 +190,30 @@
 			<?php } ?>
 
             <div class="form-group">
-                <?php echo $form->labelEx($newReferral,'recreate_interval'); ?>
+                <label class="required" for="Referrals_recreate_interval">
+                    Постоянная оплата
+                </label>
                 <?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
             </div>
 
-            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'), array('success' => 'function()
-            { alert("Клиент успешно добавлен"); }'), array('class' => 'btn btn-success')); ?>
+            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('referrals/create'),
+                array(
+                    'dataType'=>'json',
+                    'type'=>'post',
+                    'success'=>'function(data) {
+                        if(data.status=="success"){
+                         $("#formResult").html("Клиент добавлен успешно.");
+                         $("#create-referral-form")[0].reset();
+                        }
+                         else{
+                        $.each(data, function(key, val) {
+                        $("#create-referral #"+key+"_em_").text(val);
+                        $("#create-referral #"+key+"_em_").show();
+                        });
+                        }
+                    }',
+                ),
+                array('class' => 'btn btn-success')); ?>
 
             <?php $this->endWidget(); ?>
         </div>
@@ -212,6 +232,8 @@
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
+
+            <div class="errorMessage" id="formResultUser"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <div class="form-group">
@@ -250,7 +272,24 @@
                 <?php echo $form->error($newUser,'click_pay'); ?>
             </div>
 
-            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('user/create'), array('class' => 'btn btn-success')); ?>
+            <?php echo CHtml::ajaxSubmitButton("Сохранить", $this->createUrl('user/create'),
+                array(
+                    'dataType'=>'json',
+                    'type'=>'post',
+                    'success'=>'function(data) {
+                        if(data.status=="success"){
+                         $("#formResultUser").html("Партнёр добавлен успешно.");
+                         $("#create-user-form")[0].reset();
+                        }
+                         else{
+                        $.each(data, function(key, val) {
+                        $("#create-user-form #"+key+"_em_").text(val);
+                        $("#create-user-form #"+key+"_em_").show();
+                        });
+                        }
+                    }',
+                ),
+                array('class' => 'btn btn-success')); ?>
 
             <?php $this->endWidget(); ?>
         </div>

@@ -36,6 +36,15 @@ class Landings extends CActiveRecord
 		);
 	}
 
+	public function attributeLabels()
+	{
+		return array(
+			'link' => 'Ссылка',
+			'icon' => 'Изображение',
+			'name' => 'Название',
+			'land_id' => 'ID',
+		);
+	}
 	
 	public static function model($className = __CLASS__)
 	{

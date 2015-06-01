@@ -1,26 +1,26 @@
-<?php
-/* @var $this UploadController */
-/* @var $model Upload */
-/* @var $form CActiveForm */
-?>
-<?php echo CHtml::form();
+<div class="head">
+	<h2>Обновляшки!</h2>
+</div>
 
-echo CHtml::label('Текст', 'input');
-echo CHtml::textArea('input', $input);
+<div class="grid-view">
+	
+	<?php #if($hasUpdate) { ?>
+	<p>Есть новое обновление</p>
+	
+	<p>
+		<button id="sys_update">Обновить систему</button>		
+		<span class='preloader upd'></span>
+		
+		<div class="upd_msg"></div>
+	</p>
 
-echo CHtml::label('Результат', 'output');
-// name и id для textarea автоматически заданы как 'output'.
-echo CHtml::textArea('output', $output);
+	<?php #} ?>
 
-// Второй параметр пуст, значит отсылаем данные на тот же URL. Третий параметр задаёт опции запроса. Подробнее с ними можно ознакомиться в документации jQuery.
-echo CHtml::ajaxSubmitButton('Обработать', '', array(
-        'type' => 'POST',
-        // Результат запроса записываем в элемент, найденный по CSS-селектору #output.
-        'update' => '#output',
-    ),
-    array(
-        // Меняем тип элемента на submit, чтобы у пользователей с отключенным JavaScript всё было хорошо.
-        'type' => 'submit'
-    ));
+	<p>Текущая версия: <strong> <?= $meta->current_version ?> </strong> </p>
 
-echo CHtml::endForm();?>
+	<p>Последняя доступная версия: <strong> <?= $meta->latest_version ?> </strong> </p>
+	
+	<p>Ваш статус: <strong> <?= $meta->current_status ?> </strong> </p>
+	
+
+</div>

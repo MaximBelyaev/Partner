@@ -115,6 +115,16 @@ class Banners extends CActiveRecord
 		return true;
 	}
 
+	protected function afterFind()
+	{
+		parent::afterFind();
+		if (!Yii::app()->request->baseUrl.'uploads/'.$this->image)
+		{
+			$this->image = '';
+		}
+		return true;
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

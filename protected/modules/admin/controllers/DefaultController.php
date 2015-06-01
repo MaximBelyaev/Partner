@@ -6,27 +6,27 @@ class DefaultController extends AdminController
      * when an action is not explicitly requested by users.
      */
 
-    public function actionIndex()
-    {
-        //Список новых партнёров
-        $userModel = User::model()->search('4', 't.id desc');
+	public function actionIndex()
+	{
+		//Список новых партнёров
+		$userModel = User::model()->search('4', 't.id desc');
 
-        //Список новых клиентов
-        $referralModel = Referrals::model()->search('4', 't.id desc');
+		//Список новых клиентов
+		$referralModel = Referrals::model()->search('4', 't.id desc');
 
-        //Последние заявки
-        $statedsModel = Stateds::model()->search('4', 't.id desc');
+		//Последние заявки
+		$statedsModel = Stateds::model()->search('4', 't.id desc');
 
-        //Лучшие партнёры за 30 дней
-        $bestPartnersModel = User::model()->search('4', 'month_profit desc');
+		//Лучшие партнёры за 30 дней
+		$bestPartnersModel = User::model()->search('4', 'month_profit desc');
 
-        $this->render('index',array(
-            'userModel'=>$userModel,
-            'referralModel'=>$referralModel,
-            'statedsModel'=>$statedsModel,
-            'bestPartnersModel'=>$bestPartnersModel,
-        ));
-    }
+		$this->render('index',array(
+			'userModel'=>$userModel,
+			'referralModel'=>$referralModel,
+			'statedsModel'=>$statedsModel,
+			'bestPartnersModel'=>$bestPartnersModel,
+		));
+	}
 
     public function recursion($model, $s = 0)
     {
@@ -112,16 +112,58 @@ class DefaultController extends AdminController
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
+    public function actionUpdate()
+    {
+    	$cs = Yii::app()->clientScript;
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sys_update.js');
 
+		$meta = $this->updateMeta('latest_version');
+		$cv = explode('.', $meta->current_version);
+		$lv = explode('.', $meta->latest_version);
+		
+		$max = max(count($cv), count($lv));
+		$hasUpdate = false;
+		for ($i=0; $i<$max; $i++)
+		{ 
+			if (isset($lv[$i]))
+			{
+				if (isset($cv[$i]))
+				{
+					if ($lv[$i]>$cv[$i])
+					{
+						$hasUpdate = true;
+						break;
+					}
+				}
+				else
+				{
+					$hasUpdate = true;
+					break;
+				}
+			}
+			else
+			{
 
-	public function actionUpdate()
+			} 
+		}
+
+		$this->render( 
+			'update', 
+			array(
+				'meta' => $meta, 
+				'hasUpdate' => $hasUpdate
+			)
+		);
+    }
+
+	public function actionDownloadAndUpdate()
 	{
-		# получим лицензионный код покупателя
-		$l = file_get_contents('license.txt');
+		$l = $this->getLicense();
+
 		if ($l)
 		{
 			# ссылка на сервер для обновления
-			$zipFileURL = 'http://prtserver.loc/api/update/' . $l;
+			$zipFileURL = Yii::app()->params['updateServer'] . 'update/' . $l;
 			$data = file_get_contents($zipFileURL);
 
 			if($data)
@@ -132,9 +174,96 @@ class DefaultController extends AdminController
 					$zip = new ZipArchive();
 					$zip->open($load_path);
 					$zip->extractTo('./');
-					$zip->close();
+					if ( $zip->close() ) {
+						$this->updateMeta('current_version');
+						$status = 'ok';
+						$msg = "Система обновлена";
+					}
+					else
+					{
+						$status = 'error';
+						$msg = "Не удалось распаковать архив";	
+					}
+				}
+				else
+				{
+					$status = 'error';
+					$msg = 'Не удалось сохранить архив с обновлением';
+				}
+			}
+			else
+			{
+				$status = 'error';
+				$msg = 'Не удалось скачать архив с обновлением';
+			}
+		}
+		else
+		{
+			$status = 'error';
+			$msg = 'Не найден файл с лицензией';
+		}
+
+		echo json_encode(array(
+			'status'=> $status,
+			'msg'	=> $msg
+		));
+	}
+
+	public function updateMeta($param = false)
+	{
+		$l = $this->getLicense();
+		if ($l) {
+			$metaData = file_get_contents(Yii::app()->params['updateServer'] . 'lastupdate/' . $l);
+			$encMeta = json_decode($metaData);
+			if (!$param) {
+				if(is_file('meta.json'))
+				{
+					file_put_contents('meta.json', $metaData);
+				}
+				return $encMeta;
+			# если указан параметр, то обновляем только его
+			} else {
+				if (is_file('meta.json')) {
+					if (isset($encMeta->$param)) {
+						$currentMeta = file_get_contents('meta.json');
+						$currentMeta = json_decode($currentMeta);
+						if (!is_null($currentMeta)) {
+							$currentMeta->$param = $encMeta->$param;
+						}
+						else
+						{
+							$currentMeta = $encMeta;
+						}
+						file_put_contents('meta.json', json_encode($currentMeta));
+						return $currentMeta;
+					}
 				}
 			}
 		}
+	}
+
+	public function getLicense()
+	{
+		# получим лицензионный код покупателя
+		if(is_file('meta.json'))
+		{
+			$meta = file_get_contents('meta.json');
+			$meta = json_decode($meta);
+			if ($meta) {
+				$l = $meta->licence;
+			}
+		} 
+		
+		if (!isset($l) or is_null($l) or !$l) {
+			if (is_file('license.txt'))
+			{
+				$l = file_get_contents('license.txt');
+			}
+			else
+			{
+				$l = false;
+			}
+		}
+		return $l;
 	}
 }
