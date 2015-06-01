@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `banners`
+-- Структура таблицы `promobanns`
 --
 
 CREATE TABLE IF NOT EXISTS `banners` (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `banners` (
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
--- Дамп данных таблицы `banners`
+-- Дамп данных таблицы `promobanns`
 --
 
 INSERT INTO `banners` (`id`, `type`, `name`, `image`, `width`, `height`, `code`, `video_link`) VALUES
@@ -16105,7 +16105,7 @@ INSERT INTO `user` (`id`, `role`, `username`, `name`, `password`, `site`, `reg_d
 --
 
 --
--- Индексы таблицы `banners`
+-- Индексы таблицы `promobanns`
 --
 ALTER TABLE `banners`
  ADD PRIMARY KEY (`id`);
@@ -16175,7 +16175,7 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT для таблицы `banners`
+-- AUTO_INCREMENT для таблицы `promobanns`
 --
 ALTER TABLE `banners`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;

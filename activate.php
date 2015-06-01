@@ -16,12 +16,16 @@
 <form method="post" action="activate.php">
     <label for="license">Лицензионный код</label>
     <input type="text" name="license_code" id="license">
-    <input type="submit" value="Активировать лицензию" name="submit"> <!-- assign a name for the button -->
+    <input type="submit" value="Активировать лицензию" name="submit">
 </form>
 
-<?php
+    <?php
     }
-    else echo "Лицензия уже активирована."
+    else
+    { ?>
+        Лицензия уже активирована.
+        <a href="/">Перейти на главную</a>
+    <?php  }
 ?>
 
 <?php
@@ -47,11 +51,9 @@ function tryActivate ()
         file_put_contents($path_to_file, $file_contents);
         header("Location: success.php");
     }
-    else
-    {
-        echo "Неверный код";
-    }
+    else echo "Неверный код";
 }
+
 if (isset($_POST['submit']))
 {
     tryActivate();

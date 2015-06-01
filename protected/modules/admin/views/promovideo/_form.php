@@ -20,7 +20,7 @@
 			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</div>
 		<div class="button_save">
-			<?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/banners/index'), array('class'=>'btn btn-success',)); ?>
+			<?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/promobanns/index'), array('class'=>'btn btn-success',)); ?>
 		</div>
 		<div class="clear"></div>
 	</div>

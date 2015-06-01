@@ -74,11 +74,11 @@
             ),
             array(
                 'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',
-                'url'=>array('/admin/banners/index'),
+                'url'=>array('/admin/promobanns/index'),
             ),
             array(
                 'label'=>'Добавить рекламные материалы',
-                'url'=>array('/admin/banners/create'),
+                'url'=>array('/admin/promobanns/create'),
             ),
             array(
                 'label'=>'<i class="icon-list-alt"></i>Новости',

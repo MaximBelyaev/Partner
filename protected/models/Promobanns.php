@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "banners".
+ * This is the model class for table "promobanns".
  *
- * The followings are the available columns in table 'banners':
+ * The followings are the available columns in table 'promobanns':
  * @property integer $id
  * @property string $type
  * @property string $name
@@ -11,14 +11,14 @@
  * @property integer $width
  * @property integer $height
  */
-class Banners extends CActiveRecord
+class Promobanns extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'banners';
+		return 'promobanns';
 	}
 
 	/**

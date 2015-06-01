@@ -377,7 +377,7 @@ class UserController extends MyUserController
 
 	public function actionCommercial()
 	{
-        $bannersList = Banners::model()->findAll();
+        $bannersList = Promobanns::model()->findAll();
         $promovideosList = Promovideo::model()->findAll();
         $this->render('commercial', array(
         	'user' => $this->user,

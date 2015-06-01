@@ -1,6 +1,6 @@
 <?php
 
-class BannersController extends AdminController
+class PromobannsController extends AdminController
 {
 	/**
 	 * Displays a particular model.
@@ -24,7 +24,7 @@ class BannersController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new Banners;
+		$model=new Promobanns;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -35,11 +35,11 @@ class BannersController extends AdminController
 			$videoModel->save();
 			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 		}
-		if(isset($_POST['Banners']))
+		if(isset($_POST['Promobanns']))
 		{
 			//Загрузка изображения
 			$rnd = rand(0,9999);
-			$model->attributes=$_POST['Banners'];
+			$model->attributes=$_POST['Promobanns'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
 			$fileName = "{$rnd}-{$uploadedFile}";
 				if ($uploadedFile)
@@ -71,10 +71,10 @@ class BannersController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Banners']))
+		if(isset($_POST['Promobanns']))
 		{
-			$_POST['Banners']['image'] = $model->image;;
-			$model->attributes=$_POST['Banners'];
+			$_POST['Promobanns']['image'] = $model->image;;
+			$model->attributes=$_POST['Promobanns'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
 			if(!empty($uploadedFile))  // проверка, присутствует ли изображение
 				{
@@ -120,10 +120,10 @@ class BannersController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$model=new Banners('search');
+		$model=new Promobanns('search');
 		$model->unsetAttributes();
-		if(isset($_GET['Banners']))
-			$model->attributes=$_GET['Banners'];
+		if(isset($_GET['Promobanns']))
+			$model->attributes=$_GET['Promobanns'];
 
 		$this->render('index',array(
 			'model'=>$model
@@ -135,10 +135,10 @@ class BannersController extends AdminController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Banners('search');
+		$model=new Promobanns('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Banners']))
-			$model->attributes=$_GET['Banners'];
+		if(isset($_GET['Promobanns']))
+			$model->attributes=$_GET['Promobanns'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -154,7 +154,7 @@ class BannersController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=Banners::model()->findByPk($id);
+		$model=Promobanns::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -166,7 +166,7 @@ class BannersController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='banners-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='promobanns-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

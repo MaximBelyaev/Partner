@@ -22,12 +22,16 @@
     <label for="database">База данных</label>
     <input type="text" name="db_database" id="database">
 
-    <input type="submit" value="Подтвердить" name="submit"> <!-- assign a name for the button -->
+    <input type="submit" value="Подтвердить" name="submit">
 </form>
 
 <?php
     }
-    else echo "База данных уже установлена"
+    else
+    { ?>
+        База данных уже установлена.
+        <a href="/">Перейти на главную</a>
+  <?php  }
 ?>
 
 <?php
