@@ -161,5 +161,11 @@ class News extends CActiveRecord
 			$nw->delete();
 		}
 	}
+    protected function afterFind()
+    {
+        parent::afterFind();
+        $this->date = date('d.m.Y', strtotime($this->date));
 
+        return true;
+    }
 }

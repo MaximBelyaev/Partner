@@ -4,8 +4,8 @@
 /* @var $form CActiveForm */
 $this->setPageTitle("Рекламные материалы | Партнерская программа Павлуцкого Александра");
 ?>
-    <text>Рекламная ссылка:</text>
-    <textarea><?= $this->settingsList['landing_link']->value ?></textarea><br>
+    <label for="link">Рекламная ссылка:</label>
+    <textarea id="link"><?= $this->settingsList['landing_link']->value ?></textarea><br>
 <?php echo CHtml::beginForm(); ?>
 <?php echo CHtml::errorSummary($this->user); ?>
     <div class="row">
@@ -18,11 +18,11 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
 <?php echo CHtml::endForm(); ?>
 
 <?php if (count($promovideosList)) { ?>
-    <text>Рекламное видео:</text>
+    <label for="video">Рекламное видео:</label>
     <ul>
     <?php foreach ($promovideosList as $video) {
         ?>
-        <li><textarea><?= $video->link; ?></textarea></li>
+        <li><textarea id="video"><?= $video->link; ?></textarea></li>
         </ul>
     <?php
     }
@@ -32,13 +32,14 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
         <text>Баннеры:</text>
         <ul>
     <?php
+
     foreach ($bannersList as $banner)
     {
         ?>
               <li>  <?php $this->renderPartial('_gifcode', array('settingsList' => $this->settingsList, 'user' => $this->user,
             'banner' => $banner)); ?>
-        <text>Код:</text>
-        <textarea onfocus="$(this).select()"><?= $banner->code; ?></textarea> </li>
+        <label for="code">Код:</label>
+        <textarea onclick="this.select()" id="code"><?= $banner->code; ?></textarea> </li>
 <?php
         }
     }
