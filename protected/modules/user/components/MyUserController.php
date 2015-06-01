@@ -50,9 +50,22 @@ class MyUserController extends Controller
     public function init()
     {
 		parent::init();
-		$this->user = User::model()->findByPk((int)Yii::app()->user->id);
-        
-		if(isset($this->user) && $this->user->unc_site) {
+
+        if (Yii::app()->params->dbsetup !== "activated")
+        {
+            header('Location: /setup.php');
+            exit();
+        }
+
+        if (Yii::app()->params->activation !== "activated")
+        {
+            header('Location: /activate.php');
+            exit();
+        }
+
+        $this->user = User::model()->findByPk((int)Yii::app()->user->id);
+
+        if(isset($this->user) && $this->user->unc_site) {
 			# если файла на сервере нет, то появится ошибка 404
 			# с помощью @ мы ее глушим
 			if( @fopen($this->user->unc_site . '/prt_' . $this->user->id . ".txt", 'r') ) {
@@ -63,7 +76,6 @@ class MyUserController extends Controller
 				$this->user->save();
 			}
 		}
-
 
         if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
             Yii::app()->setLanguage('ru');

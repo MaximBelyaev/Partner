@@ -63,10 +63,6 @@
                 'data-target' => '#createRefModal'),
 			),
 			array(
-                'label'=>'Статистика',
-                'url'=>array('/admin/statistics/index'),
-			),
-			array(
                 'label'=>'<i class="icon-user"></i>Партнеры',
                 'url'=>array('/admin/user/index'),
             ),
@@ -77,15 +73,11 @@
                 'data-target' => '#createModal'),
             ),
             array(
-                'label'=>'Статистика',
-                'url'=>array('/admin/statistics/index'),
-            ),
-            array(
                 'label'=>'<i class="icon-facetime-video"></i>Рекламные материалы',
                 'url'=>array('/admin/banners/index'),
             ),
             array(
-                'label'=>'Добавить баннер',
+                'label'=>'Добавить рекламные материалы',
                 'url'=>array('/admin/banners/create'),
             ),
             array(
@@ -95,10 +87,6 @@
             array(
                 'label'=>'Добавить новость',
                 'url'=>array('/admin/news/create'),
-            ),
-            array(
-                'label'=>'Просмотр новостей',
-                'url'=>array('/admin/news/index'),
             ),
 			array(
 				'label'=>'<i class="icon-file"></i>Заявки на вывод средств',

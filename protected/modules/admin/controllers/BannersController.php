@@ -8,8 +8,7 @@ class BannersController extends AdminController
 	 */
 	private $typesList = array(
 		'gif' => 'GIF',
-		'flash' => 'Flash',
-		'promovideo' => 'Рекламное видео'
+		'jpg' => 'JPEG'
 	);
 
 	public function actionView($id)
@@ -29,6 +28,13 @@ class BannersController extends AdminController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+		$videoModel = new Promovideo;
+		if(isset($_POST['Promovideo']))
+		{
+			$videoModel->attributes=$_POST['Promovideo'];
+			$videoModel->save();
+			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+		}
 		if(isset($_POST['Banners']))
 		{
 			//Загрузка изображения
@@ -43,13 +49,13 @@ class BannersController extends AdminController
 				}
 			$model->save();
 				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
-				$this->refresh();
 		}
 
 
 		$this->render('create',array(
 			'model'=>$model,
 			'typesList'=>$this->typesList,
+			'videoModel'=>$videoModel
 		));
 	}
 

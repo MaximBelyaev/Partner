@@ -10,4 +10,4 @@ $this->breadcrumbs=array(
 $this->setPageTitle("Добавление баннера | Партнерская программа Павлуцкого Александра");
 ?>
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'typesList'=>$typesList)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'typesList'=>$typesList, 'videoModel'=>$videoModel)); ?>

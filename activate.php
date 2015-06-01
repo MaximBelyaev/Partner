@@ -6,6 +6,10 @@
 <body>
 <?php
     $config = include(dirname(__FILE__) . '/protected/config/main.php');
+    if ($config['params']['dbsetup'] !== "activated")
+    {
+        header('Location: /setup.php');
+    }
     if ($config['params']['activation'] !== "activated")
     {
 ?>
@@ -41,7 +45,7 @@ function tryActivate ()
         $file_contents = file_get_contents($path_to_file);
         $file_contents = str_replace($activation, $activatedState, $file_contents);
         file_put_contents($path_to_file, $file_contents);
-        header('Location: /success.php');
+        header("Location: success.php");
     }
     else
     {

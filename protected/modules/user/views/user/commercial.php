@@ -17,26 +17,29 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
     </div>
 <?php echo CHtml::endForm(); ?>
 
+<?php if (count($promovideosList)) { ?>
     <text>Рекламное видео:</text>
-<ul>
-<?php   foreach ($bannersList as $banner)
-        {
-            if ($banner->type == 'promovideo')
-            {?>
-                <li><textarea><?= $banner->video_link; ?></textarea></li>
-<?php       } ?>
-</ul>
-<?php
-        } ?>
-<ul>
-<?php   foreach ($bannersList as $banner)
-        {
-            if ($banner->type == 'gif')
-            {?>
+    <ul>
+    <?php foreach ($promovideosList as $video) {
+        ?>
+        <li><textarea><?= $video->link; ?></textarea></li>
+        </ul>
+    <?php
+    }
+}?>
+    <?php if (count($bannersList))
+    { ?>
+        <text>Баннеры:</text>
+        <ul>
+    <?php
+    foreach ($bannersList as $banner)
+    {
+        ?>
               <li>  <?php $this->renderPartial('_gifcode', array('settingsList' => $this->settingsList, 'user' => $this->user,
-                'banner'=>$banner)); ?>
+            'banner' => $banner)); ?>
         <text>Код:</text>
-        <textarea><?= $banner->code; ?></textarea> </li>
-<?php       }
+        <textarea onfocus="$(this).select()"><?= $banner->code; ?></textarea> </li>
+<?php
         }
+    }
 ?>

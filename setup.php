@@ -52,7 +52,8 @@ $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST[
         $newDbStatus = 'activated';
 
         //Заменяем старые значения на ввод пользователя
-        if ($_POST['db_username'] != '' and $_POST['db_server'] != '' and $_POST['db_database'] != '') {
+        if ($_POST['db_username'] != '' and $_POST['db_server'] != '' and $_POST['db_database'] != '')
+        {
             $path_to_file = dirname(__FILE__) . '/protected/config/main.php';
             $file_contents = file_get_contents($path_to_file);
             $file_contents = str_replace($defaultUsername, $_POST['db_username'], $file_contents);
@@ -61,9 +62,7 @@ $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST[
                 ";dbname=" . $_POST['db_database'], $file_contents);
             $file_contents = str_replace($defaultDbStatus, $newDbStatus, $file_contents);
             file_put_contents($path_to_file, $file_contents);
-
         }
-        header('Location: /activate.php');
     }
 }
     if (isset($_POST['submit']))
