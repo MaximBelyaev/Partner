@@ -1,11 +1,11 @@
 <?php 
 
-if ($_SERVER['SERVER_NAME'] == 'partner.shvets.net') {
+if ($_SERVER['SERVER_NAME'] == 'prt.loc') {
 	return array(
 		'connectionString' => 'mysql:host=localhost;dbname=partner',
 		'emulatePrepare' => true,
 		'username' => 'root',
-		'password' => 'bo0aszw7fa',
+		'password' => '',
 		'charset' => 'utf8',
 	);
 } else {
@@ -13,7 +13,7 @@ if ($_SERVER['SERVER_NAME'] == 'partner.shvets.net') {
 		'connectionString' => 'mysql:host=localhost;dbname=partner',
 		'emulatePrepare' => true,
 		'username' => 'root',
-		'password' => '',
+		'password' => 'bo0aszw7fa',
 		'charset' => 'utf8',
 	);
 }

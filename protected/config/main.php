@@ -72,13 +72,7 @@ return array(
                 '<language:(ru|uk)>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
             ),
         ),
-        'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=partner',
-            'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
-        ),
+        'db' => include "db.php",
         'errorHandler'=>array(
             // use 'site/error' action to display errors
             'errorAction'=>'site/error',
@@ -112,5 +106,6 @@ return array(
         'adminEmail' => 'some.nugget@gmail.com',
         // количество точек, на которые мы разобьем ось Х на графике
         'chartTimePoints' => 15,
+        'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
     ),
 );
