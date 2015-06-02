@@ -29,13 +29,12 @@ class Promobanns extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('name, type, image', 'required'),
 			array('width, height', 'numerical', 'integerOnly'=>true),
 			array('type, name, image', 'length', 'max'=>255),
-			array('video_link', 'length', 'max'=>255),
-			array('code', 'length', 'max'=>65000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, name, image, width, height, video_link', 'safe', 'on'=>'search'),
+			array('id, type, name, image, width, height', 'safe', 'on'=>'search'),
 			array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true, 'on'=>'update'),
 		);
 	}
@@ -63,7 +62,6 @@ class Promobanns extends CActiveRecord
 			'image' => 'Изображение',
 			'width' => 'Ширина',
 			'height' => 'Высота',
-			'video_link' => 'Рекламное видео',
 		);
 	}
 
@@ -118,10 +116,6 @@ class Promobanns extends CActiveRecord
 	protected function afterFind()
 	{
 		parent::afterFind();
-		if (!Yii::app()->request->baseUrl.'uploads/'.$this->image)
-		{
-			$this->image = '';
-		}
 		return true;
 	}
 

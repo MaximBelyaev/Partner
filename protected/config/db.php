@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if ($_SERVER['SERVER_NAME'] == 'prt.loc') {
 	return array(
@@ -17,6 +17,5 @@ if ($_SERVER['SERVER_NAME'] == 'prt.loc') {
 		'charset' => 'utf8',
 	);
 }
-
 ?>
 

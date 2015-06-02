@@ -34,7 +34,7 @@
                 <li><?php echo CHtml::link($this->notifications_count ? "Уведомления <strong class='nots-white'>+{$this->notifications_count}</strong>" : "Уведомления",
                         array('notifications/index')); ?></li>
                 <li><?php echo CHtml::link('<i class="icon-wrench icon"></i>Настройки',array('settings/index')); ?></li>
-                <li><?php echo CHtml::link('Статистика',array('default/index')); ?></li>
+                <li><?php echo CHtml::link('Статистика',array('statistics/index')); ?></li>
                 <li><?php echo CHtml::link('<i class="icon-share-alt"></i>Партнёрка',array('/user/user/index')); ?></li>
                 <li><?php echo CHtml::link('<i class="icon-off icon"></i>Выйти ('.Yii::app()->user->name.')',array('default/logout')); ?></li>
             </ul>

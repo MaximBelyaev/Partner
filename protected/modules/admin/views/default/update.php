@@ -1,5 +1,5 @@
 <div class="head">
-	<h2>Обновляшки!</h2>
+	<h2>Обновление</h2>
 </div>
 
 <div class="grid-view">

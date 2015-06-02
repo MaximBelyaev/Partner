@@ -5,6 +5,9 @@
 </head>
 <body>
 <?php
+$sql = include(dirname(__FILE__) . '/dump/partner_structure.sql');
+var_dump($sql);
+exit();
     $config = include(dirname(__FILE__) . '/protected/config/main.php');
     if ($config['params']['dbsetup'] !== "activated")
     {
@@ -66,6 +69,10 @@ $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST[
                 ";dbname=" . $_POST['db_database'], $file_contents);
             $file_contents = str_replace($defaultDbStatus, $newDbStatus, $file_contents);
             file_put_contents($path_to_file, $file_contents);
+
+        //Создаём таблицы и данные в базе
+
+            header("Location: /activate.php");
         }
     }
 }

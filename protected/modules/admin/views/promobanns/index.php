@@ -25,7 +25,6 @@ $this->breadcrumbs=array(
 		),
 		'height',
 		'width',
-		'video_link',
 		array(
 			'header'=>'Действия',
 			'class'=>'CButtonColumn',

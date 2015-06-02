@@ -34,6 +34,7 @@ class PromobannsController extends AdminController
 			$videoModel->attributes=$_POST['Promovideo'];
 			$videoModel->save();
 			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			$this->refresh();
 		}
 		if(isset($_POST['Promobanns']))
 		{
@@ -47,15 +48,17 @@ class PromobannsController extends AdminController
 					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
 					$model->image = $fileName;
 				}
-			$model->save();
+			if ($model->save())
+			{
 				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			}
 		}
 
 
 		$this->render('create',array(
 			'model'=>$model,
 			'typesList'=>$this->typesList,
-			'videoModel'=>$videoModel
+			'videoModel'=>$videoModel,
 		));
 	}
 

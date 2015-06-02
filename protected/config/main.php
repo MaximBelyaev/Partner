@@ -1,14 +1,11 @@
 <?php
-
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     'name'=>'Партнерская программа Павлуцкого Александра',
-
     // preloading 'log' component
     'preload' => array(
         'debug',
@@ -16,7 +13,6 @@ return array(
     //language for project
     'sourceLanguage'=>'en',
     'language'=>'ru',
-
     // autoloading model and component classes
     'import'=>array(
         'application.models.*',
@@ -32,7 +28,6 @@ return array(
         'user',
         'admin',
     ),
-
     // application components
     'components'=>array(
         'debug' => array(
@@ -42,10 +37,10 @@ return array(
             'enableCookieValidation'=>true,
             'enableCsrfValidation'=>false,
         ),
-		'email' => array(
+        'email' => array(
             'class'=>'application.extensions.email.Email',
             'delivery' => 'php',
-		),
+        ),
         'user'=>array(
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
@@ -72,7 +67,13 @@ return array(
                 '<language:(ru|uk)>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
             ),
         ),
-        'db' => include "db.php",
+        'db' => array(
+            'connectionString' => 'asdsadsar',
+            'emulatePrepare' => true,
+            'username' => 'sadada',
+            'password' => 'asdsada',
+            'charset' => 'utf8',
+            ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
             'errorAction'=>'site/error',
@@ -93,13 +94,12 @@ return array(
             ),
         ),
     ),
-
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
         'uploadPath' => '/uploads/',
-        'activation' => 'activated',
-        'dbsetup' => 'activated',
+        'activation' => 'none',
+        'dbsetup' => 'none',
         'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
         'profit_percent' => 15,
         'adminName'  => 'Александр Павлуцкий',

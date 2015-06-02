@@ -8,14 +8,14 @@
 
 	<?php $form=$this->beginWidget('CActiveForm', array(
 		'id'=>'promovideo-form',
-		'enableAjaxValidation'=>true,
+		'enableAjaxValidation'=>false,
 		'htmlOptions' => array(
 			'enctype' => 'multipart/form-data',
 		),
 	)); ?>
 
 	<div class="head">
-		<h5><?php echo $model->isNewRecord ? 'Добавление рекламного видео' : 'Редактирование рекламного видео: '.$model->name; ?></h5>
+		<h5><?php echo 'Добавление рекламного видео' ?></h5>
 		<div class="button_save">
 			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</div>
@@ -28,8 +28,8 @@
 	<!---- Flash message ---->
 	<?php $this->beginWidget('FlashWidget',array(
 		'params'=>array(
-			'model' => $videoModel,
 			'form' => $form,
+			'model'=>$model
 		)));
 	$this->endWidget(); ?>
 	<!---- End Flash message ---->
@@ -37,9 +37,9 @@
 	<div class="clear"></div>
 
 	<div class="row">
-		<?php echo $form->labelEx($videoModel,'link'); ?>
-		<?php echo $form->textField($videoModel, 'link'); ?>
-		<?php echo $form->error($videoModel,'link'); ?>
+		<?php echo $form->labelEx($model,'link'); ?>
+		<?php echo $form->textField($model, 'link'); ?>
+		<?php echo $form->error($model,'link'); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>
