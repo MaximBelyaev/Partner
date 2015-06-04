@@ -1,24 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "banners".
+ * This is the model class for table "promovideo".
  *
- * The followings are the available columns in table 'banners':
+ * The followings are the available columns in table 'promovideo':
  * @property integer $id
- * @property string $type
- * @property string $name
- * @property string $image
- * @property integer $width
- * @property integer $height
+ * @property string $link
  */
-class Banners extends CActiveRecord
+class Promovideo extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'banners';
+		return 'promovideo';
 	}
 
 	/**
@@ -29,14 +25,11 @@ class Banners extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('width, height', 'numerical', 'integerOnly'=>true),
-			array('type, name, image', 'length', 'max'=>255),
-			array('video_link', 'length', 'max'=>255),
-			array('code', 'length', 'max'=>65000),
+			array('link', 'required'),
+			array('link', 'length', 'max'=>4096),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, name, image, width, height, video_link', 'safe', 'on'=>'search'),
-			array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true, 'on'=>'update'),
+			array('id, link', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,12 +51,7 @@ class Banners extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'type' => 'Тип',
-			'name' => 'Название',
-			'image' => 'Изображение',
-			'width' => 'Ширина',
-			'height' => 'Высота',
-			'video_link' => 'Рекламное видео',
+			'link' => 'Ссылка',
 		);
 	}
 
@@ -86,11 +74,7 @@ class Banners extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('type',$this->type,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('image',$this->image,true);
-		$criteria->compare('width',$this->width);
-		$criteria->compare('height',$this->height);
+		$criteria->compare('link',$this->link,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,30 +85,8 @@ class Banners extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Banners the static model class
+	 * @return Promovideo the static model class
 	 */
-
-	protected function beforeSave()
-	{
-		if (parent::beforeSave()) {
-			if ($this->type === 'gif')
-			{
-
-			}
-		}
-		return true;
-	}
-
-	protected function afterFind()
-	{
-		parent::afterFind();
-		if (!Yii::app()->request->baseUrl.'uploads/'.$this->image)
-		{
-			$this->image = '';
-		}
-		return true;
-	}
-
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -1,21 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "settings".
+ * This is the model class for table "promobanns".
  *
- * The followings are the available columns in table 'settings':
- * @property integer $setting_id
+ * The followings are the available columns in table 'promobanns':
+ * @property integer $id
+ * @property string $type
  * @property string $name
- * @property string $value
+ * @property string $image
+ * @property integer $width
+ * @property integer $height
  */
-class Setting extends CActiveRecord
+class Promobanns extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'settings';
+		return 'promobanns';
 	}
 
 	/**
@@ -26,12 +29,14 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, header, status', 'length', 'max'=>128),
-			array('type', 'length', 'max'=>255),
-			array('value', 'length', 'max'=>4095),
+			array('width, height', 'numerical', 'integerOnly'=>true),
+			array('type, name, image', 'length', 'max'=>255),
+			array('video_link', 'length', 'max'=>255),
+			array('code', 'length', 'max'=>65000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('setting_id, name, value, status, type', 'safe', 'on'=>'search'),
+			array('id, type, name, image, width, height, video_link', 'safe', 'on'=>'search'),
+			array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true, 'on'=>'update'),
 		);
 	}
 
@@ -52,10 +57,13 @@ class Setting extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'setting_id' => 'ID',
-			'name' => 'Имя',
-			'value' => 'Значение',
-			'status' => 'Статус'
+			'id' => 'ID',
+			'type' => 'Тип',
+			'name' => 'Название',
+			'image' => 'Изображение',
+			'width' => 'Ширина',
+			'height' => 'Высота',
+			'video_link' => 'Рекламное видео',
 		);
 	}
 
@@ -77,10 +85,12 @@ class Setting extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('setting_id',$this->setting_id);
+		$criteria->compare('id',$this->id);
+		$criteria->compare('type',$this->type,true);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('value',$this->value,true);
-		$criteria->compare('status',$this->status,true);
+		$criteria->compare('image',$this->image,true);
+		$criteria->compare('width',$this->width);
+		$criteria->compare('height',$this->height);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,27 +101,28 @@ class Setting extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Settings the static model class
+	 * @return Banners the static model class
 	 */
 
-	public function setDisplayIcon()
+	protected function beforeSave()
 	{
-		if ($this->name === 'qiwi')
-		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/qiwi_icon.jpg>";
+		if (parent::beforeSave()) {
+			if ($this->type === 'gif')
+			{
+
+			}
 		}
-		else if ($this->name === 'webmoney')
+		return true;
+	}
+
+	protected function afterFind()
+	{
+		parent::afterFind();
+		if (!Yii::app()->request->baseUrl.'uploads/'.$this->image)
 		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/webmoney_icon2.png>";
+			$this->image = '';
 		}
-		else if ($this->name === 'paypal')
-		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/paypal_icon.png>";
-		}
-		else if ($this->name === 'yandex_money')
-		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/yandexmoney_icon.png>";
-		}
+		return true;
 	}
 
 	public static function model($className=__CLASS__)

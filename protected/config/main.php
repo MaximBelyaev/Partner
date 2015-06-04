@@ -98,6 +98,8 @@ return array(
     // using Yii::app()->params['paramName']
     'params'=>array(
         'uploadPath' => '/uploads/',
+        'activation' => 'activated',
+        'dbsetup' => 'activated',
         'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
         'profit_percent' => 15,
         'adminName'  => 'Александр Павлуцкий',

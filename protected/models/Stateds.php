@@ -140,6 +140,8 @@ class Stateds extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
+        $this->date = date('d.m.Y', strtotime($this->date));
+        return true;
     }
 
     /**

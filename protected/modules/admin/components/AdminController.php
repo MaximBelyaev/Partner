@@ -71,6 +71,18 @@ class AdminController extends CController
 	public function init()
 	{
 		parent::init();
+        if (Yii::app()->params->dbsetup !== "activated")
+        {
+            header('Location: /setup.php');
+            exit();
+        }
+
+        if (Yii::app()->params->activation !== "activated")
+        {
+            header('Location: /activate.php');
+            exit();
+        }
+
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
 		if (count($landings) > 1) {

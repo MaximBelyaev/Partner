@@ -4,8 +4,8 @@
 /* @var $form CActiveForm */
 $this->setPageTitle("Рекламные материалы | Партнерская программа Павлуцкого Александра");
 ?>
-    <text>Рекламная ссылка:</text>
-    <textarea><?= $this->settingsList['landing_link']->value ?></textarea><br>
+    <label for="link">Рекламная ссылка:</label>
+    <textarea id="link"><?= $this->settingsList['landing_link']->value ?></textarea><br>
 <?php echo CHtml::beginForm(); ?>
 <?php echo CHtml::errorSummary($this->user); ?>
     <div class="row">
@@ -17,26 +17,30 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
     </div>
 <?php echo CHtml::endForm(); ?>
 
-    <text>Рекламное видео:</text>
-<ul>
-<?php   foreach ($bannersList as $banner)
-        {
-            if ($banner->type == 'promovideo')
-            {?>
-                <li><textarea><?= $banner->video_link; ?></textarea></li>
-<?php       } ?>
-</ul>
-<?php
-        } ?>
-<ul>
-<?php   foreach ($bannersList as $banner)
-        {
-            if ($banner->type == 'gif')
-            {?>
+<?php if (count($promovideosList)) { ?>
+    <label for="video">Рекламное видео:</label>
+    <ul>
+    <?php foreach ($promovideosList as $video) {
+        ?>
+        <li><textarea id="video"><?= $video->link; ?></textarea></li>
+        </ul>
+    <?php
+    }
+}?>
+    <?php if (count($bannersList))
+    { ?>
+        <text>Баннеры:</text>
+        <ul>
+    <?php
+
+    foreach ($bannersList as $banner)
+    {
+        ?>
               <li>  <?php $this->renderPartial('_gifcode', array('settingsList' => $this->settingsList, 'user' => $this->user,
-                'banner'=>$banner)); ?>
-        <text>Код:</text>
-        <textarea><?= $banner->code; ?></textarea> </li>
-<?php       }
+            'banner' => $banner)); ?>
+        <label for="code">Код:</label>
+        <textarea onclick="this.select()" id="code"><?= $banner->code; ?></textarea> </li>
+<?php
         }
+    }
 ?>

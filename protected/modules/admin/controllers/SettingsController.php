@@ -22,6 +22,7 @@ class SettingsController extends AdminController
 				foreach ($model as $m)
 				{
 					$m->save();
+					Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 				}
 			}  // все элементы корректны
 		}

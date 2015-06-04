@@ -86,13 +86,11 @@ class ApiController extends Controller
 		} elseif ($user_id) {
 			$referral->user_id = $user_id;
 		}
-		
-		
+
 		$referral->save();
 		echo "<pre>";
 		#var_dump($referral);
 		echo "</pre>";
 	} 
 }
-
 ?>

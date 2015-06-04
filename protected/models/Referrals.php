@@ -156,6 +156,7 @@ class Referrals extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
+		$this->date = date("d-m-Y h:i", strtotime($this->date));
     }
 
 
