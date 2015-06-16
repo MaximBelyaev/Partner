@@ -76,8 +76,13 @@ class AdminController extends CController
             header('Location: /setup.php');
             exit();
         }
+        $domain = Yii::app()->getBaseUrl(true);
+        $request = 'http://prtserver.shvets.net/api/check/' . $domain;
+        $status = str_replace('http://','', $request);
+        var_dump(file_get_contents($status));
+        exit();
 
-        if (Yii::app()->params->activation !== "activated")
+        if ($status === "doesn't exist")
         {
             header('Location: /activate.php');
             exit();

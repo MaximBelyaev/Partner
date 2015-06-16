@@ -39,6 +39,7 @@ function tryActivate ()
     //Получаем код и ссылку
     $licenseCode = file_get_contents("license.txt");
     $zipFileURL = 'http://prtserver.shvets.net/api/check/' . $licenseCode;
+    var_dump($zipFileURL);
     $data = file_get_contents($zipFileURL);
 
     //Проверяем, совпадает ли код с кодом из файла и по базе данных админки с лицензиями

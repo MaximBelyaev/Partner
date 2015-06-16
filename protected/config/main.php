@@ -68,10 +68,10 @@ return array(
             ),
         ),
         'db' => array(
-            'connectionString' => 'asdsadsar',
+            'connectionString' => 'mysql:host=localhost;dbname=partner',
             'emulatePrepare' => true,
-            'username' => 'sadada',
-            'password' => 'asdsada',
+            'username' => 'root',
+            'password' => '',
             'charset' => 'utf8',
             ),
         'errorHandler'=>array(
@@ -98,8 +98,8 @@ return array(
     // using Yii::app()->params['paramName']
     'params'=>array(
         'uploadPath' => '/uploads/',
-        'activation' => 'none',
-        'dbsetup' => 'none',
+        'activation' => 'activated',
+        'dbsetup' => 'activated',
         'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
         'profit_percent' => 15,
         'adminName'  => 'Александр Павлуцкий',

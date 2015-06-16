@@ -5,9 +5,6 @@
 </head>
 <body>
 <?php
-$sql = include(dirname(__FILE__) . '/dump/partner_structure.sql');
-var_dump($sql);
-exit();
     $config = include(dirname(__FILE__) . '/protected/config/main.php');
     if ($config['params']['dbsetup'] !== "activated")
     {
@@ -41,7 +38,7 @@ exit();
 function tryConnection ()
 {
     //Проверяем подключение к базе по введённым данным
-$connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST['db_password']);
+    $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST['db_password']);
     if (!$connection)
     {
         die("Соединение с базой данных не установлено: " . mysqli_connect_error());
@@ -71,7 +68,8 @@ $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST[
             file_put_contents($path_to_file, $file_contents);
 
         //Создаём таблицы и данные в базе
-
+            //$sql = include(dirname(__FILE__) . '/dump/partner_structure.sql');
+            //$connection->query($sql);
             header("Location: /activate.php");
         }
     }
