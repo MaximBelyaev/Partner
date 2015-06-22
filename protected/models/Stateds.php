@@ -170,7 +170,6 @@ class Stateds extends CActiveRecord
 		$email->to = Yii::app()->params['adminEmail'];
 		$email->subject = 'Новая заявка на вывод';
 		$email->message = "Вы получили новую заявку на вывод средств";
-		//
 		$email->send();
     
         if($this->isNewRecord)
@@ -199,7 +198,7 @@ class Stateds extends CActiveRecord
 				$email->contentType = 'utf-8';
 				$email->subject = 'Статус заявки изменен';
 				$email->message = "Ваш счет пополнен на " . $this->money . " рублей";
-				$email->send();
+				# $email->send();
             }
             if($this->status == self::STATUS_DENIED && ($this->money > 0)){
                 $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
