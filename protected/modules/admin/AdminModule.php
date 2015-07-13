@@ -14,7 +14,7 @@ class AdminModule extends BaseModule
 		// import the module-level models and components
 		$this->setImport(array(
 			'admin.models.*',
-			'admin.components.*',
+			'admin.components.*'
 		));
 
         Yii::setPathOfAlias('admin',dirname(__FILE__));

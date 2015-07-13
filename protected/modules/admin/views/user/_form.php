@@ -4,6 +4,8 @@
 /* @var $form CActiveForm */
 ?>
 
+<div class="block">
+	
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -17,14 +19,17 @@
 
     <div class="head">
         <h5><?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?></h5>
-        <div class="button_save">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
+		<div class="underlist-button underlist-button-inline">
+            <?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
         </div>
-        <div class="button_save">
-            <?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/user/index'), array('class'=>'btn btn-success',)); ?>
+		<div class="underlist-button underlist-button-inline">
+            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
         </div>
         <div class="clear"></div>
     </div>
+
+
+	<div class="row-fluid">
     <!---- Flash message ---->
     <?php $this->beginWidget('FlashWidget',array(
         'params'=>array(
@@ -33,57 +38,78 @@
         )));
     $this->endWidget(); ?>
     <!---- End Flash message ---->
+	</div>
+
 
     <div class="clear"></div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'role'); ?>
-        <?php echo $form->dropDownList($model,'role', array('user'=>'user', 'admin'=>'admin')); ?>
-		<?php echo $form->error($model,'role'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>150)); ?>
-		<?php echo $form->error($model,'username'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'money[profit]'); ?>
-		<?php echo $form->textField($model,'money[profit]',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'money[profit]'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'site'); ?>
-		<?php echo $form->textField($model,'site',array('size'=>50,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'site'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'skype'); ?>
-		<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'skype'); ?>
-	</div>
 	
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'password'); ?>
-	</div>
+	
+	<div class="row-fluid">
+		<div class="span4">
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'username'); ?>
+				<?php echo $form->textField($model,'username',array('size'=>60,'maxlength'=>150)); ?>
+				<?php echo $form->error($model,'username'); ?>
+			</div>
 
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'password'); ?>
+				<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
+				<?php echo $form->error($model,'password'); ?>
+			</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'use_click_pay'); ?>
-		<?php echo $form->dropDownList( $model,'use_click_pay', array( '0' => "Нет", "1" => 'Да' ) ); ?>
-		<?php echo $form->error($model,'use_click_pay'); ?>
-	</div>
-	<div class="row">
-		<?php echo $form->labelEx($model,'click_pay'); ?>
-		<?php echo $form->textField($model,'click_pay',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'click_pay'); ?>
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'status'); ?>
+				<?php echo $form->dropDownList($model,'status', array('VIP'=>'VIP', 'Стандартный'=>'Стандартный', 'Расширенный'=>'Расширенный')); ?>
+				<?php echo $form->error($model,'status'); ?>
+			</div>
+		</div>
+		
+		<div class="span4 offset1">
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'use_click_pay'); ?>
+				<?php echo $form->dropDownList($model,'use_click_pay', array('0'=>'Процент за заказ','1'=>'Оплата за переход')); ?>
+				<?php echo $form->error($model,'use_click_pay'); ?>
+			</div>
+
+			<div class="form-row" id="hidden2" style="display:none">
+				<?php echo $form->labelEx($model,'click_pay'); ?>
+				<?php echo $form->textField($model,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => isset($model->click_pay) ?
+					 $model->click_pay : '2')); ?>
+				<?php echo $form->error($model,'click_pay'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'site'); ?>
+				<?php echo $form->textField($model,'site',array('size'=>50,'maxlength'=>255)); ?>
+				<?php echo $form->error($model,'site'); ?>
+			</div>
+
+		</div>
 	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+	$(document).ready(function() {
+		var e = document.getElementById("User_use_click_pay");
+		var defaultValue = document.getElementById("User_use_click_pay").options[e.selectedIndex].value;
+		if (defaultValue == "1")
+		{
+			$("#hidden2").show();
+		}
+
+		$('#User_use_click_pay').change(function(){
+			if ($(this).val() == "1") {
+				$("#hidden2").show();
+			} else {
+				$("#hidden2").hide();
+			}
+		});
+	});
+</script>
+
+</div>	

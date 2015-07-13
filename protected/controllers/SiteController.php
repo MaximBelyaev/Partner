@@ -29,6 +29,17 @@ class SiteController extends Controller
 	{
         //$this->redirect('/user/user/index');
 		//$this->render('index');
+		if (Yii::app()->params->dbsetup !== "activated")
+		{
+			header('Location: /setup.php');
+			exit();
+		}
+
+		if (Yii::app()->params->activation !== "activated")
+		{
+			header('Location: /activate.php');
+			exit();
+		}
 		$registerForm = new User('register');
 		$loginForm = new LoginForm();
     	$this->render('index', array('model'=>$loginForm, 'register'=>$registerForm));

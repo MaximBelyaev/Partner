@@ -2,25 +2,28 @@
 
 class SettingsController extends AdminController
 {
-
 	public function actionIndex()
 	{
-		$model = Setting::model()->findAll();
+		$model = $this->settingsList;
 
 		if(isset($_POST['Setting']))
 		{
 			$valid = true;
 			foreach( $model as $i => $item )
 			{
-				if(isset($_POST['Setting'][$i])) {
-					$item->attributes=$_POST['Setting'][$i];
+				if(isset($_POST['Setting'][$i]))
+				{
+					$item->attributes = $_POST['Setting'][$i];
 				}
 				$valid = $item->validate() && $valid;
 			}
-			if( $valid ) {
-				foreach ($model as $m) {
+			if($valid)
+			{
+				foreach ($model as $m)
+				{
 					$m->save();
 				}
+				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 			}  // все элементы корректны
 		}
 
@@ -37,5 +40,4 @@ class SettingsController extends AdminController
 			Yii::app()->end();
 		}
 	}
-
 }

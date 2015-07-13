@@ -28,7 +28,7 @@ class Requests extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('ip, partner_id', 'required'),
-			array('partner_id', 'numerical', 'integerOnly'=>true),
+			array('partner_id, land_id', 'numerical', 'integerOnly'=>true),
 			array('ip', 'length', 'max'=>255),
 			array('date', 'safe'),
 			// The following rule is used by search().
@@ -45,7 +45,8 @@ class Requests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-            'user'=> array(self::BELONGS_TO, 'User', 'partner_id'),
+			'user'		=> array( self::BELONGS_TO, 'User', 'partner_id' ),
+			'landing'	=> array( self::BELONGS_TO, 'Landings', 'land_id' ),
 		);
 	}
 
@@ -55,10 +56,11 @@ class Requests extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'ip' => 'Ip',
-			'date' => 'Date',
-			'partner_id' => 'Partner',
+			'id'		=> 'ID',
+			'partner_id'=> 'Partner',
+			'land_id'	=> 'Landing id',
+			'ip'		=> 'Ip',
+			'date'		=> 'Date',
 		);
 	}
 
@@ -78,7 +80,7 @@ class Requests extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('ip',$this->ip,true);

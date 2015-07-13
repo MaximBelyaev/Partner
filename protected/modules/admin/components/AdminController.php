@@ -20,8 +20,12 @@ class AdminController extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
-
     public $notifications_count;
+    public $newUser;
+    public $newReferral;
+    public $settingsList;
+
+    public $landings;
 
     /**
      * @return array action filters
@@ -51,8 +55,10 @@ class AdminController extends CController
                     'view', 'create', 'update', 
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
+                    'range', 'change',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
+                    'downloadAndUpdate',
                 ),
                 'roles' => array('admin'),// для авторизованных
             ),
@@ -62,16 +68,88 @@ class AdminController extends CController
         );
     }
 
-    public function init() {
-        parent::init();
+	public function init()
+	{
+		parent::init();
+        if (Yii::app()->params->dbsetup !== "activated")
+        {
+            header('Location: /setup.php');
+            exit();
+        }
+        $domain = Yii::app()->getBaseUrl(true);
+        $editDomain = str_replace('.','', $domain);
+        $editDomain = str_replace('http://','', $editDomain);
+        /*$request = 'http://prtserver.shvets.net/api/check/' . $editDomain;
+        $status = file_get_contents($request);
+
+        if ($status === "doesn't exist")
+        {
+            header('Location: /error.php');
+            exit();
+        }*/
+
+        Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
+		$landings = Landings::model()->findAll();
+		if (count($landings) > 1) {
+			$lands = array( 0 => 'Все' );
+			foreach ($landings as $l) {
+				$lands[ $l->land_id ] = $l->name; 
+			} 
+			$this->landings = $lands;
+		} else {
+			$this->landings = false;
+		}
+
+        //Делаем модели для модальных окон создания партнёра и клиента
+        $model = new Referrals;
+        $this->newReferral = $model;
+        $model = new User;
+        $this->newUser = $model;
 
         Yii::app()->onBeginRequest = array('AdminController', 'r');
 
-        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
+        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages']))
+        {
             Yii::app()->setLanguage('ru');
             Yii::app()->user->setState('language', 'ru');
         }
         $this->notifications_count = Notifications::model()->count("is_new = 1");
-	}
 
+        //Список настроек
+        $this->settingsList = Setting::model()->findAll();
+        for ($i = 0; $i < count($this->settingsList); $i++)
+        {
+            $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+            unset($this->settingsList[$i]);
+        }
+
+        //Инициация функции повторного платежа
+        $oldModels = Referrals::model()->findAll(array(
+            'select'	=> '*',
+            'condition'	=> 'recreate_date != ""',
+        ));
+        $modelsToCreate = [];
+        foreach ($oldModels as $oldModel)
+        {
+            $oldRecreateDate = strtotime($oldModel->recreate_date);
+            if ((time() >= $oldRecreateDate))
+            {
+                $modelsToCreate[] = $oldModel;
+            }
+        }
+
+       foreach ($modelsToCreate as $oldModel)
+        {
+            $newModel = new Referrals;
+            $newModel->attributes = $oldModel->attributes;
+            $newModel->id = '';
+            $newModel->status = Referrals::$STATUS_REQUEST;
+            $newModel->date = $oldModel->recreate_date;
+            $newModel->setRecreate();
+            $newModel->save();
+            $oldModel->recreate_interval = '0';
+            $oldModel->recreate_date = '';
+            $oldModel->save();
+        }
+	}
 }

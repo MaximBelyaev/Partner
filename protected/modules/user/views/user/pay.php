@@ -28,7 +28,7 @@ $this->setPageTitle("Вывод средств | Партнерская прог
 
         <div class="row">
             <?php echo $form->labelEx($model,'pay_type'); ?>
-            <?php echo $form->dropDownList($model,'pay_type',array('WebMoney'=>'WebMoney (рубли)','Яndex деньги'=>'Яndex деньги'), array('class'=>'form-control')); ?>
+            <?php echo $form->radioButtonList($model,'pay_type',$settings, array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'pay_type'); ?>
         </div>
 
@@ -45,9 +45,28 @@ $this->setPageTitle("Вывод средств | Партнерская прог
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Вывести' : 'Save', array('class'=>'btn btn-primary')); ?>
+            <?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Save', array('class'=>'btn btn-primary')); ?>
         </div>
 
         <?php $this->endWidget(); ?>
     </div>
 </div><!-- form -->
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'stateds-grid',
+    'dataProvider'=>$list->search(),
+    'filter'=>$list,
+    'columns'=>array(
+        'date',
+        array(
+            'name' => 'pay_type',
+            'type' => 'raw',
+            'value' => function($data) use ($settings) {
+                return $settings[$data->pay_type];
+            }
+        ),
+        'requisites',
+        'money',
+        'status',
+    ),
+)); ?>

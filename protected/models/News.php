@@ -149,7 +149,7 @@ class News extends CActiveRecord
 			$email->contentType = 'utf-8';
 			$email->subject = "Партнерка по семантике: {$this->header}";
 			$email->message = str_replace('src="', 'src="' . Yii::app()->getBaseUrl(true), $this->text);
-			$email->send();
+			# $email->send();
 		}
 	}
 
@@ -161,5 +161,11 @@ class News extends CActiveRecord
 			$nw->delete();
 		}
 	}
+    protected function afterFind()
+    {
+        parent::afterFind();
+        $this->date = date('d.m.Y', strtotime($this->date));
 
+        return true;
+    }
 }

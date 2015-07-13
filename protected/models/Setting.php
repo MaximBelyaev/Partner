@@ -26,12 +26,12 @@ class Setting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, value', 'required'),
-			array('name', 'length', 'max'=>128),
+			array('name, header, status', 'length', 'max'=>128),
+			array('type', 'length', 'max'=>255),
 			array('value', 'length', 'max'=>4095),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('setting_id, name, value', 'safe', 'on'=>'search'),
+			array('setting_id, name, value, status, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,6 +55,7 @@ class Setting extends CActiveRecord
 			'setting_id' => 'ID',
 			'name' => 'Имя',
 			'value' => 'Значение',
+			'status' => 'Статус'
 		);
 	}
 
@@ -79,6 +80,7 @@ class Setting extends CActiveRecord
 		$criteria->compare('setting_id',$this->setting_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('value',$this->value,true);
+		$criteria->compare('status',$this->status,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,6 +93,27 @@ class Setting extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Settings the static model class
 	 */
+
+	public function setDisplayIcon()
+	{
+		if ($this->name === 'qiwi')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/qiwi_icon.jpg>";
+		}
+		else if ($this->name === 'webmoney')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/webmoney_icon2.png>";
+		}
+		else if ($this->name === 'paypal')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/paypal_icon.png>";
+		}
+		else if ($this->name === 'yandex_money')
+		{
+			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/yandexmoney_icon.png>";
+		}
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

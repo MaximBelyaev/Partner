@@ -43,14 +43,16 @@ class Referrals extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email', 'required'),
-			array('id, tz, user_id', 'numerical', 'integerOnly'=>true),
+			array('email', 'email'),
+			array('id, tz, user_id, land_id', 'numerical', 'integerOnly'=>true),
 			array('email, site, region, request_type, promo', 'length', 'max'=>150),
-			array('requests, user_from, status', 'length', 'max'=>255),
+			array('requests, user_from, status, recreate_interval, recreate_date', 'length', 'max'=>255),
 			array('money', 'length', 'max'=>8),
 			array('date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, email, site, region, tz, request_type, requests, user_from, money, status, user_id, date', 'safe', 'on'=>'search'),
+			array('id, email, site, region, tz, request_type, requests, user_from, money, status, user_id, date,
+			recreate_interval, recreate_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,7 +62,8 @@ class Referrals extends CActiveRecord
 	public function relations()
 	{
 		return array(
-            'user'=> array(self::BELONGS_TO, 'User', 'user_id'),
+			'user'		=> array( self::BELONGS_TO, 'User', 'user_id' ),
+			'landing'	=> array( self::BELONGS_TO, 'Landings', 'land_id' ),
 		);
 	}
 
@@ -70,20 +73,24 @@ class Referrals extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'email' => 'Email',
-			'site' => 'Адрес сайта',
-			'region' => 'Регион сбора запросов',
-			'tz' => 'Нужно ли ТЗ копирайтеру?',
+			'id'		=> 'ID',
+			'user_id'	=> 'User',
+			'land_id'	=> 'Лендинг',
+			'email'		=> 'Email',
+			'site'		=> 'Адрес сайта',
+			'region'	=> 'Регион сбора запросов',
+			'tz'		=> 'Нужно ли ТЗ копирайтеру?',
+			'requests'	=> 'Пример нужных запросов',
+			'user_from'	=> 'От какого партнера',
+			'money'		=> 'Сумма',
+			'status'	=> 'Статус',
+			'user'		=> 'От партнера',
+			'date'		=> 'Дата заявки',
+			'promo'		=> 'Промо код',
 			'request_type' => 'Какие запросы нужны?',
-			'requests' => 'Пример нужных запросов',
-			'user_from' => 'От какого партнера',
-			'money' => 'Сумма',
-			'status' => 'Статус',
-			'user_id' => 'User',
-			'user' => 'От партнера',
-			'date' => 'Дата заявки',
-            'promo' => 'Промо код',
+			'recreate_date' => 'Дата повторной оплаты',
+			'recreate_interval' => 'Формат',
+			'landing' => 'Лендинг',
 		);
 	}
 
@@ -99,28 +106,35 @@ class Referrals extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($pageSize = 10)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('site',$this->site,true);
-		$criteria->compare('region',$this->region,true);
-		$criteria->compare('tz',$this->tz);
-		$criteria->compare('request_type',$this->request_type,true);
-		$criteria->compare('requests',$this->requests,true);
-		$criteria->compare('user_from',$this->user_from,true);
-		$criteria->compare('money',$this->money,true);
-		$criteria->compare('status',$this->status,true);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('date',$this->date);
+		if (isset(Yii::app()->session['landing']) && Yii::app()->session['landing'] > 0) {
+			$criteria->compare('land_id', Yii::app()->session['landing']);
+		}
+
+		$criteria->compare('id',$this->id)
+			->compare('email',$this->email,true)
+			->compare('site',$this->site,true)
+			->compare('region',$this->region,true)
+			->compare('tz',$this->tz)
+			->compare('request_type',$this->request_type,true)
+			->compare('requests',$this->requests,true)
+			->compare('user_from',$this->user_from,true)
+			->compare('money',$this->money,true)
+			->compare('status',$this->status,true)
+			->compare('user_id',$this->user_id)
+			->compare('date',$this->date)
+			->compare('recreate_interval',$this->recreate_interval,true)
+			->compare('recreate_date',$this->recreate_date,true);
 		$criteria->order = 'date DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array('pageSize' => $pageSize),
 		));
 	}
 
@@ -142,6 +156,7 @@ class Referrals extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
+		$this->date = date("d-m-Y h:i", strtotime($this->date));
     }
 
 
@@ -240,11 +255,11 @@ class Referrals extends CActiveRecord
 		return $full_price;
 	}
 
-
 	public function getThisMonthProfit()
 	{
 		$refs = $this->getThisMonthPayedReferrals();
-		if (!empty($refs)) {
+		if (!empty($refs))
+		{
 			$full_price = array_reduce(
 				$refs, 
 				function($c,$v){ 
@@ -252,12 +267,12 @@ class Referrals extends CActiveRecord
 				}
 			);
 			$full_price = $full_price * (Yii::app()->params['profit_percent'] * 0.01);
-		} else {
+		} else
+			{
 			$full_price = 0;
-		}
+			}
 		return $full_price;
 	}
-
 
     /**
      * Даем прибыль партнеру
@@ -295,4 +310,32 @@ class Referrals extends CActiveRecord
         }
         return true;
     }
+
+	public function setRecreate ()
+	{
+		if ($this->recreate_interval === '1')
+		{
+			$this->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', strtotime($this->date)));
+		}
+		if ($this->recreate_interval === '0')
+		{
+			$this->recreate_date = '';
+		}
+	}
+
+	public function getFormatIcons ()
+	{
+		if ($this->recreate_interval === '1')
+		{
+			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png'>";
+		}
+	}
+
+	public function getLandingIcon()
+	{
+		if (!is_null($this->landing)) {
+			return $this->landing->getIcon();
+		}
+	}
+
 }

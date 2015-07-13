@@ -5,321 +5,75 @@
 $this->setPageTitle("Рекламные материалы | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class="commercial small-box bg-aqua">
-	<h3>
-		Рекламные материалы
-	</h3>
 
-	<div class="banners">
-	
-	<h4>Баннеры</h4>
-
-	
+<div class="block">
+    
+    <div class="statistics-head">
+        <h5>Рекламные материалы</h5>
+    </div>
 
 
-	<div class="banner">
-		<h5>200x300</h5>
-		<object 
-		classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-		width="200" height="300" 
-		id="200x300-semantika" align="middle">
-			<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika.swf" />
-			<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-			<param name="quality" value="high" />
-			<param name="bgcolor" value="#ffffff" />
-			<param name="play" value="true" />
-			<param name="loop" value="true" />
-			<param name="wmode" value="window" />
-			<param name="scale" value="showall" />
-			<param name="menu" value="true" />
-			<param name="devicefont" value="false" />
-			<param name="salign" value="" />
-			<param name="allowScriptAccess" value="sameDomain" />
-			<!--[if !IE]>-->
-			<object 
-				type="application/x-shockwave-flash" 
-				data="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" 
-				width="200" 
-				height="300">
-				<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" />
-				<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-				<param name="quality" value="high" />
-				<param name="bgcolor" value="#ffffff" />
-				<param name="play" value="true" />
-				<param name="loop" value="true" />
-				<param name="wmode" value="window" />
-				<param name="scale" value="showall" />
-				<param name="menu" value="true" />
-				<param name="devicefont" value="false" />
-				<param name="salign" value="" />
-				<param name="allowScriptAccess" value="sameDomain" />
-				<!--<![endif]-->
-				<a title="Сементическое ядро" target="_blank" href="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-					<img src="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika-gif.gif" alt="рекламный баннер" width="200" height="300"/>
-				</a>
-			<!--[if !IE]>-->
-			</object>
-			<!--<![endif]-->
-		</object>
-
-		<textarea onclick="this.select();">
-<object 
-	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-	width="200" height="300" 
-	id="200x300-semantika" align="middle">
-	<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika.swf" />
-	<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-	<param name="quality" value="high" />
-	<param name="bgcolor" value="#ffffff" />
-	<param name="play" value="true" />
-	<param name="loop" value="true" />
-	<param name="wmode" value="window" />
-	<param name="scale" value="showall" />
-	<param name="menu" value="true" />
-	<param name="devicefont" value="false" />
-	<param name="salign" value="" />
-	<param name="allowScriptAccess" value="sameDomain" />
-	<!--[if !IE]>-->
-	<object 
-		type="application/x-shockwave-flash" 
-		data="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" 
-		width="200" 
-		height="300">
-		<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" />
-		<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-		<param name="quality" value="high" />
-		<param name="bgcolor" value="#ffffff" />
-		<param name="play" value="true" />
-		<param name="loop" value="true" />
-		<param name="wmode" value="window" />
-		<param name="scale" value="showall" />
-		<param name="menu" value="true" />
-		<param name="devicefont" value="false" />
-		<param name="salign" value="" />
-		<param name="allowScriptAccess" value="sameDomain" />
-		<!--<![endif]-->
-		<a title="Сементическое ядро" target="_blank" href="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-			<img src="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/200x300-semantika-gif.gif" alt="рекламный баннер" width="200" height="300"/>
-		</a>
-		<!--[if !IE]>-->
-	</object>
-		<!--<![endif]-->
-</object>
-		</textarea>
-	</div>
-	
+    <div class="row-fluid">
+        <div class="span12">
+    <label for="link">Рекламная ссылка:</label>
+    <input id="link" type="text" disabled onclick="this.select()" value="<?= $this->settingsList['landing_link']->value ?>">
+    <?php echo CHtml::beginForm(); ?>
+    <?php echo CHtml::errorSummary($this->user); ?>
+		</div>
+	</div>	
+    <div class="row-fluid">
+        <div class="span12">
+            <?php echo CHtml::activeLabel($this->user,'promo_code'); ?>
+            <?php echo CHtml::activeTextField($this->user,'promo_code', array('default' => $this->user->promo_code)) ?>
+        </div>  
+    </div>
+    <div class="row-fluid submit">
+        <div class="span12">
+            <?php echo CHtml::submitButton('Изменить'); ?>
+        </div>
+    </div>
+    <?php echo CHtml::endForm(); ?>
+</div>
 
 
+<div class="block next-block ">
 
+    <?php if (count($promovideosList)) { ?>
+		<div class="statistics-head">
+			<h5>Рекламное видео:</h5>
+		</div>
+        
+        <?php foreach ($promovideosList as $video) { ?>
+            <div class="banner-block">
+            	<textarea id="video"><?= $video->link; ?></textarea>
+            </div>
+        <?php } } ?>
+        
+        <?php if (count($bannersList)) { ?>
+            <div class="statistics-head">
+                <h5>Баннеры</h5>
+            </div>
+        	<?php foreach ($bannersList as $banner) { ?>
+				<div class="banner-block">
+					<div class="row-fluid">
+						<div class="span12">
+							<?php $this->renderPartial('_gifcode', array(
+								'settingsList' => $this->settingsList, 
+								'user' => $this->user,
+								'banner' => $banner
+							)); ?>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<label for="code">Код:</label>
+<textarea onclick="this.select()">
+<?= $banner->code; ?>
+</textarea>
+						</div>
+					</div>	
+				</div>
+			<?php } ?>
+		<?php } ?>
 
-
-
-
-
-
-
-
-
-
-<div class="banner">
-		<h5>468x60</h5>
-		<object 
-			classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-			width="468" 
-			height="60" 
-			id="468x60-semantika" 
-			align="middle">
-			<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika.swf" />
-			<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-			<param name="quality" value="high" />
-			<param name="bgcolor" value="#ffffff" />
-			<param name="play" value="true" />
-			<param name="loop" value="true" />
-			<param name="wmode" value="window" />
-			<param name="scale" value="showall" />
-			<param name="menu" value="true" />
-			<param name="devicefont" value="false" />
-			<param name="salign" value="" />
-			<param name="allowScriptAccess" value="sameDomain" />
-			<!--[if !IE]>-->
-			<object 
-				type="application/x-shockwave-flash" 
-				data="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" 
-				width="468" 
-				height="60" >
-				<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" />
-				<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-				<param name="quality" value="high" />
-				<param name="bgcolor" value="#ffffff" />
-				<param name="play" value="true" />
-				<param name="loop" value="true" />
-				<param name="wmode" value="window" />
-				<param name="scale" value="showall" />
-				<param name="menu" value="true" />
-				<param name="devicefont" value="false" />
-				<param name="salign" value="" />
-				<param name="allowScriptAccess" value="sameDomain" />
-				<!--<![endif]-->
-				<a title="Сементическое ядро" target="_blank" href="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-					<img src="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika-gif.gif" alt="рекламный баннер" width="468" height="60"/>
-				</a>
-			<!--[if !IE]>-->
-			</object>
-			<!--<![endif]-->
-		</object>
-
-		<textarea onclick="this.select();">
-<object 
-	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-	width="468" 
-	height="60" 
-	id="468x60-semantika" 
-	align="middle">
-	<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika.swf" />
-	<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-	<param name="quality" value="high" />
-	<param name="bgcolor" value="#ffffff" />
-	<param name="play" value="true" />
-	<param name="loop" value="true" />
-	<param name="wmode" value="window" />
-	<param name="scale" value="showall" />
-	<param name="menu" value="true" />
-	<param name="devicefont" value="false" />
-	<param name="salign" value="" />
-	<param name="allowScriptAccess" value="sameDomain" />
-	<!--[if !IE]>-->
-	<object 
-		type="application/x-shockwave-flash" 
-		data="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" 
-		width="468" 
-		height="60" >
-		<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" />
-		<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-		<param name="quality" value="high" />
-		<param name="bgcolor" value="#ffffff" />
-		<param name="play" value="true" />
-		<param name="loop" value="true" />
-		<param name="wmode" value="window" />
-		<param name="scale" value="showall" />
-		<param name="menu" value="true" />
-		<param name="devicefont" value="false" />
-		<param name="salign" value="" />
-		<param name="allowScriptAccess" value="sameDomain" />
-		<!--<![endif]-->
-		<a title="Сементическое ядро" target="_blank" href="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-			<img src="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/468x60-semantika-gif.gif" alt="рекламный баннер" width="468" height="60"/>
-		</a>
-	<!--[if !IE]>-->
-	</object>
-	<!--<![endif]-->
-</object>
-		</textarea>
-	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="banner">
-		<h5>728x90</h5>
-		<object 
-	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-	width="728" height="90" 
-	id="728x90-semantika" align="middle">
-	<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika.swf" />
-	<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-	<param name="quality" value="high" />
-	<param name="bgcolor" value="#ffffff" />
-	<param name="play" value="true" />
-	<param name="loop" value="true" />
-	<param name="wmode" value="window" />
-	<param name="scale" value="showall" />
-	<param name="menu" value="true" />
-	<param name="devicefont" value="false" />
-	<param name="salign" value="" />
-	<param name="allowScriptAccess" value="sameDomain" />
-	<!--[if !IE]>-->
-	<object 
-		type="application/x-shockwave-flash" 
-		data="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" 
-		width="728" 
-		height="90">
-		<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" />
-		<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-		<param name="quality" value="high" />
-		<param name="bgcolor" value="#ffffff" />
-		<param name="play" value="true" />
-		<param name="loop" value="true" />
-		<param name="wmode" value="window" />
-		<param name="scale" value="showall" />
-		<param name="menu" value="true" />
-		<param name="devicefont" value="false" />
-		<param name="salign" value="" />
-		<param name="allowScriptAccess" value="sameDomain" />
-		<!--<![endif]-->
-		<a title="Сементическое ядро" target="_blank" href="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-			<img src="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika-gif.gif" alt="рекламный баннер" width="728" height="90"/>
-		</a>
-		<!--[if !IE]>-->
-	</object>
-		<!--<![endif]-->
-</object>
-
-		<textarea onclick="this.select();">
-<object 
-	classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-	width="728" height="90" 
-	id="728x90-semantika" align="middle">
-	<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika.swf" />
-	<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-	<param name="quality" value="high" />
-	<param name="bgcolor" value="#ffffff" />
-	<param name="play" value="true" />
-	<param name="loop" value="true" />
-	<param name="wmode" value="window" />
-	<param name="scale" value="showall" />
-	<param name="menu" value="true" />
-	<param name="devicefont" value="false" />
-	<param name="salign" value="" />
-	<param name="allowScriptAccess" value="sameDomain" />
-	<!--[if !IE]>-->
-	<object 
-		type="application/x-shockwave-flash" 
-		data="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" 
-		width="728" 
-		height="90">
-		<param name="movie" value="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika.swf?link1=http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>" />
-		<param name="link1" value="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-		<param name="quality" value="high" />
-		<param name="bgcolor" value="#ffffff" />
-		<param name="play" value="true" />
-		<param name="loop" value="true" />
-		<param name="wmode" value="window" />
-		<param name="scale" value="showall" />
-		<param name="menu" value="true" />
-		<param name="devicefont" value="false" />
-		<param name="salign" value="" />
-		<param name="allowScriptAccess" value="sameDomain" />
-		<!--<![endif]-->
-		<a title="Сементическое ядро" target="_blank" href="http://alexpavlutskiy.com/seo/semanticheskoe-yadro?refer_id=<?= $user->id?>">
-			<img src="<?= Yii::app()->getBaseUrl(true) ?>/uploads/banners/728x90-semantika-gif.gif" alt="рекламный баннер" width="728" height="90"/>
-		</a>
-		<!--[if !IE]>-->
-	</object>
-	<!--<![endif]-->
-</object>
-		</textarea>
-	</div>
-
-
-	</div>
 </div>

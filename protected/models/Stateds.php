@@ -19,6 +19,7 @@ class Stateds extends CActiveRecord
 	const STATUS_DENIED  = 'Отказано в оплате';
     
     protected $_oldStatus;
+	protected $_oldRecreateInterval;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -43,7 +44,8 @@ class Stateds extends CActiveRecord
 			array('description, status, date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, money, status, pay_type, date, requisites, description', 'safe', 'on'=>'search'),
+			array('id, user_id, money, status, pay_type, date, requisites, description',
+				'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,7 +75,7 @@ class Stateds extends CActiveRecord
 			'requisites' => 'Номер счета',
 			'description' => 'Дополнительно',
             'user' => 'От партнера',
-            'date' => 'Дата добавлния',
+            'date' => 'Дата добавления',
 		);
 	}
 
@@ -89,7 +91,7 @@ class Stateds extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($pageSize = 10)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -99,13 +101,14 @@ class Stateds extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('money',$this->money,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('status',$this->status,true);
 		$criteria->compare('pay_type',$this->pay_type,true);
 		$criteria->compare('requisites',$this->requisites,true);
 		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array('pageSize' => $pageSize)
 		));
 	}
 
@@ -137,22 +140,27 @@ class Stateds extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
+        $this->date = date('d.m.Y', strtotime($this->date));
+        return true;
     }
 
     /**
      * Даем прибыль партнеру
      */
     protected function beforeSave()
-    {
-        if(parent::beforeSave()){
-            if($this->status !== $this->_oldStatus)
-            {
-                if($this->_oldStatus == self::STATUS_DENIED){
-                    $this->status = $this->_oldStatus;
-                }
-            }
-        }
-        return true;
+	{
+		if (parent::beforeSave()) {
+			if ($this->status !== $this->_oldStatus) {
+				if ($this->_oldStatus == self::STATUS_DENIED) {
+					$this->status = $this->_oldStatus;
+				}
+			}
+		}
+
+		/**
+		 * Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
+		 */
+		return true;
     }
 
 	protected function afterSave()
@@ -162,10 +170,10 @@ class Stateds extends CActiveRecord
 		$email->to = Yii::app()->params['adminEmail'];
 		$email->subject = 'Новая заявка на вывод';
 		$email->message = "Вы получили новую заявку на вывод средств";
-		//
 		$email->send();
     
-        if($this->isNewRecord){
+        if($this->isNewRecord)
+		{
             $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
             $profit->profit -= $this->money;
             $profit->save();
@@ -190,7 +198,7 @@ class Stateds extends CActiveRecord
 				$email->contentType = 'utf-8';
 				$email->subject = 'Статус заявки изменен';
 				$email->message = "Ваш счет пополнен на " . $this->money . " рублей";
-				$email->send();
+				# $email->send();
             }
             if($this->status == self::STATUS_DENIED && ($this->money > 0)){
                 $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));

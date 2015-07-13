@@ -1,14 +1,11 @@
 <?php
-
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     'name'=>'Партнерская программа Павлуцкого Александра',
-
     // preloading 'log' component
     'preload' => array(
         'debug',
@@ -16,7 +13,6 @@ return array(
     //language for project
     'sourceLanguage'=>'en',
     'language'=>'ru',
-
     // autoloading model and component classes
     'import'=>array(
         'application.models.*',
@@ -32,7 +28,6 @@ return array(
         'user',
         'admin',
     ),
-
     // application components
     'components'=>array(
         'debug' => array(
@@ -42,10 +37,10 @@ return array(
             'enableCookieValidation'=>true,
             'enableCsrfValidation'=>false,
         ),
-		'email' => array(
+        'email' => array(
             'class'=>'application.extensions.email.Email',
             'delivery' => 'php',
-		),
+        ),
         'user'=>array(
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
@@ -62,7 +57,7 @@ return array(
         'urlManager'=>array(
             'class'=>'application.components.UrlManager',
             'urlFormat'=>'path',
-            'urlSuffix'=>'.html',
+            //'urlSuffix'=>'.html',
             'showScriptName'=>false,
             'rules'=>array(
                 '<language:(ru|uk)>/' => 'site/index',
@@ -72,7 +67,13 @@ return array(
                 '<language:(ru|uk)>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
             ),
         ),
-        'db' => require 'db.php',
+        'db' => array(
+            'connectionString' => 'mysql:host=localhost;dbname=partner',
+            'emulatePrepare' => true,
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+            ),
         'errorHandler'=>array(
             // use 'site/error' action to display errors
             'errorAction'=>'site/error',
@@ -93,13 +94,18 @@ return array(
             ),
         ),
     ),
-
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
-        'languages' => array('ru'=>'Русский', 'uk'=>'Українська'),
+        'uploadPath' => '/uploads/',
+        'activation' => 'activated',
+        'dbsetup' => 'activated',
+        'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
         'profit_percent' => 15,
         'adminName'  => 'Александр Павлуцкий',
         'adminEmail' => 'some.nugget@gmail.com',
+        // количество точек, на которые мы разобьем ось Х на графике
+        'chartTimePoints' => 15,
+        'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
     ),
 );

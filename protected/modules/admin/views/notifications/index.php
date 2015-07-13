@@ -6,31 +6,42 @@ $this->breadcrumbs=array(
 );
 $this->setPageTitle("Уведомления | Партнерская программа Павлуцкого Александра");
 ?>
+<div class="block">
+
 <div class="head">
 	<h5>Уведомления</h5>
 </div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	'dataProvider' => $model->search(),
+	'dataProvider' => $model->search(9),
 	//'dataProvider' => $dataProvider,
-    'filter' => $model,
+	'summaryText' => '',
+	'htmlOptions' => array( 'class' => 'grid-view has-filter'),
+	'filter' => $model,
 	'columns' => array(
-        'notification_id',
-        'user.username:',
-        array(
-        	'name' => 'theme',
-        	'value' => 'Notifications::$themes_aliases[$data->theme]',
-        ),
-        'date',
-        array(
-        	'name' => 'is_new',
-        	'value' => '($data->is_new)?"Новое":"Просмотрено"',
-        ),
-        array(
+		array(
+			'name' => 'notification_id',
+			'htmlOptions' => array('class' => 'notification-id-col'),
+		),
+		'user.username',
+		array(
+			'name' => 'theme',
+			'value' => 'Notifications::$themes_aliases[$data->theme]',
+		),
+		array(
+			'name' => 'date',
+			'header' => 'Дата',
+			'value' => 'date("d.m.Y", strtotime($data->date));',
+		),
+		array(
+			'name' => 'is_new',
+			'value' => '($data->is_new)?"Новое":"Просмотрено"',
+		),
+		array(
             'header'=>'Действия',
             'class'=>'CButtonColumn',
-			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+            'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
             'buttons'=>array
             (
                 'update' => array
@@ -50,6 +61,8 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
                     'imageUrl'=>'',
                 ),
             ),
-		),
-	)
+        ),
+    )
 )) ?>
+
+</div>

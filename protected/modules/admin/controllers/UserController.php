@@ -9,11 +9,22 @@ class UserController extends AdminController
 	public function actionCreate()
 	{
 		$model = new User;
+		$model->click_pay = 2;
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
+			$model->save();
+
+			$valid=$model->validate();
+			if($valid){
+				echo CJSON::encode(array(
+					'status'=>'success'
+				));
+				Yii::app()->end();
+			}
+
             if($model->save())
             {
                 Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
@@ -24,10 +35,6 @@ class UserController extends AdminController
                 //Yii::app()->user->setFlash('error', "Error!");
             }
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -80,7 +87,13 @@ class UserController extends AdminController
 	{
         $model=new User('search');
         $model->unsetAttributes();  // clear any default values
-        
+		$this->performAjaxValidation($model);
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-user-form')
+		{
+			echo CActiveForm::validate($model);
+			$model->setScenario('ajax');
+			Yii::app()->end();
+		}
         $dataProvider = new CActiveDataProvider('User', array(
 
         ));
@@ -88,6 +101,7 @@ class UserController extends AdminController
         if(isset($_GET['User'])) {
             $model->attributes=$_GET['User'];
         }
+
         $this->render('index',array(
             'dataProvider' => $dataProvider,
             'model'=>$model,
@@ -115,7 +129,7 @@ class UserController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-user-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

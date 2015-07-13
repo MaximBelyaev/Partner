@@ -5,6 +5,7 @@ class ReferralsController extends AdminController
     const NOTVIEW = 1;
     const ATTACH = 2;
     const CANCEL = 3;
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -12,13 +13,23 @@ class ReferralsController extends AdminController
 	public function actionCreate()
 	{
 		$model=new Referrals;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$model->date = date('Y-m-d H:i:s', time());
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Referrals']))
 		{
 			$model->attributes=$_POST['Referrals'];
+			$model->setRecreate();
+			$model->save();
+
+			$valid=$model->validate();
+			if($valid){
+				echo CJSON::encode(array(
+					'status'=>'success'
+				));
+				Yii::app()->end();
+			}
+
 			if($model->save()){
 				$this->redirect(array('index','id'=>$model->id));
 			}
@@ -37,6 +48,7 @@ class ReferralsController extends AdminController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$old_interval = $model->recreate_interval;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -44,6 +56,14 @@ class ReferralsController extends AdminController
 		if(isset($_POST['Referrals']))
 		{
 			$model->attributes=$_POST['Referrals'];
+			if ($old_interval !== $model->recreate_interval)
+			{
+				$model->recreate_date = date('Y-m-d H:i:s', strtotime('+1 month', time()));
+			}
+			if ($model->recreate_interval == '0')
+			{
+				$model->recreate_date = '';
+			}
 			if($model->save()) {
                 Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
                 $this->refresh();
@@ -105,7 +125,7 @@ class ReferralsController extends AdminController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='referrals-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-referral-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
