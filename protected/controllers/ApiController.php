@@ -54,43 +54,50 @@ class ApiController extends Controller
 
 	public function actionReferral()
 	{
-		$referral = new Referrals();
-		$referral->email  = isset($_GET['email']) ? trim($_GET['email']) : '';
-		$referral->site   = isset($_GET['site']) ? trim($_GET['site']) : '';
-		$referral->tz     = isset($_GET['tz']) ? trim($_GET['tz']) : '';
-		$referral->region = isset($_GET['region']) ? trim($_GET['region']) : '';
-		$referral->request_type = isset($_GET['request_type']) ? trim($_GET['request_type']) : '';
-		$referral->requests  = isset($_GET['requests']) ? trim($_GET['requests']) : '';
-		$referral->user_from = isset($_GET['user_from']) ? trim($_GET['user_from']) : '';
-		$referral->promo = isset($_GET['promo_code']) ? trim($_GET['promo_code']) : '';
-		$referral->land_id = isset($_GET['land_id']) ? (int)$_GET['land_id'] : 1;
-		
-		$partner_site = isset($_GET['ref']) ? $_GET['ref'] : '';
-		$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
+		if (isset($_GET['secret']))
+		{
+			$referral = new Referrals();
+			$referral->email  = isset($_GET['email']) ? trim($_GET['email']) : '';
+			$referral->site   = isset($_GET['site']) ? trim($_GET['site']) : '';
+			$referral->tz     = isset($_GET['tz']) ? trim($_GET['tz']) : '';
+			$referral->region = isset($_GET['region']) ? trim($_GET['region']) : '';
+			$referral->request_type = isset($_GET['request_type']) ? trim($_GET['request_type']) : '';
+			$referral->requests  = isset($_GET['requests']) ? trim($_GET['requests']) : '';
+			$referral->user_from = isset($_GET['user_from']) ? trim($_GET['user_from']) : '';
+			$referral->promo = isset($_GET['promo_code']) ? trim($_GET['promo_code']) : '';
+			$referral->land_id = isset($_GET['land_id']) ? (int)$_GET['land_id'] : 1;
+			
+			$partner_site = isset($_GET['ref']) ? $_GET['ref'] : '';
+			$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
 
-		# тут мы проверим, был ли уже заказ с таким email
-		$back = Referrals::model()->find('email ="' . trim($referral->email) . '" AND user_id != 0');
+			# тут мы проверим, был ли уже заказ с таким email
+			$back = Referrals::model()->find('email ="' . trim($referral->email) . '" AND user_id != 0');
 
-		# если человек с таким email уже был, 
-		# то новому заказу мы присваиваем имеющегося партнера
-		if ($back && (int)$back->user_id) {
-			$referral->user_id = (int)$back->user_id;
-		} elseif($partner_site) {
-			$q = new CDbCriteria( array( 'condition' => "site='$partner_site'" ) );
-			$user = User::model()->find($q);
-			if ($user) {
-				$referral->user_id = $user->user_id;
+			# если человек с таким email уже был, 
+			# то новому заказу мы присваиваем имеющегося партнера
+			if ($back && (int)$back->user_id) {
+				$referral->user_id = (int)$back->user_id;
+			} elseif($partner_site) {
+				$q = new CDbCriteria( array( 'condition' => "site='$partner_site'" ) );
+				$user = User::model()->find($q);
+				if ($user) {
+					$referral->user_id = $user->user_id;
+				} elseif ($user_id) {
+					$referral->user_id = $user_id;
+				}
 			} elseif ($user_id) {
 				$referral->user_id = $user_id;
 			}
-		} elseif ($user_id) {
-			$referral->user_id = $user_id;
-		}
 
-		$referral->save();
-		echo "<pre>";
-		#var_dump($referral);
-		echo "</pre>";
+			$referral->save();
+			echo "<pre>";
+			#var_dump($referral);
+			echo "</pre>";
+		}
+		else
+		{
+			echo "no code";
+		}
 	} 
 }
 ?>

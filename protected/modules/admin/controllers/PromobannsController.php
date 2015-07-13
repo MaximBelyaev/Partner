@@ -157,10 +157,14 @@ class PromobannsController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model=Promobanns::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
+		if ((boolean)$id == true) {
+			$model=Promobanns::model()->findByPk($id);
+			if($model===null)
+				throw new CHttpException(404,'The requested page does not exist.');
+			return $model;
+		} else {
+			echo 'no id';
+		}
 	}
 
 	/**

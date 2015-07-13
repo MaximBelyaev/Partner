@@ -1,11 +1,17 @@
 <?php 
 $this->setPageTitle("Новости | Партнерская программа Павлуцкого Александра"); 
 ?>
-<div class="commercial  small-box bg-aqua">
+
+<div class="block">
+	
+	<div class="">
+		<h5>Новости</h5>
+	</div>
 	
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
 	'dataProvider' => $model->userSearch(),
+	'summaryText' => '',
 	'columns' => array(
 		'date',
 		'header',

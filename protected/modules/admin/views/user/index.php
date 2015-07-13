@@ -8,6 +8,8 @@ $this->breadcrumbs=array(
 $this->setPageTitle("Список партнеров | Партнерская программа Павлуцкого Александра");
 ?>
 
+<div class="block">
+    
 <div class="head">
     <h5>Управление партнерами</h5>
     <div class="button_save">
@@ -16,29 +18,81 @@ $this->setPageTitle("Список партнеров | Партнерская п
 </div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'user-grid',
-	'dataProvider' => $model->search(),
-	//'dataProvider' => $dataProvider,
+    'id' => 'user-grid',
+    'dataProvider' => $model->search(9),
+    'summaryText'   => '',
+    //'dataProvider' => $dataProvider,
     'filter' => $model,
-	'columns' => array(
+    'htmlOptions'   => array('class'=>'grid-view has-filter'),
+    'pager'=> array(  
+        'header'        => '',
+        'prevPageLabel' => 'Назад',
+        'nextPageLabel' => 'Далее',    
+    ),
+    'columns' => array(
         'username',
         'id',
         'site',
         array(
             'name' => 'use_click_pay',
             'type' => 'raw',
-            'value' => '$data->setFormatIcon()',
-            'filter' => CHtml::activeDropDownList($model, 'use_click_pay',array('0'=>'Процент за заказ','1'=>'Оплата за переход'), array('empty'=>'Все')),
+            'value' => '$data->getFormatIcon()',
+            'htmlOptions' => array('class' => 'width100'),
+            'headerHtmlOptions' => array('class' => 'width100'),
+            'filterHtmlOptions' => array('class' => 'width100'),
+            'filter' => CHtml::activeDropDownList(
+                $model, 
+                'use_click_pay',
+                array(
+                    '0' => '% от заказа',
+                    '1' => 'За переход'
+                ), 
+                array(
+                    'empty'=>'Все',
+                    'class' => 'dropdown'
+                )
+            ),
         ),
         array(
             'name' => 'status',
-            'type' => 'text',
-            'value' => '$data->setStatusIcon()',
-            'filter' => CHtml::activeDropDownList($model, 'status',array('VIP'=>'VIP','Стандартный'=>'Стандартный','Расширенный'=>'Расширенный'), array('empty'=>'Все')),
+            'type' => 'raw',
+            'value' => '"<span class=\"center_icon\">" . $data->getStatusIcon() . "</span>"',
+            'htmlOptions' => array('class' => 'width120'),
+            'headerHtmlOptions' => array('class' => 'width120'),
+            'filterHtmlOptions' => array('class' => 'width120'),
+            'filter' => CHtml::activeDropDownList(
+                $model, 
+                'status',
+                array(
+                    'VIP' => 'VIP',
+                    'Стандартный' => 'Стандартный',
+                    'Расширенный' => 'Расширенный'
+                ), 
+                array(
+                    'empty' => 'Все',
+                    'class' => 'dropdown'
+                )
+            ),
         ),
         'reg_date',
-        'money.profit',
-        'money.full_profit',
+        array(
+            'name' => 'money',
+            'type' => 'text',
+            'value' => '(int)$data->getProfit()',
+            'htmlOptions' => array('class' => 'width40'),
+            'headerHtmlOptions' => array('class' => 'width40'),
+            'filterHtmlOptions' => array('class' => 'width40'),
+        ),
+        array(
+            'name' => 'fullProfit',
+            'type' => 'text',
+            'value' => '(int)$data->getFullProfit()',
+            'filter' => CHtml::activeTextField(
+                $model, 
+                'fullProfit',
+                array('value' => '')
+            ),
+        ),
         /*
         array(
             'name'=>'profit',
@@ -60,20 +114,23 @@ $this->setPageTitle("Список партнеров | Партнерская п
             'value'  => '$data->renderClickPay()'
         ),
 //        'use_click_pay',
-		/*
-		'birth_date',
-		'sex',
-		'country',
-		'region',
-		'city',
-		'avatar',
-		'verification',
-		'active',
-		'telephone',
-		*/
+        /*
+        'birth_date',
+        'sex',
+        'country',
+        'region',
+        'city',
+        'avatar',
+        'verification',
+        'active',
+        'telephone',
+        */
         array(
-            'header'=>'Действия',
+            'header'=>'Действие',
             'class'=>'CButtonColumn',
+            'htmlOptions' => array('class' => 'actionColumn'),
+            'headerHtmlOptions' => array('class' => 'actionColumn'),
+            'filterHtmlOptions' => array('class' => 'actionColumn'),
             'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
             'buttons'=>array
             (
@@ -97,3 +154,5 @@ $this->setPageTitle("Список партнеров | Партнерская п
         ),
 )));
 ?>
+
+</div>

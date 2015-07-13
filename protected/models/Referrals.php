@@ -327,7 +327,7 @@ class Referrals extends CActiveRecord
 	{
 		if ($this->recreate_interval === '1')
 		{
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/month_pay.png>";
+			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png'>";
 		}
 	}
 

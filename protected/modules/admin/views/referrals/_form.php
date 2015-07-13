@@ -5,6 +5,9 @@
 /* @var $form CActiveForm */
 ?>
 
+<div class="block">
+	
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -16,17 +19,21 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-    <div class="head">
-        <h5><?php echo $model->isNewRecord ? 'Добавление лиента' : 'Редактирование клиента: '.$model->email; ?></h5>
-        <div class="button_save">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-        </div>
-        <div class="button_save">
-            <?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/referrals/index'), array('class'=>'btn btn-default',)); ?>
-        </div>
-        <div class="clear"></div>
-    </div>
+	<div class="head">
+		<h5>
+			<?php echo $model->isNewRecord ? 'Добавление клиента' : 'Редактирование клиента: ' . $model->email; ?>
+		</h5>
+		<div class="underlist-button underlist-button-inline">
+			<?php echo CHtml::link('Вернуться',array('/admin/referrals/index'), array('class'=>'btn',)); ?>
+		</div>
+		<div class="underlist-button underlist-button-inline">
+			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
 
+	<div class="row-fluid">
 	<!---- Flash message ---->
 	<?php $this->beginWidget('FlashWidget',array(
 		'params'=>array(
@@ -35,60 +42,76 @@
 		)));
 	$this->endWidget(); ?>
 	<!---- End Flash message ---->
-
-	<div class="row">
-		<?php //echo $form->labelEx($model,'user_id'); ?>
-		<label for="Referrals_user_id">Привязать к партнеру</label>
-        <?php
-            $users  = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
-            $result = array_merge(array('promo'=>'Промо код'), $users);
-            echo $form->dropDownList($model,'user_id', $users, array('prompt'=>'- - - без партнера - - -')); ?>
-		<?php echo $form->error($model,'user_id'); ?>
-
-        <?php echo $form->labelEx($model,'promo'); ?>
-        <?php echo $form->textField($model,'promo', array('placeholder'=>'Если нет - оставить пустым')); ?>
-        <?php echo $form->error($model,'promo'); ?>
 	</div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model,'email'); ?>
-        <?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>150)); ?>
-        <?php echo $form->error($model,'email'); ?>
-    </div>
+	
+	<div class="row-fluid">
+		<div class="span4">
+				
+			<div class="form-row">
+				<?php //echo $form->labelEx($model,'user_id'); ?>
+				<label for="Referrals_user_id">Привязать к партнеру</label>
+				<?php
+					$users  = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
+					$result = array_merge(array('promo'=>'Промо код'), $users);
+					echo $form->dropDownList($model,'user_id', $users, array('prompt'=>'- - - без партнера - - -')); ?>
+				<?php echo $form->error($model,'user_id'); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'money'); ?>
-		<?php echo $form->textField($model,'money',array('size'=>8,'maxlength'=>8)); ?>
-		<?php echo $form->error($model,'money'); ?>
+				<?php echo $form->labelEx($model,'promo'); ?>
+				<?php echo $form->textField($model,'promo', array('placeholder'=>'Если нет - оставить пустым')); ?>
+				<?php echo $form->error($model,'promo'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'email'); ?>
+				<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>150)); ?>
+				<?php echo $form->error($model,'email'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'money'); ?>
+				<?php echo $form->textField($model,'money',array('size'=>8,'maxlength'=>8)); ?>
+				<?php echo $form->error($model,'money'); ?>
+			</div>
+
+		</div>
+		
+		<div class="span4 offset1">
+			
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'site'); ?>
+				<?php echo $form->textField($model,'site'); ?>
+				<?php echo $form->error($model,'site'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'status'); ?>
+				<?php echo $form->dropDownList($model,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
+				<?php echo $form->error($model,'status'); ?>
+			</div>
+
+			<?php if(Yii::app()->controller->landings){ ?>
+			<div class="form-group">
+				<?php echo $form->labelEx( $model, 'land_id' ); ?>
+				<?php echo $form->dropDownList( $model, 'land_id', Yii::app()->controller->landings ); ?>
+				<?php echo $form->error( $model, 'land_id' ); ?>
+			</div>
+			<?php } ?>
+
+			<div class="form-row">
+				<?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
+				<label for="Referrals_recreate_interval"></label>
+				<label class="inline-block" for="Referrals_recreate_interval">
+					Постоянная оплата
+				</label>
+			</div>
+	
+		</div>
+	
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'site'); ?>
-		<?php echo $form->textField($model,'site'); ?>
-		<?php echo $form->error($model,'site'); ?>
-	</div>
+	<?php $this->endWidget(); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->dropDownList($model,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
-		<?php echo $form->error($model,'status'); ?>
-	</div>
-
-	<?php if(Yii::app()->controller->landings){ ?>
-	<div class="form-group">
-		<?php echo $form->labelEx( $model, 'land_id' ); ?>
-		<?php echo $form->dropDownList( $model, 'land_id', Yii::app()->controller->landings ); ?>
-		<?php echo $form->error( $model, 'land_id' ); ?>
-	</div>
-	<?php } ?>
-
-	<div class="row">
-		<label class="required" for="Referrals_recreate_interval">
-			Постоянная оплата
-		</label>
-		<?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
-	</div>
-
-<?php $this->endWidget(); ?>
+</div>
 
 </div><!-- form -->

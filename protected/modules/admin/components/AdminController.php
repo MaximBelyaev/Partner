@@ -79,14 +79,14 @@ class AdminController extends CController
         $domain = Yii::app()->getBaseUrl(true);
         $editDomain = str_replace('.','', $domain);
         $editDomain = str_replace('http://','', $editDomain);
-        $request = 'http://prtserver.shvets.net/api/check/' . $editDomain;
+        /*$request = 'http://prtserver.shvets.net/api/check/' . $editDomain;
         $status = file_get_contents($request);
 
         if ($status === "doesn't exist")
         {
             header('Location: /error.php');
             exit();
-        }
+        }*/
 
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();

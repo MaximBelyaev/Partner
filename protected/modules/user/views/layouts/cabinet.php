@@ -1,60 +1,148 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Lee
- * Date: 09.11.14
- * Time: 13:22
- */ ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title><?= $this->pageTitle ?></title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <link href="<?php echo $this->module->assetsUrl ?>/css/Admin.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
-    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
-    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
-    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
+	<meta charset="UTF-8">
+	<title><?= $this->pageTitle ?></title>
+	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+	<link href="<?php echo $this->module->assetsUrl ?>/css/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />	
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/themes/easydropdown.partner.css" rel="stylesheet" type="text/css" />   
 
-    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
+	<script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/jquery.easydropdown.min.js" ></script>
+
+	<script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
     
-    <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
-    <script src="<?php echo $this->module->assetsUrl ?>/js/script.js"></script>
+	<?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
+	<script src="<?php echo $this->module->assetsUrl ?>/js/script.js"></script>
 </head>
 <body class="skin-blue">
-<header class="header">
-    <?= CHtml::link('Панель управления', array('/user/user/index'), array('class'=>'logo')); ?>
-    <nav class="navbar navbar-static-top" role="navigation">
-        <?php $this->widget('zii.widgets.CMenu',array(
-            'items'=>array(
-                array('label'=>'Войти', 'url'=>array('/user/user/login'), 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'btn btn-success')),
-                array('label'=>'Регистрация', 'url'=>array('/user/user/registration'), 'visible'=>Yii::app()->user->isGuest, 'itemOptions'=>array('class'=>'btn btn-success')),
-            ),
-        )); ?>
-    </nav>
-</header>
-<div class="wrapper row-offcanvas row-offcanvas-left">
 
-<?php $this->widget('user.components.widgets.CabinetMenuWidget'); ?>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner top-nav">
+			<div class="container-fluid">
 
-
-    <aside class="right-side">
-        <section class="content-header">
-            <h1>
-                Ваш партнерский аккаунт
-            </h1>
-        </section>
-        <section class="content">
-            <div class="row">
-                <div class="col-lg-3 col-xs-6">
-                    <?= $content; ?>
+				<div class="nav pull-left for-logo">
+					<?= CHtml::link('GetPartner', array('/user/user/index'), array('class'=>'logo')); ?>
+				</div>
+				<div class="nav pull-left landing_select select-wrap ">
+					<?php if (Yii::app()->controller->landings) {
+						echo CHtml::dropDownList(
+							'landing_select', Yii::app()->session['landing'],
+							Yii::app()->controller->landings,
+							array('id' => 'landing_select', 'class' => 'dropdown')
+						); ?>
+					<?php } ?>
+				</div>
+                <div class="nav pull-left">
+                    <span class="menu-profit"><?= Yii::app()->controller->user->profit ?>&nbsp;р.</span>
                 </div>
-            </div> 
-        </section>
-    </aside>
+				<?php $this->widget('zii.widgets.CMenu',array(
+					'items'=>array(
+						array(
+							'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/User.svg') 
+							. ' ' . Yii::app()->controller->user->username,
+							'url'   => array('/admin/default/logout'),
+						),
+						array(
+							'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Exit.svg') . 'Выйти',
+							'url'   => array('/admin/default/logout'),
+						),
+					),
+					'htmlOptions'=>array(
+						'class'=>'nav pull-right',
+					),
+					'encodeLabel'=>false,
+				)); ?> 
+			</div>
+		</div>
+	</div>
 
-</div>
+    <div id="sidebar">
+        <?php 
+            $menu_array = array(
+                'items'=>array(
+                    array(
+                        'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Landings.svg') 
+                        . 'Вывод средств',
+                        'url'   => array('/user/user/payRequest'),
+                        'itemOptions' => array('class'=>'item-profit'),
+                    ),
+                    array(
+                        'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Reklama.svg') 
+                        . 'Рекламные материалы',
+                        'url'=>array('/user/user/commercial'),
+                        'itemOptions' => array('class'=>'item-adv'),
+                    ),
+                    array(
+                        'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/News.svg')
+                        . 'Новости ' . 
+                        ((Yii::app()->controller->news_to_watch)
+                            ?  
+                            "<strong class='nots'>+" . Yii::app()->controller->news_to_watch . "</strong>"
+                            : ''
+                        ),
+                        'url'=>array('/user/news/index'),
+                        'itemOptions' => array('class'=>'item-news'),
+                    ),
+                    array(
+                        'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Settings.svg') 
+                        . 'Настройки',
+                        'url'=>array('/user/user/data'),
+                        'itemOptions' => array('class'=>'item-settings'),
+                    ),
+                ),
+                'htmlOptions'=>array(
+                    'class'=>'side-nav accordion_mnu collapsible',
+                    'id'=>'menu',
+                ),
+                'encodeLabel'=>false,
+            );
+			if ( Yii::app()->controller->settingsList['vk']->status == 1 ) {
+				$menu_array['items'][] = array(
+					'label'=> 'Vkontakte',
+					'url' => Yii::app()->controller->settingsList['vk']->value,
+					'linkOptions' => array('target' => '_blank'),
+					'itemOptions' => array('class'=>'item-vk'),
+				);
+			}
+			if ( Yii::app()->controller->settingsList['email']->status == 1 ) {
+				$menu_array['items'][] = array(
+					'label'=> 'E-mail',
+					'url' => Yii::app()->controller->settingsList['email']->value,
+					'linkOptions' => array('target' => '_blank'),
+					'itemOptions' => array('class'=>'item-email'),
+				);
+			}
+			if ( Yii::app()->controller->settingsList['skype']->status == 1 ) {
+				$menu_array['items'][] = array(
+					'label'=> 'Skype',
+					'url' => Yii::app()->controller->settingsList['skype']->value,
+					'linkOptions' => array('target' => '_blank'),
+					'itemOptions' => array('class'=>'item-skype'),
+				);
+			}
+
+            $this->widget('zii.widgets.CMenu', $menu_array); 
+        ?>
+    </div>
+
+	<div id="main-content">
+	    <div class="container-fluid">
+	        <div class="main-content">
+	            <?php echo $content; ?>
+	        </div>
+	    </div>
+	</div>
+
+
+
+
+
+
 </body>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

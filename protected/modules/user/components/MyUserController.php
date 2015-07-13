@@ -7,6 +7,8 @@ class MyUserController extends Controller
     public $news;
     public $news_views;
     public $settingsList;
+    public $landings;
+    
     /**
      * @return array action filters
      */
@@ -94,6 +96,19 @@ class MyUserController extends Controller
         {
             $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
             unset($this->settingsList[$i]);
+        }
+
+
+        Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
+        $landings = Landings::model()->findAll();
+        if (count($landings) > 1) {
+            $lands = array( 0 => 'Все' );
+            foreach ($landings as $l) {
+                $lands[ $l->land_id ] = $l->name; 
+            } 
+            $this->landings = $lands;
+        } else {
+            $this->landings = false;
         }
     }
 }

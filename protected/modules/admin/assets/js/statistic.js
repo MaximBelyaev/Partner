@@ -38,7 +38,7 @@ $(document).ready(function() {
                 $('.table_wrap .input-daterange').hide();
             }
         } else {
-            $('.table_wrap .input-daterange').toggle();     
+            $('.table_top_buttons .input-daterange').toggle();     
         }
     });
 
@@ -106,6 +106,21 @@ $(document).ready(function() {
         di.setAttribute('data-end', end);
         loadRangeData(start, end, '', 'table');
     });
+
+	$("#chart").on("plothover", function (event, pos, item) {
+		if (item) {
+			var y = item.datapoint[1].toFixed(2),
+                $stat_block_offset = $('.stats_block').offset(),
+                $tt = $("#tooltip").html( Math.round(y) ),
+				ttX = item.pageX - $stat_block_offset.left - ($tt.width()/2 )-parseInt( $tt.css('padding-left') ) + 1,
+				ttY = item.pageY - $stat_block_offset.top- 40;
+
+                $tt.css( { top: ttY, left: ttX } ).fadeIn( 200 );
+		} else {
+			$("#tooltip").hide();
+		}
+	});
+
 });
 
 
@@ -128,15 +143,15 @@ function loadRangeData(start, end, type, output_type) {
 		beforeSend: function() {
 			// перед отправкой данных, затемняем график или таблицу
 			if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
-				$('.chart_wrap .preloader').add('.chart_wrap .preloader_wrap').fadeIn('200');
+				$('.stats_block .preloader').add('.stats_block .preloader_wrap').fadeIn('200');
 			} 
 			if(output_type == 'table' || output_type == 'both') {
-				$('.table_wrap .preloader').add('.table_wrap .preloader_wrap').fadeIn('200');
+				$('#stats .preloader').add('#stats .preloader_wrap').fadeIn('200');
 			} 
 		}
 	})
 	.done(function(ans) {
-		console.log(ans);
+		// console.log(ans);
 		if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
 			var dataArray = [];
 			$.each(ans.charts, function(index, val) {
@@ -145,10 +160,26 @@ function loadRangeData(start, end, type, output_type) {
 
 			plot = $.plot("#chart", dataArray,
 			{
-					xaxis: {
-						mode: "time",
-						timeformat: "%d/%m/%y",
+				xaxis: {
+					mode: "time",
+					timeformat: "%d.%m.%y",
+					ticks: 5,
+				},
+				series: {
+					lines: {
+						show: true,
+						fill: 0.2,
+					},
+					points: {
+						show: true
 					}
+				},
+				grid: {
+					hoverable: true,
+					clickable: true,
+					borderWidth: 0,
+				},
+				colors: [ '#fe974b', '#63bb67', '#3bace2' ],
 			});
 		} 
 
@@ -163,13 +194,11 @@ function loadRangeData(start, end, type, output_type) {
 		console.log(ans.responseText);
 	})
 	.always(function(ans) {
-        console.log(ans);
-		if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
-			$('.chart_wrap .preloader').add('.chart_wrap .preloader_wrap').fadeOut('200');
-		} 
-		if(output_type == 'table' || output_type == 'both') {
-			$('.table_wrap .preloader').add('.table_wrap .preloader_wrap').fadeOut('200');
-		} 
+        $('.stats_block .preloader')
+            .add('.stats_block .preloader_wrap')
+            .add('#stats .preloader')
+            .add('#stats .preloader_wrap')
+            .fadeOut('200');
 	});
 }
 

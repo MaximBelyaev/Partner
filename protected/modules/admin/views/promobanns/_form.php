@@ -4,6 +4,10 @@
 /* @var $form CActiveForm */
 ?>
 
+<div class="block">
+	
+
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -16,14 +20,16 @@
 
 	<div class="head">
 		<h5><?php echo $model->isNewRecord ? 'Добавление баннера' : 'Редактирование баннера: '.$model->name; ?></h5>
-		<div class="button_save">
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
+		<div class="underlist-button underlist-button-inline">
+			<?php echo CHtml::link('Вернуться',array('/admin/promobanns/index'), array('class'=>'btn',)); ?>
 		</div>
-		<div class="button_save">
-			<?php echo CHtml::link('<i class="icon-step-backward"></i> Вернуться',array('/admin/promobanns/index'), array('class'=>'btn btn-success',)); ?>
+		<div class="underlist-button underlist-button-inline">
+			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</div>
 		<div class="clear"></div>
 	</div>
+
+	<div class="row-fluid">
 
 	<!---- Flash message ---->
 	<?php $this->beginWidget('FlashWidget',array(
@@ -34,40 +40,47 @@
 	$this->endWidget(); ?>
 	<!---- End Flash message ---->
 
+	</div>
+
 	<div class="clear"></div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'type'); ?>
-		<?php echo $form->dropDownList($model,'type', $typesList); ?>
-		<?php echo $form->error($model,'type'); ?>
+	<div class="row-fluid">
+		<div class="span4">
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'type'); ?>
+				<?php echo $form->dropDownList($model,'type', $typesList); ?>
+				<?php echo $form->error($model,'type'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'name'); ?>
+				<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+				<?php echo $form->error($model,'name'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'width'); ?>
+				<?php echo $form->textField($model,'width'); ?>
+				<?php echo $form->error($model,'width'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'height'); ?>
+				<?php echo $form->textField($model,'height'); ?>
+				<?php echo $form->error($model,'height'); ?>
+			</div>
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'image'); ?>
+				<?php echo $form->fileField($model, 'image', array('data-header'=>'Выберите файл')); ?>
+				<?php echo $form->error($model,'image'); ?>
+			</div>
+		</div>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'width'); ?>
-		<?php echo $form->textField($model,'width'); ?>
-		<?php echo $form->error($model,'width'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'height'); ?>
-		<?php echo $form->textField($model,'height'); ?>
-		<?php echo $form->error($model,'height'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'image'); ?>
-		<?php echo $form->fileField($model, 'image'); ?>
-		<?php echo $form->error($model,'image'); ?>
-	</div>
 
 	<?php if($model->isNewRecord!='1'){ ?>
-	<div class="row">
+	<div class="form-row">
 		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); }?>
 	</div>
 
@@ -75,3 +88,4 @@
 
 </div><!-- form -->
 
+</div>

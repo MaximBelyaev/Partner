@@ -41,16 +41,16 @@ class StatisticsController extends AdminController
 			}
 
 		} elseif ($type == 'referrals') {
-
+			// количество клиентов (клиенты БЕЗ учета повторений)
 			if ($output_type == 'chart' || $output_type == 'both') {
 				$charts['referrals'] = $chart->getRangeReferralsData($start, $end, false, 'distinct');
 			}
 			if ($output_type == 'table' || $output_type == 'both') {
-				// $stats['referrals'] = $chart->getRangeReferralsData($start, $end, false, 'distinct');	
+				$stats['referrals'] = $chart->getRangeReferralsData($start, $end, false, 'distinct');	
 			}
 
 		} elseif ($type == 'requests') {
-
+			// переходы
 			if ($output_type == 'chart' || $output_type == 'both') {
 				$charts['requests'] = $chart->getRangeRequestsData($start, $end);			
 			}
@@ -59,6 +59,7 @@ class StatisticsController extends AdminController
 			}
 
 		} elseif ($type == 'referrals_z') {
+			// количество заявок 
 			$charts['referrals_z'] = $chart->getRangeReferralsData($start, $end);			
 		} elseif ($type == 'payed') {
 			$charts['payed'] = $chart->getRangeReferralsData($start, $end, 'payed');

@@ -57,7 +57,7 @@ return array(
         'urlManager'=>array(
             'class'=>'application.components.UrlManager',
             'urlFormat'=>'path',
-            'urlSuffix'=>'.html',
+            //'urlSuffix'=>'.html',
             'showScriptName'=>false,
             'rules'=>array(
                 '<language:(ru|uk)>/' => 'site/index',

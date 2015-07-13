@@ -13,20 +13,25 @@ $this->setPageTitle("Новости | Партнерская программа 
 ?>
 
 
-<div>
+<div class="block">
 	
 	<div class="head">
-		<h5>Новости</h5>
-		
-		<div class="button_save">
-			<?= CHtml::link('<i class="icon-plus"></i> Добавить', "/admin/news/create", array('class' => 'btn btn-default')) ?>		
-		</div>
+		<h5>
+            Новости
+			<?= CHtml::link('Добавить', "/admin/news/create", array('class' => 'btn btn-primary')) ?>		
+        </h5>
 	</div>	
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
 	//'dataProvider' => $model->search(),
 	'dataProvider' => $dataProvider,
+    'summaryText'   => '',
+	'pager'=> array(  
+		'header'        => '',
+		'prevPageLabel' => 'Назад',
+		'nextPageLabel' => 'Далее',    
+	),
     //'filter' => $model,
 	'columns' => array(
         'date',

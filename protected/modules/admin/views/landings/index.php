@@ -4,28 +4,52 @@ $this->breadcrumbs=array( 'Партнёры' );
 $this->setPageTitle("Список лендингов");
 ?>
 
-<div class="head">
-	<h5>Лэндинги</h5>
-	<div class="button_save">
-		<?php echo CHtml::link('<i class="icon-plus"></i> Добавить',array('/admin/landings/create'), array('class'=>'btn btn-success',)); ?>
-	</div>
-</div>
+<div class='block'>
 
+<div class="head">
+	<h5>
+		Лэндинги
+		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-primary',)); ?>
+	</h5>
+	<!-- <div class="underlist-button">
+	</div> -->
+</div>
+	
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id' => 'user-grid',
+	'id' => 'landings-grid',
 	'dataProvider' => $dataProvider,
+	'summaryText' => '',
+	'htmlOptions' => array('class'=>'grid-view orange'),
 	'columns' => array(
-		'land_id',
-		'link',
-		'name',
-		array(
+    array(
+        'name' => 'land_id',
+        'htmlOptions' => array('class' => 'width60'),
+        'headerHtmlOptions' => array('class' => 'width60'),
+        'filterHtmlOptions' => array('class' => 'width60'),
+    ),
+    array(
+        'name' => 'link',
+        'htmlOptions' => array('class' => 'width595'),
+        'headerHtmlOptions' => array('class' => 'width595'),
+        'filterHtmlOptions' => array('class' => 'width595'),
+    ),
+    array(
+        'name' => 'name',
+        'htmlOptions' => array('class' => 'width595'),
+        'headerHtmlOptions' => array('class' => 'width595'),
+        'filterHtmlOptions' => array('class' => 'width595'),
+    ),
+		/*array(
 			'name' => 'icon',
 			'value' => '$data->icon ? CHtml::image("/uploads/" . $data->icon, $data->name, array("class"=>"land_icon")) : ""',
 			'type' => 'html',
-		),
+		),*/
 		array(
-			'header'=>'Действия',
+			'header'=>'Действие',
 			'class'=>'CButtonColumn',
+	        'htmlOptions' => array('class' => 'width120 actionColumn'),
+	        'headerHtmlOptions' => array('class' => 'width120 actionColumn'),
+	        'filterHtmlOptions' => array('class' => 'width120 actionColumn'),
 			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
 			'buttons'=>array
 			(
@@ -49,3 +73,6 @@ $this->setPageTitle("Список лендингов");
 		),
 	),
 ));
+?>
+
+</div>

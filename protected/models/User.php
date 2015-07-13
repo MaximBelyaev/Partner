@@ -37,17 +37,25 @@ class User extends CActiveRecord
 	public function getProfit()
 	{
 		if ($this->money)
+		{
 			return $this->money->profit;
+		}
 		else
+		{
 			return 'Не зарегистрирован';
+		}
 	}
 
 	public function getFullProfit()
 	{
 		if ($this->money)
+		{
 			return $this->money->full_profit;
+		} 
 		else
+		{
 			return 'Не зарегистрирован';
+		}
 	}
 
 	public function getRequest($use_click_pay = 1)
@@ -115,32 +123,34 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'role' => 'Role',
-			'username' => 'Email',
-			'name' => 'ФИО',
-			'password' => 'Пароль',
-			'status' => 'Статус',
-			'site' => 'Сайт',
-			'reg_date' => 'Зарегистрирован',
+			'id' 		=> 'ID',
+			'role' 		=> 'Role',
+			'username' 	=> 'Email',
+			'name' 		=> 'ФИО',
+			'password' 	=> 'Пароль',
+			'status'	=> 'Статус',
+			'site' 		=> 'Сайт',
+			'reg_date'	 => 'Регистрация',
 			'birth_date' => 'Дата рождения',
-			'sex' => 'Пол',
-			'country' => 'Страна',
-			'region' => 'Область',
-			'city' => 'Город',
-			'avatar' => 'Аватар',
+			'sex' 		=> 'Пол',
+			'country' 	=> 'Страна',
+			'region' 	=> 'Область',
+			'city' 		=> 'Город',
+			'avatar' 	=> 'Аватар',
 			'verification' => 'Verification',
-			'active' => 'Active',
+			'active' 	=> 'Active',
 			'telephone' => 'Телефон',
-			'skype' => 'Скайп',
-			'money' => 'На счету',
-			'money[profit]' => 'На счету',
-			'requests_count' => 'Всего переходов',
-			'referrals_count' => 'Всего заявок',
-			'referrals_payed_count' => 'Всего заказов',
-			'use_click_pay' => 'Формат',
-			'click_pay' => 'Стоимость перехода',
-			'month_profit' => 'Прибыль за 30 дней'
+			'skype' 	=> 'Скайп',
+			'money' 	=> 'Счет',
+			'money[profit]' 	=> 'Счету',
+			'requests_count' 	=> 'Переходы',
+			'fullProfit'		=> 'Прибыль', 
+			'referrals_count' 	=> 'Заявки',
+			'referrals_payed_count' => 'Заказы',
+			'use_click_pay' 	=> 'Формат',
+			'click_pay' 		=> 'Стоимость перехода',
+			'month_profit' 		=> 'Прибыль',
+			'promo_code' 		=> "Промокод",
 		);
 	}
 
@@ -422,7 +432,7 @@ class User extends CActiveRecord
 		}
 	}
 
-	public function setStatusIcon()
+	public function getStatusIcon()
 	{
 		if ($this->status === "VIP") {
 			return self::VIP_DISPLAY;
@@ -433,12 +443,12 @@ class User extends CActiveRecord
 		}
 	}
 
-	public function setFormatIcon()
+	public function getFormatIcon()
 	{
 		if ($this->use_click_pay > 0) {
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png>";
+			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png' >";
 		} else {
-			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/icn_percent.png>";
+			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_percent.png' >";
 		}
 	}
 

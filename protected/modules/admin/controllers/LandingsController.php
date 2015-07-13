@@ -29,8 +29,10 @@ class LandingsController extends AdminController
 			$model->icon = CUploadedFile::getInstance($model, 'icon');
             if($model->save())
 			{
-				$path = Yii::getPathOfAlias('webroot').'/uploads/'.$model->icon->getName();
-				$model->icon->saveAs($path);
+				if ($model->icon) {
+					$path = Yii::getPathOfAlias('webroot').'/uploads/' . $model->icon->getName();
+					$model->icon->saveAs($path);
+				}
 				$this->redirect(array('update','id'=>$model->land_id));
 			}
 			else
