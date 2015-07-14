@@ -207,7 +207,7 @@
 			
 			<div class="form-group">
 				<?php echo $form->labelEx($newReferral,'promo'); ?>
-				<?php echo $form->textField($newReferral,'promo', array('placeholder'=>'Если нет - оставить пустым')); ?>
+				<?php echo $form->textField($newReferral,'promo', array('placeholder'=>'Если нет - оставить пустым', 'data-placeholder'=>'Если нет - оставить пустым')); ?>
 				<?php echo $form->error($newReferral,'promo'); ?>
 			</div>
 
