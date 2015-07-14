@@ -943,11 +943,18 @@ input[type="checkbox"]:not(:checked) + label, [type="checkbox"]:checked + label 
 	width: 13px;
 	height: 13px;
 	display: inline-block;
-	border: 1px solid #5fc564;
 	border-radius: 2px;
+	top: 2px;
 	margin-right: 10px;
 	position: relative;
 	margin-bottom: -1px;
+
+}
+input[type="checkbox"]:not(:checked) + label {
+	border: 1px solid #BABDC0;
+}
+input[type="checkbox"]:checked + label {
+	border: 1px solid #5fc564;
 }
 input[type="checkbox"]:checked + label:before {
 	content: "";
@@ -1196,25 +1203,25 @@ input[type="checkbox"]:checked + label:before {
 
 }
 .modal .modal-content {
-	padding: 45px 50px 20px;
+	padding: 35px 30px 40px;
 }
 .modal .close-modal {
-	background-color: rgba(0, 0, 0, 0);
-	color: #3aace2;
-	padding: 0;
-	font-weight: 400;
-	font-size: 34px;
-	position: absolute;
-	right: -25px;
-	top: -40px;
-}
-.modal .close-modal span {
-	color: #3aace2;
-	width: 20px;
-	height: 20px;
+  background-color: #3aace2;
+  color: #FFF;
+  padding: 0;
+  font-weight: 300;
+  font-size: 38px;
+  position: absolute;
+  right: -44px;
+  top: 0px;
+  text-align: center;
+  width: 35px;
+  height: 35px;
+  line-height: 0;
+  padding: 0 0 2px 1px;
 }
 .modal .close-modal:hover {
-	background-color: rgba(0, 0, 0, 0);
+	background-color: #5FBFED;
 }
 .modal .modal-title {
 	color: #697887;
@@ -1225,13 +1232,16 @@ input[type="checkbox"]:checked + label:before {
 .modal .modal-content .form-group {
 	display: inline-block;
 	width: 215px;
-	margin-bottom: 10px;
-	vertical-align: bottom;
+	margin-bottom: 6px;
+	vertical-align: text-top;
+	min-height: 66px;
 }
 .modal .modal-content .form-group:nth-child(3n+2) {
-	margin: 0 20px 10px;
+	margin: 0 40px 6px;
 }
-
+.modal .modal-content .form-group .checkbox-wrap {
+	margin-top: 33px;
+}
 .modal .modal-content .form-group label {
 	color: #7e8e9f;
 	font: 400 14px 'Open Sans';
@@ -1244,17 +1254,26 @@ input[type="checkbox"]:checked + label:before {
 .modal .modal-content input, .modal .modal-content select {
 	border: 1px solid #c0c6cd;
 	box-sizing: border-box;
-	height: 30px;
-	margin-bottom: 4px;
+	height: 32px;
+	margin-bottom: 0;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	width: 215px;
+}
+.modal .modal-content input:focus {
+	border-color: #3aace2;
 }
 .modal .modal-content input[type="submit"] {
 	font: 600 14px 'Open Sans';
 	border: none;
 	background-color: #3aace2;
 	height: 40px;
-	margin-top: 30px;
+	margin-top: 26px;
 }
+.modal .modal-content input[type="submit"] {
+ 	background-color: #5FBFED;
+}
+
 @media (max-width:1600px) {
 	.table-row {
 		margin-bottom: 0;
