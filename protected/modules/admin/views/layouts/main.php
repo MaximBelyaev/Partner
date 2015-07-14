@@ -15,7 +15,7 @@
     <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
-    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/jquery.easydropdown.min.js" ></script>
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/src/jquery.easydropdown.js" ></script>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/main.js"></script>
 </head>
 <body>
@@ -175,24 +175,40 @@
 					$result = array_merge(array('promo'=>'Промо код'), $users);
 				?>
 				
-				<?php echo $form->dropDownList($newReferral,'user_id', $users, array('prompt'=>'- - - без партнера - - -')); ?>
+				<?php echo $form->dropDownList(
+					$newReferral,
+					'user_id', 
+					$users, 
+					array(
+						'prompt' => '- - - без партнера - - -',
+						'class'  => 'dropdown' )
+					); ?>
 				<?php echo $form->error($newReferral,'user_id'); ?>
-
-				<?php echo $form->labelEx($newReferral,'promo'); ?>
-				<?php echo $form->textField($newReferral,'promo', array('placeholder'=>'Если нет - оставить пустым')); ?>
-				<?php echo $form->error($newReferral,'promo'); ?>
 			</div>
-
-			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'email'); ?>
-				<?php echo $form->textField($newReferral,'email',array('size'=>60,'maxlength'=>150)); ?>
-				<?php echo $form->error($newReferral,'email'); ?>
-			</div>
-
 			<div class="form-group">
 				<?php echo $form->labelEx($newReferral,'money'); ?>
 				<?php echo $form->textField($newReferral,'money',array('size'=>8,'maxlength'=>8)); ?>
 				<?php echo $form->error($newReferral,'money'); ?>
+			</div>
+			<?php if (Yii::app()->controller->landings) { ?>
+			<div class="form-group">
+				<?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
+				<?php echo $form->dropDownList( 
+					$newReferral, 
+					'land_id', 
+					Yii::app()->controller->landings,
+					array(
+						'class' => 'dropdown',
+					) 
+				); ?>
+				<?php echo $form->error( $newReferral, 'land_id' ); ?>
+			</div>
+			<?php } ?>
+			
+			<div class="form-group">
+				<?php echo $form->labelEx($newReferral,'promo'); ?>
+				<?php echo $form->textField($newReferral,'promo', array('placeholder'=>'Если нет - оставить пустым')); ?>
+				<?php echo $form->error($newReferral,'promo'); ?>
 			</div>
 
 			<div class="form-group">
@@ -202,27 +218,39 @@
 			</div>
 
 			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'status'); ?>
-				<?php echo $form->dropDownList($newReferral,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
-				<?php echo $form->error($newReferral,'status'); ?>
-			</div>
-
-			<?php if (Yii::app()->controller->landings) { ?>
-			<div class="form-group">
-				<?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
-				<?php echo $form->dropDownList( $newReferral, 'land_id', Yii::app()->controller->landings ); ?>
-				<?php echo $form->error( $newReferral, 'land_id' ); ?>
-			</div>
-			<?php } ?>
-
-			<div class="form-group">
+				<div class="checkbox-wrap">
 				<?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
 				<label for="Referrals_recreate_interval" class="checkbox-label"></label>
 				<label class="required inline-block" for="Referrals_recreate_interval">
 					Постоянная оплата
 				</label>
+				</div>
 			</div>
 
+			<div class="form-group">
+				<?php echo $form->labelEx($newReferral,'email'); ?>
+				<?php echo $form->textField($newReferral,'email',array('size'=>60,'maxlength'=>150)); ?>
+				<?php echo $form->error($newReferral,'email'); ?>
+			</div>
+
+
+			<div class="form-group">
+				<?php echo $form->labelEx($newReferral,'status'); ?>
+				<?php echo $form->dropDownList(
+					$newReferral,
+                    'status',
+					array(
+						'Заявка' => 'Заявка', 
+						'Оплачено' => 'Оплачено' 
+					),
+					array(
+						'class' => 'dropdown',
+					)
+				); ?>
+				<?php echo $form->error($newReferral,'status'); ?>
+			</div>
+
+			<div class="form-group">
 			<?php echo CHtml::ajaxSubmitButton("Добавить клиента", $this->createUrl('referrals/create'),
 				array(
 					'dataType'=>'json',
@@ -241,7 +269,8 @@
 					}',
 				),
 				array('class' => 'btn btn-success')); ?>
-
+			</div>
+			
 			<?php $this->endWidget(); ?>
 		</div>
 	</div>
@@ -261,17 +290,11 @@
             )); ?>
             <div class="errorMessage" id="formResultUser"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
-            <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">&times;</button>
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'username'); ?>
                 <?php echo $form->textField($newUser,'username',array('size'=>60,'maxlength'=>150,)); ?>
                 <?php echo $form->error($newUser,'username'); ?>
-            </div>
-
-            <div class="form-group">
-                <?php echo $form->labelEx($newUser,'password'); ?>
-                <?php echo $form->textField($newUser,'password',array('size'=>50,'maxlength'=>50)); ?>
-                <?php echo $form->error($newUser,'password'); ?>
             </div>
 
             <div class="form-group">
@@ -287,12 +310,6 @@
                         array('class' => 'dropdown')
                 ); ?>
                 <?php echo $form->error($newUser,'status'); ?>
-            </div>
-
-            <div class="form-group">
-                <?php echo $form->labelEx($newUser,'site'); ?>
-                <?php echo $form->textField($newUser,'site',array('size'=>50,'maxlength'=>255)); ?>
-                <?php echo $form->error($newUser,'site'); ?>
             </div>
 
             <div class="form-group">
@@ -312,11 +329,26 @@
                 <?php echo $form->error($newUser,'use_click_pay'); ?>
             </div>
 
-            <div class="form-group" id="hidden" style="display:none">
-                <?php echo $form->labelEx($newUser,'click_pay'); ?>
-                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['click_pay']->value)); ?>
-                <?php echo $form->error($newUser,'click_pay'); ?>
+            <div class="form-group">
+                <?php echo $form->labelEx($newUser,'password'); ?>
+                <?php echo $form->textField($newUser,'password',array('size'=>50,'maxlength'=>50)); ?>
+                <?php echo $form->error($newUser,'password'); ?>
             </div>
+
+
+            <div class="form-group">
+                <?php echo $form->labelEx($newUser,'site'); ?>
+                <?php echo $form->textField($newUser,'site',array('size'=>50,'maxlength'=>255)); ?>
+                <?php echo $form->error($newUser,'site'); ?>
+            </div>
+
+			 <div class="form-group">
+            
+	            <div class="form-group" id="hidden" style="display:none">
+	                <?php echo $form->labelEx($newUser,'click_pay'); ?>
+	                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['click_pay']->value)); ?>
+	                <?php echo $form->error($newUser,'click_pay'); ?>
+	            </div>
 
             <?php echo CHtml::ajaxSubmitButton("Добавить партнера", $this->createUrl('user/create'),
                 array(
@@ -336,7 +368,7 @@
                     }',
                 ),
                 array('class' => 'btn btn-success')); ?>
-
+			</div>
             <?php $this->endWidget(); ?>
         </div>
     </div>

@@ -19,6 +19,11 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 	'summaryText' => '',
 	'htmlOptions' => array( 'class' => 'grid-view has-filter'),
 	'filter' => $model,
+    'pager'=> array(  
+        'header'        => '',
+        'prevPageLabel' => 'Назад',
+        'nextPageLabel' => 'Далее',    
+    ),
 	'columns' => array(
 		array(
 			'name' => 'notification_id',
