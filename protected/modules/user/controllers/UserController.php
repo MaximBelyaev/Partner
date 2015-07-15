@@ -386,6 +386,39 @@ class UserController extends MyUserController
         ));
 	}
 
+    public function actionOffers ()
+    {
+        $offersList = Landings::model()->findAll();
+        $allUsersLandings = UsersLandings::model()->findAll();
+        $usersLandings = [];
+        foreach ($allUsersLandings as $combination)
+        {
+            $usersLandings[$combination->land_id] = $combination->user_id;
+        }
+        $this->render('offers', array(
+            'offersList' => $offersList,
+            'usersLandings' => $usersLandings
+        ));
+    }
+
+    public function actionOnOffer($id)
+    {
+        $sql = "INSERT INTO users_landings(land_id, user_id) VALUES (" . $id . ", " . Yii::app()->user->id . ")";
+        $connection=Yii::app()->db;
+        $command=$connection->createCommand($sql);
+        $command->execute();
+        $this->redirect(array('user/offers'));
+    }
+
+    public function actionOffOffer($id)
+    {
+        $sql = "DELETE FROM users_landings WHERE land_id = '" . $id . "' AND user_id = '" . Yii::app()->user->id . "'";
+        $connection=Yii::app()->db;
+        $command=$connection->createCommand($sql);
+        $command->execute();
+        $this->redirect(array('user/offers'));
+    }
+
     public function actionPayRequest()
     {
         $model = new Stateds;

@@ -18,9 +18,12 @@ class Landings extends CActiveRecord
 	{
 		return array(
 			array('link, name', 'length', 'max' => 255),
+			array('vip', 'standard', 'extended', 'max' => 255),
+			array('user_panel', 'max' => 10),
 			array('link', 'required'),
 			array('link', 'url'),
 			array('icon', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
+            array('user_panel'=>'search'),
 		);
 	}
 
@@ -43,8 +46,27 @@ class Landings extends CActiveRecord
 			'icon' => 'Изображение',
 			'name' => 'Название',
 			'land_id' => 'ID',
+            'vip' => 'VIP',
+            'extended' => 'Расширенный',
+            'standard' => 'Стандартный'
 		);
 	}
+
+    public function search($pageSize = 10)
+    {
+        // @todo Please modify the following code to remove attributes that should not be searched.
+
+        $criteria = new CDbCriteria;
+
+
+        $criteria->compare('user_panel',$this->user_panel);
+        $criteria->order = 'date DESC';
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+            'pagination'=>array('pageSize' => $pageSize),
+        ));
+    }
 	
 	public static function model($className = __CLASS__)
 	{
