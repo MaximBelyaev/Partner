@@ -86,7 +86,7 @@ class Notifications extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($pageSize = 9)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
@@ -100,6 +100,7 @@ class Notifications extends CActiveRecord
 		$criteria->compare('is_new',$this->is_new);
 		$criteria->order = 'is_new DESC, date DESC';
 		return new CActiveDataProvider($this, array(
+			'pagination' => array('pageSize' => $pageSize),
 			'criteria'=>$criteria,
 		));
 	}
