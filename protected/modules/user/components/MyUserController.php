@@ -39,7 +39,8 @@ class MyUserController extends Controller
                 'actions' => array(
                 	'index', 'range', 'logout', 
                 	'file', 'commercial', 'data', 
-                	'view', 'payRequest', 'changeOffer'
+                	'view', 'payRequest', 'offers',
+                    'onOffer', 'offOffer', 'changeOffer'               
                 ),
                 'roles' => array('user'),// для авторизованных
             ),
@@ -101,13 +102,28 @@ class MyUserController extends Controller
 
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
         $landings = Landings::model()->findAll();
-        if (count($landings) > 1) {
+        $relations = UsersLandings::model()->findAll(
+            array(
+                'condition' => 'user_id = :user_id',
+                'params' => array(':user_id'=>Yii::app()->user->id),
+            ));
+        $userRelations = [];
+        foreach ($relations as $relation)
+        {
+            $userRelations[$relation->land_id] = $relation->user_id;
+        }
+
+        if (count($landings) > 1)
+        {
             $lands = array( 0 => 'Все' );
-            foreach ($landings as $l) {
-                $lands[ $l->land_id ] = $l->name; 
-            } 
+            foreach ($landings as $l)
+            {
+                if (array_key_exists($l->land_id, $userRelations))
+                $lands[ $l->land_id ] = $l->name;
+            }
             $this->landings = $lands;
-        } else {
+        } else
+        {
             $this->landings = false;
         }
     }

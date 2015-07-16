@@ -89,6 +89,10 @@
                         'itemOptions' => array('class'=>'item-news'),
                     ),
                     array(
+                        'label' => 'Офферы',
+                        'url'   => array('/user/user/offers'),
+                    ),
+                    array(
                         'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Settings.svg') 
                         . 'Настройки',
                         'url'=>array('/user/user/data'),
