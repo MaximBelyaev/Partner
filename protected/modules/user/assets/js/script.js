@@ -20,16 +20,8 @@ jQuery(document).ready(function($) {
         .done(function(x) {
             console.log("success");
             window.location.reload();
-        })
-        .fail(function() {
-            console.log("error");
-        })
-        .always(function(x) {
-            console.log("complete");
         });
     });
-
-
 
 
 	$('body').on('click', function(event) {

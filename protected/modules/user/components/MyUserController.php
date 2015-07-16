@@ -40,7 +40,7 @@ class MyUserController extends Controller
                 	'index', 'range', 'logout', 
                 	'file', 'commercial', 'data', 
                 	'view', 'payRequest', 'offers',
-                    'onOffer', 'offOffer'
+                    'onOffer', 'offOffer', 'changeOffer'               
                 ),
                 'roles' => array('user'),// для авторизованных
             ),

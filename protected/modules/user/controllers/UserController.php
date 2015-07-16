@@ -379,6 +379,25 @@ class UserController extends MyUserController
 	{
         $bannersList = Promobanns::model()->findAll();
         $promovideosList = Promovideo::model()->findAll();
+
+        $baseUrl = Yii::app()->baseUrl;
+        $cs = Yii::app()->getClientScript();
+
+
+		$cs->registerScriptFile(
+			$baseUrl . '/js/zeroclipboard-master/dist/ZeroClipboard.js', 
+			CClientScript::POS_END
+		);
+		$cs->registerScript(
+			'zrclpbrd', 
+			"//ZeroClipboard.setMoviePath('" . $baseUrl . "/js/zeroclipboard-master/dist/ZeroClipboard.swf" . "');", 
+			CClientScript::POS_END
+		);
+		$cs->registerScriptFile(
+			$this->module->assetsUrl . '/js/commercial.js', 
+			CClientScript::POS_END
+		);
+        
         $this->render('commercial', array(
         	'user' => $this->user,
             'bannersList' => $bannersList,
@@ -559,5 +578,21 @@ class UserController extends MyUserController
 		));
 		Yii::app()->end();
 	}
+
+    public function actionChangeOffer($id)
+{
+    var_dump($_GET);
+$offer = Landings::model()->find(['condition' => 'land_id = ' . $id]);
+if ($offer->user_panel == 1)
+{
+$offer->user_panel = 0;
+}
+else
+{
+$offer->user_panel = 1;
+}
+$offer->save();
+$this->refresh();
+}
 
 }

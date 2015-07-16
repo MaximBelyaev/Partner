@@ -1,9 +1,7 @@
 <?php
-/* @var $this BannersController */
-/* @var $model Banners */
 
-$this->breadcrumbs=array(
-	'Баннеры'=>array('index'),
+$this->breadcrumbs = array(
+	'Баннеры' => array('index'),
 	'Добавить',
 );
 
