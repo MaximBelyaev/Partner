@@ -538,14 +538,101 @@ p {
 	margin-left: 0;
 }
 
-@media screen and (max-width:1089px) {
+
+
+
+
+@media screen and (max-width: 1142px) {
+	
+	.container-fluid {
+		text-align: center;
+	}
+	.nav.pull-left.for-logo {
+		display: inline-block;
+		float: none;
+		vertical-align: top;
+	}
+	.nav.pull-left.landing_select {
+		display: inline-block;
+		float: none;
+		vertical-align: top;
+	}
+	.navbar-fixed-top {
+		height: 120px;
+		position: fixed;
+	}
+	.navbar-fixed-top .navbar-inner, .navbar-static-top .navbar-inner {
+		height: 100%;
+	}
+	.container-fluid .nav.pull-right {
+		float: none;
+		margin: -5px auto 0;
+		clear: both;
+		height: 60px;
+		width: 640px;
+		display: block;
+	}
+	#sidebar {
+		top: 165px;
+	}
+	#main-content {
+		margin-top: 135px;
+	}
+	.index-table table {
+		min-width: 700px;
+	}
+}
+
+@media screen and (max-width: 1089px) {
 	.settings-col {
 		display: block;
 		margin: 0 auto 30px;
 		margin-left: 0;
 	}
 }
-@media screen and (min-width:1090px) {
+
+@media screen and (max-width: 900px) {
+	.navbar-fixed-top {
+		position: static;
+		margin-bottom: 30px;
+	}
+	#sidebar {
+		position: static !important;
+		width: 100%;
+		height: initial;
+		text-align: center;
+	}
+		#sidebar ul {
+			padding: 0 5px;
+		}
+			#sidebar ul li {
+				display: inline-block;
+				vertical-align: top;
+			}
+				#sidebar ul li a {
+					padding-right: 20px;
+				}
+	#main-content {
+		margin: 5px auto;
+	}
+		.main-content {
+			padding: 30px 0;
+		}
+}
+@media screen and (max-width: 680px) {
+	.navbar-fixed-top {
+		height: initial;
+	}
+	.container-fluid .nav.pull-right {
+		height: initial;		
+	}
+	.container-fluid .nav.pull-right li {
+		display: block;
+		float: none;
+	}	
+}
+
+@media screen and (min-width: 1090px) {
 	.settings-col:nth-child(odd) {
 		margin-left: 0;
 	}
@@ -560,7 +647,10 @@ p {
 		margin-left: 0px;
 	}
 }
-@media screen and (min-width:1290px) {
+
+
+
+@media screen and (min-width: 1290px) {
 	.settings-col:nth-child(2) {
 		margin-right: 100px;
 	}
@@ -568,7 +658,7 @@ p {
 		/*margin-left: 110px;*/
 	}
 }
-@media screen and (min-width:1445px) {
+@media screen and (min-width: 1445px) {
 	.settings-col:nth-child(2) {
 		margin-right: 0;
 	}
@@ -578,7 +668,7 @@ p {
 	}
 }
 
-@media screen and (min-width:1910px) {
+@media screen and (min-width: 1910px) {
 
 .row-fluid .update-block {
 	margin-bottom: 0;

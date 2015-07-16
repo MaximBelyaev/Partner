@@ -39,7 +39,7 @@ class MyUserController extends Controller
                 'actions' => array(
                 	'index', 'range', 'logout', 
                 	'file', 'commercial', 'data', 
-                	'view', 'payRequest'
+                	'view', 'payRequest', 'changeOffer'
                 ),
                 'roles' => array('user'),// для авторизованных
             ),

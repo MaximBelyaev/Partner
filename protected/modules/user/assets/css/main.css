@@ -748,6 +748,9 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 	border: 1px solid #BABDC0;
 	box-shadow: none;
 }
+input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+	cursor: default;
+}
 input[type="checkbox"], input[type="radio"] {
 	position: relative;
 	bottom: 2px;
@@ -1060,6 +1063,80 @@ input[type="checkbox"]:checked + label:before {
 .warn a {
 	font-size: 12px;
 }
+.commercial-left {
+	margin-right: 80px;
+}
+.commercial-left,
+.commercial-right {
+	display: inline-block;
+	width: 470px;
+	vertical-align: top;
+}
+
+.commercial-right {
+	margin-top: 25px;
+}
+
+.commercial-videos-block {
+	margin-bottom: 25px;
+}
+.commercial-video-block {
+	margin-bottom: 15px;
+}
+.commercial-block input[type="text"],
+.commercial-block textarea {
+	cursor: default;
+	width: 300px;
+}
+.commercial-block input[type="text"]:hover,
+.commercial-block textarea:hover {
+	border-color: #3bace2;
+}
+.commercial-block textarea {
+	height: 130px;
+	resize: none;
+}
+.commercial-block button {
+	float: right;
+	height: 32px;
+	padding: 0;
+	width: 135px;
+}
+.commercial-block label a {
+	color: #3bace2;
+	margin-left: 12px;
+}
+.no-adblock {
+	padding: 5px;
+	background: rgb(229,229,229); /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(229,229,229,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(229,229,229,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(229,229,229,1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover,  rgba(229,229,229,1) 0%,rgba(255,255,255,1) 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(229,229,229,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center,  rgba(229,229,229,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	
+	font-size: 14px;
+	position: relative;
+	text-align: center;
+
+}
+.no-adblock div {
+	position: absolute;
+	top: 50%;
+	transform: translateY( -50% );
+}
+.banner-block a:hover {
+	text-decoration: none;
+}
+.copy_button.zeroclipboard-is-hover {
+	background: #52bdf1;
+}
+
+
+
+
 @media (max-width:1600px) {
 	.table-row {
 		margin-bottom: 0;
@@ -1069,4 +1146,12 @@ input[type="checkbox"]:checked + label:before {
 		margin-left: 0;
 		margin-bottom: 50px;
 	}
+}
+
+@media screen and (min-width: 1448px) {
+
+.commercial-right {
+	margin-top: 0;
+}
+
 }

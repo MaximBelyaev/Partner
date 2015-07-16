@@ -13,12 +13,10 @@ $( document ).ready(function() {
     });
 
     $('.modal-content').find('input[data-placeholder]').focus(function(event){
-        console.log(this);
         this.placeholder = '';
     });
 
     $('.modal-content').find('input[data-placeholder]').blur(function(event){
-        console.log(this.dataset);
         this.placeholder = this.dataset['placeholder'];
     });
 
