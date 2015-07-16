@@ -388,7 +388,7 @@ class UserController extends MyUserController
 
     public function actionOffers ()
     {
-        $offersList = Landings::model()->findAll();
+        $offersList = Landings::model()->findAll(array('order' => 'sort_order ASC'));
         $allUsersLandings = UsersLandings::model()->findAll();
         $usersLandings = [];
         foreach ($allUsersLandings as $combination)

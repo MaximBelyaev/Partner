@@ -17,13 +17,13 @@ class Landings extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('link, name', 'length', 'max' => 255),
-			array('vip', 'standard', 'extended', 'max' => 255),
-			array('user_panel', 'max' => 10),
+			array('link, name', 'length', 'max'=>255),
+			array('vip, standard, extended, click_pay', 'length', 'max'=>250),
+			array('sort_order', 'length', 'max'=>15),
 			array('link', 'required'),
 			array('link', 'url'),
 			array('icon', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
-            array('user_panel'=>'search'),
+            array('link, name, vip, standard, extended, sort_order', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -48,7 +48,9 @@ class Landings extends CActiveRecord
 			'land_id' => 'ID',
             'vip' => 'VIP',
             'extended' => 'Расширенный',
-            'standard' => 'Стандартный'
+            'standard' => 'Стандартный',
+            'sort_order' => 'Порядок сортировки',
+            'click_pay' => 'Оплата за переход'
 		);
 	}
 
@@ -57,15 +59,12 @@ class Landings extends CActiveRecord
         // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
-
-
-        $criteria->compare('user_panel',$this->user_panel);
-        $criteria->order = 'date DESC';
-
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
             'pagination'=>array('pageSize' => $pageSize),
-        ));
+            'sort' => array(
+                'defaultOrder' => 't.sort_order ASC',
+            )));
     }
 	
 	public static function model($className = __CLASS__)

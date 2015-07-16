@@ -55,7 +55,7 @@ class AdminController extends CController
                     'view', 'create', 'update', 
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
-                    'range', 'change',
+                    'range', 'change', 'sort',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
                     'downloadAndUpdate',

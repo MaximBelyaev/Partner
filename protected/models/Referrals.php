@@ -130,7 +130,7 @@ class Referrals extends CActiveRecord
 			->compare('date',$this->date)
 			->compare('recreate_interval',$this->recreate_interval,true)
 			->compare('recreate_date',$this->recreate_date,true);
-		$criteria->order = 'date DESC';
+        $criteria->order = 'date DESC';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

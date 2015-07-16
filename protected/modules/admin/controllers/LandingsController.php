@@ -70,6 +70,37 @@ class LandingsController extends AdminController
 		));
 	}
 
+    public function actionSort()
+    {
+        $model = Landings::model()->findAll(array('order' => 'sort_order ASC'));
+
+        if(isset($_POST['Landings']))
+        {
+            $valid = true;
+            foreach( $model as $i => $item )
+            {
+                if(isset($_POST['Landings'][$i]))
+                {
+                    $item->attributes = $_POST['Landings'][$i];
+                }
+                $valid = $item->validate() && $valid;
+            }
+            if($valid)
+            {
+                foreach ($model as $m)
+                {
+                    $m->save();
+                }
+                Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+                $this->redirect(array('landings/sort'));
+            }  // все элементы корректны
+        }
+
+        $this->render('sort',array(
+            'model'=>$model,
+        ));
+    }
+
 
 	public function actionDelete($id)
 	{

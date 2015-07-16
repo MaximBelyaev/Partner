@@ -50,6 +50,38 @@
 			</div>
 		</div>
 
+        <div class="row-fluid form-row">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'click_pay'); ?>
+                <?php echo $form->textField( $model,'click_pay',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+                <?php echo $form->error( $model,'click_pay' ); ?>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'vip'); ?>
+                <?php echo $form->textField( $model,'vip',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+                <?php echo $form->error( $model,'vip' ); ?>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'extended'); ?>
+                <?php echo $form->textField( $model,'extended',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+                <?php echo $form->error( $model,'extended' ); ?>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'standard'); ?>
+                <?php echo $form->textField( $model,'standard',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+                <?php echo $form->error( $model,'standard' ); ?>
+            </div>
+        </div>
+
 		<div class="row-fluid form-row">
 			<div class="span6">
 				<?php echo $form->labelEx($model,'icon'); ?>
