@@ -46,7 +46,7 @@ p {
 	border-radius: 2px;
 }
 .block.next-block {
-	margin-top: 30px;
+	margin-top: 40px;
 }
 .table-row {
 	margin-bottom: 50px;
@@ -77,14 +77,13 @@ p {
 /* ===*===*===*=== левое меню ===*===*===*=== */
 #sidebar {
 	background: #FFF;
-	height: calc(100% - 93px - 30px);
-	left: 30px;
-
-  box-shadow: 0px 0px 6px rgba(139,157,175,0.1);
+	height: calc(100% - 100px - 40px);
+	left: 40px;
+	box-shadow: 0px 0px 6px rgba(139,157,175,0.1);
 	overflow: auto;
 	position: fixed !important;
-	top: 93px;
-	width: 273px;
+	top: 100px;
+	width: 255px;
 	z-index: 3;
 }
 .for-logo {
@@ -95,29 +94,42 @@ p {
 	width: 303px;
 }
 .logo {
-	color: #576675;
-	font: 600 25px 'Open Sans';
+	color: #3bace2;
+	font: 600 26px 'Calibri';
 	text-decoration: none;
+	letter-spacing: 0.1px;
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-.clear {
-	clear: both;
-}
-.logo:hover {
+.logo:hover, .logo:hover .cap-let {
 	color: #576675;
 	text-decoration: none;
+}
+.logo .cap-let {
+	color: #3bace2;
+	font-size: 32px;
+	line-height: 32px;
+	-webkit-transition: 0.25s;
+	-moz-transition: 0.25s;
+	transition: 0.25s;
+}
+.cap-let {
+	text-align: uppercase;
+}
+
+.clear {
+	clear: both;
 }
 #menu {
 	list-style: none;
 	margin: -2px 0 0 0;
 }
 #menu a {
-	color: #3a4453;
+	color: #3A4453;
 	display: block;
-	padding: 14px 0 14px 28px;
-	font: 400 15px 'Open Sans';
+	padding: 14px 0 14px 20px;
+	font: 300 15px 'Open Sans';
 	width: 100%;
 	vertical-align: top;
 	-webkit-transition: 0.25s;
@@ -128,7 +140,7 @@ p {
 	width: 18px;
 	height: 18px;
 	margin-right: 5px;
-	margin-top: 2px;
+	margin-bottom: -3px;
 }
 #menu .active a {
 	color: #FFF;
@@ -138,6 +150,10 @@ p {
 	color: #FFF;
 	background-color: #38b1eb;
 	text-decoration: none;
+}
+#menu li a:active {
+	background-color: #f8f9fb;
+	background: #f8f9fb;
 }
 #menu li a svg rect, #menu li a svg polygon, #menu li a svg path {
 	-webkit-transition: 0.25s;
@@ -176,7 +192,7 @@ p {
 	color: #dd5f5a;
 }
 #menu .item-vk a, #menu .item-email a, #menu .item-skype a {
-	padding-left: 55px;
+	padding-left: 47px;
 	position: relative;
 }
 #menu .item-vk a:before, #menu .item-email a:before, #menu .item-skype a:before {
@@ -186,7 +202,7 @@ p {
 	width: 10px;
 	height: 10px;
 	position: absolute;
-	left: 32px;
+	left: 23px;
 	top: 21px;
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
@@ -285,8 +301,8 @@ p {
 	box-shadow: none;
 	background: #FFF;
 	min-height: 60px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 .top-nav {
 	height: 100%;
@@ -312,15 +328,13 @@ p {
 	height: 100%;
 }
 .container-fluid .nav li a {
-	color: #8694a4;
+	color: #3A4453;
 	height: 100%;
 	padding: 20px;
-	font: 400 16px 'Open Sans';
+	font: 400 15px 'Open Sans';
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
-}
-.container-fluid .nav li a:active {
 }
 .container-fluid .nav li a:focus {
 }
@@ -328,6 +342,10 @@ p {
 	color: #FFF;
 	background-color: #38b1eb;
 	text-decoration: none;
+}
+.container-fluid .nav li a:active {
+	background-color: #f8f9fb;
+	background: #f8f9fb;
 }
 .container-fluid .nav li a:hover svg rect, .container-fluid .nav li a:hover svg polygon, .container-fluid .nav li a:hover svg path {
 	-webkit-transition: 0.25s;
@@ -374,8 +392,8 @@ p {
 
 /* ===*===*===*=== главное содержимое ===*===*===*=== */
 #main-content {
-	margin-top: 65px;
-	margin-left: 303px;
+	margin-top: 60px;
+	margin-left: 295px;
 }
 .breadcrumbs {
 	background-color: #f0f3f7;
@@ -387,13 +405,14 @@ p {
 }
 .main-content {
 	background-color: #f0f3f7;
-	padding: 30px;
+	padding: 40px;
+	text-align: initial;
 }
 
 /* ===*===*===*=== таблицы ===*===*===*=== */
 .grid-view {
-	padding-bottom: 0;
 	overflow-x: auto;
+	padding: 15px 0;
 }
 #main-content table {
 	border: none;

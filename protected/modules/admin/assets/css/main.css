@@ -20,6 +20,7 @@ h5 {
 	font: 600 19px 'Open Sans';
 	margin: 0;
 	overflow: hidden;
+	text-align: left;
 }
 h5 .btn {
 	float: right;
@@ -77,12 +78,12 @@ p {
 /* ===*===*===*=== левое меню ===*===*===*=== */
 #sidebar {
 	background: #FFF;
-	height: calc(100% - 93px - 30px);
-	left: 30px;
+	height: calc(100% - 100px - 40px);
+	left: 40px;
 	overflow: auto;
 	position: fixed !important;
 	box-shadow: 0px 0px 6px rgba(139, 157, 175, 0.1);
-	top: 93px;
+	top: 100px;
 	width: 255px;
 	z-index: 3;
 }
@@ -93,24 +94,41 @@ p {
 	padding: 12px 28px 15px 0;
 	width: 303px;
 }
+#mob-menu-trigger {
+	display: none;
+	cursor: pointer;
+	height: 18px;
+	margin-top: 20px;
+	float: left;
+	width: 18px;
+}
 .logo {
 	color: #3bace2;
-	font: 400 25px 'Open Sans';
+	font: 600 26px 'Calibri';
 	text-decoration: none;
 	letter-spacing: 0.1px;
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-.logo:hover {
-	color: #3bace2;
-}
-.clear {
-	clear: both;
-}
-.logo:hover {
+.logo:hover, .logo:hover .cap-let {
 	color: #576675;
 	text-decoration: none;
+}
+.logo .cap-let {
+	color: #3bace2;
+	font-size: 32px;
+	line-height: 32px;
+	-webkit-transition: 0.25s;
+	-moz-transition: 0.25s;
+	transition: 0.25s;
+}
+.cap-let {
+	text-align: uppercase;
+}
+
+.clear {
+	clear: both;
 }
 #menu {
 	list-style: none;
@@ -120,11 +138,11 @@ p {
 	height: 50px;
 }
 #menu a {
-	color: #3a4453;
+	color: #3A4453;
 	height: 100%;
 	display: block;
-	padding: 13px 0 13px 15px;
-	font: 400 15px 'Open Sans';
+	padding: 13px 0 13px 20px;
+	font: 300 15px 'Open Sans';
 	width: 100%;
 	letter-spacing: -0.3px;
 	vertical-align: top;
@@ -136,7 +154,7 @@ p {
 	width: 17px;
 	height: 17px;
 	margin-right: 13px;
-	margin-top: 4px;
+	margin-bottom: -2px;
 }
 #menu .active a {
 	color: #FFF;
@@ -146,6 +164,10 @@ p {
 	background-color: #3aace2;
 	color: #FFF;
 	text-decoration: none;
+}
+#menu li a:active {
+	background-color: #f8f9fb;
+	background: #f8f9fb;
 }
 #menu li a svg rect, #menu li a svg polygon, #menu li a svg path {
 	-webkit-transition: 0.25s;
@@ -164,7 +186,7 @@ p {
 #menu .submenu a svg {
 	width: 13px;
 	height: 13px;
-	margin-left: 4px;
+	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 13px;
 }
@@ -246,8 +268,8 @@ p {
 	box-shadow: none;
 	background: #FFF;
 	height: 60px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 .top-nav {
 	height: 100%;
@@ -290,13 +312,12 @@ p {
 }
 .container-fluid .nav.pull-right {
 	height: 100%;
-	margin-right: 29px;
 }
 .container-fluid .nav li {
 	height: 100%;
 }
 .container-fluid .nav li a {
-	color: #8694a4;
+	color: #3A4453;
 	height: 100%;
 	padding: 18px 20px 13px;
 	font: 400 15px 'Open Sans';
@@ -305,14 +326,16 @@ p {
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-.container-fluid .nav li a:active {
-}
 .container-fluid .nav li a:focus {
 }
 .container-fluid .nav li a:hover {
 	color: #FFF;
 	background-color: #3aace2;
 	text-decoration: none;
+}
+.container-fluid .nav li a:active {
+	background-color: #f8f9fb;
+	background: #f8f9fb;
 }
 .container-fluid .nav li.active a {
 	background-color: #3aace2;
@@ -347,8 +370,8 @@ p {
 
 /* ===*===*===*=== главное содержимое ===*===*===*=== */
 #main-content {
-	margin-top: 65px;
-	margin-left: 303px;
+	margin-top: 60px;
+	margin-left: 295px;
 }
 .breadcrumbs {
 	background-color: #f0f3f7;
@@ -360,7 +383,8 @@ p {
 }
 .main-content {
 	background-color: #f0f3f7;
-	padding: 30px;
+	padding: 40px;
+	text-align: initial;
 }
 .version-row {
 	margin-top: 50px;
@@ -403,13 +427,13 @@ p {
 
 }
 #referals-grid table {
-	table-layout: fixed;
+	/*table-layout: fixed;*/
 }
 #landings-grid table {
-	table-layout: fixed;	
+	/*table-layout: fixed;	*/
 }
 .index-table table {
-	table-layout: fixed;	
+	/*table-layout: fixed;	*/
 }
 
 /* Шапки сайта */
@@ -566,20 +590,20 @@ p {
 	}
 	.container-fluid .nav.pull-right {
 		float: none;
-		margin: -5px auto 0;
+		margin: 0 auto 0;
 		clear: both;
 		height: 60px;
 		width: 640px;
 		display: block;
 	}
 	#sidebar {
-		top: 165px;
+		top: 160px;
 	}
 	#main-content {
-		margin-top: 135px;
+		margin-top: 120px;
 	}
 	.index-table table {
-		min-width: 700px;
+		min-width: 600px;
 	}
 }
 
@@ -592,15 +616,20 @@ p {
 }
 
 @media screen and (max-width: 900px) {
+	body {
+		padding: 0;
+	}
 	.navbar-fixed-top {
 		position: static;
-		margin-bottom: 30px;
+		margin: 0 0 40px 0;
 	}
 	#sidebar {
-		position: static !important;
-		width: 100%;
 		height: initial;
+		width: 100%;
+		margin: 0 auto;
+		position: static !important;
 		text-align: center;
+		width: calc(100% - 80px);
 	}
 		#sidebar ul {
 			padding: 0 5px;
@@ -616,15 +645,29 @@ p {
 		margin: 5px auto;
 	}
 		.main-content {
-			padding: 30px 0;
+			/*padding: 30px 0;*/
 		}
 }
+@media screen and (max-width: 767px) {
+
+}
 @media screen and (max-width: 680px) {
+	#mob-menu-trigger {
+		display: block;
+	}
 	.navbar-fixed-top {
 		height: initial;
 	}
 	.container-fluid .nav.pull-right {
-		height: initial;		
+		height: initial;
+		width: 100%;
+		max-height: 0;
+		/*display: none;*/
+		overflow: hidden;
+		transition: all 0.4s ease-in;
+	}
+	.container-fluid .nav.pull-right.opened {
+		max-height: 300px; 
 	}
 	.container-fluid .nav.pull-right li {
 		display: block;
@@ -765,6 +808,7 @@ p {
 	font: 500 14px 'Open Sans';
 	padding: 13px 20px 11px;
 	position: relative;
+	text-align: left;
 }
 #main-content td:after {
 	background-color: #e0e4ea;
@@ -1088,6 +1132,7 @@ input[type="checkbox"]:checked + label:before {
 .top_buttons button {
 	padding: 8px 22px;
 	margin-right: 6px;
+	margin-bottom: 9px;
 }
 .preloader {
 	background: rgba(0, 0, 0, 0);
@@ -1216,7 +1261,7 @@ input[type="checkbox"]:checked + label:before {
 	margin-right: 6px;
 }
 .chart_buttons {
-	margin-top: 72px;
+	/*margin-top: 72px;*/
 	margin-right: -20px;
 	margin-left: 19px;
 }
@@ -1371,6 +1416,6 @@ input[type="checkbox"]:checked + label:before {
 	.table-row .span6 {
 		width: 100%;
 		margin-left: 0;
-		margin-bottom: 50px;
+		margin-bottom: 40px;
 	}
 }
