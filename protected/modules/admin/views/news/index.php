@@ -22,45 +22,62 @@ $this->setPageTitle("Новости | Партнерская программа 
         </h5>
 	</div>	
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$columns = array(
+    'date',
+    'header',
+
+    array(
+        'header'=>'Действия',
+        'class'=>'CButtonColumn',
+        'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+        'buttons'=>array
+        (
+            'update' => array
+            (
+                'label'=>'',
+                'options' => array(
+                    'class' => "icon-pencil icon-white"
+                ),
+                'imageUrl'=>'',
+            ),
+            'delete' => array
+            (
+                'label'=>'',
+                'options' => array(
+                    'class' => "icon-trash icon-white"
+                ),
+                'imageUrl'=>'',
+            ),
+        ),
+    ),
+);
+
+if (!Yii::app()->session['landing'])
+{
+    $landing_column = array(
+        'name' => 'land_id',
+        'type' => 'html',
+        'htmlOptions' => array('class' => 'width125'),
+        'headerHtmlOptions' => array('class' => 'width125'),
+        'filterHtmlOptions' => array('class' => 'width125'),
+        'value' => '$data->getLandingIcon()',
+    );
+    array_splice($columns, -1, 0, array($landing_column));
+}
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
 	//'dataProvider' => $model->search(),
 	'dataProvider' => $dataProvider,
     'summaryText'   => '',
+    'columns' => $columns,
 	'pager'=> array(  
 		'header'        => '',
 		'prevPageLabel' => 'Назад',
 		'nextPageLabel' => 'Далее',    
 	),
     //'filter' => $model,
-	'columns' => array(
-        'date',
-        'header',
-        
-        array(
-            'header'=>'Действия',
-            'class'=>'CButtonColumn',
-            'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
-            'buttons'=>array
-            (
-                'update' => array
-                (
-                    'label'=>'',
-                    'options' => array(
-                        'class' => "icon-pencil icon-white"
-                    ),
-                    'imageUrl'=>'',
-                ),
-                'delete' => array
-                (
-                    'label'=>'',
-                    'options' => array(
-                        'class' => "icon-trash icon-white"
-                    ),
-                    'imageUrl'=>'',
-                ),
-            ),
-		),
-))); ?>
+)); ?>
 
 </div>

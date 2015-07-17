@@ -47,6 +47,7 @@ class Promobanns extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'landing' => array( self::BELONGS_TO, 'Landings', 'land_id' ),
 		);
 	}
 
@@ -62,6 +63,7 @@ class Promobanns extends CActiveRecord
 			'image' => 'Изображение',
 			'width' => 'Ширина',
 			'height' => 'Высота',
+			'land_id' => 'Лендинг'
 		);
 	}
 
@@ -101,6 +103,13 @@ class Promobanns extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Banners the static model class
 	 */
+
+	public function getLandingIcon()
+	{
+		if (!is_null($this->landing)) {
+			return $this->landing->getIcon();
+		}
+	}
 
 	protected function beforeSave()
 	{

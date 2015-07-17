@@ -102,13 +102,17 @@ $columns = array(
         ),
     ),
 );
+
 if (!Yii::app()->session['landing']) {
-/*	$landing_column = array(
-		'name'=>'land_id',
-		'type'=>'html',
-		'value'=>'$data->getLandingIcon()',
+	$landing_column = array(
+        'name' => 'land_id',
+        'type' => 'html',
+        'htmlOptions' => array('class' => 'width125'),
+        'headerHtmlOptions' => array('class' => 'width125'),
+        'filterHtmlOptions' => array('class' => 'width125'),
+        'value' => '$data->getLandingIcon()',
 	);
-	array_splice($columns, -1, 0, array($landing_column));*/
+	array_splice($columns, -1, 0, array($landing_column));
 }
 
 $this->widget('zii.widgets.grid.CGridView', array(

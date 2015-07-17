@@ -71,6 +71,20 @@
 			</div>
 
 			<div class="form-row">
+				<?php echo $form->labelEx( $model, 'land_id' ); ?>
+				<?php echo $form->dropDownList(
+					$model,
+					'land_id',
+					(Yii::app()->session['landing'] == 0) ?
+						$this->landingsList : array(Yii::app()->session['landing'] => Yii::app()->session['landing']['land_id']),
+					array(
+						'class' => 'dropdown',
+					)
+				); ?>
+				<?php echo $form->error( $model, 'land_id' ); ?>
+			</div>
+
+			<div class="form-row">
 				<?php echo $form->labelEx($model,'image'); ?>
 				<?php echo $form->fileField($model, 'image', array('data-header'=>'Выберите файл')); ?>
 				<?php echo $form->error($model,'image'); ?>

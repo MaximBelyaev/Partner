@@ -114,6 +114,7 @@ class User extends CActiveRecord
 			'clients' => array(self::HAS_MANY, 'Referrals', 'user_id'),
 			'requests' => array(self::HAS_MANY, 'Requests', 'partner_id'),
 			'news' => array(self::HAS_MANY, 'News', 'news_id'),
+			'landing'	=> array( self::BELONGS_TO, 'Landings', 'land_id' ),
 		);
 	}
 
@@ -142,6 +143,7 @@ class User extends CActiveRecord
 			'telephone' => 'Телефон',
 			'skype' 	=> 'Скайп',
 			'money' 	=> 'Счет',
+			'land_id' 	=> "Лендинг",
 			'money[profit]' 	=> 'Счету',
 			'requests_count' 	=> 'Переходы',
 			'fullProfit'		=> 'Прибыль', 
@@ -449,6 +451,13 @@ class User extends CActiveRecord
 			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png' >";
 		} else {
 			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_percent.png' >";
+		}
+	}
+
+	public function getLandingIcon()
+	{
+		if (!is_null($this->landing)) {
+			return $this->landing->getIcon();
 		}
 	}
 

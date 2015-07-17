@@ -36,14 +36,6 @@ Yii::import('ext.tinymce.TinyMceFileManager')
 		</div>
 	</div>
 
-	<?php if(Yii::app()->controller->landings){ ?>
-		<div class="form-group">
-			<?php echo $form->labelEx( $model, 'land_id' ); ?>
-			<?php echo $form->dropDownList( $model, 'land_id', Yii::app()->controller->landings ); ?>
-			<?php echo $form->error( $model, 'land_id' ); ?>
-		</div>
-	<?php } ?>
-
 	<div class="row-fluid form-row">
 
 	<?php $this->widget('ext.yii-redactor.ERedactorWidget', array(
@@ -69,6 +61,22 @@ Yii::import('ext.tinymce.TinyMceFileManager')
 	)); ?>
 
 	</div>
+
+	<?php if(Yii::app()->controller->landings){ ?>
+		<div class="form-row">
+			<?php echo $form->labelEx( $model, 'land_id' ); ?>
+			<?php echo $form->dropDownList(
+				$model,
+				'land_id',
+				(Yii::app()->session['landing'] == 0) ?
+					Yii::app()->controller->landings : array(Yii::app()->session['landing'] => Yii::app()->session['landing']['land_id']),
+				array(
+					'class' => 'dropdown',
+				)
+			); ?>
+			<?php echo $form->error( $model, 'land_id' ); ?>
+		</div>
+	<?php } ?>
 
 	<div class="row-fluid form-row">
 		<div class="span4">

@@ -35,7 +35,9 @@ class Landings extends CActiveRecord
 		return array(
 			'referrals' => array(self::HAS_MANY, 'Referrals', 'land_id'),
 			'requests' => array(self::HAS_MANY, 'Requests', 'land_id'),
-			'users' => array(self::HAS_MANY, 'Users', 'land_id'),
+			'users' => array(self::HAS_MANY, 'User', 'land_id'),
+			'news' => array(self::HAS_MANY, 'News', 'land_id'),
+			'promobanns' => array(self::HAS_MANY, 'Promobanns', 'land_id'),
 		);
 	}
 

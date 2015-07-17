@@ -49,7 +49,8 @@ class News extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'newsViews'=> array(self::HAS_MANY, 'NewsViews', 'news_id'),
+			'newsViews' => array(self::HAS_MANY, 'NewsViews', 'news_id'),
+			'landing'   => array( self::BELONGS_TO, 'Landings', 'land_id' ),
 		);
 	}
 
@@ -63,6 +64,7 @@ class News extends CActiveRecord
 			'header' => 'Заголовок',
 			'text' => 'Текст',
 			'date' => 'Дата',
+			'land_id' => 'Лендинг'
 		);
 	}
 
@@ -134,6 +136,13 @@ class News extends CActiveRecord
 			return self::$VIEWED;
 		} else {
 			return self::$IS_NEW;
+		}
+	}
+
+	public function getLandingIcon()
+	{
+		if (!is_null($this->landing)) {
+			return $this->landing->getIcon();
 		}
 	}
 
