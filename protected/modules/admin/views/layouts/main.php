@@ -183,7 +183,7 @@
 				
 				<?php echo $form->dropDownList(
 					$newReferral,
-					'user_id', 
+					'user_id',
 					$users, 
 					array(
 						'prompt' => '- - - без партнера - - -',
@@ -201,12 +201,14 @@
 				<?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
 				<?php echo $form->dropDownList( 
 					$newReferral, 
-					'land_id', 
-					Yii::app()->controller->landings,
+					'land_id',
+                    (Yii::app()->session['landing'] == 0) ?
+					$this->landingsList : array(Yii::app()->session['landing'] => Landings::model()->find(array(
+                        'condition' => 'land_id = ' .Yii::app()->session['landing']))->name),
 					array(
 						'class' => 'dropdown',
-					) 
-				); ?>
+					))
+				    ; ?>
 				<?php echo $form->error( $newReferral, 'land_id' ); ?>
 			</div>
 			<?php } ?>
@@ -346,6 +348,21 @@
                 <?php echo $form->labelEx($newUser,'site'); ?>
                 <?php echo $form->textField($newUser,'site',array('size'=>50,'maxlength'=>255)); ?>
                 <?php echo $form->error($newUser,'site'); ?>
+            </div>
+
+            <div class="form-group">
+                <?php echo $form->labelEx( $newUser, 'land_id' ); ?>
+                <?php echo $form->dropDownList(
+                    $newUser,
+                    'land_id',
+                    (Yii::app()->session['landing'] == 0) ?
+                        $this->landingsList : array(Yii::app()->session['landing'] => Landings::model()->find(array(
+                        'condition' => 'land_id = ' .Yii::app()->session['landing']))->name),
+                    array(
+                        'class' => 'dropdown',
+                    )
+                ); ?>
+                <?php echo $form->error( $newReferral, 'land_id' ); ?>
             </div>
 
 			 <div class="form-group">

@@ -72,6 +72,7 @@ jQuery(document).ready(function($) {
 
 	$("#chart").on("plothover", function (event, pos, item) {
 		if (item) {
+			console.log(item);
 			if (item.seriesIndex === 0) {
 				var series_heading = 'Переходы';
 			} else if(item.seriesIndex === 1) {
@@ -105,12 +106,13 @@ function loadRangeData(start, end) {
 		}
 	})
 	.done(function(ans) {
+			console.log(ans);
 		var dataArray = [];
 		if (ans.charts.requests != undefined) {
-			dataArray[0] = { data: ans.charts.requests };
+			dataArray[0] = { data: ans.charts.requests, stat: ans.charts.requests.land };
 		} 
 		if (ans.charts.referrals != undefined) {
-			dataArray[1] = { data: ans.charts.referrals };
+			dataArray[1] = { data: ans.charts.referrals, stat: ans.charts.requests.land };
 		}
 		if (ans.charts.payed != undefined) {
 			dataArray[2] = { data: ans.charts.payed };

@@ -337,5 +337,4 @@ class Referrals extends CActiveRecord
 			return $this->landing->getIcon();
 		}
 	}
-
 }

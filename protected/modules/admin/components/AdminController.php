@@ -24,7 +24,7 @@ class AdminController extends CController
     public $newUser;
     public $newReferral;
     public $settingsList;
-
+    public $landingsList;
     public $landings;
 
     /**
@@ -99,6 +99,8 @@ class AdminController extends CController
 		} else {
 			$this->landings = false;
 		}
+        $this->landingsList = $this->landings;
+        unset($this->landingsList[0]);
 
         //Делаем модели для модальных окон создания партнёра и клиента
         $model = new Referrals;
@@ -151,5 +153,6 @@ class AdminController extends CController
             $oldModel->recreate_date = '';
             $oldModel->save();
         }
+
 	}
 }

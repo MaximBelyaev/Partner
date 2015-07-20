@@ -11,8 +11,15 @@ class Chart
 {
 	public $user = null;
 	protected $l;
+	public $landings;
 
 	public function __construct($user = null) {
+		$this->landings = Yii::app()->controller->landings;
+		unset($this->landings[0]);
+		if (!count($this->landings))
+		{
+			$this->landings[-1] = 1;
+		}
 		$this->l = (isset(Yii::app()->session['landing']))?(int)Yii::app()->session['landing']:false; 
 		if ($user instanceof User ) {
 			$this->user = $user;
@@ -77,7 +84,6 @@ class Chart
 		$dotsCount = Yii::app()->params['chartTimePoints'];
 		$delta = ($end-$start)/$dotsCount;
 
-
 		if(is_null($this->user)) {
 			$data = $this->getAllRangeRequests($start, $end, $use_click_pay);
 		} else {
@@ -89,18 +95,26 @@ class Chart
 
 			$intervalStart = $start + $delta*$i;
 			$intervalEnd   = $start + $delta*($i+1);
-			# var_dump('is - ' . $intervalStart);
+			# var_dump('is - ' . $intervalStart);each
 			# var_dump('ie - ' . $intervalEnd);
 			$d[$i][0]  = $intervalStart*1000;
 			$d[$i][1] = 0;
+			$d[$i]['land'] = [];
+			foreach ($this->landings as $key=>$value)
+			{
+				$d[$i]['land'][$key] = 0;
+			}
+
 			foreach ($data as $dt) {
 				if ( strtotime($dt['date'])>$intervalStart && strtotime($dt['date'])<=$intervalEnd ) {
 					$d[$i][1]++;
+					if (isset($d[$i]['land'][$dt['land_id']]))
+					{
+						$d[$i]['land'][$dt['land_id']]++;
+					}
 				}
 			}
-
 		}
-
 		return $d;
 	}
 
@@ -124,13 +138,22 @@ class Chart
 	}
 
 	public function getUserRangeRequests($start, $end, $use_click_pay) {
-		$condition = 'partner_id = :user and click_pay = :click_pay and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
+		$condition = 'partner_id = :user and click_pay = :click_pay and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		$params    = array( 
 			':user' => $this->user->id, 
 			':click_pay' => $use_click_pay, 
 			':start' => $start, 
-			':end' => $end 
+			':end' => $end
 		);
+		if ($this->l)
+		{
+			$condition .= ' AND land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
+		else
+		{
+			$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+		}
 		return $this->getRangeRequests($condition, $params);
 	}
 
@@ -169,6 +192,7 @@ class Chart
 				$data = $this->getUserRangeReferrals($start, $end);
 			}
 		}
+
 
 		$d = array();
 		for($i = 0; $i < $dotsCount; $i++) {
@@ -237,29 +261,41 @@ class Chart
 	}
 
 	public function getUserRangeReferrals($start, $end) {
-		$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
-		if( $this->l ) {
-			$condition .= ' and land_id=' . $this->l ;
-		}
+		$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		$params    = array( 
 			':user' => $this->user->id, 
 			':start' => $start, 
 			':end' => $end 
 		);
+		if ($this->l)
+		{
+			$condition .= ' AND land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
+		else
+		{
+			$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+		}
 		return $this->getRangeReferrals($condition, $params);
 	}
 
 	public function getUserRangePayedReferrals($start, $end) {
-		$condition = 'user_id = :user and status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
-		if( $this->l ) {
-			$condition .= ' and land_id=' . $this->l ;
-		}
+		$condition = 'user_id = :user and status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		$params    = array( 
 			':user' => $this->user->id,
 			':status' => Referrals::$STATUS_APPLIED, 
 			':start' => $start, 
 			':end' => $end 
 		);
+		if ($this->l)
+		{
+			$condition .= ' AND land_id = :land_id';
+			$params[':land_id'] = $this->l;
+		}
+		else
+		{
+			$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+		}
 		return $this->getRangeReferrals($condition, $params);
 	}
 
@@ -372,6 +408,10 @@ class Chart
 			if( $this->l ) {
 				$condition .= ' and land_id=' . $this->l ;
 			}
+			else
+			{
+				$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+			}
 			$rqs = Requests::model()->findAll(
 				array(
 					'select'	=> 'date',
@@ -391,6 +431,10 @@ class Chart
 			if( $this->l ) {
 				$condition .= ' and land_id=' . $this->l ;
 			}
+			else
+			{
+				$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+			}
 			$all_rqs = Requests::model()->findAll(
 				array(
 					'select'	=> '*',
@@ -408,7 +452,11 @@ class Chart
 			// if (!$this->user->use_click_pay) {
 				$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
 				if( $this->l ) {
-					$condition .= ' and land_id=' . $this->l ;
+					$condition .= ' and land_id=' . $this->l;
+				}
+				else
+				{
+					$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
 				}
 				$refs = Referrals::model()->findAll(
 					array(
@@ -420,10 +468,10 @@ class Chart
 							':end'   => $end,
 						),
 					)
+
 				);
+
 			// } else { $refs = array(); }
-
-
 
 			$requests = array();
 			$all_time_total = array(
@@ -495,7 +543,6 @@ class Chart
 							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
 						
 						}
-
 					}
 
 				}

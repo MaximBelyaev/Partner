@@ -545,7 +545,7 @@ class UserController extends MyUserController
 		$get = $_GET;
 
 		$chart = new Chart( Yii::app()->user->id );
-		if (!$user->use_click_pay) {
+		//if (!$user->use_click_pay) {
 			$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
 			$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
 			$payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
@@ -555,7 +555,7 @@ class UserController extends MyUserController
 				'referrals' => $referrals,
 				'payed'     => $payed, 
 			);
-		} else {
+		 /**}else {
 			$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
 			$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
             $payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
@@ -565,7 +565,7 @@ class UserController extends MyUserController
                 'referrals' => $referrals,
                 'payed'     => $payed,
 			);
-		}
+		}**/
 		$stats = $chart->getRangeStat($get['start'], $get['end']);
 
 		echo json_encode(array(
@@ -578,21 +578,4 @@ class UserController extends MyUserController
 		));
 		Yii::app()->end();
 	}
-
-    public function actionChangeOffer($id)
-{
-    var_dump($_GET);
-$offer = Landings::model()->find(['condition' => 'land_id = ' . $id]);
-if ($offer->user_panel == 1)
-{
-$offer->user_panel = 0;
-}
-else
-{
-$offer->user_panel = 1;
-}
-$offer->save();
-$this->refresh();
-}
-
 }
