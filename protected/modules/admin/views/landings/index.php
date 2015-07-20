@@ -4,13 +4,13 @@ $this->breadcrumbs=array( 'Партнёры' );
 $this->setPageTitle("Список лендингов");
 ?>
 
-<div class='block'>
+<div class='block full-page-block'>
 
 <div class="head">
 	<h5>
 		Лэндинги
+		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-success',)); ?>
         <?= CHtml::link('Порядок сортировки',array('/admin/landings/sort'), array('class'=>'btn btn-primary',)); ?>
-		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-primary',)); ?>
 	</h5>
 	<!-- <div class="underlist-button">
 	</div> -->

@@ -7,12 +7,12 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 	
 	<div class="head">
 		<h5>
 			Рекламные материалы
-			<?= CHtml::link('Добавить', "/admin/promobanns/create", array('class' => 'btn btn-primary')) ?>		 
+			<?= CHtml::link('Добавить', "/admin/promobanns/create", array('class' => 'btn btn-success')) ?>		 
 		</h5>
 	</div>
 

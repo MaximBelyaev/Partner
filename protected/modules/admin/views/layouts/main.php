@@ -114,6 +114,7 @@
 			),
 			array(
 				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/News.svg') . 'Новости',
+				'itemOptions' => array('class'=>'news-menu-point'),
 				'url'=>array('/admin/news/index'),
 			),
 			array(

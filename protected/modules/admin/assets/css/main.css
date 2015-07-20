@@ -44,10 +44,16 @@ p {
 .inline-block {
 	display: inline-block;
 }
+#content {
+	min-height: 100%;
+}
 .block {
 	background-color: #FFF;
 	box-shadow: 0px 0px 6px rgba(139, 157, 175, 0.1);
 	padding: 20px 30px 30px;
+}
+.full-page-block {
+	min-height: calc( 100% - 100px - 40px );
 }
 .table-row {
 	margin-bottom: 54px;
@@ -78,13 +84,13 @@ p {
 /* ===*===*===*=== левое меню ===*===*===*=== */
 #sidebar {
 	background: #FFF;
-	height: calc(100% - 100px - 40px);
+	height: calc( 100% - 100px - 40px );
 	left: 40px;
 	overflow: auto;
 	position: fixed !important;
 	box-shadow: 0px 0px 6px rgba(139, 157, 175, 0.1);
 	top: 100px;
-	width: 255px;
+	width: 237px;
 	z-index: 3;
 }
 .for-logo {
@@ -110,6 +116,7 @@ p {
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
+	text-transform: uppercase;
 }
 .logo:hover, .logo:hover .cap-let {
 	color: #576675;
@@ -156,25 +163,27 @@ p {
 	margin-right: 13px;
 	margin-bottom: -2px;
 }
+#menu .news-menu-point svg {
+	margin-bottom: -4px;
+}
 #menu .active a {
 	color: #FFF;
 	background-color: #3aace2;
 }
 #menu li a:hover {
-	background-color: #3aace2;
-	color: #FFF;
+	background-color: #f8f9fb;
 	text-decoration: none;
 }
 #menu li a:active {
-	background-color: #f8f9fb;
-	background: #f8f9fb;
+	background-color: #3aace2;
+	color: #FFF;
 }
 #menu li a svg rect, #menu li a svg polygon, #menu li a svg path {
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-#menu li a:hover svg rect, #menu li a:hover svg polygon, #menu li a:hover svg path {
+#menu li a:active svg rect, #menu li a:active svg polygon, #menu li a:active svg path {
 	fill: #FFF;
 }
 #menu li.active a svg rect, #menu li.active a svg polygon, #menu li.active a svg path {
@@ -309,6 +318,7 @@ p {
 }
 .container-fluid {
 	height: 100%;
+	min-height: 100%;
 }
 .container-fluid .nav.pull-right {
 	height: 100%;
@@ -320,7 +330,7 @@ p {
 	color: #3A4453;
 	height: 100%;
 	padding: 18px 20px 13px;
-	font: 400 15px 'Open Sans';
+	font: 300 15px 'Open Sans';
 	letter-spacing: 0.2px;
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
@@ -329,13 +339,12 @@ p {
 .container-fluid .nav li a:focus {
 }
 .container-fluid .nav li a:hover {
-	color: #FFF;
-	background-color: #3aace2;
+	background-color: #f8f9fb;
 	text-decoration: none;
 }
 .container-fluid .nav li a:active {
-	background-color: #f8f9fb;
-	background: #f8f9fb;
+	background-color: #3aace2;
+	color: #FFF;
 }
 .container-fluid .nav li.active a {
 	background-color: #3aace2;
@@ -370,8 +379,8 @@ p {
 
 /* ===*===*===*=== главное содержимое ===*===*===*=== */
 #main-content {
-	margin-top: 60px;
-	margin-left: 295px;
+	padding-top: 60px;
+	margin-left: 278px;
 }
 .breadcrumbs {
 	background-color: #f0f3f7;
@@ -419,6 +428,10 @@ p {
 	overflow-x: auto;
 	padding-top: 15px;
 }
+.grid-view table.items th a.asc,
+.grid-view table.items th a.desc {
+	background: rgba(0,0,0,0);
+}
 #main-content table {
 	border: none;
 	width: 100%;
@@ -435,7 +448,6 @@ p {
 .index-table table {
 	/*table-layout: fixed;	*/
 }
-
 /* Шапки сайта */
 #main-content th {
 	background: #3bace2;
@@ -468,7 +480,6 @@ p {
 #main-content .green th {
 	background-color: #63bb67;
 }
-
 .width40 input{
 	width: 40px !important;
 }
@@ -538,7 +549,6 @@ p {
 .width595 {
 	width: 595px;
 }
-
 .width250 {
 	width: 250px;
 }
@@ -561,7 +571,6 @@ p {
 .settings-col:first-child {
 	margin-left: 0;
 }
-
 
 
 
@@ -662,7 +671,6 @@ p {
 		height: initial;
 		width: 100%;
 		max-height: 0;
-		/*display: none;*/
 		overflow: hidden;
 		transition: all 0.4s ease-in;
 	}
@@ -673,6 +681,12 @@ p {
 		display: block;
 		float: none;
 	}	
+}
+
+@media screen and (max-width: 535px) {
+	.for-logo {
+		padding-right: 10px 0
+	}
 }
 
 @media screen and (min-width: 1090px) {
@@ -766,13 +780,14 @@ p {
 }
 #main-content th a {
 	color: #FFF;
+	cursor: default;
 	font: 600 14px 'Open Sans';
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
 #main-content th a:hover {
-	color: rgba(0, 0, 0, 0.3);
+	/*color: rgba(0, 0, 0, 0.3);*/
 }
 #main-content th:last-child:after {
 	width: 0;
@@ -844,7 +859,7 @@ p {
 	background-repeat: no-repeat;
 }
 .grid-view .pager {
-	margin-top: 20px;
+	margin-top: 26px;
 }
 .pager .previous > a, .pager .previous > span {
 	float: none;
@@ -996,7 +1011,7 @@ input[type="submit"]:hover, button:hover, .btn:hover {
 	background: #63bb67;
 }
 .btn.btn-success:hover, .btn.btn-success:focus, .btn.btn-success:active, .btn.btn-success.active, .btn.btn-success.disabled, .btn.btn-success[disabled] {
-	background: #63bb67;
+	background: #89D68E;
 }
 .btn.btn-primary {
 	background-color: #3bace2;

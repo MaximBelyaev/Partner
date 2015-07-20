@@ -83,7 +83,7 @@ p {
 	overflow: auto;
 	position: fixed !important;
 	top: 100px;
-	width: 255px;
+	width: 237px;
 	z-index: 3;
 }
 .for-logo {
@@ -101,6 +101,7 @@ p {
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
+	text-transform: uppercase;
 }
 .logo:hover, .logo:hover .cap-let {
 	color: #576675;
@@ -142,25 +143,27 @@ p {
 	margin-right: 5px;
 	margin-bottom: -3px;
 }
+#menu .item-news svg {
+	margin-bottom: -4px;
+}
 #menu .active a {
 	color: #FFF;
 	background-color: #38b1eb;
 }
 #menu li a:hover {
-	color: #FFF;
-	background-color: #38b1eb;
+	background-color: #f8f9fb;
 	text-decoration: none;
 }
 #menu li a:active {
-	background-color: #f8f9fb;
-	background: #f8f9fb;
+	color: #FFF;
+	background-color: #38b1eb;
 }
 #menu li a svg rect, #menu li a svg polygon, #menu li a svg path {
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-#menu li a:hover svg rect, #menu li a:hover svg polygon, #menu li a:hover svg path {
+#menu li a:active svg rect, #menu li a:active svg polygon, #menu li a:active svg path {
 	fill: #FFF !important;
 }
 #menu li.active a svg rect, #menu li.active a svg polygon, #menu li.active a svg path {
@@ -203,12 +206,12 @@ p {
 	height: 10px;
 	position: absolute;
 	left: 23px;
-	top: 21px;
+	top: 20px;
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-#menu .item-vk a:hover:before, #menu .item-email a:hover:before, #menu .item-skype a:hover:before {
+#menu .item-vk a:active:before, #menu .item-email a:active:before, #menu .item-skype a:active:before {
 	background-color: #FFF;
 }
 #menu .item-email a:before {
@@ -331,7 +334,7 @@ p {
 	color: #3A4453;
 	height: 100%;
 	padding: 20px;
-	font: 400 15px 'Open Sans';
+	font: 300 15px 'Open Sans';
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
@@ -339,20 +342,19 @@ p {
 .container-fluid .nav li a:focus {
 }
 .container-fluid .nav li a:hover {
-	color: #FFF;
-	background-color: #38b1eb;
+	background-color: #f8f9fb;
 	text-decoration: none;
 }
 .container-fluid .nav li a:active {
-	background-color: #f8f9fb;
-	background: #f8f9fb;
+	color: #FFF;
+	background-color: #38b1eb;
 }
-.container-fluid .nav li a:hover svg rect, .container-fluid .nav li a:hover svg polygon, .container-fluid .nav li a:hover svg path {
+.container-fluid .nav li a svg rect, .container-fluid .nav li a svg polygon, .container-fluid .nav li a svg path {
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
 	transition: 0.25s;
 }
-.container-fluid .nav li a:hover svg rect, .container-fluid .nav li a:hover svg polygon, .container-fluid .nav li a:hover svg path {
+.container-fluid .nav li a:active svg rect, .container-fluid .nav li a:active svg polygon, .container-fluid .nav li a:active svg path {
 	fill: #FFF;
 }
 .container-fluid .nav li.active a {
@@ -392,8 +394,8 @@ p {
 
 /* ===*===*===*=== главное содержимое ===*===*===*=== */
 #main-content {
-	margin-top: 60px;
-	margin-left: 295px;
+	padding-top: 60px;
+	margin-left: 278px;
 }
 .breadcrumbs {
 	background-color: #f0f3f7;
@@ -494,7 +496,7 @@ p {
 	transition: 0.25s;
 }
 #main-content th a:hover {
-  color: rgba(0,0,0,0.3);
+	/*color: rgba(0,0,0,0.3);*/
 }
 
 /* #main-content th:after {
@@ -570,7 +572,7 @@ p {
 	width: 50px;
 }
 .grid-view .pager {
-	margin-top: 20px;
+	margin-top: 26px;
 }
 .pager .previous > a, .pager .previous > span {
 	float: none;

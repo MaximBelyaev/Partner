@@ -8,10 +8,13 @@ $this->breadcrumbs=array(
 $this->setPageTitle("Список клиентов | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class='block'>
+<div class='block full-page-block'>
 
 <div class="head">
-    <h5>Управление клиентами</h5>
+    <h5>
+        Управление клиентами
+        <?= CHtml::link('Добавить', "/admin/referrals/create", array('class' => 'btn btn-success')) ?>      
+    </h5>
 </div>
 
 <?php 

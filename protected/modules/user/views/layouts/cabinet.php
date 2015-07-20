@@ -7,16 +7,19 @@
 	<link href="<?php echo $this->module->assetsUrl ?>/css/bootstrap.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
+
+
 	<link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />	
     <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/themes/easydropdown.partner.css" rel="stylesheet" type="text/css" />   
 
+    <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/jquery.js" ></script>
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
 	<script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.time.js" ></script>
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/jquery.easydropdown.min.js" ></script>
 
 	<script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
     
-	<?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
+	<?php //Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
 	<script src="<?php echo $this->module->assetsUrl ?>/js/script.js"></script>
 </head>
 <body class="skin-blue">

@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 $this->setPageTitle("Уведомления | Партнерская программа Павлуцкого Александра");
 ?>
-<div class="block">
+<div class="block full-page-block">
 
 <div class="head">
 	<h5>Уведомления</h5>

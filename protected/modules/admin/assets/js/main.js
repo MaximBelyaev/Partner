@@ -1,4 +1,18 @@
+var blocks_margin = 40;
+
+var setContentHeight = function() {
+    var block_top = $('.full-page-block').offset().top;
+    $('.full-page-block').css(
+        'min-height',
+        $(window).height() - block_top - blocks_margin
+    );
+}
+
 $( document ).ready(function() {
+    
+    setContentHeight();
+    $(window).on('resize', setContentHeight );
+
     var btn = $('#add-size'),
         $mob_menu_trigger = $('#mob-menu-trigger'),
         menu_trigger_width = 680;

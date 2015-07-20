@@ -122,6 +122,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				),
 				array(
 					'name' => 'status',
+					
 					'htmlOptions' => array('class' => 'width155'),
 					'headerHtmlOptions' => array('class' => 'width155'),
 					'filterHtmlOptions' => array('class' => 'width155'),
