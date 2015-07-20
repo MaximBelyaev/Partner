@@ -16,7 +16,7 @@ class Stateds extends CActiveRecord
 {
 	const STATUS_WAITING = 'Ожидает оплату';
 	const STATUS_PAYED   = 'Оплачено';
-	const STATUS_DENIED  = 'Отказано в оплате';
+	const STATUS_DENIED  = 'Отказ в оплате';
     
     protected $_oldStatus;
 	protected $_oldRecreateInterval;

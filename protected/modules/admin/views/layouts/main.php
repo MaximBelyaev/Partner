@@ -22,9 +22,13 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner top-nav">
         <div class="container-fluid">
+			<img 
+				src="/img/Burger.svg"
+				alt="menu Open"
+				id="mob-menu-trigger" data-for="head-menu">
             
             <div class="nav pull-left for-logo">
-                <?= CHtml::link('GetPartner', array('/admin/default/index'), array('class'=>'logo')); ?>
+                <?= CHtml::link('<span class="cap-let">G</span>et<span class="cap-let">P</span>artner', array('/admin/default/index'), array('class'=>'logo')); ?>
             </div>
             <div class="nav pull-left landing_select select-wrap">
 
@@ -39,6 +43,7 @@
             </div>
 
 	<?php $this->widget('zii.widgets.CMenu',array(
+		'id' => 'head-menu',
 		'items'=>array(
 			array(
 				'label' => $this->notifications_count ? "<strong class='nots'>{$this->notifications_count}</strong>Уведомления" : "Уведомления",
@@ -109,6 +114,7 @@
 			),
 			array(
 				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/News.svg') . 'Новости',
+				'itemOptions' => array('class'=>'news-menu-point'),
 				'url'=>array('/admin/news/index'),
 			),
 			array(

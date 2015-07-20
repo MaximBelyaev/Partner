@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 $this->setPageTitle("Заявки на вывод средств | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 
 	<div class="head">
 		<h5>Управление заявками</h5>
