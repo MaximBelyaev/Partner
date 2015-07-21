@@ -69,10 +69,23 @@ jQuery(document).ready(function($) {
     	/* Act on the event */
     });
 
+	Object.size = function(obj) {
+		var size = 0, key;
+		for (key in obj) {
+			if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
 
 	$("#chart").on("plothover", function (event, pos, item) {
 		if (item) {
 			console.log(item);
+			var landsString = '';
+			for (var i = 1; i<=Object.size(item.series.data[item.dataIndex].land); i++)
+			{
+				landsString += (item.series.data[item.dataIndex].land[i]['name'] + ": "
+				+ item.series.data[item.dataIndex].land[i]['value'] + "<br>");
+			}
 			if (item.seriesIndex === 0) {
 				var series_heading = 'Переходы';
 			} else if(item.seriesIndex === 1) {
@@ -81,8 +94,9 @@ jQuery(document).ready(function($) {
 				var series_heading = 'Заказы';
 			}
 			var y = item.datapoint[1].toFixed(2),
+
                 $stat_block_offset = $('.stats_block').offset(),
-                $tt = $("#tooltip").html( series_heading + ": " + Math.round(y) ),
+                $tt = $("#tooltip").html( series_heading + ": " + Math.round(y) + "<br>" + landsString ),
 				ttX = item.pageX - $stat_block_offset.left - ($tt.width()/2 )-parseInt( $tt.css('padding-left') ) + 1,
 				ttY = item.pageY - $stat_block_offset.top- 40;
                 $tt.css( { top: ttY, left: ttX } ).fadeIn( 200 );
@@ -115,10 +129,10 @@ function loadRangeData(start, end) {
 			dataArray[1] = { data: ans.charts.referrals, stat: ans.charts.referrals.land };
 		}
 		if (ans.charts.payed != undefined) {
-			dataArray[2] = { data: ans.charts.payed };
+			dataArray[2] = { data: ans.charts.payed, stat: ans.charts.payed.land };
 		}
 		if (ans.charts.aweead != undefined) {
-			dataArray[3] = { data: ans.charts.aweead };
+			dataArray[3] = { data: ans.charts.aweead, stat: ans.charts.aweead.land };
 		}
 		plot = $.plot("#chart", dataArray,
 		{

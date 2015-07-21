@@ -102,7 +102,7 @@ class Chart
 			$d[$i]['land'] = [];
 			foreach ($this->landings as $key=>$value)
 			{
-				$d[$i]['land'][$key] = 0;
+				$d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
 			}
 
 			foreach ($data as $dt) {
@@ -110,7 +110,7 @@ class Chart
 					$d[$i][1]++;
 					if (isset($d[$i]['land'][$dt['land_id']]))
 					{
-						$d[$i]['land'][$dt['land_id']]++;
+						$d[$i]['land'][$dt['land_id']]['value']++;
 					}
 				}
 			}
