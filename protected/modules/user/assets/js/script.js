@@ -112,7 +112,7 @@ function loadRangeData(start, end) {
 			dataArray[0] = { data: ans.charts.requests, stat: ans.charts.requests.land };
 		} 
 		if (ans.charts.referrals != undefined) {
-			dataArray[1] = { data: ans.charts.referrals, stat: ans.charts.requests.land };
+			dataArray[1] = { data: ans.charts.referrals, stat: ans.charts.referrals.land };
 		}
 		if (ans.charts.payed != undefined) {
 			dataArray[2] = { data: ans.charts.payed };
