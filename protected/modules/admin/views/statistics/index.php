@@ -5,7 +5,7 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/statistic.js');
 
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 
 	<div class="head statistics-head">
 		<h5>Статистика</h5>

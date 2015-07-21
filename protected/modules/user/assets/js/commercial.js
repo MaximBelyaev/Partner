@@ -20,8 +20,6 @@ $('.banner-block').find('img').on('error', function(){
 		.addClass('no-adblock')
 		.width(this.width)
 		.height(this.height)
-		.html('<div>Здесь должен быть баннер.' +
-				'Возможно у вас включена блокировка рекламы.' +
-				'Отключите ее, чтобы посмотреть изображение</div>');
+		.html('<div>Отключите AdBlock</div>');
 	$(this).parent().html(new_img);
 });

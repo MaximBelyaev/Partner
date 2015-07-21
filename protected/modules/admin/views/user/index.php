@@ -8,13 +8,13 @@ $this->breadcrumbs=array(
 $this->setPageTitle("Список партнеров | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class="block">
+<div class="block full-page-block">
     
 <div class="head">
-    <h5>Управление партнерами</h5>
-    <div class="button_save">
-        <?php /*echo CHtml::link('<i class="icon-plus"></i> Добавить',array('/admin/user/create'), array('class'=>'btn btn-success',)); */?>
-    </div>
+    <h5>
+        Управление партнерами
+        <?php echo CHtml::link('Добавить',array("#createModal"), array('class'=>'btn btn-success', 'data-target'=> "#createModal")); ?>
+    </h5>
 </div>
 <?php
 
