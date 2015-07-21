@@ -8,6 +8,7 @@ class MyUserController extends Controller
     public $news_views;
     public $settingsList;
     public $landings;
+    public $land_id = 0;
     
     /**
      * @return array action filters
@@ -84,12 +85,6 @@ class MyUserController extends Controller
             Yii::app()->setLanguage('ru');
             Yii::app()->user->setState('language', 'ru');
         }
-        $news = News::model()->findAll();
-        $news_views = NewsViews::model()->findAll('user_id = ' . (int)Yii::app()->user->id );
-        
-        $this->news_to_watch = count($news) - count($news_views);
-        $this->news = $news;
-        $this->news_views = $news_views;
 
         //Список настроек партнёра
         $this->settingsList = Setting::model()->findAll();
@@ -101,6 +96,8 @@ class MyUserController extends Controller
 
 
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
+        $this->land_id = (int)Yii::app()->session['landing'];
+
         $landings = Landings::model()->findAll();
         $relations = UsersLandings::model()->findAll(
             array(
@@ -125,6 +122,48 @@ class MyUserController extends Controller
         } else
         {
             $this->landings = false;
+        }
+
+        $this->prepareNews();
+    }
+
+
+
+    protected function prepareNews() {
+        if ($this->land_id > 0) {
+			
+			$news = News::model()->findAll('land_id = ' . (int)$this->land_id);
+			$news_views = NewsViews::model()
+				->with(array(
+					'news' => array(
+						'select' => '*',
+						'joinType'=>'LEFT JOIN',
+						'condition' => 'news.land_id = ' . (int)$this->land_id,
+					)
+				))
+				->findAll('user_id = ' . (int)Yii::app()->user->id );
+
+			$this->news_to_watch = count($news) - count($news_views);
+			$this->news = $news;
+			$this->news_views = $news_views;
+
+        } else {
+
+			$news = News::model()->findAll('land_id = ' . (int)$this->land_id);
+			$news_views = NewsViews::model()
+				->with(array(
+					'news' => array(
+						'select' => '*',
+						'joinType'=>'LEFT JOIN',
+						'condition' => 'news.land_id IN (' . implode(',', array_keys($this->landings)) . ')',
+					)
+				))
+				->findAll('user_id = ' . (int)Yii::app()->user->id );
+
+			$this->news_to_watch = count($news) - count($news_views);
+			$this->news = $news;
+			$this->news_views = $news_views;
+
         }
     }
 }

@@ -107,6 +107,12 @@ class News extends CActiveRecord
 		$criteria->join = 'LEFT JOIN news_views AS nw ON nw.news_id = t.news_id AND nw.user_id = ' . Yii::app()->user->id;
 		$criteria->select = array('`t`.`news_id`, `t`.`header`, `t`.`text`, `t`.`date`, `nw`.`news_views_id`, `nw`.`user_id`');
 		$criteria->together = true; //
+		if (Yii::app()->controller->land_id > 0) {
+			$criteria->compare('land_id', Yii::app()->controller->land_id);		
+		} else {
+			$criteria->addInCondition('land_id', array_keys(Yii::app()->controller->landings) );
+		}
+		
 		$criteria->compare('news_id',$this->news_id);
 		$criteria->compare('header',$this->header,true);
 		$criteria->compare('text',$this->text,true);

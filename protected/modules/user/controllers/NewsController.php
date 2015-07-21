@@ -6,7 +6,6 @@ class NewsController extends MyUserController
 	public function actionIndex()
 	{
 		$model = new News;
-		$dataProvider = 
 		$this->render( 'index', array(
 			'model' => $model,
 		));

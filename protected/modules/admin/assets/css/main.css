@@ -118,7 +118,8 @@ p {
 	transition: 0.25s;
 	text-transform: uppercase;
 }
-.logo:hover, .logo:hover .cap-let {
+.logo:hover, .logo:hover .cap-let,
+.logo:focus, .logo:focus .cap-let {
 	color: #576675;
 	text-decoration: none;
 }
@@ -171,6 +172,7 @@ p {
 	background-color: #3aace2;
 }
 #menu li a:hover {
+	color: #3A4453;
 	background-color: #f8f9fb;
 	text-decoration: none;
 }
@@ -191,6 +193,9 @@ p {
 }
 #menu .submenu a {
 	color: #3a4453;
+}
+#menu .submenu.active a {
+	color: #FFF;
 }
 #menu .submenu a svg {
 	width: 13px;
@@ -446,7 +451,11 @@ p {
 	/*table-layout: fixed;	*/
 }
 .index-table table {
-	/*table-layout: fixed;	*/
+	table-layout: fixed;
+}
+.index-table table tr td,
+.index-table table tr th {
+	width: 25%;	
 }
 /* Шапки сайта */
 #main-content th {
@@ -599,7 +608,7 @@ p {
 	}
 	.container-fluid .nav.pull-right {
 		float: none;
-		margin: 0 auto 0;
+		margin: -5px auto 0px;
 		clear: both;
 		height: 60px;
 		width: 640px;
@@ -621,6 +630,14 @@ p {
 		display: block;
 		margin: 0 auto 30px;
 		margin-left: 0;
+	}
+
+	.index-table table {
+		table-layout: initial;
+	}
+	.index-table table tr td,
+	.index-table table tr th {
+		width: initial;	
 	}
 }
 

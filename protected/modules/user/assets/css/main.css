@@ -143,6 +143,12 @@ p {
 	margin-right: 5px;
 	margin-bottom: -3px;
 }
+#menu a .nots {
+	padding-left: 5px;
+}
+#menu a .nots::after {
+	display: none;
+}
 #menu .item-news svg {
 	margin-bottom: -4px;
 }
@@ -296,6 +302,7 @@ p {
 /* ===*===*===*=== верхнее меню ===*===*===*=== */
 .navbar-fixed-top, .navbar-fixed-bottom {
 	z-index: 3;
+	/*display: none;*/
 	height: 60px;
 	box-shadow: 0px 0px 6px rgba(139,157,175,0.1);
 }
@@ -1114,6 +1121,8 @@ input[type="checkbox"]:checked + label:before {
 	border-color: #3bace2;
 }
 .commercial-block textarea {
+	border-radius: 4px;
+	border: 2px striped #CFD6DC;
 	height: 130px;
 	resize: none;
 }

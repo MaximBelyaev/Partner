@@ -13,7 +13,7 @@ $this->setPageTitle("Список партнеров | Партнерская п
 <div class="head">
     <h5>
         Управление партнерами
-        <?php echo CHtml::link('Добавить',array("#createModal"), array('class'=>'btn btn-success', 'data-target'=> "#createModal")); ?>
+        <?php echo CHtml::link('Добавить', array("/admin/user/create"), array('class'=>'btn btn-success', 'data-target'=> "#createModal")); ?>
     </h5>
 </div>
 <?php

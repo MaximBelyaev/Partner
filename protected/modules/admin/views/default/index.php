@@ -43,9 +43,9 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 		        array(
 		            'name' => 'status',
 		            'value' => '$data->status',
-            'htmlOptions' => array('class' => 'width110'),
-            'headerHtmlOptions' => array('class' => 'width110'),
-            'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width110'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 		        )
 		    ))); ?>
 
@@ -65,22 +65,22 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				array(
 					'name' => 'reg_date',
 					'header' => 'Дата',
-		            'htmlOptions' => array('class' => 'width110'),
-		            'headerHtmlOptions' => array('class' => 'width110'),
-		            'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width110'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 				),
 		        'username',
 				array(
 					'name' => 'requests_count',
-		            'htmlOptions' => array('class' => 'width110'),
-		            'headerHtmlOptions' => array('class' => 'width110'),
-		            'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width110'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 				),
 				array(
 					'name' => 'referrals_payed_count',
-		            'htmlOptions' => array('class' => 'width110'),
-		            'headerHtmlOptions' => array('class' => 'width110'),
-		            'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width110'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 				),
 		    ))); ?>
 	</div>
@@ -105,9 +105,9 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 					'name' => 'date',
 					'header' => 'Дата',
 					'value' => 'date("d.m.Y", strtotime($data->date));',
-		            'htmlOptions' => array('class' => 'width110'),
-		            'headerHtmlOptions' => array('class' => 'width110'),
-		            'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width110'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 				),
 				array(
 					'name' => 'user',
@@ -116,16 +116,16 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				),
 				array(
 					'name' => 'money',
-		            'htmlOptions' => array('class' => 'width110'),
-		            'headerHtmlOptions' => array('class' => 'width110'),
-		            'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width110'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 				),
 				array(
 					'name' => 'status',
 					
 					'htmlOptions' => array('class' => 'width155'),
-					'headerHtmlOptions' => array('class' => 'width155'),
-					'filterHtmlOptions' => array('class' => 'width155'),
+					'headerHtmlOptions' => array('class' => 'width110'),
+					'filterHtmlOptions' => array('class' => 'width110'),
 				),
 
 			))); ?>
