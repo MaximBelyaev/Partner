@@ -35,11 +35,6 @@ class SiteController extends Controller
 			exit();
 		}
 
-		if (Yii::app()->params->activation !== "activated")
-		{
-			header('Location: /activate.php');
-			exit();
-		}
 		$registerForm = new User('register');
 		$loginForm = new LoginForm();
     	$this->render('index', array('model'=>$loginForm, 'register'=>$registerForm));

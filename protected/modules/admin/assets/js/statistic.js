@@ -109,6 +109,7 @@ $(document).ready(function() {
 
 	$("#chart").on("plothover", function (event, pos, item) {
 		if (item) {
+            console.log(item);
 			var y = item.datapoint[1].toFixed(2),
                 $stat_block_offset = $('.stats_block').offset(),
                 $tt = $("#tooltip").html( Math.round(y) ),

@@ -60,20 +60,30 @@ class Chart
 		));
 
 
-		$d = array();
-		for($i = 0; $i < $dotsCount; $i++) {
-			$intervalStart = $start + $delta*$i;
-			$intervalEnd   = $start + $delta*($i+1);
-			# var_dump('is - ' . $intervalStart);
-			# var_dump('ie - ' . $intervalEnd);
-			$d[$i][0]  = $intervalStart*1000;
-			$d[$i][1] = 0;
-			foreach ($users as $usr) {
-				if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd ) {
-					$d[$i][1]++;
-				}
-			}
-		}
+        $d = array();
+        for($i = 0; $i < $dotsCount; $i++) {
+
+            $intervalStart = $start + $delta * $i;
+            $intervalEnd = $start + $delta * ($i + 1);
+            # var_dump('is - ' . $intervalStart);each
+            # var_dump('ie - ' . $intervalEnd);
+            $d[$i][0] = $intervalStart * 1000;
+            $d[$i][1] = 0;
+            $d[$i]['land'] = [];
+            foreach ($this->landings as $key => $value) {
+                $d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
+            }
+
+            foreach ($users as $usr) {
+                if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd ) {
+                    $d[$i][1]++;
+                    if (isset($d[$i]['land'][$usr['land_id']]))
+                    {
+                        $d[$i]['land'][$usr['land_id']]['value']++;
+                    }
+                }
+            }
+        }
 
 		return $d;
 	}
@@ -105,15 +115,16 @@ class Chart
 			$d[$i]['land'] = [];
 			foreach ($this->landings as $key=>$value)
 			{
-				$d[$i]['land'][$key] = 0;
+				$d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
 			}
 
-			foreach ($data as $dt) {
+			foreach ($data as $dt)
+            {
 				if ( strtotime($dt['date'])>$intervalStart && strtotime($dt['date'])<=$intervalEnd ) {
 					$d[$i][1]++;
 					if (isset($d[$i]['land'][$dt['land_id']]))
 					{
-						$d[$i]['land'][$dt['land_id']]++;
+						$d[$i]['land'][$dt['land_id']]['value']++;
 					}
 				}
 			}
@@ -197,22 +208,29 @@ class Chart
 		}
 
 
-		$d = array();
-		for($i = 0; $i < $dotsCount; $i++) {
+        $d = array();
+        for($i = 0; $i < $dotsCount; $i++) {
 
-			$intervalStart = $start + $delta*$i;
-			$intervalEnd   = $start + $delta*($i+1);
-			# var_dump('is - ' . $intervalStart);
-			# var_dump('ie - ' . $intervalEnd);
-			$d[$i][0]  = $intervalStart*1000;
-			$d[$i][1] = 0;
-			foreach ($data as $dt) {
-				if ( strtotime($dt['date'])>$intervalStart && strtotime($dt['date'])<=$intervalEnd ) {
-					$d[$i][1]++;
-				}
-			}
+            $intervalStart = $start + $delta * $i;
+            $intervalEnd = $start + $delta * ($i + 1);
+            # var_dump('is - ' . $intervalStart);each
+            # var_dump('ie - ' . $intervalEnd);
+            $d[$i][0] = $intervalStart * 1000;
+            $d[$i][1] = 0;
+            $d[$i]['land'] = [];
+            foreach ($this->landings as $key => $value) {
+                $d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
+            }
 
-		}
+            foreach ($data as $dt) {
+                if (strtotime($dt['date']) > $intervalStart && strtotime($dt['date']) <= $intervalEnd) {
+                    $d[$i][1]++;
+                    if (isset($d[$i]['land'][$dt['land_id']])) {
+                        $d[$i]['land'][$dt['land_id']]['value']++;
+                    }
+                }
+            }
+        }
 
 		return $d;
 	}
