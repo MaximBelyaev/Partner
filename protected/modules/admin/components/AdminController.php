@@ -79,7 +79,7 @@ class AdminController extends CController
 
         $dayOfWeek = date('l', time());
 
-        if ($dayOfWeek === 'Monday')
+        /**if ($dayOfWeek === 'Monday')
         {
             $licenseCode = file_get_contents("license.txt");
             $domain = str_replace('.', '',$_SERVER['SERVER_NAME']);
@@ -93,23 +93,24 @@ class AdminController extends CController
 
             if ($status === "doesn't exist")
             {
-                $allNotifications = News::model()->findAll();
-                $notification = new News();
+                $allNotifications = Notifications::model()->findAll();
+                $notification = new Notifications();
                 $notification->user_id = Yii::app()->user->id;
                 $notification->text = "Ваша партнёрка будет отключена через 3 дня. Свяжитесь с администратором для выяснений дальнейших подробностей.";
+                $notification->is_new = 1;
                 foreach ($allNotifications as $n)
                 if ($n->user_id !== $notification->user_id && $n->text !== $notification->text)
                 {
                     $notification->save();
                 }
-                $errorDate = date("+3 day", strtotime($notification->date));
+                $errorDate = strtotime(date("+3 day", strtotime($notification->date)));
                 if (time() >= $errorDate)
                 {
                     header("Location: activate.php");
                     exit();
                 }
             }
-        }
+        }**/
 
 
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
