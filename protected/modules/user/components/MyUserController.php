@@ -66,7 +66,10 @@ class MyUserController extends Controller
             header('Location: /activate.php');
             exit();
         }
-
+        echo "<pre>";
+        // var_dump(Yii::app());
+        echo "</pre>";
+        // exit();
         $this->user = User::model()->findByPk((int)Yii::app()->user->id);
 
         if(isset($this->user) && $this->user->unc_site) {
@@ -81,11 +84,6 @@ class MyUserController extends Controller
 			}
 		}
 
-        if(!array_key_exists(Yii::app()->getLanguage(), Yii::app()->params['languages'])) {
-            Yii::app()->setLanguage('ru');
-            Yii::app()->user->setState('language', 'ru');
-        }
-
         //Список настроек партнёра
         $this->settingsList = Setting::model()->findAll();
         for ($i = 0; $i < count($this->settingsList); $i++)
@@ -94,43 +92,44 @@ class MyUserController extends Controller
             unset($this->settingsList[$i]);
         }
 
+		/* выбранный пользователь лендинг, статистику которого он видит */
+		Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
+		$this->land_id = (int)Yii::app()->session['landing'];
 
-        Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
-        $this->land_id = (int)Yii::app()->session['landing'];
+		/* список лендингов, подключенных пользователем */
+		$landings = Landings::model()->findAll();
+		$relations = UsersLandings::model()->findAll(
+			array(
+				'condition' => 'user_id = :user_id',
+				'params' => array(':user_id'=>Yii::app()->user->id),
+			));
+		$userRelations = [];
+		foreach ($relations as $relation)
+		{
+			$userRelations[$relation->land_id] = $relation->user_id;
+		}
 
-        $landings = Landings::model()->findAll();
-        $relations = UsersLandings::model()->findAll(
-            array(
-                'condition' => 'user_id = :user_id',
-                'params' => array(':user_id'=>Yii::app()->user->id),
-            ));
-        $userRelations = [];
-        foreach ($relations as $relation)
-        {
-            $userRelations[$relation->land_id] = $relation->user_id;
-        }
+		if (count($landings) > 1)
+		{
+			$lands = array( 0 => 'Все' );
+			foreach ($landings as $l)
+			{
+				if (array_key_exists($l->land_id, $userRelations))
+				$lands[ $l->land_id ] = $l->name;
+			}
+			$this->landings = $lands;
+		} else
+		{
+			$this->landings = false;
+		}
 
-        if (count($landings) > 1)
-        {
-            $lands = array( 0 => 'Все' );
-            foreach ($landings as $l)
-            {
-                if (array_key_exists($l->land_id, $userRelations))
-                $lands[ $l->land_id ] = $l->name;
-            }
-            $this->landings = $lands;
-        } else
-        {
-            $this->landings = false;
-        }
-
-        $this->prepareNews();
-    }
+		$this->prepareNews();
+	}
 
 
-
-    protected function prepareNews() {
-        if ($this->land_id > 0) {
+	/* записываем новости, кол-во непросмотренных новостей */
+	protected function prepareNews() {
+		if ($this->land_id > 0) {
 			
 			$news = News::model()->findAll('land_id = ' . (int)$this->land_id);
 			$news_views = NewsViews::model()
@@ -142,20 +141,22 @@ class MyUserController extends Controller
 					)
 				))
 				->findAll('user_id = ' . (int)Yii::app()->user->id );
-
+			var_dump(count($news));
+			var_dump(count($news_views));
 			$this->news_to_watch = count($news) - count($news_views);
 			$this->news = $news;
 			$this->news_views = $news_views;
 
-        } else {
-
-			$news = News::model()->findAll('land_id = ' . (int)$this->land_id);
+		} else {
+			$landings = $this->landings;
+			$lands_str = implode(',', array_keys($landings));
+			$news = News::model()->findAll('land_id IN (' . $lands_str . ')');
 			$news_views = NewsViews::model()
 				->with(array(
 					'news' => array(
 						'select' => '*',
 						'joinType'=>'LEFT JOIN',
-						'condition' => 'news.land_id IN (' . implode(',', array_keys($this->landings)) . ')',
+						'condition' => 'news.land_id IN (' . $lands_str . ')',
 					)
 				))
 				->findAll('user_id = ' . (int)Yii::app()->user->id );
@@ -163,7 +164,6 @@ class MyUserController extends Controller
 			$this->news_to_watch = count($news) - count($news_views);
 			$this->news = $news;
 			$this->news_views = $news_views;
-
-        }
-    }
+		}
+	}
 }

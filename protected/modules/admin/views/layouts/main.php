@@ -350,22 +350,7 @@
                 <?php echo $form->error($newUser,'site'); ?>
             </div>
 
-            <div class="form-group">
-                <?php echo $form->labelEx( $newUser, 'land_id' ); ?>
-                <?php echo $form->dropDownList(
-                    $newUser,
-                    'land_id',
-                    (Yii::app()->session['landing'] == 0) ?
-                        $this->landingsList : array(Yii::app()->session['landing'] => Landings::model()->find(array(
-                        'condition' => 'land_id = ' .Yii::app()->session['landing']))->name),
-                    array(
-                        'class' => 'dropdown',
-                    )
-                ); ?>
-                <?php echo $form->error( $newReferral, 'land_id' ); ?>
-            </div>
-
-			 <div class="form-group">
+			<div class="form-group">
             
 	            <div class="form-group" id="hidden" style="display:none">
 	                <?php echo $form->labelEx($newUser,'click_pay'); ?>

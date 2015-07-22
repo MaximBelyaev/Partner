@@ -16,11 +16,14 @@ class Chart
 	public function __construct($user = null) {
 		$this->landings = Yii::app()->controller->landings;
 		unset($this->landings[0]);
+		
 		if (!count($this->landings))
 		{
 			$this->landings[-1] = 1;
 		}
+		
 		$this->l = (isset(Yii::app()->session['landing']))?(int)Yii::app()->session['landing']:false; 
+		
 		if ($user instanceof User ) {
 			$this->user = $user;
 		} else if ((int)($user) > 0) {

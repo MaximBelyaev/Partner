@@ -33,11 +33,12 @@ class News extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('header, text', 'required'),
-			array('header', 'length', 'max'=>255),
-			array('text', 'length', 'max'=>4095),
+			array('header', 'length', 'max' => 255),
+			array('text', 'length', 'max' => 4095),
+			array('land_id', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('news_id, header, text, date', 'safe', 'on'=>'search'),
+			array('news_id, header, text, date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -154,17 +155,33 @@ class News extends CActiveRecord
 
 	protected function afterSave() 
 	{
-		$users = User::model()->findAll();
-		foreach ($users as $user) {
-			$email = Yii::app()->email;
-			$email->from = 'Александр Павлуцкий <'.Yii::app()->params['adminEmail'].'>';
-			$email->to = $user->username;
-			$email->language = 'ru';
-			$email->type = 'text/html';
-			$email->contentType = 'utf-8';
-			$email->subject = "Партнерка по семантике: {$this->header}";
-			$email->message = str_replace('src="', 'src="' . Yii::app()->getBaseUrl(true), $this->text);
-			# $email->send();
+		if (Yii::app()->params['emailToUsers']) {
+			$users = User::model();
+			# если мы выбрали для новости конкретный лендинг, 
+			# то выбераем только пользователей, которые работают с этим лендингом 
+			if( !is_null($this->land_id) && $this->land_id ) {
+				$users = $users->with(array(
+					'users_landings' => array(
+						'select' => false,
+						'joinType' => 'LEFT JOIN',
+						'condition' => 'users_landings.land_id = ' . $this->land_id 
+					)
+				));
+			}
+			$users = $users->findAll();
+
+			foreach ($users as $user) {
+				$email = Yii::app()->email;
+				$email->from = 'Александр Павлуцкий <'.Yii::app()->params['adminEmail'].'>';
+				$email->to = $user->username;
+				$email->language = 'ru';
+				$email->type = 'text/html';
+				$email->contentType = 'utf-8';
+				$email->subject = Yii::app()->params['newsMailPrefix'] . "{$this->header}";
+				$email->message = str_replace('src="', 'src="' . Yii::app()->getBaseUrl(true), $this->text);
+
+				$email->send();
+			}
 		}
 	}
 

@@ -101,15 +101,24 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
-        'uploadPath' => '/uploads/',
-        'activation' => 'activated',
-        'dbsetup' => 'activated',
-        'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
-        'profit_percent' => 15,
-        'adminName'  => 'Александр Павлуцкий',
-        'adminEmail' => 'some.nugget@gmail.com',
-        // количество точек, на которые мы разобьем ось Х на графике
-        'chartTimePoints' => 15,
-        'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
-    ),
+		'uploadPath' => '/uploads/',
+		'activation' => 'activated',
+		'dbsetup' => 'activated',
+		'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
+		
+		# это надо убрать из использования. процент будет браться из БД 
+		'profit_percent' => 15,
+		'adminName'  => 'Александр Павлуцкий',
+		'adminEmail' => 'some.nugget@gmail.com',
+
+		# отправлять письма партнерам, или нет
+		'emailToUsers' => true,
+		# приставка к отправленному письму о новой новости.
+		'newsMailPrefix' => 'Партнерка по семантике: ',
+
+
+		// количество точек, на которые мы разобьем ось Х на графике
+		'chartTimePoints' => 15,
+		'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
+	),
 );

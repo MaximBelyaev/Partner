@@ -152,7 +152,8 @@ p {
 #menu .item-news svg {
 	margin-bottom: -4px;
 }
-#menu .active a {
+#menu .active a,
+#menu .active a:hover {
 	color: #FFF;
 	background-color: #38b1eb;
 }

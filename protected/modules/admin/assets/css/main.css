@@ -25,6 +25,9 @@ h5 {
 h5 .btn {
 	float: right;
 }
+h5 .btn + .btn {
+	margin-right: 20px;
+}
 a {
 	color: #778799;
 	font: 400 14px 'Open Sans';
