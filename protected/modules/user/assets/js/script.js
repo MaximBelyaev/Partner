@@ -79,7 +79,6 @@ jQuery(document).ready(function($) {
 
 	$("#chart").on("plothover", function (event, pos, item) {
 		if (item) {
-			console.log(item);
 			var landsString = '';
 			for (var i = 1; i<=Object.size(item.series.data[item.dataIndex].land); i++)
 			{
