@@ -33,10 +33,6 @@ return array(
         'debug' => array(
             'class' => 'ext.yii2-debug.Yii2Debug',
         ),
-        'session' => array(
-            'class' => 'CDbHttpSession',
-            'timeout' => 3600*72,
-        ),
         'request'=>array(
             'enableCookieValidation'=>true,
             'enableCsrfValidation'=>false,

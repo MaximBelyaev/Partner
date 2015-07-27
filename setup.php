@@ -68,8 +68,9 @@ function tryConnection ()
             file_put_contents($path_to_file, $file_contents);
 
         //Создаём таблицы и данные в базе
-            //$sql = include(dirname(__FILE__) . '/dump/partner_structure.sql');
-            //$connection->query($sql);
+            $sql = include(dirname(__FILE__) . '/dump/partner_structure.sql');
+            $sql = file_get_contents($sql);
+            $connection->query($sql);
             header("Location: /activate.php");
         }
     }
