@@ -10,7 +10,6 @@ $this->setPageTitle("Список лендингов");
 	<h5>
 		Лэндинги
 		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-success',)); ?>
-        <?= CHtml::link('Порядок сортировки',array('/admin/landings/sort'), array('class'=>'btn btn-primary',)); ?>
 	</h5>
 	<!-- <div class="underlist-button">
 	</div> -->

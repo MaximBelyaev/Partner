@@ -84,6 +84,14 @@
 
 		<div class="row-fluid form-row">
 			<div class="span6">
+				<?php echo $form->labelEx($model,'sort_order'); ?>
+				<?php echo $form->textField( $model,'sort_order',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+				<?php echo $form->error( $model,'sort_order' ); ?>
+			</div>
+		</div>
+
+		<div class="row-fluid form-row">
+			<div class="span6">
 				<?php echo $form->labelEx($model,'icon'); ?>
 				<?php echo $form->fileField($model,'icon', array('data-header'=>'Выберите файл')); ?>
 				<?php echo $form->error($model,'icon'); ?>
