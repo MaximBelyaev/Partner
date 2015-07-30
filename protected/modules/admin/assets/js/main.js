@@ -1,11 +1,17 @@
 var blocks_margin = 40;
 
 var setContentHeight = function() {
-    var block_top = $('.full-page-block').offset().top;
-    $('.full-page-block').css(
-        'min-height',
-        $(window).height() - block_top - blocks_margin
-    );
+    var $block = $('.full-page-block'),
+        block_of = $block.offset();
+
+    if (block_of != undefined) {
+        var block_top = block_of.top;
+        $block.css(
+            'min-height',
+            $(window).height() - block_top - blocks_margin
+        );
+
+    };
 }
 
 $( document ).ready(function() {

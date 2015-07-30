@@ -19,10 +19,14 @@ class UserController extends AdminController
 
 			$valid=$model->validate();
 			if($valid){
-				echo CJSON::encode(array(
-					'status'=>'success'
-				));
-				Yii::app()->end();
+				if (Yii::app()->request->isAjaxRequest) {
+					echo CJSON::encode(array(
+						'status'=>'success'
+					));
+					Yii::app()->end();
+				} else {
+					$this->redirect(array('update','id' => $model->id));
+				}
 			}
 
             if($model->save())
@@ -35,6 +39,11 @@ class UserController extends AdminController
                 //Yii::app()->user->setFlash('error', "Error!");
             }
 		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
+
 	}
 
 	/**

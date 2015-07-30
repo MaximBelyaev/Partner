@@ -407,16 +407,10 @@ class UserController extends MyUserController
 
     public function actionOffers ()
     {
-        $offersList = Landings::model()->findAll(array('order' => 'sort_order ASC'));
-        $allUsersLandings = UsersLandings::model()->findAll();
-        $usersLandings = [];
-        foreach ($allUsersLandings as $combination)
-        {
-            $usersLandings[$combination->land_id] = $combination->user_id;
-        }
+        $offersList = Landings::model()->joinUser(Yii::app()->user->id)->findAll(array('order' => 'sort_order ASC'));
+
         $this->render('offers', array(
             'offersList' => $offersList,
-            'usersLandings' => $usersLandings
         ));
     }
 

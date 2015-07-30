@@ -33,11 +33,12 @@ class News extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('header, text', 'required'),
-			array('header', 'length', 'max'=>255),
-			array('text', 'length', 'max'=>4095),
+			array('header', 'length', 'max' => 255),
+			array('text', 'length', 'max' => 4095),
+			array('land_id', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('news_id, header, text, date', 'safe', 'on'=>'search'),
+			array('news_id, header, text, date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -107,6 +108,12 @@ class News extends CActiveRecord
 		$criteria->join = 'LEFT JOIN news_views AS nw ON nw.news_id = t.news_id AND nw.user_id = ' . Yii::app()->user->id;
 		$criteria->select = array('`t`.`news_id`, `t`.`header`, `t`.`text`, `t`.`date`, `nw`.`news_views_id`, `nw`.`user_id`');
 		$criteria->together = true; //
+		if (Yii::app()->controller->land_id > 0) {
+			$criteria->compare('land_id', Yii::app()->controller->land_id);		
+		} else {
+			$criteria->addInCondition('land_id', array_keys(Yii::app()->controller->landings) );
+		}
+		
 		$criteria->compare('news_id',$this->news_id);
 		$criteria->compare('header',$this->header,true);
 		$criteria->compare('text',$this->text,true);
@@ -148,17 +155,33 @@ class News extends CActiveRecord
 
 	protected function afterSave() 
 	{
-		$users = User::model()->findAll();
-		foreach ($users as $user) {
-			$email = Yii::app()->email;
-			$email->from = 'Александр Павлуцкий <'.Yii::app()->params['adminEmail'].'>';
-			$email->to = $user->username;
-			$email->language = 'ru';
-			$email->type = 'text/html';
-			$email->contentType = 'utf-8';
-			$email->subject = "Партнерка по семантике: {$this->header}";
-			$email->message = str_replace('src="', 'src="' . Yii::app()->getBaseUrl(true), $this->text);
-			# $email->send();
+		if (Yii::app()->params['emailToUsers']) {
+			$users = User::model();
+			# если мы выбрали для новости конкретный лендинг, 
+			# то выбераем только пользователей, которые работают с этим лендингом 
+			if( !is_null($this->land_id) && $this->land_id ) {
+				$users = $users->with(array(
+					'users_landings' => array(
+						'select' => false,
+						'joinType' => 'LEFT JOIN',
+						'condition' => 'users_landings.land_id = ' . $this->land_id 
+					)
+				));
+			}
+			$users = $users->findAll();
+
+			foreach ($users as $user) {
+				$email = Yii::app()->email;
+				$email->from = 'Александр Павлуцкий <'.Yii::app()->params['adminEmail'].'>';
+				$email->to = $user->username;
+				$email->language = 'ru';
+				$email->type = 'text/html';
+				$email->contentType = 'utf-8';
+				$email->subject = Yii::app()->params['newsMailPrefix'] . "{$this->header}";
+				$email->message = str_replace('src="', 'src="' . Yii::app()->getBaseUrl(true), $this->text);
+
+				$email->send();
+			}
 		}
 	}
 

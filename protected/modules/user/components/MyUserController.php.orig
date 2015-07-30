@@ -61,7 +61,19 @@ class MyUserController extends Controller
             exit();
         }
 
+<<<<<<< HEAD
+        if (Yii::app()->params->activation !== "activated")
+        {
+            header('Location: /activate.php');
+            exit();
+        }
+        echo "<pre>";
+        // var_dump(Yii::app());
+        echo "</pre>";
+        // exit();
+=======
 
+>>>>>>> d9daa256329e169e128f4fbaab39a9da8c99ff9e
         $this->user = User::model()->findByPk((int)Yii::app()->user->id);
 
         if(isset($this->user) && $this->user->unc_site) {
