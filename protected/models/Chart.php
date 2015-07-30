@@ -70,20 +70,16 @@ class Chart
             $d[$i][0] = $intervalStart * 1000;
             $d[$i][1] = 0;
             $d[$i]['land'] = [];
-            foreach ($this->landings as $key => $value) {
-                $d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
-            }
+			foreach ($this->landings as $key => $value) {
+				$d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
+			}
 
-            foreach ($users as $usr) {
-                if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd ) {
-                    $d[$i][1]++;
-                    if (isset($d[$i]['land'][$usr['land_id']]))
-                    {
-                        $d[$i]['land'][$usr['land_id']]['value']++;
-                    }
-                }
-            }
-        }
+			foreach ($users as $usr) {
+				if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd ) {
+					$d[$i][1]++;
+				}
+			}
+		}
 
 		return $d;
 	}

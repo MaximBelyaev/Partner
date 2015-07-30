@@ -32,6 +32,14 @@ class SettingsController extends AdminController
 		));
 	}
 
+	public function actionLand()
+	{
+		$this->render('land',array(
+
+		));
+	}
+
+
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')

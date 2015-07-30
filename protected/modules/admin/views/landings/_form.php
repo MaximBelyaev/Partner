@@ -5,7 +5,7 @@
 ?>
 
 
-<div class="block">
+<div class="block full-page-block">
 	
 <div class="form">
 

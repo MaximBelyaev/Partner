@@ -98,7 +98,8 @@ jQuery(document).ready(function($) {
                 $stat_block_offset = $('.stats_block').offset(),
                 $tt = $("#tooltip").html( series_heading + ": " + Math.round(y) + "<br>" + landsString ),
 				ttX = item.pageX - $stat_block_offset.left - ($tt.width()/2 )-parseInt( $tt.css('padding-left') ) + 1,
-				ttY = item.pageY - $stat_block_offset.top- 40;
+				ttY = item.pageY - $stat_block_offset.top-100;
+				ttY = (ttY<0)?0:ttY;
                 $tt.css( { top: ttY, left: ttX } ).fadeIn( 200 );
 		} else {
 			$("#tooltip").hide();

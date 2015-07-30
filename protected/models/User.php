@@ -143,7 +143,6 @@ class User extends CActiveRecord
 			'telephone' => 'Телефон',
 			'skype' 	=> 'Скайп',
 			'money' 	=> 'Счет',
-			'land_id' 	=> "Лендинг",
 			'money[profit]' 	=> 'Счету',
 			'requests_count' 	=> 'Переходы',
 			'fullProfit'		=> 'Прибыль', 

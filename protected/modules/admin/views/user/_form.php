@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 	
 <div class="form">
 
@@ -18,13 +18,13 @@
 )); ?>
 
     <div class="head">
-        <h5><?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?></h5>
-		<div class="underlist-button underlist-button-inline">
-            <?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
-        </div>
-		<div class="underlist-button underlist-button-inline">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-        </div>
+        <h5>
+        	<?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?>
+			<?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
+			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
+        </h5>
+		
+        
         <div class="clear"></div>
     </div>
 
@@ -61,7 +61,13 @@
 
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'use_click_pay'); ?>
-				<?php echo $form->dropDownList($model,'use_click_pay', array('0'=>'Процент за заказ','1'=>'Оплата за переход')); ?>
+				<?php echo $form->dropDownList($model, 'use_click_pay',
+					array(
+						'0' => 'Процент за заказ',
+						'1' => 'Оплата за переход'
+					), 
+					array('class' => 'dropdown')
+				);?>
 				<?php echo $form->error($model,'use_click_pay'); ?>
 			</div>
 
@@ -82,7 +88,16 @@
 
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'status'); ?>
-				<?php echo $form->dropDownList($model,'status', array('Стандартный'=>'Стандартный', 'Расширенный'=>'Расширенный', 'VIP'=>'VIP')); ?>
+				<?php echo $form->dropDownList($model,'status', 
+					array(
+						'Стандартный' => 'Стандартный', 
+						'Расширенный' => 'Расширенный', 
+						'VIP' => 'VIP'
+					),
+					array(
+						'class' => 'dropdown'
+					)
+				);?>
 				<?php echo $form->error($model,'status'); ?>
 			</div>
 

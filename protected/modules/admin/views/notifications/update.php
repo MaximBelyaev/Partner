@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 $this->setPageTitle("Уведомление от {$model->user->username} | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 	
 	<div class="head">
 		<h5>Уведомление <?= $model->notification_id ?> за <?= $model->date ?></h5>

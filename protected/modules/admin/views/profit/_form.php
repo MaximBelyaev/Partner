@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
+<div class="form full-page-block">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'profit-form',

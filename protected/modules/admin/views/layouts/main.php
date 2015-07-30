@@ -27,9 +27,9 @@
 				alt="menu Open"
 				id="mob-menu-trigger" data-for="head-menu">
             
-            <div class="nav pull-left for-logo">
-                <?= CHtml::link('<span class="cap-let">G</span>et<span class="cap-let">P</span>artner', array('/admin/default/index'), array('class'=>'logo')); ?>
-            </div>
+			<div class="nav pull-left for-logo">
+					<?= CHtml::link('<img src="/img/Logo.svg">', array('/admin/default/index'), array('class'=>'logo')); ?>
+				</div>
             <div class="nav pull-left landing_select select-wrap">
 
 				<?php if (Yii::app()->controller->landings) {
@@ -145,9 +145,17 @@
         <?php endif?>
         <div class="main-content">
             <?php echo $content; ?>
+            
+			<footer class="block">
+				© <?= date('Y') ?> Партнерская программа GetPartner. All Rights Reserved
+			</footer>
         </div>
+			
     </div>
 </div>
+
+
+
 <!-- Modal for referrals-->
 <div 
     class="modal fade" 

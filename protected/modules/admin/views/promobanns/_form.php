@@ -19,13 +19,11 @@
 )); ?>
 
 	<div class="head">
-		<h5><?php echo $model->isNewRecord ? 'Добавление баннера' : 'Редактирование баннера: '.$model->name; ?></h5>
-		<div class="underlist-button underlist-button-inline">
-			<?php echo CHtml::link('Вернуться',array('/admin/promobanns/index'), array('class'=>'btn',)); ?>
-		</div>
-		<div class="underlist-button underlist-button-inline">
+		<h5>
+			<?php echo $model->isNewRecord ? 'Добавление баннера' : 'Редактирование баннера: '.$model->name; ?>
+			<?php echo CHtml::link('Вернуться',array('/admin/promobanns/index'), array('class'=>'btn btn-primary',)); ?>
 			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-		</div>
+		</h5>
 		<div class="clear"></div>
 	</div>
 
