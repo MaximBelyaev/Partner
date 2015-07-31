@@ -10,6 +10,10 @@
     {
         header('Location: /setup.php');
     }
+    if ($config['params']['activation'] === 'activated')
+    {
+        header('Location: /');
+    }
 
 ?>
 <form method="post" action="activate.php">
@@ -23,8 +27,8 @@ function tryActivate ()
 {
     //Сохраняем старое значение (неактивированная лицензия)
     $config = include(dirname(__FILE__) . '/protected/config/main.php');
-    //$activation = $config['params']['activation'];
-    //$activatedState = "activated";
+    $activation = $config['params']['activation'];
+    $activatedState = "activated";
 
     //Получаем код и ссылку
     $baseUrl = str_replace('.', '',$_SERVER['SERVER_NAME']);
@@ -33,6 +37,10 @@ function tryActivate ()
     $data = file_get_contents($zipFileURL);
     if ($data === "success")
     {
+        $path_to_file = dirname(__FILE__) . '/protected/config/main.php';
+        $file_contents = file_get_contents($path_to_file);
+        $file_contents = str_replace($activation, $activatedState, $file_contents);
+        file_put_contents($path_to_file, $file_contents);
         header("Location: success.php");
     }
     else

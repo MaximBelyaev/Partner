@@ -97,13 +97,12 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
-		'uploadPath' => '/uploads/',
+		'uploadPath' => '/uploamysql:host=localhost;dbname=rentalcontrol/',
 		'activation' => 'activated',
 		'dbsetup' => 'activated',
 		'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
 		
-		# это надо убрать из использования. процент будет браться из БД 
-		'profit_percent' => 15,
+		# это надо убрать из использования. процент будет браться из БД
 		'adminName'  => 'Александр Павлуцкий',
 		'adminEmail' => 'some.nugget@gmail.com',
 

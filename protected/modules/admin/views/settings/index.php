@@ -181,6 +181,24 @@ $this->setPageTitle("Настройки | Партнерская програм�
 				</div>
 			</div>
 
+            <div class="col form-row checkbox-row header-row">
+                <?php echo CHtml::activeCheckBox(
+                    $model['phone'],
+                    "[phone]status",
+                    array('id' => 'skype-checker')
+                ) ?>
+                <label for="skype-checker"></label>
+                <label class="inline-block" for="skype-checker">
+                    Телефон
+                </label>
+            </div>
+
+            <div class="row-fluid" id="hidden-skype">
+                <div class="col form-row">
+                    <?php echo CHtml::activeTextField($model['phone'],"[phone]value") ?>
+                </div>
+            </div>
+
 		</div>
 		<!--Конец блока связи-->
 

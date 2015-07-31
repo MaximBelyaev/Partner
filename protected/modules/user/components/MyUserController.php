@@ -141,21 +141,24 @@ class MyUserController extends Controller
 
 		} else {
 			$landings = $this->landings;
-			$lands_str = implode(',', array_keys($landings));
-			$news = News::model()->findAll('land_id IN (' . $lands_str . ')');
-			$news_views = NewsViews::model()
-				->with(array(
-					'news' => array(
-						'select' => '*',
-						'joinType'=>'LEFT JOIN',
-						'condition' => 'news.land_id IN (' . $lands_str . ')',
-					)
-				))
-				->findAll('user_id = ' . (int)Yii::app()->user->id );
+            if ($landings)
+            {
+                $lands_str = implode(',', array_keys($landings));
+                $news = News::model()->findAll('land_id IN (' . $lands_str . ')');
+                $news_views = NewsViews::model()
+                    ->with(array(
+                        'news' => array(
+                            'select' => '*',
+                            'joinType'=>'LEFT JOIN',
+                            'condition' => 'news.land_id IN (' . $lands_str . ')',
+                        )
+                    ))
+                    ->findAll('user_id = ' . (int)Yii::app()->user->id );
 
-			$this->news_to_watch = count($news) - count($news_views);
-			$this->news = $news;
-			$this->news_views = $news_views;
+                $this->news_to_watch = count($news) - count($news_views);
+                $this->news = $news;
+                $this->news_views = $news_views;
+            }
 		}
 	}
 }
