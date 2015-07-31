@@ -116,7 +116,7 @@ class ApiController extends Controller
 			{
 				$referral->user_id = $refer_id;
 			}
-			elseif($partner_site)
+			elseif ($partner_site)
 			{
 				$q = new CDbCriteria( array( 'condition' => "site='$partner_site'" ) );
 				$user = User::model()->find($q);
@@ -124,12 +124,13 @@ class ApiController extends Controller
 				{
 					$referral->user_id = $user->user_id;
 				}
-				elseif ($cookie_refer_id)
-				{
-					$referral->user_id = $cookie_refer_id;
-				}
 			}
+            elseif ($cookie_refer_id)
+            {
+                $referral->user_id = $cookie_refer_id;
+            }
 
+            /**
 			# получаем нужные настройки
 			$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
 			$settingsVip = Setting::model()->find(array('condition' => "name = 'vip'"));
@@ -194,7 +195,7 @@ class ApiController extends Controller
 						$user->money->save();
 					}
 				}
-			};
+			};**/
 			echo "<pre>";
 			#var_dump($referral);
 			echo "</pre>";
