@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 	
 <div class="form">
 
@@ -18,13 +18,13 @@
 )); ?>
 
     <div class="head">
-        <h5><?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?></h5>
-		<div class="underlist-button underlist-button-inline">
-            <?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
-        </div>
-		<div class="underlist-button underlist-button-inline">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-        </div>
+        <h5>
+        	<?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?>
+			<?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
+			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
+        </h5>
+		
+        
         <div class="clear"></div>
     </div>
 
@@ -60,24 +60,45 @@
 			</div>
 
 			<div class="form-row">
-				<?php echo $form->labelEx($model,'status'); ?>
-				<?php echo $form->dropDownList($model,'status', array('VIP'=>'VIP', 'Стандартный'=>'Стандартный', 'Расширенный'=>'Расширенный')); ?>
-				<?php echo $form->error($model,'status'); ?>
-			</div>
-		</div>
-		
-		<div class="span4 offset1">
-			<div class="form-row">
 				<?php echo $form->labelEx($model,'use_click_pay'); ?>
-				<?php echo $form->dropDownList($model,'use_click_pay', array('0'=>'Процент за заказ','1'=>'Оплата за переход')); ?>
+				<?php echo $form->dropDownList($model, 'use_click_pay',
+					array(
+						'0' => 'Процент за заказ',
+						'1' => 'Оплата за переход'
+					), 
+					array('class' => 'dropdown')
+				);?>
 				<?php echo $form->error($model,'use_click_pay'); ?>
 			</div>
 
-			<div class="form-row" id="hidden2" style="display:none">
+			<div 
+				class="form-row" 
+				id="hidden2" 
+				<?= (!is_null($model->use_click_pay) && $model->use_click_pay)?'':'style="display:none"' ?>
+				>
 				<?php echo $form->labelEx($model,'click_pay'); ?>
 				<?php echo $form->textField($model,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => isset($model->click_pay) ?
 					 $model->click_pay : '2')); ?>
 				<?php echo $form->error($model,'click_pay'); ?>
+			</div>
+			
+		</div>
+		
+		<div class="span4 offset1">
+
+			<div class="form-row">
+				<?php echo $form->labelEx($model,'status'); ?>
+				<?php echo $form->dropDownList($model,'status', 
+					array(
+						'Стандартный' => 'Стандартный', 
+						'Расширенный' => 'Расширенный', 
+						'VIP' => 'VIP'
+					),
+					array(
+						'class' => 'dropdown'
+					)
+				);?>
+				<?php echo $form->error($model,'status'); ?>
 			</div>
 
 			<div class="form-row">
@@ -96,13 +117,8 @@
 <script>
 	$(document).ready(function() {
 		var e = document.getElementById("User_use_click_pay");
-		var defaultValue = document.getElementById("User_use_click_pay").options[e.selectedIndex].value;
-		if (defaultValue == "1")
-		{
-			$("#hidden2").show();
-		}
 
-		$('#User_use_click_pay').change(function(){
+		$(e).change(function(){
 			if ($(this).val() == "1") {
 				$("#hidden2").show();
 			} else {

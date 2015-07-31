@@ -13,7 +13,7 @@ $this->setPageTitle("Список партнеров | Партнерская п
 <div class="head">
     <h5>
         Управление партнерами
-        <?php echo CHtml::link('Добавить',array("#createModal"), array('class'=>'btn btn-success', 'data-target'=> "#createModal")); ?>
+        <?php echo CHtml::link('Добавить', array("/admin/user/create"), array('class'=>'btn btn-success', 'data-target'=> "#createModal")); ?>
     </h5>
 </div>
 <?php
@@ -144,18 +144,18 @@ $columns = array(
     ),
 );
 
-if (!Yii::app()->session['landing'])
-{
-    $landing_column = array(
-        'name' => 'land_id',
-        'type' => 'html',
-        'htmlOptions' => array('class' => 'width125'),
-        'headerHtmlOptions' => array('class' => 'width125'),
-        'filterHtmlOptions' => array('class' => 'width125'),
-        'value' => '$data->getLandingIcon()',
-    );
-    array_splice($columns, -1, 0, array($landing_column));
-}
+// if (!Yii::app()->session['landing'])
+// {
+//     $landing_column = array(
+//         'name' => 'land_id',
+//         'type' => 'html',
+//         'htmlOptions' => array('class' => 'width125'),
+//         'headerHtmlOptions' => array('class' => 'width125'),
+//         'filterHtmlOptions' => array('class' => 'width125'),
+//         'value' => '$data->getLandingIcon()',
+//     );
+//     array_splice($columns, -1, 0, array($landing_column));
+// }
 
 
 $this->widget('zii.widgets.grid.CGridView', array(

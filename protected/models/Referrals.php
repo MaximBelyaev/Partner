@@ -301,7 +301,6 @@ class Referrals extends CActiveRecord
                 {
 					$profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
 					$res_profit = $this->money * (Yii::app()->params['profit_percent'] / 100);
-					var_dump($res_profit);
 					$profit->profit += $res_profit;
 					$profit->full_profit += $res_profit;
 					$profit->save();

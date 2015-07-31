@@ -110,11 +110,11 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'money' => array(self::HAS_ONE, 'Profit', 'user_id'),
-			'clients' => array(self::HAS_MANY, 'Referrals', 'user_id'),
-			'requests' => array(self::HAS_MANY, 'Requests', 'partner_id'),
-			'news' => array(self::HAS_MANY, 'News', 'news_id'),
-			'landing'	=> array( self::BELONGS_TO, 'Landings', 'land_id' ),
+			'money' 		=> array( self::HAS_ONE, 'Profit', 'user_id'),
+			'clients' 		=> array( self::HAS_MANY, 'Referrals', 'user_id'),
+			'requests' 		=> array( self::HAS_MANY, 'Requests', 'partner_id'),
+			'news' 			=> array( self::HAS_MANY, 'News', 'news_id'),
+			'users_landings'=> array( self::HAS_MANY, 'UsersLandings', 'user_id' ),
 		);
 	}
 
@@ -143,7 +143,6 @@ class User extends CActiveRecord
 			'telephone' => 'Телефон',
 			'skype' 	=> 'Скайп',
 			'money' 	=> 'Счет',
-			'land_id' 	=> "Лендинг",
 			'money[profit]' 	=> 'Счету',
 			'requests_count' 	=> 'Переходы',
 			'fullProfit'		=> 'Прибыль', 

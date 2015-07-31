@@ -15,12 +15,12 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
 	</div>
 
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'stateds-grid',
-		'dataProvider'=>$model->search(),
+		'id' => 'stateds-grid',
+		'dataProvider' => $model->search(),
 		'summaryText' => '',
-		'filter'=>$model,
+		'filter' => $model,
 		'htmlOptions' => array('class'=>'grid-view purple has-filter'),
-    	'columns'=>array(
+    	'columns' => array(
             array(
                 'name' => 'user',
                 'type' => 'email',
@@ -56,6 +56,11 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
                 ),
     		),
     	),
+		'pager'=> array(  
+			'header'        => '',
+			'prevPageLabel' => 'Назад',
+			'nextPageLabel' => 'Далее',    
+		),
     )); ?>
 
 </div>

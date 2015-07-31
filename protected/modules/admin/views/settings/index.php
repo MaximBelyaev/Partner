@@ -8,7 +8,10 @@ $this->setPageTitle("Настройки | Партнерская програм�
 <div class="block full-page-block">
 	
 	<div class="head">
-		<h5>Настройки</h5>
+		<h5>
+			Настройки
+			<?php echo CHtml::link('Настройка лендинга',array('/admin/settings/land'), array('class'=>'btn btn-primary',)); ?>
+		</h5>
 	</div>
 
 	<!-- Flash message -->

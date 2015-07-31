@@ -1,10 +1,3 @@
-<?php  
-
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($this->module->assetsUrl.'/js/statistic.js');
-
-?>
-
 <div class="block full-page-block">
 
 	<div class="head statistics-head">
@@ -68,11 +61,11 @@ $cs->registerScriptFile($this->module->assetsUrl.'/js/statistic.js');
 					data-start и data-end - это промежуток времени для которого выбирается статистика.
 					формат - количество СЕКУНД и эпохи UNIX
 				-->
-				<button class="btn btn-danger current_type" data-type="user">Партнеры</button>
-				<button class="btn btn-warning" data-type="referrals">Клиенты</button>
-				<button class="btn btn-success" data-type="requests">Переходы</button>
-				<button class="btn btn-primary" data-type="referrals_z">Заявки</button>
-				<button class="btn " data-type="payed">Заказы</button>
+				<button class="btn current_type" data-type="user">Партнеры</button>
+				<button class="btn" data-type="referrals">Клиенты</button>
+				<button class="btn" data-type="requests">Переходы</button>
+				<button class="btn" data-type="referrals_z">Заявки</button>
+				<button class="btn" data-type="payed">Заказы</button>
 			</div>
 			
 		</div>

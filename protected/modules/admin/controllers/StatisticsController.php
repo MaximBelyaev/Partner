@@ -7,7 +7,11 @@ class StatisticsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        # подготовим информацию для кнопок с последними отрезками
+		$cs = Yii::app()->getClientScript();
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/statistic.js');
+
+
+		# подготовим информацию для кнопок с последними отрезками
         $times = array(
         	"now" => strtotime("now"),
             "last_week" => strtotime("-1 week"),

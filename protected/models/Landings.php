@@ -3,6 +3,9 @@
 
 class Landings extends CActiveRecord
 {
+
+	public $isOffer;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -20,6 +23,7 @@ class Landings extends CActiveRecord
 			array('link, name', 'length', 'max'=>255),
 			array('vip, standard, extended, click_pay', 'length', 'max'=>250),
 			array('sort_order', 'length', 'max'=>15),
+			array('isOffer', 'numerical', 'integerOnly' => true),
 			array('link', 'required'),
 			array('link', 'url'),
 			array('icon', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
@@ -38,6 +42,7 @@ class Landings extends CActiveRecord
 			'users' => array(self::HAS_MANY, 'User', 'land_id'),
 			'news' => array(self::HAS_MANY, 'News', 'land_id'),
 			'promobanns' => array(self::HAS_MANY, 'Promobanns', 'land_id'),
+			'users_landings' => array(self::HAS_MANY, 'UsersLandings', 'land_id'),
 		);
 	}
 
@@ -55,6 +60,24 @@ class Landings extends CActiveRecord
             'click_pay' => 'Оплата за переход'
 		);
 	}
+
+	public function joinUser( $user_id = 0 )
+	{
+		$cdb = $this->getDbCriteria();
+		
+		$cdb->mergeWith(array(
+	        'join' => ' LEFT JOIN users_landings USING(land_id) ',
+			'select' => $cdb->select . ',(users_landings.user_id IS NOT NULL) as isOffer '
+		));
+		if ((int)$user_id) {
+			$this->getDbCriteria()->addCondition( 
+				' (users_landings.user_id = ' . (int)$user_id 
+				. ' OR users_landings.user_id IS NULL) ' 
+			);
+		}
+	    return $this;
+	}
+
 
     public function search($pageSize = 10)
     {

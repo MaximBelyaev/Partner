@@ -29,7 +29,7 @@
 			<div class="container-fluid">
 
 				<div class="nav pull-left for-logo">
-					<?= CHtml::link('<span class="cap-let">G</span>et<span class="cap-let">P</span>artner', array('/admin/default/index'), array('class'=>'logo')); ?>
+					<?= CHtml::link('<img src="/img/Logo.svg">', array('/user/user/index'), array('class'=>'logo')); ?>
 				</div>
 				<div class="nav pull-left landing_select select-wrap ">
 					<?php if (Yii::app()->controller->landings) {
@@ -41,25 +41,22 @@
 					<?php } ?>
 				</div>
                 <div class="nav pull-left">
-                    <span class="menu-profit"><?= Yii::app()->controller->user->profit ?>&nbsp;р.</span>
+                    <span class="menu-profit"><?= Yii::app()->controller->user->profit ?>&nbsp;₽</span>
                 </div>
-				<?php $this->widget('zii.widgets.CMenu',array(
-					'items'=>array(
-						array(
-							'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/User.svg') 
-							. ' ' . Yii::app()->controller->user->username,
-							'url'   => array('/admin/default/logout'),
-						),
-						array(
-							'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Exit.svg') . 'Выйти',
-							'url'   => array('/admin/default/logout'),
-						),
-					),
-					'htmlOptions'=>array(
-						'class'=>'nav pull-right',
-					),
-					'encodeLabel'=>false,
-				)); ?> 
+				<ul class="nav pull-right" id="yw0">
+					<li>
+						<span>
+							<?= @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/User.svg') ?>
+							admin@admin.ru
+						</span>
+					</li>
+					<li>
+						<a href="/admin/default/logout">
+							<?= @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Exit.svg') ?>
+							Выйти
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -92,8 +89,10 @@
                         'itemOptions' => array('class'=>'item-news'),
                     ),
                     array(
-                        'label' => 'Офферы',
+                        'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Offers.svg') 
+                        		. 'Офферы',
                         'url'   => array('/user/user/offers'),
+                        'itemOptions' => array('class'=>'item-offers'),
                     ),
                     array(
                         'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Settings.svg') 
@@ -141,11 +140,13 @@
 	    <div class="container-fluid">
 	        <div class="main-content">
 	            <?php echo $content; ?>
+				
+				<footer class="block">
+					© <?= date('Y') ?> Партнерская программа GetPartner. All Rights Reserved
+				</footer>
 	        </div>
 	    </div>
 	</div>
-
-
 
 
 

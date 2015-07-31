@@ -5,7 +5,7 @@
 Yii::import('ext.tinymce.TinyMceFileManager')
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 
 <div class="head">
 	<h5>

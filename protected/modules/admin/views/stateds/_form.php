@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block">
+<div class="block full-page-block">
     
 <div class="form">
 
@@ -20,13 +20,9 @@
     <div class="head">
         <h5>
             <?php echo $model->isNewRecord ? 'Добавление заявки' : 'Редактирование заявки от: ' . $model->user->username; ?>
-        </h5>
-        <div class="underlist-button underlist-button-inline">
-            <?php echo CHtml::link('Вернуться',array('/admin/stateds/index'), array('class'=>'btn',)); ?>
-        </div>
-        <div class="underlist-button underlist-button-inline">
+            <?php echo CHtml::link('Вернуться',array('/admin/stateds/index'), array('class'=>'btn btn-primary',)); ?>
             <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-        </div>
+        </h5>
         <div class="clear"></div>
     </div>
 

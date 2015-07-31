@@ -7,7 +7,6 @@ $this->setPageTitle("Новости | Партнерская программа 
 	<div class="">
 		<h5>Новости</h5>
 	</div>
-	
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
 	'dataProvider' => $model->userSearch(),
