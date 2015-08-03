@@ -167,6 +167,13 @@
 					<?= Yii::app()->controller->settingsList['email']->value; ?>
 				</p>
 			<?php } ?>
+
+			<?php if ( Yii::app()->controller->settingsList['phone']->status == 1 ) { ?>
+				<p>
+					<img src="<?php echo $this->module->assetsUrl ?>/img/c-phone.png">
+					<?= Yii::app()->controller->settingsList['phone']->value; ?>
+				</p>	
+			<?php } ?>
 			
 
 			<div class="clear"></div>

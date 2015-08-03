@@ -6,19 +6,21 @@ class DefaultController extends AdminController
      * when an action is not explicitly requested by users.
      */
 
+    protected $index_items_count = 6;
+
 	public function actionIndex()
 	{
 		//Список новых партнёров
-		$userModel = User::model()->search('4', 't.id desc');
+		$userModel = User::model()->search( $this->index_items_count, 't.id desc');
 
 		//Список новых клиентов
-		$referralModel = Referrals::model()->search('4', 't.id desc');
+		$referralModel = Referrals::model()->search( $this->index_items_count, 't.id desc');
 
 		//Последние заявки
-		$statedsModel = Stateds::model()->search('4', 't.id desc');
+		$statedsModel = Stateds::model()->search( $this->index_items_count, 't.id desc');
 
 		//Лучшие партнёры за 30 дней
-		$bestPartnersModel = User::model()->search('4', 'month_profit desc');
+		$bestPartnersModel = User::model()->search( $this->index_items_count, 'month_profit desc');
 
 		$this->render('index',array(
 			'userModel'=>$userModel,

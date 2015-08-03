@@ -23,6 +23,9 @@ class Notifications extends CActiveRecord
 		2 => 'Изменение сайта',
 	);
 
+	public $username;
+
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,6 +48,7 @@ class Notifications extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('stated_id, notification_id, user_id, theme, text, date, is_new', 'safe', 'on'=>'search'),
+			array('username, user.username', 'safe')
 		);
 	}
 
@@ -54,7 +58,7 @@ class Notifications extends CActiveRecord
 	public function relations()
 	{
 		return array(
-            'user'=> array(self::BELONGS_TO, 'User', 'user_id'),
+            'user'	=> array(self::BELONGS_TO, 'User', 'user_id'),
             'stated'=> array(self::HAS_ONE, 'Stateds', 'stated_id'),
 		);
 	}
@@ -67,6 +71,7 @@ class Notifications extends CActiveRecord
 		return array(
 			'notification_id' => 'Уведомление',
 			'user_id' => 'Пользователь',
+			'username' => 'Партнер',	
 			'theme' => 'Тема',
 			'text' => 'Текст',
 			'date' => 'Дата',
@@ -90,19 +95,49 @@ class Notifications extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
+		$criteria->with = array('user');
+
+		$criteria->addSearchCondition('user.username', $this->username);
+		
 		$criteria->compare('notification_id',$this->notification_id);
 		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('theme',$this->theme);
+		$criteria->compare('theme', $this->searchThemesKeysByString());
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('is_new',$this->is_new);
+		
 		$criteria->order = 'is_new DESC, date DESC';
+		
 		return new CActiveDataProvider($this, array(
-			'pagination' => array('pageSize' => $pageSize),
-			'criteria'=>$criteria,
+			'pagination'=> array('pageSize' => $pageSize),
+			'sort' 		=> false,
+			'criteria'	=> $criteria,
 		));
+	}
+
+	protected function searchThemesKeysByString($str='') {
+
+		if ($this->theme != '' && !is_null($this->theme)) {
+			$keys = array();
+			foreach(Notifications::$themes_aliases as $i => $t) {
+				if(mb_stripos($t, $this->theme, null, 'UTF-8') !== false) {
+					array_push($keys, $i);
+				}
+			}
+			return $keys;
+		} else {
+			return array();
+		}
+
+	}
+
+	public function getUsername() {
+		if ($this->username === null) {
+	        $this->username = $this->user->username;
+	    }
+	    return $this->username;
 	}
 
 	/**

@@ -40,8 +40,9 @@ class NotificationsController extends AdminController
 		$model = new Notifications('search');
         $model->unsetAttributes();  // clear any default values
 
-        if(isset($_GET['User'])) {
-            $model->attributes=$_GET['User'];
+        if(isset($_GET['Notifications'])) {
+            var_dump($_GET['Notifications']);
+            $model->attributes=$_GET['Notifications'];
         }
         $this->render('index',array(
             'model'=>$model,

@@ -113,8 +113,11 @@ return array(
 		'newsMailPrefix' => 'Партнерка по семантике: ',
 
 
-		// количество точек, на которые мы разобьем ось Х на графике
+		# количество точек, на которые мы разобьем ось Х на графике
 		'chartTimePoints' => 15,
+
+        # сервер, на котором хранятся версии партнерки
+        # условие с $_SERVER['SERVER_NAME'] в будущем уберем
 		'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
 	),
 );

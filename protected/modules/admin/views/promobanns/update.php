@@ -12,3 +12,4 @@ $this->setPageTitle("Редактирование баннера | Партне�
 ?>
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'typesList'=>$typesList)); ?>
+<?php $this->renderPartial('/promovideo/_form', array('videoModel'=>$videoModel)); ?>

@@ -181,20 +181,32 @@ $this->setPageTitle("Настройки | Партнерская програм�
 				</div>
 			</div>
 
+			<div class="row-fluid">
+				<div class="span12">
+					<?php echo CHtml::submitButton(
+						'Сохранить', 
+						array('class' => 'btn btn-primary pull-right'
+					)); ?>
+				</div>
+			</div>
+			
 		</div>
 		<!--Конец блока связи-->
 
-		<div class="settings-col update-block">
-				<h4 class="form-block-header">
-					Обновление	
-				</h4>
 
-				<div>
-					<p>Версия вашей прошивки - 1.0</p>
-					<a class="btn" id="has-update-check">Проверить актуальность версии</a>
-					<a class="btn btn-primary" id="update">Обновить</a>
-				</div>
+
+
+		<div class="settings-col update-block">
+			<h4 class="form-block-header">
+				Обновление	
+			</h4>
+
+			<div>
+				<p>Версия вашей прошивки - 1.0</p>
+				<a class="btn" id="has-update-check">Проверить актуальность версии</a>
+				<a class="btn btn-primary" id="update">Обновить</a>
 			</div>
+		</div>
 
 
 		<!-- 
@@ -239,13 +251,6 @@ $this->setPageTitle("Настройки | Партнерская програм�
 		</div> -->
 
 		</div>
-
-		<div class="row-fluid">
-			<div class="span8">
-				<?php echo CHtml::submitButton('Сохранить', array('class' => 'btn btn-primary')); ?>
-			</div>
-		</div>
-
 
 		<?php echo CHtml::endForm(); ?>
 		

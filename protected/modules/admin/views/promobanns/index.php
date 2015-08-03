@@ -12,7 +12,6 @@ $this->breadcrumbs=array(
 	<div class="head">
 		<h5>
 			Рекламные материалы
-			<?= CHtml::link('Добавить', "/admin/promobanns/create", array('class' => 'btn btn-success')) ?>		 
 		</h5>
 	</div>
 
@@ -29,7 +28,7 @@ $this->breadcrumbs=array(
 		'height',
 		'width',
 		array(
-			'header'=>'Действия',
+			'header'=>'Ред',
 			'class'=>'CButtonColumn',
 			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
 			'buttons'=>array

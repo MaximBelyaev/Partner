@@ -107,8 +107,9 @@ class Stateds extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'pagination'=>array('pageSize' => $pageSize)
+			'criteria'	=> $criteria,
+			'sort' 		=> false,
+			'pagination'=> array('pageSize' => $pageSize)
 		));
 	}
 

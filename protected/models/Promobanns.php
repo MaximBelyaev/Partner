@@ -94,6 +94,7 @@ class Promobanns extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'sort'  => false,
 		));
 	}
 
@@ -114,10 +115,6 @@ class Promobanns extends CActiveRecord
 	protected function beforeSave()
 	{
 		if (parent::beforeSave()) {
-			if ($this->type === 'gif')
-			{
-
-			}
 		}
 		return true;
 	}
@@ -128,7 +125,7 @@ class Promobanns extends CActiveRecord
 		return true;
 	}
 
-	public static function model($className=__CLASS__)
+	public static function model( $className = __CLASS__ )
 	{
 		return parent::model($className);
 	}

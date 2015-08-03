@@ -409,8 +409,10 @@ p {
 }
 .container-fluid .nav li a svg,
 .container-fluid .nav li span svg {
-	width: 22px;
-	vertical-align: bottom;
+	width: 17px;
+    vertical-align: bottom;
+    position: relative;
+    top: -2px;
 }
 .container-fluid .nav li a svg rect, 
 .container-fluid .nav li a svg polygon, 
@@ -1447,7 +1449,7 @@ address {
 
 /* ================= Вывод средств ================ */
 .pay-buttons.buttons{
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 

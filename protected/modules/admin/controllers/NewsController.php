@@ -88,7 +88,13 @@ class NewsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('News');
+		$criteria = new CDbCriteria;
+		$criteria->order = 'date DESC';
+
+		$dataProvider = new CActiveDataProvider('News', array(
+			'criteria' 	=> $criteria,
+			'sort' 		=> false,
+		));
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));

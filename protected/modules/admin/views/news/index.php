@@ -18,7 +18,6 @@ $this->setPageTitle("Новости | Партнерская программа 
 	<div class="head">
 		<h5>
             Новости
-			<?= CHtml::link('Добавить', "/admin/news/create", array('class' => 'btn btn-success')) ?>		
         </h5>
 	</div>	
 
@@ -26,7 +25,6 @@ $this->setPageTitle("Новости | Партнерская программа 
 $columns = array(
     'date',
     'header',
-
     array(
         'header'=>'Ред',
         'class'=>'CButtonColumn',
@@ -61,21 +59,21 @@ if (!Yii::app()->session['landing'])
         'htmlOptions' => array('class' => 'width125'),
         'headerHtmlOptions' => array('class' => 'width125'),
         'filterHtmlOptions' => array('class' => 'width125'),
-        'value' => '$data->getLandingIcon()',
+        'value' => 'isset($data->landing)?$data->landing->name:""',
     );
     array_splice($columns, -1, 0, array($landing_column));
 }
 
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	//'dataProvider' => $model->search(),
 	'dataProvider' => $dataProvider,
-    'summaryText'   => '',
-    'columns' => $columns,
+	'htmlOptions' => array('class'=>'grid-view red'),
+	'summaryText'   => '',
+	'columns' => $columns,
 	'pager'=> array(  
-		'header'        => '',
+		'header'		=> '',
 		'prevPageLabel' => 'Назад',
-		'nextPageLabel' => 'Далее',    
+		'nextPageLabel' => 'Далее',
 	),
     //'filter' => $model,
 )); ?>

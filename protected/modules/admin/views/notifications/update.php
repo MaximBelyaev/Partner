@@ -14,7 +14,7 @@ $this->setPageTitle("Уведомление от {$model->user->username} | Па
 		<h5>Уведомление <?= $model->notification_id ?> за <?= $model->date ?></h5>
 	</div>
 
-	<div class="text-block">
+	<div class="text-block not-block">
 	<?php $this->renderPartial( 'tpl/' . $model->theme ,array(
 		'model'=>$model,
 	)); ?>

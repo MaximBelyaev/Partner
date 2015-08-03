@@ -154,26 +154,22 @@
 			'id'=>'menu',
 		),
 		'encodeLabel'=>false,
-    )); ?>
-    <?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
+	)); ?>
+	<?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
 </div>
 <div id="main-content">
-    <div class="container-fluid">
-        <?php if(isset($this->breadcrumbs) && false):?>
-            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                'homeLink'=>CHtml::link('Partner',array('/admin/default/index')),
-			    'links'=>$this->breadcrumbs,
+	<div class="container-fluid">
+		<?php if(isset($this->breadcrumbs) && false):?>
+			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+				'homeLink'=>CHtml::link('Partner',array('/admin/default/index')),
+				'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
-        <?php endif?>
-        <div class="main-content">
-            <?php echo $content; ?>
-            
-			<footer class="block">
-				© <?= date('Y') ?> Партнерская программа GetPartner. All Rights Reserved
-			</footer>
-        </div>
+		<?php endif?>
+		<div class="main-content">
+			<?php echo $content; ?>
+		</div>
 			
-    </div>
+	</div>
 </div>
 
 

@@ -13,7 +13,6 @@ $this->setPageTitle("Список клиентов | Партнерская пр
 <div class="head">
     <h5>
         Управление клиентами
-        <?= CHtml::link('Добавить', "/admin/referrals/create", array('class' => 'btn btn-success')) ?>      
     </h5>
 </div>
 
@@ -113,7 +112,7 @@ if (!Yii::app()->session['landing']) {
         'htmlOptions' => array('class' => 'width125'),
         'headerHtmlOptions' => array('class' => 'width125'),
         'filterHtmlOptions' => array('class' => 'width125'),
-        'value' => '$data->getLandingIcon()',
+        'value' => '(isset($data->landing)?$data->landing->name:"")',
 	);
 	array_splice($columns, -1, 0, array($landing_column));
 }

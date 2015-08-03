@@ -20,8 +20,6 @@
     <div class="head">
         <h5>
         	<?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?>
-			<?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
         </h5>
 		
         
@@ -109,6 +107,16 @@
 
 		</div>
 	</div>
+
+	<div class="row-fluid">
+		<div class="span9">
+			<?php echo CHtml::submitButton(
+				$model->isNewRecord ? 'Добавить' : 'Сохранить', 
+				array('class'=>'btn btn-primary pull-right')); ?>
+		</div>
+	</div>
+
+
 
 <?php $this->endWidget(); ?>
 

@@ -114,6 +114,7 @@ class User extends CActiveRecord
 			'clients' 		=> array( self::HAS_MANY, 'Referrals', 'user_id'),
 			'requests' 		=> array( self::HAS_MANY, 'Requests', 'partner_id'),
 			'news' 			=> array( self::HAS_MANY, 'News', 'news_id'),
+			'notifications' => array( self::HAS_MANY, 'Notifications', 'user_id'),
 			'users_landings'=> array( self::HAS_MANY, 'UsersLandings', 'user_id' ),
 		);
 	}
@@ -165,7 +166,8 @@ class User extends CActiveRecord
 		$criteria = new CDbCriteria;
 		$criteria->with = array('money');
 
-		$requests_table = Requests::model()->tableName();
+# Закоментированные строки - это сортировка по связанным данным
+/*		$requests_table = Requests::model()->tableName();
 		$requests_count_sql = "(SELECT COUNT(*) FROM $requests_table rt WHERE rt.partner_id = t.id) ";
 
 		$referrals_table = Referrals::model()->tableName();
@@ -186,7 +188,7 @@ class User extends CActiveRecord
 		$criteria->compare($referrals_count_sql, $this->referrals_count);
 		$criteria->compare($referrals_payed_sql, $this->referrals_payed_count);
 		$criteria->compare($month_profit_sql, $this->month_profit);
-
+*/
 		$criteria->compare('t.id', $this->id);
 		$criteria->compare('t.reg_date', $this->reg_date, true);
 		$criteria->compare('username', $this->username, true);
@@ -195,13 +197,11 @@ class User extends CActiveRecord
 		$criteria->compare('status', $this->status, true);
 		$criteria->compare('use_click_pay', $this->use_click_pay, true);
 
-		//$criteria->compare('money.profit',$this->money->profit);
-		//$criteria->compare('money.full_profit',$this->money->full_profit);
-
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
-			'pagination' => array('pageSize' => $pageSize),
-			'sort' => array(
+			'pagination' => array( 'pageSize' => $pageSize ),
+			'sort'  => false,
+			/*'sort' => array(
 				'defaultOrder' => $defaultOrder,
 				'attributes' => array(
 					'requests_count' => array(
@@ -230,7 +230,7 @@ class User extends CActiveRecord
 					),
 					'*',
 				),
-			)
+			)*/
 		));
 	}
 

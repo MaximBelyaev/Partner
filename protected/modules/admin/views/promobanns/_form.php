@@ -4,9 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block">
-	
-
+<div class="block promoban-block">
 
 <div class="form">
 
@@ -21,8 +19,6 @@
 	<div class="head">
 		<h5>
 			<?php echo $model->isNewRecord ? 'Добавление баннера' : 'Редактирование баннера: '.$model->name; ?>
-			<?php echo CHtml::link('Вернуться',array('/admin/promobanns/index'), array('class'=>'btn btn-primary',)); ?>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</h5>
 		<div class="clear"></div>
 	</div>
@@ -43,7 +39,7 @@
 	<div class="clear"></div>
 
 	<div class="row-fluid">
-		<div class="span4">
+		<div class="span12">
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'type'); ?>
 				<?php echo $form->dropDownList($model,'type', $typesList); ?>
@@ -90,11 +86,23 @@
 		</div>
 	</div>
 
-
-	<?php if($model->isNewRecord!='1'){ ?>
+	<?php if( $model->isNewRecord != '1' ){ ?>
 	<div class="form-row">
-		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); }?>
+		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); ?>
 	</div>
+	<?php } ?>
+
+
+	
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo CHtml::submitButton(
+				$model->isNewRecord ? 'Добавить' : 'Сохранить', 
+				array('class'=>'btn btn-primary pull-right')
+			); ?>
+		</div>
+	</div>	
+
 
 <?php $this->endWidget(); ?>
 

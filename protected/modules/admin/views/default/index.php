@@ -20,7 +20,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 		    'dataProvider' => $referralModel,
 		    'enablePagination' => false,
 			'summaryText' => '',
-			'htmlOptions' => array('class'=>'index-table grid-view red'),
+			'htmlOptions' => array('class'=>'index-table grid-view green'),
 			'columns' => array(
 				array(
 					'name' => 'date',
@@ -99,7 +99,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 			'dataProvider' => $statedsModel,
 			'enablePagination' => false,
 			'summaryText' => '',
-			'htmlOptions' => array('class'=>'index-table grid-view orange'),
+			'htmlOptions' => array('class'=>'index-table grid-view red'),
 			'columns' => array(
 				array(
 					'name' => 'date',
@@ -142,7 +142,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 			'dataProvider' => $bestPartnersModel,
 			'enablePagination' => false,
 			'summaryText' => '',
-			'htmlOptions' => array('class'=>'index-table grid-view green'),
+			'htmlOptions' => array('class'=>'index-table grid-view orange'),
 		    'columns' => array(
 				'username',
 				array(

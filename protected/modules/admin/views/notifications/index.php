@@ -14,12 +14,11 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	'dataProvider' => $model->search(9),
-	//'dataProvider' => $dataProvider,
-	'summaryText' => '',
-	'htmlOptions' => array( 'class' => 'grid-view has-filter'),
-	'filter' => $model,
-    'pager'=> array(  
+	'dataProvider' 	=> $model->search(9),
+	'summaryText' 	=> '',
+	'htmlOptions' 	=> array( 'class' => 'grid-view green has-filter'),
+	'filter' 	=> $model,
+    'pager'		=> array(  
         'header'        => '',
         'prevPageLabel' => 'Назад',
         'nextPageLabel' => 'Далее',    
@@ -30,7 +29,12 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 			'name' => 'notification_id',
 			'htmlOptions' => array('class' => 'notification-id-col'),
 		),
-		'user.username',
+        array(
+			'header'=> 'Партнер',
+			'name' 	=> 'user.username',
+            'value' => '$data->user->username',
+            'filter'=> CHtml::activeTextField($model, 'username'),
+        ),
 		array(
 			'name' => 'theme',
 			'value' => 'Notifications::$themes_aliases[$data->theme]',
