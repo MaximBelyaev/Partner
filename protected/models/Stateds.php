@@ -71,7 +71,7 @@ class Stateds extends CActiveRecord
 			'user_id' => 'User',
 			'money' => 'Сумма',
 			'status' => 'Статус',
-			'pay_type' => 'Тип платежной системы',
+			'pay_type' => 'Система',
 			'requisites' => 'Номер счета',
 			'description' => 'Дополнительно',
             'user' => 'От партнера',
@@ -91,7 +91,7 @@ class Stateds extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($pageSize = 10)
+	public function search($pageSize = 9)
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 

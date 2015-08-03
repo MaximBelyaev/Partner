@@ -5,16 +5,16 @@
 <g>
 	<g>
 		<g>
-			<circle fill="none" class="stroke" stroke="#EA904E" stroke-miterlimit="10" cx="6.4" cy="5.1" r="4.1"/>
-			<path class="stroke no-fill"  fill="none" stroke="#EA904E" stroke-miterlimit="10" d="M12.1,3c1.7,0,3.1,1.4,3.1,3.1s-1.4,3.1-3.1,3.1"/>
+			<circle fill="none" class="stroke" stroke="#3BACE2" stroke-miterlimit="10" cx="6.4" cy="5.1" r="4.1"/>
+			<path class="stroke no-fill"  fill="none" stroke="#3BACE2" stroke-miterlimit="10" d="M12.1,3c1.7,0,3.1,1.4,3.1,3.1s-1.4,3.1-3.1,3.1"/>
 		</g>
 		<g>
 			<g>
-				<polyline class="stroke" fill="none" stroke="#EA904E" stroke-miterlimit="10" points="13.6,11.2 15.7,11.7 16.2,15.3 13.6,15.3 				"/>
+				<polyline class="stroke" fill="none" stroke="#3BACE2" stroke-miterlimit="10" points="13.6,11.2 15.7,11.7 16.2,15.3 13.6,15.3 				"/>
 			</g>
 		</g>
 	</g>
-	<polyline class="stroke" fill="none" stroke="#EA904E" stroke-miterlimit="10" points="9.5,11.2 11.6,11.9 12.1,16.4 0.8,16.4 1.3,11.9 3.4,11.2 	
+	<polyline class="stroke" fill="none" stroke="#3BACE2" stroke-miterlimit="10" points="9.5,11.2 11.6,11.9 12.1,16.4 0.8,16.4 1.3,11.9 3.4,11.2 	
 		"/>
 </g>
 </svg>

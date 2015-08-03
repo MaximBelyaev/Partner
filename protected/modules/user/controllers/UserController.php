@@ -435,17 +435,18 @@ class UserController extends MyUserController
     public function actionPayRequest()
     {
         $model = new Stateds;
-        $list=new Stateds('search');
+        $list  = new Stateds('search');
         $list->unsetAttributes();  // clear any default values
-        if(isset($_GET['Stateds']))
-            $list->attributes=$_GET['Stateds'];
+        if(isset($_GET['Stateds'])){
+            $list->attributes = $_GET['Stateds'];
+        }
 
         $settings = [];
         foreach ($this->settingsList as $setting)
         {
             if ($setting->status === '1' and  $setting->type === 'pay_service')
             {
-                $settings[$setting->header] = $setting->setDisplayIcon();
+                $settings[$setting->header] = $setting->header;
             }
         }
 
@@ -456,7 +457,11 @@ class UserController extends MyUserController
                 $this->redirect(array('index'));
             }
         }
-        $this->render('pay', array('model'=>$model, 'settings'=>$settings, 'list' => $list));
+        $this->render('pay', array(
+            'model'     => $model, 
+            'settings'  => $settings, 
+            'list'      => $list
+        ));
     }
 
     /**
