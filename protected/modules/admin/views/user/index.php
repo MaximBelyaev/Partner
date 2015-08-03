@@ -19,8 +19,12 @@ $this->setPageTitle("Список партнеров | Партнерская п
 <?php
 
 $columns = array(
-    'username',
     'id',
+    array(
+        'name' => 'reg_date',
+        'header' => 'Рег',
+    ),
+    'username',
     'site',
     array(
         'name' => 'use_click_pay',
@@ -42,28 +46,6 @@ $columns = array(
             )
         ),
     ),
-    array(
-        'name' => 'status',
-        'type' => 'raw',
-        'value' => '"<span class=\"center_icon\">" . $data->getStatusIcon() . "</span>"',
-        'htmlOptions' => array('class' => 'width120'),
-        'headerHtmlOptions' => array('class' => 'width120'),
-        'filterHtmlOptions' => array('class' => 'width120'),
-        'filter' => CHtml::activeDropDownList(
-            $model,
-            'status',
-            array(
-                'VIP' => 'VIP',
-                'Стандартный' => 'Стандартный',
-                'Расширенный' => 'Расширенный'
-            ),
-            array(
-                'empty' => 'Все',
-                'class' => 'dropdown'
-            )
-        ),
-    ),
-    'reg_date',
     array(
         'name' => 'money',
         'type' => 'text',
@@ -116,7 +98,7 @@ $columns = array(
     'telephone',
     */
     array(
-        'header'=>'Действие',
+        'header'=>'Ред',
         'class'=>'CButtonColumn',
         'htmlOptions' => array('class' => 'actionColumn'),
         'headerHtmlOptions' => array('class' => 'actionColumn'),

@@ -405,7 +405,11 @@ class User extends CActiveRecord
 		$this->birth_date = date('d.m.Y', strtotime($this->birth_date));
 
 		if ($this->unc_site) {
-			$this->warnings['site'] = "У вас есть неподтвержденный сайт " . $this->unc_site . ".<br>Вставьте данный файл в корень вашего сайта <a href='/user/user/file'>prt_" . $this->id .  ".txt</a>";
+			$this->warnings['site'] = "У вас есть неподтвержденный сайт " 
+			. $this->unc_site 
+			. ".<br>Вставьте данный файл в корень вашего сайта"
+			. " <a href='/user/user/file'>prt_" . $this->id .  ".txt</a><br>"
+			. "Если вы не можете этого сделать, свяжитесь с администратором." ;
 		}
 		return true;
 	}

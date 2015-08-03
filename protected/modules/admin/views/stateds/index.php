@@ -11,7 +11,7 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
 <div class="block full-page-block">
 
 	<div class="head">
-		<h5>Управление заявками</h5>
+		<h5>Заявки на вывод</h5>
 	</div>
 
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
@@ -26,13 +26,16 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
                 'type' => 'email',
                 'value' => '$data->user->username',
             ),
-            'date',
+            array(
+                'name' => 'date',
+                'header' => 'Дата' 
+            ),
             'pay_type',
             'requisites',
     		'money',
     		'status',
             array(
-                'header'=>'Действия',
+                'header'=>'Ред',
                 'class'=>'CButtonColumn',
                 'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
                 'buttons'=>array

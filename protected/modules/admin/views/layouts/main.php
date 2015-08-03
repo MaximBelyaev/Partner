@@ -25,7 +25,7 @@
 			<img 
 				src="/img/Burger.svg"
 				alt="menu Open"
-				id="mob-menu-trigger" data-for="head-menu">
+				id="mob-menu-trigger" data-for="sidebar">
             
 			<div class="nav pull-left for-logo">
 					<?= CHtml::link('<img src="/img/Logo.svg">', array('/admin/default/index'), array('class'=>'logo')); ?>
@@ -60,6 +60,7 @@
 			array(
 				'label' => 'Партнёрка',
 				'url'   => array('/user/user/index'),
+                'linkOptions' => array('target'=>'_blank'),
 			),
 			array(
 				'label' => 'Выйти',
@@ -71,6 +72,27 @@
 		),
 		'encodeLabel'=>false,
 	)); ?> 
+
+        <div class="nav pull-left top_menu_mobile">
+			<select id="top_menu_mobile" class="dropdown">
+				<option value="<?= $this->createUrl('/admin/notifications/index'); ?>">
+					Уведомления <?= ($this->notifications_count)?"({$this->notifications_count})":''?>
+				</option>
+				<option value="<?= $this->createUrl('/admin/settings/index'); ?>">
+					Настройки
+				</option>
+				<option value="<?= $this->createUrl('/admin/statistics/index'); ?>">
+					Статистика
+				</option>
+				<option value="<?= $this->createUrl('/user/user/index'); ?>">
+					Партнёрка
+				</option>
+				<option value="<?= $this->createUrl('/admin/default/logout'); ?>">
+					Выйти
+				</option>
+			</select>
+		</div>
+
         </div>
     </div>
 </div>

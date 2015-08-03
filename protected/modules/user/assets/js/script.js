@@ -4,10 +4,21 @@ jQuery(document).ready(function($) {
 	var date_start = $lw.data('start'),
 		date_end   = $lw.data('end'),
 		$daterange = $('.input-daterange'),
-		plot;
+		plot,
+        $mob_menu_trigger = $('#mob-menu-trigger'),
+        menu_trigger_width = 900;
 	if ($('#stats').length) {
 		loadRangeData(date_start, date_end);
 	};
+
+
+	$mob_menu_trigger.on( 'click', function() {
+		if ($(window).width() <= menu_trigger_width) {
+            if ($mob_menu_trigger.data('for')) {
+				$($('#' + $mob_menu_trigger.data('for'))).toggleClass('opened');
+			};
+		};
+	});
 
     $('#landing_select').on('change', function(event) {
         event.preventDefault();
@@ -79,13 +90,14 @@ jQuery(document).ready(function($) {
 
 	$("#chart").on("plothover", function (event, pos, item) {
 		if (item) {
-			console.log(item);
 			var landsString = '';
-			for (var i = 1; i<=Object.size(item.series.data[item.dataIndex].land); i++)
-			{
-				landsString += (item.series.data[item.dataIndex].land[i]['name'] + ": "
-				+ item.series.data[item.dataIndex].land[i]['value'] + "<br>");
-			}
+			var lines = Object.size(item.series.data[item.dataIndex].land) + 1;
+			$.each(item.series.data[item.dataIndex].land, function(i, val) {
+				if (val != undefined) {
+					landsString += (val['name'] + ": "
+					+ val['value'] + "<br>");
+				};
+			});
 			if (item.seriesIndex === 0) {
 				var series_heading = 'Переходы';
 			} else if(item.seriesIndex === 1) {
@@ -94,11 +106,10 @@ jQuery(document).ready(function($) {
 				var series_heading = 'Заказы';
 			}
 			var y = item.datapoint[1].toFixed(2),
-
                 $stat_block_offset = $('.stats_block').offset(),
                 $tt = $("#tooltip").html( series_heading + ": " + Math.round(y) + "<br>" + landsString ),
 				ttX = item.pageX - $stat_block_offset.left - ($tt.width()/2 )-parseInt( $tt.css('padding-left') ) + 1,
-				ttY = item.pageY - $stat_block_offset.top-100;
+				ttY = item.pageY - $stat_block_offset.top-lines*27;
 				ttY = (ttY<0)?0:ttY;
                 $tt.css( { top: ttY, left: ttX } ).fadeIn( 200 );
 		} else {

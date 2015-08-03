@@ -21,7 +21,7 @@
 
 	<div class="head">
 		<h5>
-			<?php echo $model->isNewRecord ? 'Добавление лендинга' : 'Редактирование лендинга: '. $model->link; ?>
+			<?php echo $model->isNewRecord ? 'Добавление лендинга' : 'Редактирование лендинга: '. $model->name; ?>
 		</h5>
 		<div class="underlist-button underlist-button-inline">
 			<?php echo CHtml::link('Вернуться',array('/admin/default/index'), array('class'=>'btn',)); ?>
@@ -36,7 +36,7 @@
 
 		<div class="row-fluid form-row">
 			<div class="span6">
-				<?php echo $form->labelEx( $model,'name' ); ?>
+				<label for="Landings_name">Название (кратко)</label>
 				<?php echo $form->textField( $model,'name',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
 				<?php echo $form->error($model,'name'); ?>
 			</div>

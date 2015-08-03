@@ -21,7 +21,7 @@ $( document ).ready(function() {
 
     var btn = $('#add-size'),
         $mob_menu_trigger = $('#mob-menu-trigger'),
-        menu_trigger_width = 680;
+        menu_trigger_width = 900;
     btn.click(function(){
         var spanForCount = $('#count');
         var count = parseInt(spanForCount.html())+1;
@@ -36,7 +36,7 @@ $( document ).ready(function() {
 
 	$mob_menu_trigger.on( 'click', function() {
 		if ($(window).width() <= menu_trigger_width) {
-			if ($mob_menu_trigger.data('for')) {
+            if ($mob_menu_trigger.data('for')) {
 				$($('#' + $mob_menu_trigger.data('for'))).toggleClass('opened');
 			};
 		};
