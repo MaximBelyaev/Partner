@@ -52,13 +52,13 @@ class AdminController extends CController
             ),
             array('allow',
                 'actions' => array(
-                    'view', 'create', 'update', 
+                    'view', 'create', 'update',
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
                     'range', 'change', 'sort',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
-                    'downloadAndUpdate', 'land',
+                    'downloadAndUpdate',
                 ),
                 'roles' => array('admin'),// для авторизованных
             ),
@@ -84,7 +84,7 @@ class AdminController extends CController
             $licenseCode = file_get_contents("license.txt");
             $domain = str_replace('.', '',$_SERVER['SERVER_NAME']);
             $licenseString = $licenseCode . 'hostname' . $domain;
-            $request = 'http://prtserver.shvets.net/api/activate/' . $licenseString;
+            $request = 'http://prtserver.shvets.net/api/check/' . $licenseString;
             $status = '';
             if ($request)
             {
@@ -112,14 +112,13 @@ class AdminController extends CController
             }
         }**/
 
-
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
 		if (count($landings) > 1) {
 			$lands = array( 0 => 'Все' );
 			foreach ($landings as $l) {
-				$lands[ $l->land_id ] = $l->name; 
-			} 
+				$lands[ $l->land_id ] = $l->name;
+			}
 			$this->landings = $lands;
 		} else {
 			$this->landings = false;

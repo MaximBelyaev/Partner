@@ -84,7 +84,7 @@ function tryConnection ()
                 $version = file_get_contents(dirname(__FILE__) . '/meta.json');
                 $version = json_decode($version, true);
                 $version = $version['current_version'];
-                $versionsql = "INSERT INTO versions(role, username, password, status) VALUES('" . $version . "')";
+                $versionsql = "INSERT INTO versions(version) VALUES('" . $version . "')";
                 mysqli_query($connection, $versionsql);
 
                 //Заменяем старые значения на ввод пользователя
