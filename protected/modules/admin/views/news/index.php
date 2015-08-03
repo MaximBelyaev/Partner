@@ -28,7 +28,7 @@ $columns = array(
     'header',
 
     array(
-        'header'=>'Действия',
+        'header'=>'Ред',
         'class'=>'CButtonColumn',
         'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
         'buttons'=>array

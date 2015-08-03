@@ -78,7 +78,7 @@ $columns = array(
     'user_from',
     */
     array(
-        'header'=>'Действие',
+        'header'=>'Ред',
         'class'=>'CButtonColumn',
         'htmlOptions' => array('class' => 'width120 actionColumn'),
         'headerHtmlOptions' => array('class' => 'width120 actionColumn'),

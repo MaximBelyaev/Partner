@@ -40,7 +40,10 @@
 	text-align: left;
 }
 .navbar .dropdown {
-	width: 120px;
+	width: 105px;
+}
+.navbar .top_menu_mobile .dropdown {
+	width: 160px;
 }
 
 .dropdown.open{

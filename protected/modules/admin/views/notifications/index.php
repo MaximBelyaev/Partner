@@ -26,6 +26,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
     ),
 	'columns' => array(
 		array(
+            'header' => 'ID',
 			'name' => 'notification_id',
 			'htmlOptions' => array('class' => 'notification-id-col'),
 		),
@@ -44,7 +45,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 			'value' => '($data->is_new)?"Новое":"Просмотрено"',
 		),
 		array(
-            'header'=>'Действия',
+            'header'=>'Ред',
             'class'=>'CButtonColumn',
             'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
             'buttons'=>array

@@ -27,6 +27,10 @@
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner top-nav">
 			<div class="container-fluid">
+			<img 
+				src="/img/Burger.svg"
+				alt="menu Open"
+				id="mob-menu-trigger" data-for="sidebar">
 
 				<div class="nav pull-left for-logo">
 					<?= CHtml::link('<img src="/img/Logo.svg">', array('/user/user/index'), array('class'=>'logo')); ?>
@@ -100,6 +104,15 @@
                         'url'=>array('/user/user/data'),
                         'itemOptions' => array('class'=>'item-settings'),
                     ),
+                    array(
+                    	'label' => @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Contacts.svg')
+                    	. 'Контакты',
+                    	'url' => '#settingsModal', 
+                        'itemOptions' => array(
+                        	'data-toggle' => 'modal',
+                        	'data-target' => "#settingsModal"
+                        ),
+                    )
                 ),
                 'htmlOptions'=>array(
                     'class'=>'side-nav accordion_mnu collapsible',
@@ -107,30 +120,6 @@
                 ),
                 'encodeLabel'=>false,
             );
-			if ( Yii::app()->controller->settingsList['vk']->status == 1 ) {
-				$menu_array['items'][] = array(
-					'label'=> 'Vkontakte',
-					'url' => Yii::app()->controller->settingsList['vk']->value,
-					'linkOptions' => array('target' => '_blank'),
-					'itemOptions' => array('class'=>'item-vk'),
-				);
-			}
-			if ( Yii::app()->controller->settingsList['email']->status == 1 ) {
-				$menu_array['items'][] = array(
-					'label'=> 'E-mail',
-					'url' => Yii::app()->controller->settingsList['email']->value,
-					'linkOptions' => array('target' => '_blank'),
-					'itemOptions' => array('class'=>'item-email'),
-				);
-			}
-			if ( Yii::app()->controller->settingsList['skype']->status == 1 ) {
-				$menu_array['items'][] = array(
-					'label'=> 'Skype',
-					'url' => Yii::app()->controller->settingsList['skype']->value,
-					'linkOptions' => array('target' => '_blank'),
-					'itemOptions' => array('class'=>'item-skype'),
-				);
-			}
 
             $this->widget('zii.widgets.CMenu', $menu_array); 
         ?>
@@ -148,10 +137,46 @@
 	    </div>
 	</div>
 
+	
 
+<div id="settingsModal" class="modal hide fade settings-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">
+				×
+			</button>
+			<h4 class="modal-title">Обратная связь</h4>
+
+			<?php if ( Yii::app()->controller->settingsList['vk']->status == 1 ) { ?>
+				<p>
+					<img src="<?php echo $this->module->assetsUrl ?>/img/c-vk.png">
+					<?= Yii::app()->controller->settingsList['vk']->value; ?>
+				</p>	
+			<?php } ?>
+
+			<?php if ( Yii::app()->controller->settingsList['skype']->status == 1 ) { ?>
+				<p>
+					<img src="<?php echo $this->module->assetsUrl ?>/img/c-skype.png">
+					<?= Yii::app()->controller->settingsList['skype']->value; ?>
+				</p>
+			<?php } ?>
+
+			<?php if ( Yii::app()->controller->settingsList['email']->status == 1 ) { ?>
+				<p>
+					<img src="<?php echo $this->module->assetsUrl ?>/img/c-mail.png">
+					<?= Yii::app()->controller->settingsList['email']->value; ?>
+				</p>
+			<?php } ?>
+			
+
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
 
 
 </body>
+<script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/bootstrap.js"></script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
 (function (d, w, c) {

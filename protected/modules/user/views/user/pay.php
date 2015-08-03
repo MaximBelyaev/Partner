@@ -5,11 +5,14 @@
 $this->setPageTitle("Вывод средств | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class="small-box bg-green">
-    <div class="inner">
-        <h3>
+<div class="block">
+    
+    <div class="statistics-head">
+        <h5>
             Вывод средств:
-        </h3>
+        </h5>
+    </div>
+
         <?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'stateds-form',
             'htmlOptions'=>array('class'=>'pay'),
@@ -20,53 +23,79 @@ $this->setPageTitle("Вывод средств | Партнерская прог
             'enableAjaxValidation'=>false,
         )); ?>
 
-        <div class="row">
-            <?php echo $form->labelEx($model,'money'); ?>
-            <?php echo $form->textField($model,'money',array('class'=>'form-control','maxlength'=>8)); ?>
-            <?php echo $form->error($model,'money'); ?>
+        <div class="row-fluid">
+            <div class="span5">
+                <div>
+	                <?php echo $form->labelEx($model,'money'); ?>
+	                <?php echo $form->textField($model,'money',array('class'=>'form-control','maxlength'=>8)); ?>
+	                <?php echo $form->error($model,'money'); ?>
+                </div>
+
+		        <div>
+		            <?php echo $form->labelEx($model,'pay_type'); ?>
+
+					<?php echo $form->dropDownList(
+						$model, 
+						'pay_type',
+						$settings,
+						array('class'=>'dropdown')
+					);?>
+		            <?php echo $form->error($model,'pay_type'); ?>
+		        </div>
+
+                <div>
+                	<?php echo $form->labelEx($model,'requisites'); ?>
+		            <?php echo $form->textField($model,'requisites',array('class'=>'form-control','size'=>50,'maxlength'=>50)); ?>
+		            <?php echo $form->error($model,'requisites'); ?>
+                </div>
+
+
+				<div class="buttons pay-buttons">
+					<?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Save', array('class'=>'btn btn-primary')); ?>
+				</div>
+            </div>
+            <div class="span5">
+                <div>
+		            <?php echo $form->labelEx($model,'description'); ?>
+		            <?php echo $form->textArea($model,'description',array('class'=>'form-control','rows'=>6, 'cols'=>50)); ?>
+		            <?php echo $form->error($model,'description'); ?>
+                </div>
+            </div>
         </div>
 
-        <div class="row">
-            <?php echo $form->labelEx($model,'pay_type'); ?>
-            <?php echo $form->radioButtonList($model,'pay_type',$settings, array('class'=>'form-control')); ?>
-            <?php echo $form->error($model,'pay_type'); ?>
+        <div class="row-fluid">
         </div>
 
-        <div class="row">
-            <?php echo $form->labelEx($model,'requisites'); ?>
-            <?php echo $form->textField($model,'requisites',array('class'=>'form-control','size'=>50,'maxlength'=>50)); ?>
-            <?php echo $form->error($model,'requisites'); ?>
-        </div>
-
-        <div class="row textAreaClass">
-            <?php echo $form->labelEx($model,'description'); ?>
-            <?php echo $form->textArea($model,'description',array('class'=>'form-control','rows'=>6, 'cols'=>50)); ?>
-            <?php echo $form->error($model,'description'); ?>
-        </div>
-
-        <div class="row buttons">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Save', array('class'=>'btn btn-primary')); ?>
-        </div>
 
         <?php $this->endWidget(); ?>
-    </div>
-</div><!-- form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'stateds-grid',
-    'dataProvider'=>$list->search(),
-    'filter'=>$list,
-    'columns'=>array(
-        'date',
-        array(
-            'name' => 'pay_type',
-            'type' => 'raw',
-            'value' => function($data) use ($settings) {
-                return $settings[$data->pay_type];
-            }
-        ),
-        'requisites',
-        'money',
-        'status',
-    ),
-)); ?>
+		<?php $this->widget('zii.widgets.grid.CGridView', array(
+			'id' => 'stateds-grid',
+			'htmlOptions' 	=> array('class' => 'green grid-view'),
+			'dataProvider'	=> $list->search(),
+			'summaryText'   => '',
+			'pager' => array(  
+				'header'        => '',
+				'prevPageLabel' => 'Назад',
+				'nextPageLabel' => 'Далее',    
+			),
+			'columns' => array(
+		        array(
+		        	'name' => 'Дата',
+		        ),
+		        array(
+		            'name' => 'pay_type',
+		            'type' => 'raw',
+		            'value' => function($data) use ($settings) {
+		                return $settings[$data->pay_type];
+		            }
+		        ),
+		        'requisites',
+		        'money',
+		        'status',
+		    ),
+		)); ?>
+
+
+
+</div>
