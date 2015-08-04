@@ -87,16 +87,16 @@ class PromobannsController extends AdminController
 			$model->attributes=$_POST['Promobanns'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
 			if(!empty($uploadedFile))  // проверка, присутствует ли изображение
-				{
-					$rnd = rand(0,9999);
-					$fileName = "{$rnd}-{$uploadedFile}";
-					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
-					unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
-					$model->image = $fileName;
-					$model->save();
-					Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
-					$this->refresh();
-				}
+			{
+				$rnd = rand(0,9999);
+				$fileName = "{$rnd}-{$uploadedFile}";
+				$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+				unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
+				$model->image = $fileName;
+			}
+			$model->save();
+			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			$this->refresh();
 		}
 
 		$this->render('update',array(

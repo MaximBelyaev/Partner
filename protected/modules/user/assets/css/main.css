@@ -1349,7 +1349,7 @@ input[type="checkbox"]:checked + label:before {
 	width: 14%;
 }
 .off-action {
-	width: 120px;
+	width: 90px;
 }
 
 

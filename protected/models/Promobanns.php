@@ -30,7 +30,7 @@ class Promobanns extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, type, image', 'required'),
-			array('width, height', 'numerical', 'integerOnly'=>true),
+			array('width, height, land_id', 'numerical', 'integerOnly'=>true),
 			array('type, name, image', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

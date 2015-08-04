@@ -26,9 +26,9 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 					'name' => 'date',
 					'header' => 'Дата',
 					'value' => 'date("d.m.Y", strtotime($data->date));',
-		            'htmlOptions' => array('class' => 'width110'),
-		            'headerHtmlOptions' => array('class' => 'width110'),
-		            'filterHtmlOptions' => array('class' => 'width110'),
+		            'htmlOptions' => array('class' => 'width105'),
+		            'headerHtmlOptions' => array('class' => 'width105'),
+		            'filterHtmlOptions' => array('class' => 'width105'),
 				),
 				array(
 					'name' => 'email',
@@ -43,9 +43,9 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 		        array(
 		            'name' => 'status',
 		            'value' => '$data->status',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width80'),
+					'headerHtmlOptions' => array('class' => 'width80'),
+					'filterHtmlOptions' => array('class' => 'width80'),
 		        )
 		    ))); ?>
 
@@ -65,22 +65,22 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				array(
 					'name' => 'reg_date',
 					'header' => 'Дата',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width105'),
+					'headerHtmlOptions' => array('class' => 'width105'),
+					'filterHtmlOptions' => array('class' => 'width105'),
 				),
 		        'username',
 				array(
 					'name' => 'requests_count',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width100'),
+					'headerHtmlOptions' => array('class' => 'width100'),
+					'filterHtmlOptions' => array('class' => 'width100'),
 				),
 				array(
 					'name' => 'referrals_payed_count',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width80'),
+					'headerHtmlOptions' => array('class' => 'width80'),
+					'filterHtmlOptions' => array('class' => 'width80'),
 				),
 		    ))); ?>
 	</div>
@@ -105,9 +105,9 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 					'name' => 'date',
 					'header' => 'Дата',
 					'value' => 'date("d.m.Y", strtotime($data->date));',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width105'),
+					'headerHtmlOptions' => array('class' => 'width105'),
+					'filterHtmlOptions' => array('class' => 'width105'),
 				),
 				array(
 					'name' => 'user',
@@ -115,17 +115,17 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 					'value' => '$data->user->username',
 				),
 				array(
+					'header' => 'Счет',
 					'name' => 'money',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width65'),
+					'headerHtmlOptions' => array('class' => 'width65'),
+					'filterHtmlOptions' => array('class' => 'width65'),
 				),
 				array(
 					'name' => 'status',
-					
-					'htmlOptions' => array('class' => 'width155'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width160'),
+					'headerHtmlOptions' => array('class' => 'width160'),
+					'filterHtmlOptions' => array('class' => 'width160'),
 				),
 
 			))); ?>
@@ -147,21 +147,21 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				'username',
 				array(
 					'name' => 'referrals_count',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width80'),
+					'headerHtmlOptions' => array('class' => 'width80'),
+					'filterHtmlOptions' => array('class' => 'width80'),
 				),
 				array(
 					'name' => 'requests_count',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width100'),
+					'headerHtmlOptions' => array('class' => 'width100'),
+					'filterHtmlOptions' => array('class' => 'width100'),
 				),
 				array(
 					'name' => 'month_profit',
-					'htmlOptions' => array('class' => 'width110'),
-					'headerHtmlOptions' => array('class' => 'width110'),
-					'filterHtmlOptions' => array('class' => 'width110'),
+					'htmlOptions' => array('class' => 'width100'),
+					'headerHtmlOptions' => array('class' => 'width100'),
+					'filterHtmlOptions' => array('class' => 'width100'),
 				),
 			))); ?>
 

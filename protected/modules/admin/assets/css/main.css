@@ -226,19 +226,23 @@ p {
 	height: 30px;
 	width: 30px;
 }
+.icons_wrap {
+	display: inline-block;
+	min-width: 42px;
+}
 .icon-pencil {
 	background-image: url( ../images/icons/icon-edit.png );
 	background-position: 0 0;
 	height: 18px;
 	width: 18px;
-	margin: 0 5px 0 -5px;
+	margin: 0 5px 0 0;
 }
 .icon-trash {
 	background-image: url( ../images/icons/icon-delete.png );
 	background-position: 0 0;
 	height: 18px;
 	width: 18px;
-	margin: 0 -10px 0 0;
+	margin: 0 0 0 0;
 }
 .icon-landings {
 	background-image: url( ../images/icons/Landings.svg );
@@ -505,9 +509,10 @@ p {
 .index-table table {
 	table-layout: fixed;
 }
-.index-table table tr td,
-.index-table table tr th {
-	width: 25%;	
+#main-content .index-table table tr td,
+#main-content .index-table table tr th {
+	/*width: 25%;	*/
+	padding: 13px 15px 11px;
 }
 /* Шапки сайта */
 #main-content th {
@@ -519,7 +524,7 @@ p {
 	border: none;
 	cursor: default;
 	font: 600 14px 'Open Sans';
-	padding: 13px 20px;
+	padding: 13px 15px;
 	position: relative;
 	text-align: left;
 }
@@ -541,6 +546,9 @@ p {
 #main-content .green th {
 	background-color: #63bb67;
 }
+.width30 {
+	width: 30px;
+}
 .width40 input{
 	width: 40px !important;
 }
@@ -552,6 +560,9 @@ p {
 }
 .width60 .dropdown{
 	width: 60px;
+}
+.width65 {
+	width: 65px;
 }
 .width70 {
 	width: 70px;
@@ -580,6 +591,9 @@ p {
 .width100 .dropdown{
 	width: 100px;
 }
+.width105 {
+	width: 105px;
+}
 .width110 {
 	width: 110px;
 }
@@ -600,6 +614,9 @@ p {
 }
 .width155 {
 	width: 155px;
+}
+.width160 {
+	width: 160px;
 }
 .width180 {
 	width: 180px;
@@ -646,7 +663,7 @@ p {
 	width: 100%;
 }
 #main-content .filters td {
-	padding: 8px 20px 8px;
+	padding: 8px 15px 8px;
 }
 #main-content .filters input {
 	border-color: #d0d5dc;
@@ -717,13 +734,18 @@ p {
 	background: #f0f3f7;
 }
 #main-content tr.filters input, #main-content tr.filters select {
-	width: calc(100% - 27px);
+	width: calc(100% - 25px);
+}
+#main-content tr.filters input[name="User[id]"] {
+	min-width: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 #main-content td {
 	border: none;
 	color: #8694a4;
 	font: 500 14px 'Open Sans';
-	padding: 13px 20px 11px;
+	padding: 13px 15px 11px;
 	position: relative;
 	text-align: left;
 }
@@ -1558,6 +1580,7 @@ footer.block {
 	.settings-col.update-block {
 		/*margin-left: 100px;*/
 		margin-left: 0px;
+		margin-bottom: 0;
 	}
 }
 
@@ -1588,7 +1611,7 @@ footer.block {
 	}
 }
 
-@media (max-width:1600px) {
+@media ( max-width: 1500px ) {
 	.table-row {
 		margin-bottom: 0;
 	}

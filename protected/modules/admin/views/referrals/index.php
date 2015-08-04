@@ -19,55 +19,47 @@ $this->setPageTitle("Список клиентов | Партнерская пр
 <?php 
 
 $columns = array(
+	array(
+		'name' => 'date',
+		'header' => 'Дата',
+        'htmlOptions' => array('class' => ''),
+        'headerHtmlOptions' => array('class' => ''),
+        'filterHtmlOptions' => array('class' => ''),
+		'value' => 'date("d.m.Y", strtotime($data->date));',
+	),
     array(
         'name' => 'email',
-        'htmlOptions' => array('class' => 'width270'),
-        'headerHtmlOptions' => array('class' => 'width270'),
-        'filterHtmlOptions' => array('class' => 'width270'),
+        'htmlOptions' => array('class' => ''),
+        'headerHtmlOptions' => array('class' => ''),
+        'filterHtmlOptions' => array('class' => ''),
     ),
     array(
         'name' => 'site',
-        'htmlOptions' => array('class' => 'width270'),
-        'headerHtmlOptions' => array('class' => 'width270'),
-        'filterHtmlOptions' => array('class' => 'width270'),
+        'htmlOptions' => array('class' => ''),
+        'headerHtmlOptions' => array('class' => ''),
+        'filterHtmlOptions' => array('class' => ''),
     ),
     array(
         'name' => 'user',
         'type' => 'email',
-        'htmlOptions' => array('class' => 'width270'),
-        'headerHtmlOptions' => array('class' => 'width270'),
-        'filterHtmlOptions' => array('class' => 'width270'),
+        'htmlOptions' => array('class' => ''),
+        'headerHtmlOptions' => array('class' => ''),
+        'filterHtmlOptions' => array('class' => ''),
         'value' => '((isset($data->user->username))?$data->user->username:"");',
     ),
     array(
         'name' => 'money',
-        'htmlOptions' => array('class' => 'width100'),
-        'headerHtmlOptions' => array('class' => 'width100'),
-        'filterHtmlOptions' => array('class' => 'width100'),
+        'htmlOptions' => array('class' => ''),
+        'headerHtmlOptions' => array('class' => ''),
+        'filterHtmlOptions' => array('class' => ''),
         'value' => '(int)($data->money)',
-    ),
-	array(
-		'name' => 'date',
-		'header' => 'Дата',
-        'htmlOptions' => array('class' => 'width115'),
-        'headerHtmlOptions' => array('class' => 'width115'),
-        'filterHtmlOptions' => array('class' => 'width115'),
-		'value' => 'date("d.m.Y", strtotime($data->date));',
-	),
-    array(
-        'name' => 'recreate_interval',
-        'type' => 'raw',
-        'htmlOptions' => array('class' => 'width95'),
-        'headerHtmlOptions' => array('class' => 'width95'),
-        'filterHtmlOptions' => array('class' => 'width95'),
-        'value' => '$data->getFormatIcons()',
     ),
     array(
         'name' => 'status',
         'type' => 'html',
-        'htmlOptions' => array('class' => 'width125'),
-        'headerHtmlOptions' => array('class' => 'width125'),
-        'filterHtmlOptions' => array('class' => 'width125'),
+        'htmlOptions' => array('class' => 'width90'),
+        'headerHtmlOptions' => array('class' => 'width90'),
+        'filterHtmlOptions' => array('class' => 'width90'),
         'value' => '$data->status',
         'filter' => CHtml::activeDropDownList($model, 'status',array('Заявка'=>'Заявка','Оплачено'=>'Оплачено'), array('empty'=>'Все', 'class'=>'dropdown')),
     ),
@@ -79,10 +71,10 @@ $columns = array(
     array(
         'header'=>'Ред',
         'class'=>'CButtonColumn',
-        'htmlOptions' => array('class' => 'width120 actionColumn'),
-        'headerHtmlOptions' => array('class' => 'width120 actionColumn'),
-        'filterHtmlOptions' => array('class' => 'width120 actionColumn'),
-        'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+        'htmlOptions' => array('class' => 'actionColumn'),
+        'headerHtmlOptions' => array('class' => 'actionColumn'),
+        'filterHtmlOptions' => array('class' => 'actionColumn'),
+        'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
         'buttons'=>array
         (
             'update' => array
@@ -109,9 +101,9 @@ if (!Yii::app()->session['landing']) {
 	$landing_column = array(
         'name' => 'land_id',
         'type' => 'html',
-        'htmlOptions' => array('class' => 'width125'),
-        'headerHtmlOptions' => array('class' => 'width125'),
-        'filterHtmlOptions' => array('class' => 'width125'),
+        'htmlOptions' => array('class' => 'width60'),
+        'headerHtmlOptions' => array('class' => 'width60'),
+        'filterHtmlOptions' => array('class' => 'width60'),
         'value' => '(isset($data->landing)?$data->landing->name:"")',
 	);
 	array_splice($columns, -1, 0, array($landing_column));

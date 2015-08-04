@@ -10,7 +10,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	<div class="head">
 		<h5>
 			Настройки
-			<?php echo CHtml::link('Настройка лендинга',array('/admin/settings/land'), array('class'=>'btn btn-primary',)); ?>
+			<?php #echo CHtml::link('Настройка лендинга',array('/admin/settings/land'), array('class'=>'btn btn-primary',)); ?>
 		</h5>
 	</div>
 
@@ -64,25 +64,6 @@ $this->setPageTitle("Настройки | Партнерская програм�
 						array('value' => $model['click_pay']->value ? $model['click_pay']->value : 2)
 				) ?>
 			</div>
-		
-			<div class="col form-row checkbox-row header-row">
-				<?php echo CHtml::activeCheckBox(
-						$model['fixed_pay'],
-						"[fixed_pay]status", 
-						array('id' => 'fixedpay-checker'
-				)) ?>
-				<label for="fixedpay-checker"></label>
-				<label class="inline-block" for="fixedpay-checker">
-					Сделать фиксированную оплату
-				</label>
-			</div>
-		
-			<div class="col form-row">
-				<?php echo CHtml::activeTextField(
-						$model['fixed_pay'],"[fixed_pay]value",
-						array('value' => $model['fixed_pay']->value ? $model['fixed_pay']->value : 500)
-				) ?>
-			</div>
 		</div>
 		
 	
@@ -94,7 +75,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 
 			<div class="col form-row">
 				<label for="Setting_standard_value" class="for-standart header-row">
-					Cтандартный
+					Cтандартный (C)
 				</label>
 				<?php # echo CHtml::activeTextField($model['standard'],"[standard]header",
 					#array('value' => $model['standard']->header ? $model['standard']->header : 'Cтандартный')) ?>
@@ -104,7 +85,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 
 			<div class="col form-row">
 				<label for="Setting_extended_value" class="for-extended header-row">
-					Расширенный
+					Расширенный (Р)
 				</label>
 				<?php #echo CHtml::activeTextField($model['extended'],"[extended]header",
 					#array('value' => $model['extended']->header ? $model['extended']->header : 'Расширенный')) ?>
@@ -114,7 +95,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	
 			<div class="col form-row">
 				<label for="Setting_vip_value" class="for-vip header-row">
-					VIP
+					VIP (V)
 				</label>
 				<?php #echo CHtml::activeTextField($model['vip'],"[vip]header",
 					#array('value' => $model['vip']->header ? $model['vip']->header : 'VIP')) ?>
@@ -178,6 +159,24 @@ $this->setPageTitle("Настройки | Партнерская програм�
 			<div class="row-fluid" id="hidden-skype">
 				<div class="col form-row">
 					<?php echo CHtml::activeTextField($model['skype'],"[skype]value") ?>
+				</div>
+			</div>
+
+			<div class="col form-row checkbox-row header-row">
+				<?php echo CHtml::activeCheckBox(
+						$model['phone'],
+						"[phone]status", 
+						array('id' => 'phone-checker')
+				) ?>
+				<label for="phone-checker"></label>
+				<label class="inline-block" for="phone-checker">
+					Телефон
+				</label>
+			</div>
+
+			<div class="row-fluid" id="hidden-phone">
+				<div class="col form-row">
+					<?php echo CHtml::activeTextField($model['phone'],"[phone]value") ?>
 				</div>
 			</div>
 

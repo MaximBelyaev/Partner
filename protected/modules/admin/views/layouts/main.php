@@ -256,7 +256,7 @@
 				<?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
 				<label for="Referrals_recreate_interval" class="checkbox-label"></label>
 				<label class="required inline-block" for="Referrals_recreate_interval">
-					Постоянная оплата
+					Ежемесячная оплата
 				</label>
 				</div>
 			</div>
@@ -309,6 +309,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- Modal for users-->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" href="#createModal" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog">
@@ -351,10 +352,7 @@
                 <?php echo $form->dropDownList(
                         $newUser,
                         'use_click_pay', 
-                        array(
-                            '0' => 'Процент за заказ',
-                            '1' => 'Оплата за переход'
-                        ), 
+                        User::$work_modes, 
                         array(
                             'id' => 'list_click_pay',
                             'class' => 'dropdown'

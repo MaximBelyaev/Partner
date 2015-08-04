@@ -21,6 +21,38 @@ class User extends CActiveRecord
 
 	const PAY_CLICK = 'Оплата за переход';
 	const PAY_REFERR = 'Процент с заказа';
+
+
+	const PERC_PAY	= 0;
+	const CLICK_PAY = 1;
+
+	public static $work_modes = [
+		self::PERC_PAY 	=> 'Процент с заказа',
+		self::CLICK_PAY => 'Оплата за переход',
+	];
+
+
+
+	public static $statuses = [
+		'vip' => 'VIP',
+		'exp' => 'Расширенный',
+		'stand'=> 'Стандартный',
+	];
+
+
+	const DET_PERC_STAND = 0;
+	const DET_PERC_EXP   = 1;
+	const DET_PERC_VIP   = 2;
+	const DET_CLICK_PAY  = 3;
+
+
+	public static $work_modes_det = [
+		self::DET_PERC_STAND 	=> '% (С)',
+		self::DET_PERC_EXP 		=> '% (Р)',
+		self::DET_PERC_VIP 		=> '% (V)',
+		self::DET_CLICK_PAY 	=> 'Клик',
+	];
+
 	const VIP_DISPLAY = '|||';
 	const EXPANDED_DISPLAY = '||';
 	const STANDARD_DISPLAY = '|';
@@ -165,7 +197,7 @@ class User extends CActiveRecord
 	{
 		$criteria = new CDbCriteria;
 		$criteria->with = array('money');
-
+		$criteria->order = "reg_date DESC";
 # Закоментированные строки - это сортировка по связанным данным
 /*		$requests_table = Requests::model()->tableName();
 		$requests_count_sql = "(SELECT COUNT(*) FROM $requests_table rt WHERE rt.partner_id = t.id) ";
@@ -195,7 +227,18 @@ class User extends CActiveRecord
 		$criteria->compare('password', $this->password, true);
 		$criteria->compare('site', $this->site, true);
 		$criteria->compare('status', $this->status, true);
-		$criteria->compare('use_click_pay', $this->use_click_pay, true);
+
+		if ($this->use_click_pay != '') {
+			if( $this->use_click_pay == self::DET_PERC_EXP  ) {
+				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
+			} else if( $this->use_click_pay == self::DET_PERC_VIP  ) {
+				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['vip'] . '"');
+			} else if ( $this->use_click_pay == self::DET_PERC_STAND ) {
+				$criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")'); 
+			} else if( $this->use_click_pay == self::DET_CLICK_PAY  )  {
+				$criteria->addCondition('use_click_pay=1');
+			}
+		}
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
@@ -233,6 +276,8 @@ class User extends CActiveRecord
 			)*/
 		));
 	}
+
+
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -274,7 +319,7 @@ class User extends CActiveRecord
 	protected function beforeSave()
 	{
 		parent::beforeSave();
-		
+
 		# если введен новый сайт и не установлен старый сайт
 		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
 			# устанавливаем сайт для подтверждения
@@ -448,13 +493,18 @@ class User extends CActiveRecord
 		}
 	}
 
-	public function getFormatIcon()
+	public function getFormatName()
 	{
-		if ($this->use_click_pay > 0) {
-			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png' >";
-		} else {
-			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_percent.png' >";
+		 if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] ) {
+			return self::$work_modes_det[ self::DET_PERC_EXP ];
+		} else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] ) {
+			return self::$work_modes_det[ self::DET_PERC_VIP ];
+		} else if ( $this->use_click_pay == 0  ) {
+			return self::$work_modes_det[ self::DET_PERC_STAND ];
+		} else if( $this->use_click_pay == 1 ) {
+			return self::$work_modes_det[ self::DET_CLICK_PAY ];
 		}
+		return '';
 	}
 
 	public function getLandingIcon()

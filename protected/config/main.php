@@ -46,6 +46,7 @@ return array(
             'allowAutoLogin'=>true,
             'loginUrl'=>array('user/user/login'),
             'class' => 'WebUser',
+            'authTimeout' => 60 * 60 * 24 * 7,
         ),
         'authManager' => array(
             // Будем использовать свой менеджер авторизации

@@ -18,27 +18,26 @@ $this->setPageTitle("Список партнеров | Партнерская п
 <?php
 
 $columns = array(
-    'id',
+     array(
+        'name' => 'id',
+        'htmlOptions' => array('class' => 'width30'),
+        'headerHtmlOptions' => array('class' => 'width30'),
+        'filterHtmlOptions' => array('class' => 'width30'),
+    ), 
     array(
         'name' => 'reg_date',
-        'header' => 'Рег',
+        'header' => 'Дата',
     ),
     'username',
     'site',
     array(
         'name' => 'use_click_pay',
         'type' => 'raw',
-        'value' => '$data->getFormatIcon()',
-        'htmlOptions' => array('class' => 'width100'),
-        'headerHtmlOptions' => array('class' => 'width100'),
-        'filterHtmlOptions' => array('class' => 'width100'),
+        'value' => '$data->getFormatName()',
         'filter' => CHtml::activeDropDownList(
             $model,
             'use_click_pay',
-            array(
-                '0' => '% от заказа',
-                '1' => 'За переход'
-            ),
+            User::$work_modes_det,
             array(
                 'empty'=>'Все',
                 'class' => 'dropdown'
@@ -72,7 +71,7 @@ $columns = array(
         'htmlOptions' => array('class' => 'actionColumn'),
         'headerHtmlOptions' => array('class' => 'actionColumn'),
         'filterHtmlOptions' => array('class' => 'actionColumn'),
-        'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+        'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
         'buttons'=>array
         (
             'update' => array

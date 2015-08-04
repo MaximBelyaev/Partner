@@ -47,7 +47,7 @@ $this->setPageTitle("Список лендингов");
 	        'htmlOptions' => array('class' => 'width120 actionColumn'),
 	        'headerHtmlOptions' => array('class' => 'width120 actionColumn'),
 	        'filterHtmlOptions' => array('class' => 'width120 actionColumn'),
-			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+			'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
 			'buttons'=>array
 			(
 				'update' => array

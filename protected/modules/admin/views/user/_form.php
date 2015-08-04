@@ -60,10 +60,7 @@
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'use_click_pay'); ?>
 				<?php echo $form->dropDownList($model, 'use_click_pay',
-					array(
-						'0' => 'Процент за заказ',
-						'1' => 'Оплата за переход'
-					), 
+					User::$work_modes, 
 					array('class' => 'dropdown')
 				);?>
 				<?php echo $form->error($model,'use_click_pay'); ?>
@@ -71,7 +68,7 @@
 
 			<div 
 				class="form-row" 
-				id="hidden2" 
+				id="click_pay_row" 
 				<?= (!is_null($model->use_click_pay) && $model->use_click_pay)?'':'style="display:none"' ?>
 				>
 				<?php echo $form->labelEx($model,'click_pay'); ?>
@@ -128,9 +125,9 @@
 
 		$(e).change(function(){
 			if ($(this).val() == "1") {
-				$("#hidden2").show();
+				$("#click_pay_row").show();
 			} else {
-				$("#hidden2").hide();
+				$("#click_pay_row").hide();
 			}
 		});
 	});
