@@ -55,7 +55,7 @@
 						</span>
 					</li>
 					<li>
-						<a href="/admin/default/logout">
+						<a href="/user/user/logout">
 							<?= @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/Exit.svg') ?>
 							Выйти
 						</a>
