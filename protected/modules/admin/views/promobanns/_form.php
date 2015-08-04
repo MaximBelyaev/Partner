@@ -69,7 +69,7 @@
 				<?php echo $form->dropDownList(
 					$model,
 					'land_id',
-					(Yii::app()->session['landing'] == 0) ?
+					(Yii::app()->session['landing'] && Yii::app()->session['landing'] == 0) ?
 						$this->landingsList : array(Yii::app()->session['landing'] => Yii::app()->session['landing']['land_id']),
 					array(
 						'class' => 'dropdown',

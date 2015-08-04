@@ -52,13 +52,13 @@ class AdminController extends CController
             ),
             array('allow',
                 'actions' => array(
-                    'view', 'create', 'update', 
+                    'view', 'create', 'update',
                     'delete', 'index', 'logout',
                     'admin', 'upload', 'ajaxUpload',
                     'range', 'change', 'sort',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
-                    'downloadAndUpdate', 'land',
+                    'downloadAndUpdate',
                 ),
                 'roles' => array('admin'),// для авторизованных
             ),
@@ -71,55 +71,20 @@ class AdminController extends CController
 	public function init()
 	{
 		parent::init();
+        include(dirname(__FILE__) . '/views/tests.php');
         if (Yii::app()->params->dbsetup !== "activated")
         {
             header('Location: /setup.php');
             exit();
         }
 
-        $dayOfWeek = date('l', time());
-
-        /**if ($dayOfWeek === 'Monday')
-        {
-            $licenseCode = file_get_contents("license.txt");
-            $domain = str_replace('.', '',$_SERVER['SERVER_NAME']);
-            $licenseString = $licenseCode . 'hostname' . $domain;
-            $request = 'http://prtserver.shvets.net/api/activate/' . $licenseString;
-            $status = '';
-            if ($request)
-            {
-                $status = file_get_contents($request);
-            }
-
-            if ($status === "doesn't exist")
-            {
-                $allNotifications = Notifications::model()->findAll();
-                $notification = new Notifications();
-                $notification->user_id = Yii::app()->user->id;
-                $notification->text = "Ваша партнёрка будет отключена через 3 дня. Свяжитесь с администратором для выяснений дальнейших подробностей.";
-                $notification->is_new = 1;
-                foreach ($allNotifications as $n)
-                if ($n->user_id !== $notification->user_id && $n->text !== $notification->text)
-                {
-                    $notification->save();
-                }
-                $errorDate = strtotime(date("+3 day", strtotime($notification->date)));
-                if (time() >= $errorDate)
-                {
-                    header("Location: activate.php");
-                    exit();
-                }
-            }
-        }**/
-
-
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
 		if (count($landings) > 1) {
 			$lands = array( 0 => 'Все' );
 			foreach ($landings as $l) {
-				$lands[ $l->land_id ] = $l->name; 
-			} 
+				$lands[ $l->land_id ] = $l->name;
+			}
 			$this->landings = $lands;
 		} else {
 			$this->landings = false;

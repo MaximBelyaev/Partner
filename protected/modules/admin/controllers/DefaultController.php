@@ -180,6 +180,13 @@ class DefaultController extends AdminController
 						$this->updateMeta('current_version');
 						$status = 'ok';
 						$msg = "Система обновлена";
+						$version = file_get_contents(dirname(__FILE__) . '/meta.json');
+						$version = json_decode($version, true);
+						$version = $version['current_version'];
+						$versionsql = "INSERT INTO versions(version) VALUES('" . $version . "')";
+						$connection = Yii::app()->db;
+						$command = $connection->createCommand($versionsql);
+						$command->execute();
 					}
 					else
 					{

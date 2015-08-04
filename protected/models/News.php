@@ -107,7 +107,7 @@ class News extends CActiveRecord
 		$criteria->together = true; //
 		if (Yii::app()->controller->land_id > 0) {
 			$criteria->compare('land_id', Yii::app()->controller->land_id);		
-		} else {
+		} elseif (Yii::app()->controller->landings) {
 			$criteria->addInCondition('land_id', array_keys(Yii::app()->controller->landings) );
 		}
 		

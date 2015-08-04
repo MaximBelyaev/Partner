@@ -112,6 +112,7 @@ class Chart
 			foreach ($this->landings as $key=>$value)
 			{
 				$d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
+
 			}
 
 			foreach ($data as $dt)
@@ -185,7 +186,7 @@ class Chart
 		$delta = ($end-$start)/$dotsCount;
 
 		if(is_null($this->user)) {
-			$data = $this->getAllRangeReferrals($start, $end);
+			//$data = $this->getAllRangeReferrals($start, $end);
 			if ( $payed ) {
 				$data = $this->getAllRangePayedReferrals($start, $end);
 			} elseif( $distinct ) {
@@ -269,7 +270,7 @@ class Chart
 			$params[':land_id'] = $this->l;
 		}
 		$requests = Referrals::model()->findAll(array(
-			'select' => 'email, date',
+			'select' => 'email, date, land_id',
 			'distinct' => true,
 			'condition' => $condition,
 			'params' => $params,
@@ -322,6 +323,7 @@ class Chart
 			'condition' => $condition,
 			'params' => $params,
 		));
+
 		return $requests;
 	}
 
