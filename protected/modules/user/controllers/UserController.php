@@ -412,7 +412,7 @@ class UserController extends MyUserController
         );
 
         $usersLandsList = UsersLandings::model()->findAll(
-            array('condition' => 'user_id=' . /*Yii::app()->user->id*/ )
+            array('condition' => 'user_id=' . Yii::app()->user->id )
         );
         $ulands = array_map(function($ul){ return $ul->land_id; }, $usersLandsList);
 

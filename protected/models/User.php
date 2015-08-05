@@ -532,4 +532,50 @@ class User extends CActiveRecord
 		));
 		return $req;
 	}
+
+	public function getLicense()
+	{
+		if ($this->role == 'admin') {
+			# получим лицензионный код покупателя
+			if(is_file('meta.json'))
+			{
+				$meta = file_get_contents('meta.json');
+				$meta = json_decode($meta);
+				if ($meta) {
+					$l = $meta->licence;
+				}
+			} 
+			
+			if (!isset($l) or is_null($l) or !$l) {
+				if (is_file('license.txt'))
+				{
+					$l = file_get_contents('license.txt');
+				}
+				else
+				{
+					$l = false;
+				}
+			}
+			return $l;
+		} else {
+			return false;
+		}
+	}
+
+
+	public function getVersion()
+	{
+		if ($this->role == 'admin') {
+			if(is_file('meta.json'))
+			{
+				$meta = file_get_contents('meta.json');
+				$meta = json_decode($meta);
+				if ($meta) {
+					$v = $meta->current_version;
+					return $v;
+				}
+			}
+		}
+		return false;
+	}
 }

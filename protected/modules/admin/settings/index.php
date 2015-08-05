@@ -9,7 +9,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	
 	<div class="head">
 		<h5>
-			Настройки
+			Настройки ================================
 			<?php #echo CHtml::link('Настройка лендинга',array('/admin/settings/land'), array('class'=>'btn btn-primary',)); ?>
 		</h5>
 	</div>
@@ -201,8 +201,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 			</h4>
 
 			<div>
-				<p class="your_version">Версия вашей прошивки - <?= $l['version'] ?></p>
-				<p class="upd_msg"></p>	
+				<p>Версия вашей прошивки - <?= $l['version'] ?></p>
 				<a 
 					class="btn" 
 					id="update-check" 
@@ -210,6 +209,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 					data-checkUrl='/admin/default/checkUpdate'
 					data-updateUrl='/admin/default/downloadAndUpdate'
 				>Проверить актуальность версии</a>
+				<p class="upd_msg"></p>	
 			</div>
 		</div>
 

@@ -8,7 +8,7 @@ $this->setPageTitle("Список лендингов");
 
 <div class="head">
 	<h5>
-		Лэндинги
+		Лендинги
 	</h5>
 </div>
 	

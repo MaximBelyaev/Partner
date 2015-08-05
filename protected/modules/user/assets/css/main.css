@@ -20,6 +20,9 @@ h5 {
 	font: 600 19px 'Open Sans';
 	margin: 0;
 }
+.head h5 {
+	margin-bottom: 20px;
+}
 a {
 	color: #778799;
 	font: 400 14px 'Open Sans';
@@ -49,7 +52,7 @@ p {
 	margin-top: 40px;
 }
 .table-row {
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 }
 .underlist-button {
 	margin-top: 13px;
@@ -779,6 +782,9 @@ input[type="submit"], button, .btn {
 	outline: none;
 	padding: 10px 20px;
 	text-shadow: none;
+	-webkit-transition: all 0.25s ease-in;
+	-moz-transition:all  0.25s ease-in;
+	transition: all 0.25s ease-in;
 }
 input[type="submit"]:hover, button:hover, .btn:hover {
 	background: #a4b2c1;

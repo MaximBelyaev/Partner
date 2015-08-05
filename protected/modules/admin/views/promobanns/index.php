@@ -55,7 +55,7 @@ $this->breadcrumbs=array(
 			'htmlOptions' => array('class' => 'width125'),
 			'headerHtmlOptions' => array('class' => 'width125'),
 			'filterHtmlOptions' => array('class' => 'width125'),
-			'value' => 'isset($data->landing)?$data->landing->header:""',
+			'value' => 'isset($data->landing)?$data->landing->name:""',
 		);
 		array_splice($columns, -1, 0, array($landing_column));
 	}

@@ -73,7 +73,7 @@ p {
 	float: left;
 }
 .table-row {
-	margin-bottom: 54px;
+	margin-bottom: 30px;
 }
 .underlist-button {
 	margin-top: 13px;
@@ -456,7 +456,7 @@ p {
 .update-block p {
 	color: #8694a4;
 	font: 400 15px 'Open Sans';
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 }
 .update-block a{
 	margin-bottom: 15px;
@@ -931,6 +931,9 @@ input[type="submit"], button, .btn {
 	padding: 10px 20px;
 	outline: none;
 	text-shadow: none;
+	-webkit-transition: all 0.25s ease-in;
+	-moz-transition:all  0.25s ease-in;
+	transition: all 0.25s ease-in;
 }
 input[type="submit"]:hover, button:hover, .btn:hover {
 	background: #CDD8E6;
