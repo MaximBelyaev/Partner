@@ -12,7 +12,6 @@ $this->breadcrumbs=array(
 	<div class="head">
 		<h5>
 			Рекламные материалы
-			<?= CHtml::link('Добавить', "/admin/promobanns/create", array('class' => 'btn btn-success')) ?>		 
 		</h5>
 	</div>
 
@@ -21,17 +20,12 @@ $this->breadcrumbs=array(
 	$columns = array(
 		'name',
 		'type',
-		array(
-			'name' => 'image',
-			'value' => '$data->image ? CHtml::image("/uploads/" . $data->image, $data->name, array("style"=>"width: 100px; height: 100px;")) : ""',
-			'type' => 'html',
-		),
 		'height',
 		'width',
 		array(
-			'header'=>'Действия',
+			'header'=>'Ред',
 			'class'=>'CButtonColumn',
-			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+			'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
 			'buttons'=>array
 			(
 				'update' => array
@@ -58,11 +52,10 @@ $this->breadcrumbs=array(
 	{
 		$landing_column = array(
 			'name' => 'land_id',
-			'type' => 'html',
 			'htmlOptions' => array('class' => 'width125'),
 			'headerHtmlOptions' => array('class' => 'width125'),
 			'filterHtmlOptions' => array('class' => 'width125'),
-			'value' => '$data->getLandingIcon()',
+			'value' => 'isset($data->landing)?$data->landing->name:""',
 		);
 		array_splice($columns, -1, 0, array($landing_column));
 	}

@@ -29,7 +29,10 @@ class Promovideo extends CActiveRecord
 			array('link', 'length', 'max'=>4096),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
+			array('land_id, banner_id', 'numerical', 'integerOnly' => true),
 			array('id, link', 'safe', 'on'=>'search'),
+			
+
 		);
 	}
 
@@ -41,6 +44,8 @@ class Promovideo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'landing'   => array( self::BELONGS_TO, 'Landings', 'land_id' ),
+			'banner'   => array( self::BELONGS_TO, 'Promobans', 'banner_id' ),
 		);
 	}
 
@@ -52,6 +57,8 @@ class Promovideo extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'link' => 'Ссылка',
+			'land_id' => 'Лендинг',
+			'banner_id' => 'Баннер',
 		);
 	}
 

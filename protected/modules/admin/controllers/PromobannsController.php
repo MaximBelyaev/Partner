@@ -24,18 +24,10 @@ class PromobannsController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new Promobanns;
+		$model = new Promobanns;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		$videoModel = new Promovideo;
-		if(isset($_POST['Promovideo']))
-		{
-			$videoModel->attributes=$_POST['Promovideo'];
-			$videoModel->save();
-			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
-			$this->refresh();
-		}
 		if(isset($_POST['Promobanns']))
 		{
 			//Загрузка изображения
@@ -51,6 +43,16 @@ class PromobannsController extends AdminController
 			if ($model->save())
 			{
 				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			}
+		}
+		$videoModel = new Promovideo;
+		if(isset($_POST['Promovideo']))
+		{
+			$videoModel->attributes = $_POST['Promovideo'];
+			if($videoModel->save()){
+				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+				$this->refresh();
+			} else {
 			}
 		}
 
@@ -71,30 +73,36 @@ class PromobannsController extends AdminController
 	{
 		$model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
+		$videoModel = new Promovideo;
+		if(isset($_POST['Promovideo']))
+		{
+			$videoModel->attributes = $_POST['Promovideo'];
+			$videoModel->save();
+			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			$this->refresh();
+		}
 		if(isset($_POST['Promobanns']))
 		{
 			$_POST['Promobanns']['image'] = $model->image;;
 			$model->attributes=$_POST['Promobanns'];
 			$uploadedFile=CUploadedFile::getInstance($model,'image');
 			if(!empty($uploadedFile))  // проверка, присутствует ли изображение
-				{
-					$rnd = rand(0,9999);
-					$fileName = "{$rnd}-{$uploadedFile}";
-					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
-					unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
-					$model->image = $fileName;
-					$model->save();
-					Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
-					$this->refresh();
-				}
+			{
+				$rnd = rand(0,9999);
+				$fileName = "{$rnd}-{$uploadedFile}";
+				$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+				unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
+				$model->image = $fileName;
+			}
+			$model->save();
+			Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+			$this->refresh();
 		}
 
 		$this->render('update',array(
 			'typesList'=>$this->typesList,
 			'model'=>$model,
+			'videoModel'=>$videoModel,
 		));
 	}
 

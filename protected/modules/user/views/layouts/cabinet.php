@@ -51,7 +51,7 @@
 					<li>
 						<span>
 							<?= @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/User.svg') ?>
-							admin@admin.ru
+							<?= Yii::app()->controller->user->username ?>
 						</span>
 					</li>
 					<li>
@@ -166,6 +166,13 @@
 					<img src="<?php echo $this->module->assetsUrl ?>/img/c-mail.png">
 					<?= Yii::app()->controller->settingsList['email']->value; ?>
 				</p>
+			<?php } ?>
+
+			<?php if ( Yii::app()->controller->settingsList['phone']->status == 1 ) { ?>
+				<p>
+					<img src="<?php echo $this->module->assetsUrl ?>/img/c-phone.png">
+					<?= Yii::app()->controller->settingsList['phone']->value; ?>
+				</p>	
 			<?php } ?>
 			
 

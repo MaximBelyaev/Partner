@@ -44,7 +44,7 @@
 				<div class="preloader"></div>
 				<div class="preloader_wrap"></div>
 				<div class="stats_header stats_row">
-					<p>Новые партнеры</p>
+					<p>Партнеры</p>
 					<p>Клиенты</p>
 					<p>Переходы</p>
 					<p>Заказы</p>
@@ -62,10 +62,9 @@
 					формат - количество СЕКУНД и эпохи UNIX
 				-->
 				<button class="btn current_type" data-type="user">Партнеры</button>
-				<button class="btn" data-type="referrals">Клиенты</button>
-				<button class="btn" data-type="requests">Переходы</button>
 				<button class="btn" data-type="referrals_z">Заявки</button>
-				<button class="btn" data-type="payed">Заказы</button>
+				<button class="btn" data-type="payed">Оплаченные</button>
+				<button class="btn" data-type="requests">Переходы</button>
 			</div>
 			
 		</div>

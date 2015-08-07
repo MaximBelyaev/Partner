@@ -1,4 +1,5 @@
-var blocks_margin = 40;
+var blocks_margin = 30,
+    menu_trigger_width = 1400;
 
 var setContentHeight = function() {
     var $block = $('.full-page-block'),
@@ -20,8 +21,8 @@ $( document ).ready(function() {
     $(window).on('resize', setContentHeight );
 
     var btn = $('#add-size'),
-        $mob_menu_trigger = $('#mob-menu-trigger'),
-        menu_trigger_width = 900;
+        $mob_menu_trigger = $('#mob-menu-trigger');
+
     btn.click(function(){
         var spanForCount = $('#count');
         var count = parseInt(spanForCount.html())+1;
@@ -54,7 +55,7 @@ $( document ).ready(function() {
     $('#landing_select').on('change', function(event) {
         event.preventDefault();
         $.ajax({
-            url: '/admin/landings/change',
+            url: '/user/user/change',
             type: 'POST',
             dataType: 'json',
             data: {land: $(this).val()},

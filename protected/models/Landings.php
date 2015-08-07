@@ -61,36 +61,18 @@ class Landings extends CActiveRecord
 		);
 	}
 
-	public function joinUser( $user_id = 0 )
+
+	public function search($pageSize = 10)
 	{
-		$cdb = $this->getDbCriteria();
-		
-		$cdb->mergeWith(array(
-	        'join' => ' LEFT JOIN users_landings USING(land_id) ',
-			'select' => $cdb->select . ',(users_landings.user_id IS NOT NULL) as isOffer '
+		$criteria = new CDbCriteria;
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array('pageSize' => $pageSize),
+			'sort' => array(
+				'defaultOrder' => 't.sort_order ASC',
+			)
 		));
-		if ((int)$user_id) {
-			$this->getDbCriteria()->addCondition( 
-				' (users_landings.user_id = ' . (int)$user_id 
-				. ' OR users_landings.user_id IS NULL) ' 
-			);
-		}
-	    return $this;
 	}
-
-
-    public function search($pageSize = 10)
-    {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
-        $criteria = new CDbCriteria;
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'pagination'=>array('pageSize' => $pageSize),
-            'sort' => array(
-                'defaultOrder' => 't.sort_order ASC',
-            )));
-    }
 	
 	public static function model($className = __CLASS__)
 	{

@@ -18,19 +18,21 @@ $this->setPageTitle("Новости | Партнерская программа 
 	<div class="head">
 		<h5>
             Новости
-			<?= CHtml::link('Добавить', "/admin/news/create", array('class' => 'btn btn-success')) ?>		
         </h5>
 	</div>	
 
 <?php
 $columns = array(
-    'date',
+    array(
+        'name' => 'date',
+        'header' => 'Дата',
+        'value' => 'date("d.m.y", strtotime($data->date))', 
+    ),
     'header',
-
     array(
         'header'=>'Ред',
         'class'=>'CButtonColumn',
-        'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+        'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
         'buttons'=>array
         (
             'update' => array
@@ -61,21 +63,21 @@ if (!Yii::app()->session['landing'])
         'htmlOptions' => array('class' => 'width125'),
         'headerHtmlOptions' => array('class' => 'width125'),
         'filterHtmlOptions' => array('class' => 'width125'),
-        'value' => '$data->getLandingIcon()',
+        'value' => 'isset($data->landing)?$data->landing->name:""',
     );
     array_splice($columns, -1, 0, array($landing_column));
 }
 
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	//'dataProvider' => $model->search(),
-	'dataProvider' => $dataProvider,
-    'summaryText'   => '',
-    'columns' => $columns,
+	'dataProvider' => $model->search(),
+	'htmlOptions' => array('class'=>'grid-view red'),
+	'summaryText'   => '',
+	'columns' => $columns,
 	'pager'=> array(  
-		'header'        => '',
+		'header'		=> '',
 		'prevPageLabel' => 'Назад',
-		'nextPageLabel' => 'Далее',    
+		'nextPageLabel' => 'Далее',
 	),
     //'filter' => $model,
 )); ?>

@@ -14,12 +14,11 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	'dataProvider' => $model->search(9),
-	//'dataProvider' => $dataProvider,
-	'summaryText' => '',
-	'htmlOptions' => array( 'class' => 'grid-view has-filter'),
-	'filter' => $model,
-    'pager'=> array(  
+	'dataProvider' 	=> $model->search(9),
+	'summaryText' 	=> '',
+	'htmlOptions' 	=> array( 'class' => 'grid-view green has-filter'),
+	'filter' 	=> $model,
+    'pager'		=> array(  
         'header'        => '',
         'prevPageLabel' => 'Назад',
         'nextPageLabel' => 'Далее',    
@@ -30,7 +29,12 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 			'name' => 'notification_id',
 			'htmlOptions' => array('class' => 'notification-id-col'),
 		),
-		'user.username',
+        array(
+			'header'=> 'Партнер',
+			'name' 	=> 'username',
+            'value' => '$data->user->username',
+            'filter'=> CHtml::activeTextField($model, 'username'),
+        ),
 		array(
 			'name' => 'theme',
 			'value' => 'Notifications::$themes_aliases[$data->theme]',
@@ -38,7 +42,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 		array(
 			'name' => 'date',
 			'header' => 'Дата',
-			'value' => 'date("d.m.Y", strtotime($data->date));',
+			'value' => 'date("d.m.y", strtotime($data->date));',
 		),
 		array(
 			'name' => 'is_new',
@@ -47,7 +51,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 		array(
             'header'=>'Ред',
             'class'=>'CButtonColumn',
-            'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+            'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
             'buttons'=>array
             (
                 'update' => array

@@ -20,8 +20,6 @@
     <div class="head">
         <h5>
             <?php echo $model->isNewRecord ? 'Добавление заявки' : 'Редактирование заявки от: ' . $model->user->username; ?>
-            <?php echo CHtml::link('Вернуться',array('/admin/stateds/index'), array('class'=>'btn btn-primary',)); ?>
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
         </h5>
         <div class="clear"></div>
     </div>
@@ -59,6 +57,11 @@
 				<?php echo $form->textField($model,'requisites',array('size'=>50,'maxlength'=>50)); ?>
 				<?php echo $form->error($model,'requisites'); ?>
 			</div>
+
+            <div class="form-row">
+                <?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
+            </div>
+
 		
 		</div>
         

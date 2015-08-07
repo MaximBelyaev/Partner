@@ -1,27 +1,36 @@
 jQuery(document).ready(function($) {
-	$('#sys_update').on('click', function(event) {
+	$('#update-check').on('click', function(event) {
 		event.preventDefault();
-		$('.preloader').css('display', 'inline-block');
+		var mode  = this.dataset['mode'],
+			that  = this;
+			
+		if (mode == 'check') {
+			var url	= that.dataset['checkurl'];
+		} else {
+			var url	= that.dataset['updateurl'];
+		}
+
 		$.ajax({
-			url: '/admin/default/downloadAndUpdate',
+			url: url,
 			type: 'POST',
 			dataType: 'json',
-			data: {},
 		})
 		.done(function(xhr) {
-			console.log(xhr);
-			if (xhr.status == 'ok') {
-				$('.upd_msg').text(xhr.msg);
-				$('.preloader').fadeOut('300');
-			};
-			console.log("success");
+			
+			if (mode == 'check' && xhr.status == 'has_upd') {
+				that.dataset.mode = 'update';
+				$(that).text('Обновить');
+			} else if (mode == 'update' && xhr.status == 'updated') {
+				that.dataset.mode = 'updated';
+			}
+
+			$('.upd_msg').text(xhr.msg);
+
 		})
 		.fail(function(xhr) {
-			console.log(xhr.responseText);
 			console.log("error");
 		})
 		.always(function(xhr) {
-			console.log("complete");
 		});
 		
 	});

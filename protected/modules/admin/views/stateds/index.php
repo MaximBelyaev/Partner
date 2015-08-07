@@ -22,13 +22,13 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
 		'htmlOptions' => array('class'=>'grid-view purple has-filter'),
     	'columns' => array(
             array(
-                'name' => 'user',
-                'type' => 'email',
+                'name' => 'username',
                 'value' => '$data->user->username',
             ),
             array(
                 'name' => 'date',
-                'header' => 'Дата' 
+                'header' => 'Дата',
+                'value' => 'date("d.m.y", strtotime($data->date));',
             ),
             'pay_type',
             'requisites',
@@ -37,7 +37,7 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
             array(
                 'header'=>'Ред',
                 'class'=>'CButtonColumn',
-                'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+                'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
                 'buttons'=>array
                 (
                     'update' => array

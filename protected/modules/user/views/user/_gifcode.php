@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-<a title="" target="_blank" href="<?= $settingsList['landing_link']->value ?>?refer_id=<?= $user->id?>">
+<a title="" target="_blank" href="<?= $banner->landing->link ?>?refer_id=<?= $user->id?>">
    <img src="<?= Yii::app()->getBaseUrl(true) . "/uploads/" . $banner->image?>" alt="рекламный баннер"
         width="<?= $banner->width ?>" height="<?= $banner->height ?>"/>
 </a>

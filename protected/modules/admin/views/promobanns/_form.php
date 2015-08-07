@@ -4,9 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block">
-	
-
+<div class="block promoban-block">
 
 <div class="form">
 
@@ -21,8 +19,6 @@
 	<div class="head">
 		<h5>
 			<?php echo $model->isNewRecord ? 'Добавление баннера' : 'Редактирование баннера: '.$model->name; ?>
-			<?php echo CHtml::link('Вернуться',array('/admin/promobanns/index'), array('class'=>'btn btn-primary',)); ?>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</h5>
 		<div class="clear"></div>
 	</div>
@@ -43,7 +39,7 @@
 	<div class="clear"></div>
 
 	<div class="row-fluid">
-		<div class="span4">
+		<div class="span12">
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'type'); ?>
 				<?php echo $form->dropDownList($model,'type', $typesList); ?>
@@ -69,14 +65,35 @@
 			</div>
 
 			<div class="form-row">
+				<?php var_dump($this->landingsList); ?>
+				<?php var_dump(Yii::app()->session['landing'] ); ?>
 				<?php echo $form->labelEx( $model, 'land_id' ); ?>
+				
+				<?php 
+				# выбираем пункт по-умолчанию для списка
+				# если у модели уже выбран пункт, то используем его
+				if(!is_null($model->land_id) && ((int)$model->land_id > 0)) {
+					$options = array(
+						(int)$model->land_id => array('selected'=>true)
+					);
+				# если выбран лендинг с которым работаем, используем его
+				} else if(!is_null(Yii::app()->session['landing']) && ((int)Yii::app()->session['landing'] > 0)) {
+					$options = array(
+						(int)Yii::app()->session['landing'] => array('selected'=>true)
+					);
+				} else {
+					$options = array();
+				}
+				?>
+
+
 				<?php echo $form->dropDownList(
 					$model,
 					'land_id',
-					(Yii::app()->session['landing'] && Yii::app()->session['landing'] == 0) ?
-						$this->landingsList : array(Yii::app()->session['landing'] => Yii::app()->session['landing']['land_id']),
+					$this->landingsList,
 					array(
 						'class' => 'dropdown',
+						'options' => $options
 					)
 				); ?>
 				<?php echo $form->error( $model, 'land_id' ); ?>
@@ -90,11 +107,23 @@
 		</div>
 	</div>
 
-
-	<?php if($model->isNewRecord!='1'){ ?>
+	<?php if( $model->isNewRecord != '1' ){ ?>
 	<div class="form-row">
-		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); }?>
+		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); ?>
 	</div>
+	<?php } ?>
+
+
+	
+	<div class="row-fluid">
+		<div class="span12">
+			<?php echo CHtml::submitButton(
+				$model->isNewRecord ? 'Добавить' : 'Сохранить', 
+				array('class'=>'btn btn-primary ')
+			); ?>
+		</div>
+	</div>	
+
 
 <?php $this->endWidget(); ?>
 

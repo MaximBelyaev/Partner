@@ -9,4 +9,4 @@ $this->setPageTitle("Добавление баннера | Партнерска�
 ?>
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'typesList'=>$typesList)); ?>
-<?php $this->renderPartial('/promovideo/_form', array('model'=>$videoModel)); ?>
+<?php $this->renderPartial('/promovideo/_form', array('videoModel'=>$videoModel)); ?>

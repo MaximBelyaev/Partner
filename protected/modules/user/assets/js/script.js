@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
     $('#landing_select').on('change', function(event) {
         event.preventDefault();
         $.ajax({
-            url: '/admin/landings/change',
+            url: '/user/user/change',
             type: 'POST',
             dataType: 'json',
             data: {land: $(this).val()},
@@ -132,7 +132,8 @@ function loadRangeData(start, end) {
 		}
 	})
 	.done(function(ans) {
-			console.log(ans);
+		console.log(ans);
+		console.info(ans.charts.requests);
 		var dataArray = [];
 		if (ans.charts.requests != undefined) {
 			dataArray[0] = { data: ans.charts.requests, stat: ans.charts.requests.land };

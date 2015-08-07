@@ -22,7 +22,8 @@ class Referrals extends CActiveRecord
 {
     protected $_oldStatus;
 
-    public static $STATUS_WAITING = 'Ждет обработки';
+    public $username;
+
     public static $STATUS_REQUEST = 'Заявка';
     public static $STATUS_APPLIED = 'Оплачено';
 
@@ -52,7 +53,7 @@ class Referrals extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, email, site, region, tz, request_type, requests, user_from, money, status, user_id, date,
-			recreate_interval, recreate_date', 'safe', 'on'=>'search'),
+			recreate_interval, username, land_id, recreate_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,12 +86,13 @@ class Referrals extends CActiveRecord
 			'money'		=> 'Сумма',
 			'status'	=> 'Статус',
 			'user'		=> 'От партнера',
+			'username'  => 'От партнера',
 			'date'		=> 'Дата заявки',
 			'promo'		=> 'Промо код',
 			'request_type' => 'Какие запросы нужны?',
 			'recreate_date' => 'Дата повторной оплаты',
 			'recreate_interval' => 'Формат',
-			'landing' => 'Лендинг',
+			'landing' 	=> 'Лендинг',
 		);
 	}
 
@@ -111,9 +113,10 @@ class Referrals extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria = new CDbCriteria;
+		$criteria->with = array( 'user', 'landing' );
 
-		if (isset(Yii::app()->session['landing']) && Yii::app()->session['landing'] > 0) {
-			$criteria->compare('land_id', Yii::app()->session['landing']);
+		if ( (int)Yii::app()->session['landing'] > 0 ) {
+			$criteria->compare('`landing`.`land_id`', (int)Yii::app()->session['landing']);	
 		}
 
 		$criteria->compare('id',$this->id)
@@ -123,18 +126,54 @@ class Referrals extends CActiveRecord
 			->compare('tz',$this->tz)
 			->compare('request_type',$this->request_type,true)
 			->compare('requests',$this->requests,true)
-			->compare('user_from',$this->user_from,true)
+			->compare('user.username',$this->username,true)
 			->compare('money',$this->money,true)
 			->compare('status',$this->status,true)
-			->compare('user_id',$this->user_id)
 			->compare('date',$this->date)
 			->compare('recreate_interval',$this->recreate_interval,true)
 			->compare('recreate_date',$this->recreate_date,true);
-        $criteria->order = 'date DESC';
+       
+		$sort_attributes = array(
+			'date' => array(
+				'asc'  => 'date',
+				'desc' => 'date DESC', 
+			),
+			'email' => array(
+				'asc'  => 'email',
+				'desc' => 'email DESC', 
+			),
+			'site' => array(
+				'asc'  => 'site',
+				'desc' => 'site DESC', 
+			),
+			'username' => array(
+				'asc'  => 'user.username',
+				'desc' => 'user.username DESC', 
+			),
+			'money' => array(
+				'asc'  => 'money',
+				'desc' => 'money DESC', 
+			),
+			'status' => array(
+				'asc'  => '`t`.`status`',
+				'desc' => '`t`.`status` DESC', 
+			)
+		);
+
+		if (!isset(Yii::app()->session['landing']) || (int)Yii::app()->session['landing'] == 0) {
+			$sort_attributes['land_id'] = array(
+				'asc'  => 'landing.name',
+				'desc' => 'landing.name DESC', 
+			);
+		}
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'pagination'=>array('pageSize' => $pageSize),
+			'criteria'	=> $criteria,
+			'sort'  	=> array(
+				'defaultOrder' 	=> 'date DESC', 
+				'attributes' 	=> $sort_attributes,
+			),
+			'pagination'=> array('pageSize' => $pageSize),
 		));
 	}
 
@@ -156,7 +195,6 @@ class Referrals extends CActiveRecord
     {
         parent::afterFind();
         $this->_oldStatus = $this->status;
-		$this->date = date("d-m-Y h:i", strtotime($this->date));
     }
 
 

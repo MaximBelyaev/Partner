@@ -21,6 +21,38 @@ class User extends CActiveRecord
 
 	const PAY_CLICK = 'Оплата за переход';
 	const PAY_REFERR = 'Процент с заказа';
+
+
+	const PERC_PAY	= 0;
+	const CLICK_PAY = 1;
+
+	public static $work_modes = [
+		self::PERC_PAY 	=> 'Процент с заказа',
+		self::CLICK_PAY => 'Оплата за переход',
+	];
+
+
+
+	public static $statuses = [
+		'vip' => 'VIP',
+		'exp' => 'Расширенный',
+		'stand'=> 'Стандартный',
+	];
+
+
+	const DET_PERC_STAND = 0;
+	const DET_PERC_EXP   = 1;
+	const DET_PERC_VIP   = 2;
+	const DET_CLICK_PAY  = 3;
+
+
+	public static $work_modes_det = [
+		self::DET_PERC_STAND 	=> '% (С)',
+		self::DET_PERC_EXP 		=> '% (Р)',
+		self::DET_PERC_VIP 		=> '% (V)',
+		self::DET_CLICK_PAY 	=> 'Клик',
+	];
+
 	const VIP_DISPLAY = '|||';
 	const EXPANDED_DISPLAY = '||';
 	const STANDARD_DISPLAY = '|';
@@ -114,6 +146,7 @@ class User extends CActiveRecord
 			'clients' 		=> array( self::HAS_MANY, 'Referrals', 'user_id'),
 			'requests' 		=> array( self::HAS_MANY, 'Requests', 'partner_id'),
 			'news' 			=> array( self::HAS_MANY, 'News', 'news_id'),
+			'notifications' => array( self::HAS_MANY, 'Notifications', 'user_id'),
 			'users_landings'=> array( self::HAS_MANY, 'UsersLandings', 'user_id' ),
 		);
 	}
@@ -164,7 +197,7 @@ class User extends CActiveRecord
 	{
 		$criteria = new CDbCriteria;
 		$criteria->with = array('money');
-
+		# сортировка по связанным данным
 		$requests_table = Requests::model()->tableName();
 		$requests_count_sql = "(SELECT COUNT(*) FROM $requests_table rt WHERE rt.partner_id = t.id) ";
 
@@ -193,17 +226,46 @@ class User extends CActiveRecord
 		$criteria->compare('password', $this->password, true);
 		$criteria->compare('site', $this->site, true);
 		$criteria->compare('status', $this->status, true);
-		$criteria->compare('use_click_pay', $this->use_click_pay, true);
 
-		//$criteria->compare('money.profit',$this->money->profit);
-		//$criteria->compare('money.full_profit',$this->money->full_profit);
+		# форматы работы
+		if ($this->use_click_pay != '') {
+			if( $this->use_click_pay == self::DET_PERC_EXP  ) {
+				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
+			} else if( $this->use_click_pay == self::DET_PERC_VIP  ) {
+				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['vip'] . '"');
+			} else if ( $this->use_click_pay == self::DET_PERC_STAND ) {
+				$criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")'); 
+			} else if( $this->use_click_pay == self::DET_CLICK_PAY  )  {
+				$criteria->addCondition('use_click_pay=1');
+			}
+		}
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
-			'pagination' => array('pageSize' => $pageSize),
+			'pagination' => array( 'pageSize' => $pageSize ),
 			'sort' => array(
 				'defaultOrder' => $defaultOrder,
 				'attributes' => array(
+					'id' => array(
+						'asc' => '`t`.`id` ASC',
+						'desc' => '`t`.`id` DESC',
+					),
+					'email' => array(
+						'asc' => '`t`.`email` ASC',
+						'desc' => '`t`.`email` DESC',
+					),
+					'use_click_pay' => array(
+						'asc' => '
+							(`t`.`use_click_pay`=0 AND (`t`.`status`="Стандартный" OR `t`.`status`="")), 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="Расширенный"), 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="VIP"),
+							(`t`.`use_click_pay`=0), (`t`.`use_click_pay`=1)',
+						'desc' => '
+							(`t`.`use_click_pay`=0 AND (`t`.`status`="Стандартный" OR `t`.`status`="")) desc, 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="Расширенный") desc, 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="VIP") desc,
+							(`t`.`use_click_pay`=0), (`t`.`use_click_pay`=1) desc'
+					),
 					'requests_count' => array(
 						'asc' => 'requests_count ASC',
 						'desc' => 'requests_count DESC',
@@ -216,23 +278,21 @@ class User extends CActiveRecord
 						'asc' => 'referrals_payed_count ASC',
 						'desc' => 'referrals_payed_count DESC',
 					),
-					'money.profit' => array(
+					'money' => array(
 						'asc' => 'money.profit',
 						'desc' => 'money.profit DESC',
 					),
-					'money.full_profit' => array(
+					'fullProfit' => array(
 						'asc' => 'money.full_profit',
 						'desc' => 'money.full_profit DESC',
-					),
-					'month_profit' => array(
-						'asc' => 'month_profit',
-						'desc' => 'month_profit DESC',
 					),
 					'*',
 				),
 			)
 		));
 	}
+
+
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -274,7 +334,7 @@ class User extends CActiveRecord
 	protected function beforeSave()
 	{
 		parent::beforeSave();
-		
+
 		# если введен новый сайт и не установлен старый сайт
 		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
 			# устанавливаем сайт для подтверждения
@@ -328,6 +388,14 @@ class User extends CActiveRecord
 	protected function afterSave()
 	{
 		parent::afterSave();
+
+
+        if($this->isNewRecord){
+			if (trim($this->promo_code) == '') {
+				$this->promo_code = Yii::app()->params['promoPrefix'] . $this->id;
+			}
+        }
+
 		$this->setIsNewRecord(false);
 
 		if ($this->old_site != $this->site) {
@@ -337,11 +405,6 @@ class User extends CActiveRecord
 			$notification->theme = Notifications::$THEME_SITE_CHANGED;
 			$notification->is_new = 1;
 			$notification->save();
-		}
-
-		if ($this->promo_code == '') {
-			$this->promo_code = "PROMO_" . $this->id;
-			$this->save();
 		}
 
 		if (isset($_POST['User']['money'])) {
@@ -448,13 +511,18 @@ class User extends CActiveRecord
 		}
 	}
 
-	public function getFormatIcon()
+	public function getFormatName()
 	{
-		if ($this->use_click_pay > 0) {
-			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_coin.png' >";
-		} else {
-			return "<img class='center_icon' src='" . Yii::app()->controller->module->assetsUrl . "/img/icn_percent.png' >";
+		 if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] ) {
+			return self::$work_modes_det[ self::DET_PERC_EXP ];
+		} else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] ) {
+			return self::$work_modes_det[ self::DET_PERC_VIP ];
+		} else if ( $this->use_click_pay == 0  ) {
+			return self::$work_modes_det[ self::DET_PERC_STAND ];
+		} else if( $this->use_click_pay == 1 ) {
+			return self::$work_modes_det[ self::DET_CLICK_PAY ];
 		}
+		return '';
 	}
 
 	public function getLandingIcon()
@@ -481,5 +549,51 @@ class User extends CActiveRecord
 			'params' => array( ':user' => $this->id, ':click_pay' => $use_click_pay, ':start' => $start, ':end' => $end )
 		));
 		return $req;
+	}
+
+	public function getLicense()
+	{
+		if ($this->role == 'admin') {
+			# получим лицензионный код покупателя
+			if(is_file('meta.json'))
+			{
+				$meta = file_get_contents('meta.json');
+				$meta = json_decode($meta);
+				if ($meta) {
+					$l = $meta->licence;
+				}
+			} 
+			
+			if (!isset($l) or is_null($l) or !$l) {
+				if (is_file('license.txt'))
+				{
+					$l = file_get_contents('license.txt');
+				}
+				else
+				{
+					$l = false;
+				}
+			}
+			return $l;
+		} else {
+			return false;
+		}
+	}
+
+
+	public function getVersion()
+	{
+		if ($this->role == 'admin') {
+			if(is_file('meta.json'))
+			{
+				$meta = file_get_contents('meta.json');
+				$meta = json_decode($meta);
+				if ($meta) {
+					$v = $meta->current_version;
+					return $v;
+				}
+			}
+		}
+		return false;
 	}
 }

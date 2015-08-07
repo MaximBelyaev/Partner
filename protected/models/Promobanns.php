@@ -30,7 +30,7 @@ class Promobanns extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, type, image', 'required'),
-			array('width, height', 'numerical', 'integerOnly'=>true),
+			array('width, height, land_id', 'numerical', 'integerOnly'=>true),
 			array('type, name, image', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -83,7 +83,7 @@ class Promobanns extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('type',$this->type,true);
@@ -114,10 +114,6 @@ class Promobanns extends CActiveRecord
 	protected function beforeSave()
 	{
 		if (parent::beforeSave()) {
-			if ($this->type === 'gif')
-			{
-
-			}
 		}
 		return true;
 	}
@@ -128,7 +124,7 @@ class Promobanns extends CActiveRecord
 		return true;
 	}
 
-	public static function model($className=__CLASS__)
+	public static function model( $className = __CLASS__ )
 	{
 		return parent::model($className);
 	}

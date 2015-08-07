@@ -23,12 +23,6 @@
 		<h5>
 			<?php echo $model->isNewRecord ? 'Добавление лендинга' : 'Редактирование лендинга: '. $model->name; ?>
 		</h5>
-		<div class="underlist-button underlist-button-inline">
-			<?php echo CHtml::link('Вернуться',array('/admin/default/index'), array('class'=>'btn',)); ?>
-		</div>
-		<div class="underlist-button underlist-button-inline">
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
-		</div>
 	</div>
 
 	
@@ -82,24 +76,23 @@
             </div>
         </div>
 
-		<div class="row-fluid form-row">
-			<div class="span6">
-				<?php echo $form->labelEx($model,'sort_order'); ?>
-				<?php echo $form->textField( $model,'sort_order',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
-				<?php echo $form->error( $model,'sort_order' ); ?>
-			</div>
-		</div>
+        <div class="row-fluid form-row">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'sort_order'); ?>
+                <?php echo $form->textField( $model,'sort_order',array( 'size' => 70, 'maxlength' => 2 ) ); ?>
+                <?php echo $form->error( $model,'sort_order' ); ?>
+            </div>
+        </div>
 
-		<div class="row-fluid form-row">
-			<div class="span6">
-				<?php echo $form->labelEx($model,'icon'); ?>
-				<?php echo $form->fileField($model,'icon', array('data-header'=>'Выберите файл')); ?>
-				<?php echo $form->error($model,'icon'); ?>
-				<?php if($model->icon) { 
-					echo CHtml::image("/uploads/" . $model->icon, $model->name, array("class"=>"land_icon"));
-				} ?>
-			</div>	
-		</div>
+        <div class="underlist-button">
+            <div class="span6">
+                <?php echo CHtml::submitButton(
+                    $model->isNewRecord ? 'Добавить' : 'Сохранить', 
+                    array('class'=>'btn btn-success'
+                )); ?>
+            </div>
+            <div class="clear"></div>
+        </div>
 
 	</div>
 

@@ -1,29 +1,28 @@
-
 $(document).ready(function() {
 
-var showText='Развернуть';
-var hideText='Свернуть';
+	var showText='Развернуть';
+	var hideText='Свернуть';
 
-var is_visible = false;
+	var is_visible = false;
 
-$('.toggle').prev().append(' <a href="#" class="toggleLink">'+hideText+'</a>');
+	$('.toggle').prev().append(' <a href="#" class="toggleLink">'+hideText+'</a>');
 
-$('.toggle').show();
+	$('.toggle').show();
 
-$('a.toggleLink').click(function() {
+	$('a.toggleLink').click(function() {
 
-is_visible = !is_visible;
+	is_visible = !is_visible;
 
-if ($(this).text()==showText) {
-$(this).text(hideText);
-$(this).parent().next('.toggle').slideDown('slow');
-}
-else {
-$(this).text(showText);
-$(this).parent().next('.toggle').slideUp('slow');
-}
+	if ($(this).text()==showText) {
+		$(this).text(hideText);
+		$(this).parent().next('.toggle').slideDown('slow');
+	}
+	else {
+		$(this).text(showText);
+		$(this).parent().next('.toggle').slideUp('slow');
+	}
 
-return false;
+	return false;
 
-});
+	});
 });

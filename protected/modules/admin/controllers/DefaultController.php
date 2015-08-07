@@ -6,19 +6,31 @@ class DefaultController extends AdminController
      * when an action is not explicitly requested by users.
      */
 
+    protected $index_items_count = 6;
+
 	public function actionIndex()
 	{
 		//Список новых партнёров
-		$userModel = User::model()->search('4', 't.id desc');
+		$userModel = User::model()->search( $this->index_items_count, 't.reg_date desc');
 
 		//Список новых клиентов
-		$referralModel = Referrals::model()->search('4', 't.id desc');
+		$referralModel = new CActiveDataProvider('Referrals', array(
+			'criteria' => array(
+				'select'=>'*',
+				'condition'=>'status = "Заявка"',
+				'order'=>'date DESC',
+			),
+			'pagination'=>array(
+				'pageSize'=>$this->index_items_count,
+			)
+		));
+
 
 		//Последние заявки
-		$statedsModel = Stateds::model()->search('4', 't.id desc');
+		$statedsModel = Stateds::model()->search( $this->index_items_count, 't.date desc');
 
 		//Лучшие партнёры за 30 дней
-		$bestPartnersModel = User::model()->search('4', 'month_profit desc');
+		$bestPartnersModel = User::model()->search( $this->index_items_count, 'month_profit desc');
 
 		$this->render('index',array(
 			'userModel'=>$userModel,
@@ -156,6 +168,54 @@ class DefaultController extends AdminController
 		);
     }
 
+
+	public function actionCheckUpdate()
+	{
+		$l = $this->getLicense();
+
+		if ($l)
+		{
+			$metaData = file_get_contents(Yii::app()->params['updateServer'] . 'lastupdate/' . $l);
+			$metaData = json_decode($metaData);
+
+			$vers = Yii::app()->db->createCommand()
+				->select('version')
+				->from('versions')
+				->limit(1)
+				->order('date DESC')
+				->queryRow();
+			if (!empty($vers) && $metaData) {
+				if ($vers['version'] != $metaData->latest_version) {
+					$status = 'has_upd';
+					$msg 	= 'Есть новое обновление';
+				} else {
+					$status = 'ok';
+					$msg 	= 'Новых обновлений нет';
+				}
+			} else if($metaData) {
+				$status = 'has_upd';
+				$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
+			} else {
+				$status = 'error';
+				$msg 	= 'Не удалось проверить обновления';
+			}
+
+		} 
+		else
+		{
+			$status = 'error';
+			$msg 	= 'Не найден файл лицензии'; 
+		}
+
+
+
+
+		echo json_encode(array(
+			'status'=> $status,
+			'msg'	=> $msg
+		));
+	}
+
 	public function actionDownloadAndUpdate()
 	{
 		$l = $this->getLicense();
@@ -171,14 +231,18 @@ class DefaultController extends AdminController
 				$load_path = 'uploads/update_archive.zip';
 				if( file_put_contents( $load_path, $data ) )
 				{
+					
 					$zip = new ZipArchive();
 					$zip->open($load_path);
 					$zip->extractTo('./');
+
 					if ( $zip->close() ) {
 						$this->updateMeta('current_version');
-						$status = 'ok';
+						
+						$status = 'updated';
 						$msg = "Система обновлена";
-						$version = file_get_contents(dirname(__FILE__) . '/meta.json');
+						
+						$version = file_get_contents('meta.json');
 						$version = json_decode($version, true);
 						$version = $version['current_version'];
 						$versionsql = "INSERT INTO versions(version) VALUES('" . $version . "')";
