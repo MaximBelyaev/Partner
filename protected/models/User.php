@@ -197,9 +197,8 @@ class User extends CActiveRecord
 	{
 		$criteria = new CDbCriteria;
 		$criteria->with = array('money');
-		$criteria->order = "reg_date DESC";
-# Закоментированные строки - это сортировка по связанным данным
-/*		$requests_table = Requests::model()->tableName();
+		# сортировка по связанным данным
+		$requests_table = Requests::model()->tableName();
 		$requests_count_sql = "(SELECT COUNT(*) FROM $requests_table rt WHERE rt.partner_id = t.id) ";
 
 		$referrals_table = Referrals::model()->tableName();
@@ -220,7 +219,7 @@ class User extends CActiveRecord
 		$criteria->compare($referrals_count_sql, $this->referrals_count);
 		$criteria->compare($referrals_payed_sql, $this->referrals_payed_count);
 		$criteria->compare($month_profit_sql, $this->month_profit);
-*/
+
 		$criteria->compare('t.id', $this->id);
 		$criteria->compare('t.reg_date', $this->reg_date, true);
 		$criteria->compare('username', $this->username, true);
@@ -228,6 +227,7 @@ class User extends CActiveRecord
 		$criteria->compare('site', $this->site, true);
 		$criteria->compare('status', $this->status, true);
 
+		# форматы работы
 		if ($this->use_click_pay != '') {
 			if( $this->use_click_pay == self::DET_PERC_EXP  ) {
 				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
@@ -243,10 +243,29 @@ class User extends CActiveRecord
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
 			'pagination' => array( 'pageSize' => $pageSize ),
-			'sort'  => false,
-			/*'sort' => array(
+			'sort' => array(
 				'defaultOrder' => $defaultOrder,
 				'attributes' => array(
+					'id' => array(
+						'asc' => '`t`.`id` ASC',
+						'desc' => '`t`.`id` DESC',
+					),
+					'email' => array(
+						'asc' => '`t`.`email` ASC',
+						'desc' => '`t`.`email` DESC',
+					),
+					'use_click_pay' => array(
+						'asc' => '
+							(`t`.`use_click_pay`=0 AND (`t`.`status`="Стандартный" OR `t`.`status`="")), 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="Расширенный"), 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="VIP"),
+							(`t`.`use_click_pay`=0), (`t`.`use_click_pay`=1)',
+						'desc' => '
+							(`t`.`use_click_pay`=0 AND (`t`.`status`="Стандартный" OR `t`.`status`="")) desc, 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="Расширенный") desc, 
+							(`t`.`use_click_pay`=0 AND `t`.`status`="VIP") desc,
+							(`t`.`use_click_pay`=0), (`t`.`use_click_pay`=1) desc'
+					),
 					'requests_count' => array(
 						'asc' => 'requests_count ASC',
 						'desc' => 'requests_count DESC',
@@ -259,21 +278,17 @@ class User extends CActiveRecord
 						'asc' => 'referrals_payed_count ASC',
 						'desc' => 'referrals_payed_count DESC',
 					),
-					'money.profit' => array(
+					'money' => array(
 						'asc' => 'money.profit',
 						'desc' => 'money.profit DESC',
 					),
-					'money.full_profit' => array(
+					'fullProfit' => array(
 						'asc' => 'money.full_profit',
 						'desc' => 'money.full_profit DESC',
 					),
-					'month_profit' => array(
-						'asc' => 'month_profit',
-						'desc' => 'month_profit DESC',
-					),
 					'*',
 				),
-			)*/
+			)
 		));
 	}
 
@@ -373,6 +388,14 @@ class User extends CActiveRecord
 	protected function afterSave()
 	{
 		parent::afterSave();
+
+
+        if($this->isNewRecord){
+			if (trim($this->promo_code) == '') {
+				$this->promo_code = Yii::app()->params['promoPrefix'] . $this->id;
+			}
+        }
+
 		$this->setIsNewRecord(false);
 
 		if ($this->old_site != $this->site) {
@@ -382,11 +405,6 @@ class User extends CActiveRecord
 			$notification->theme = Notifications::$THEME_SITE_CHANGED;
 			$notification->is_new = 1;
 			$notification->save();
-		}
-
-		if ($this->promo_code == '') {
-			$this->promo_code = "PROMO_" . $this->id;
-			$this->save();
 		}
 
 		if (isset($_POST['User']['money'])) {

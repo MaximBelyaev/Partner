@@ -88,10 +88,12 @@ class News extends CActiveRecord
 		$criteria->compare('header',$this->header,true);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('date',$this->date,true);
-		$criteria->order = 'date DESC';
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
+			'sort' => array(
+				'defaultOrder' => 'date DESC'
+			)
 		));
 	}
 

@@ -9,12 +9,9 @@ class LandingsController extends AdminController
 	public function actionIndex()
 	{
 		$dataProvider = new CActiveDataProvider( 'Landings', array(
-			'criteria'	=>array(
-				'limit'	=>':limit', 
-				'params'=>array(':limit'=> 9),    //приведение типов не работает, без него тоже не работает, писал просто число в кавычках "3" не пашет
-				'order' => 'sort_order ASC',
+			'sort' => array(
+				'defaultOrder' => 'sort_order ASC', 
 			),
-			'sort'  => false
 		));
 		$model = new Landings;
 		$this->render('index',array(
@@ -111,18 +108,6 @@ class LandingsController extends AdminController
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-
-	public function actionChange() 
-	{
-		if (isset($_POST['land'])) {
-			Yii::app()->session['landing'] = $_POST['land'];
-			echo json_encode(array('status'=>'success'));
-		} else {
-			echo json_encode(array('status'=>'fail'));
-		}
-		Yii::app()->end();
 	}
 
 

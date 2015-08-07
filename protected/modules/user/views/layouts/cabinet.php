@@ -51,7 +51,7 @@
 					<li>
 						<span>
 							<?= @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/img/User.svg') ?>
-							admin@admin.ru
+							<?= Yii::app()->controller->user->username ?>
 						</span>
 					</li>
 					<li>

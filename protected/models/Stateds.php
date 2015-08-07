@@ -16,10 +16,12 @@ class Stateds extends CActiveRecord
 {
 	const STATUS_WAITING = 'Ожидает оплату';
 	const STATUS_PAYED   = 'Оплачено';
-	const STATUS_DENIED  = 'Отказ в оплате';
+	const STATUS_DENIED  = 'Отказано в оплате';
     
     protected $_oldStatus;
 	protected $_oldRecreateInterval;
+
+	public $username;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -39,7 +41,7 @@ class Stateds extends CActiveRecord
 			array('user_id, money, pay_type, requisites', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
 			array('money', 'length', 'max' => 8),
-			array('money', 'numerical', 'min' => 0,'max'=>Yii::app()->user->isAdmin ? 9999999999 :User::model()->findByPk(Yii::app()->user->id)->profit),
+			array('money', 'numerical', 'min' => 0,'max' => Yii::app()->user->isAdmin ? 9999999999 :User::model()->findByPk(Yii::app()->user->id)->profit),
 			array('pay_type, requisites', 'length', 'max'=>50),
 			array('description, status, date', 'safe'),
 			// The following rule is used by search().
@@ -97,18 +99,28 @@ class Stateds extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-        $criteria->order = 'date DESC';
+		$criteria->with = 'user';
+
 		$criteria->compare('id',$this->id);
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('username',$this->username);
 		$criteria->compare('money',$this->money,true);
-		$criteria->compare('status',$this->status,true);
+		$criteria->compare('`t`.`status`',$this->status,true);
 		$criteria->compare('pay_type',$this->pay_type,true);
 		$criteria->compare('requisites',$this->requisites,true);
 		$criteria->compare('description',$this->description,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'	=> $criteria,
-			'sort' 		=> false,
+			'sort' 		=> array(
+				'defaultOrder' => 'date DESC',
+				'attributes' => array(
+					'username' => array(
+						'asc' => '`user`.`username`',
+						'desc' => '`user`.`username` DESC',
+					),
+					'*'
+				),
+			),
 			'pagination'=> array('pageSize' => $pageSize)
 		));
 	}
@@ -158,9 +170,6 @@ class Stateds extends CActiveRecord
 			}
 		}
 
-		/**
-		 * Вычисляем время, через которое заявка будет создана заново автоматически (если стоит галочка)
-		 */
 		return true;
     }
 
@@ -201,6 +210,9 @@ class Stateds extends CActiveRecord
 				$email->message = "Ваш счет пополнен на " . $this->money . " рублей";
 				# $email->send();
             }
+            var_dump($this->status);
+            var_dump(self::STATUS_DENIED);
+            # если заявка на вывод средств была отклонена, то возвращаем партнеру деньги
             if($this->status == self::STATUS_DENIED && ($this->money > 0)){
                 $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
                 $profit->profit += $this->money;

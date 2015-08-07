@@ -128,7 +128,7 @@
 		<div class="span9">
 			<?php echo CHtml::submitButton(
 				$model->isNewRecord ? 'Добавить' : 'Сохранить', 
-				array('class'=>'btn btn-primary pull-right')); ?>
+				array('class'=>'btn btn-primary ')); ?>
 		</div>
 	</div>
 	<div class="clear"></div>

@@ -22,13 +22,13 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
 		'htmlOptions' => array('class'=>'grid-view purple has-filter'),
     	'columns' => array(
             array(
-                'name' => 'user',
-                'type' => 'email',
+                'name' => 'username',
                 'value' => '$data->user->username',
             ),
             array(
                 'name' => 'date',
-                'header' => 'Дата' 
+                'header' => 'Дата',
+                'value' => 'date("d.m.y", strtotime($data->date));',
             ),
             'pay_type',
             'requisites',

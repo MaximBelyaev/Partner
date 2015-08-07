@@ -15,7 +15,11 @@ $this->setPageTitle("Новости | Партнерская программа 
 		'dataProvider' => $model->userSearch(),
 		'summaryText' => '',
 		'columns' => array(
-			'date',
+			array(
+				'name' => 'date',
+				'value' => 'date("d.m.y", strtotime($data->date));',
+			),
+		            
 			'header',
 			array(
 				'header'=>'Статус',

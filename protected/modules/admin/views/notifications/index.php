@@ -31,7 +31,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 		),
         array(
 			'header'=> 'Партнер',
-			'name' 	=> 'user.username',
+			'name' 	=> 'username',
             'value' => '$data->user->username',
             'filter'=> CHtml::activeTextField($model, 'username'),
         ),
@@ -42,7 +42,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
 		array(
 			'name' => 'date',
 			'header' => 'Дата',
-			'value' => 'date("d.m.Y", strtotime($data->date));',
+			'value' => 'date("d.m.y", strtotime($data->date));',
 		),
 		array(
 			'name' => 'is_new',

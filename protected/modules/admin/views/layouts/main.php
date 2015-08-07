@@ -104,6 +104,11 @@
                 'url'=>array('/admin/landings/index'),
 			),
 			array(
+				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить лендинг',
+				'itemOptions' => array('class'=>'submenu'),
+				'url'=>array('/admin/landings/create'),
+			),
+			array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Clients.svg') . 'Клиенты',
                 'url'=>array('/admin/referrals/index'),
 			),
@@ -293,6 +298,10 @@
 						if(data.status=="success") {
 							$("#formResult").html("Клиент добавлен успешно.");
 							$("#create-referral-form")[0].reset();
+							window.setTimeout(function(){
+								//$(".close-modal").trigger("click");
+								console.log($("#createRefModal").modal("hide"));
+							}, 1500);
 						}
 						else {
 							$.each(data, function(key, val) {
@@ -323,8 +332,8 @@
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
-            <div class="errorMessage" id="formResultUser"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
+            <div class="errorMessage" id="formResultUser"></div>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">&times;</button>
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'username'); ?>
@@ -338,9 +347,9 @@
                         $newUser,
                         'status', 
                         array(
-                            'VIP' => 'VIP', 
                             'Стандартный' => 'Стандартный', 
-                            'Расширенный' => 'Расширенный'
+                            'Расширенный' => 'Расширенный',
+                            'VIP' => 'VIP', 
                         ),
                         array('class' => 'dropdown')
                 ); ?>
@@ -387,17 +396,23 @@
                     'dataType'=>'json',
                     'type'=>'post',
                     'success'=>'function(data) {
+                    	console.log(data);
                         if(data.status=="success"){
-                         $("#formResultUser").html("Партнёр добавлен успешно.");
-                         $("#create-user-form")[0].reset();
+							$("#formResultUser").html("Партнёр добавлен успешно.");
+							$("#create-user-form")[0].reset();
+							window.setTimeout(function(){
+								//$(".close-modal").trigger("click");
+								console.log($("#createModal").modal("hide"));
+							}, 1500);
                         }
                          else{
                         $.each(data, function(key, val) {
-                        $("#create-user-form #"+key+"_em_").text(val);
-                        $("#create-user-form #"+key+"_em_").show();
+                        	$("#create-user-form #"+key+"_em_").text(val);
+                        	$("#create-user-form #"+key+"_em_").show();
                         });
                         }
                     }',
+                    'error' => 'function(data){ console.log(data); }'
                 ),
                 array('class' => 'btn btn-success')); ?>
 			</div>

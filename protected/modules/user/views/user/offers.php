@@ -16,8 +16,6 @@ $this->setPageTitle("Список лендингов");
 		<section class="offers-items pseudo-table">
 			<div class="pseudo-table-head">
 				<span class="off-land">Лендинг</span><!-- 
-				 --><span class="off-vip">VIP</span><!-- 
-				 --><span class="off-ext">Расширенный</span><!-- 
 				 --><span class="off-st">Стандартный</span><!-- 
 				 --><span class="off-click">Переход</span><!-- 
 				 --><span class="off-action">Действие</span>
@@ -26,9 +24,7 @@ $this->setPageTitle("Список лендингов");
 			<div class="pseudo-table-body">
 				<?php foreach ($offersList as $landing) { ?>
 				<div>
-					<span class="off-land"><?= $landing->name ?></span><!-- 
-					 --><span class="off-vip"><?= $landing->vip ?></span><!-- 
-					 --><span class="off-ext"><?= $landing->extended ?></span><!-- 
+					<span class="off-land"><?= $landing->name ?></span><!--  
 					 --><span class="off-st"><?= $landing->standard ?></span><!-- 
 					 --><span class="off-click">
 							<?= $landing->click_pay ? $landing->click_pay : $this->settingsList['click_pay']['value'] ?>

@@ -17,6 +17,8 @@ $this->setPageTitle("Список партнеров | Партнерская п
 </div>
 <?php
 
+//var_dump(str_ireplace( "https://", "", str_ireplace( "http://", "", 'http://sdsd.com' ));
+
 $columns = array(
      array(
         'name' => 'id',
@@ -27,10 +29,14 @@ $columns = array(
     array(
         'name' => 'reg_date',
         'header' => 'Дата',
+        'value' => 'date("d.m.y", strtotime($data->reg_date))', 
     ),
     'username',
-    'site',
-    array(
+	array(
+        'name' => 'site',
+        'value' => 'parse_url( $data->site, PHP_URL_HOST )'
+	),
+	array(
         'name' => 'use_click_pay',
         'type' => 'raw',
         'value' => '$data->getFormatName()',
@@ -45,16 +51,16 @@ $columns = array(
         ),
     ),
     array(
-        'name' => 'money',
-        'type' => 'text',
+        'name'  => 'money',
+        'type'  => 'text',
         'value' => '(int)$data->getProfit()',
-        'htmlOptions' => array('class' => 'width40'),
-        'headerHtmlOptions' => array('class' => 'width40'),
-        'filterHtmlOptions' => array('class' => 'width40'),
+        'htmlOptions' => array('class' => 'width20'),
+        'headerHtmlOptions' => array('class' => 'width20'),
+        'filterHtmlOptions' => array('class' => 'width20'),
     ),
     array(
-        'name' => 'fullProfit',
-        'type' => 'text',
+        'name'  => 'fullProfit',
+        'type'  => 'text',
         'value' => '(int)$data->getFullProfit()',
         'filter' => CHtml::activeTextField(
             $model,
@@ -66,29 +72,29 @@ $columns = array(
     'referrals_count',
     'referrals_payed_count',
     array(
-        'header'=>'Ред',
-        'class'=>'CButtonColumn',
+        'header'    => 'Ред',
+        'class'     => 'CButtonColumn',
         'htmlOptions' => array('class' => 'actionColumn'),
         'headerHtmlOptions' => array('class' => 'actionColumn'),
         'filterHtmlOptions' => array('class' => 'actionColumn'),
-        'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
-        'buttons'=>array
+        'template'  => '<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
+        'buttons'   => array
         (
             'update' => array
             (
-                'label'=>'',
-                'options' => array(
+                'label'     =>'',
+                'options'   => array(
                     'class' => "icon-pencil icon-white"
                 ),
-                'imageUrl'=>'',
+                'imageUrl' => '',
             ),
             'delete' => array
             (
-                'label'=>'',
-                'options' => array(
+                'label'     =>'',
+                'options'   => array(
                     'class' => "icon-trash icon-white"
                 ),
-                'imageUrl'=>'',
+                'imageUrl' => '',
             ),
         ),
     ),
@@ -97,9 +103,8 @@ $columns = array(
 
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'user-grid',
-    'dataProvider' => $model->search(9),
+    'dataProvider'  => $model->search(9, '`t`.`reg_date` DESC'),
     'summaryText'   => '',
-    //'dataProvider' => $dataProvider,
     'filter' => $model,
     'htmlOptions'   => array('class'=>'grid-view has-filter'),
     'columns' => $columns,

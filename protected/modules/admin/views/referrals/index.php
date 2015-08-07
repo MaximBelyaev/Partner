@@ -25,9 +25,10 @@ $columns = array(
         'htmlOptions' => array('class' => ''),
         'headerHtmlOptions' => array('class' => ''),
         'filterHtmlOptions' => array('class' => ''),
-		'value' => 'date("d.m.Y", strtotime($data->date));',
+		'value' => 'date("d.m.y", strtotime($data->date));',
 	),
     array(
+        'header' => 'Контакт', 
         'name' => 'email',
         'htmlOptions' => array('class' => ''),
         'headerHtmlOptions' => array('class' => ''),
@@ -40,8 +41,7 @@ $columns = array(
         'filterHtmlOptions' => array('class' => ''),
     ),
     array(
-        'name' => 'user',
-        'type' => 'email',
+        'name' => 'username',
         'htmlOptions' => array('class' => ''),
         'headerHtmlOptions' => array('class' => ''),
         'filterHtmlOptions' => array('class' => ''),

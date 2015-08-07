@@ -23,7 +23,11 @@ $this->setPageTitle("Новости | Партнерская программа 
 
 <?php
 $columns = array(
-    'date',
+    array(
+        'name' => 'date',
+        'header' => 'Дата',
+        'value' => 'date("d.m.y", strtotime($data->date))', 
+    ),
     'header',
     array(
         'header'=>'Ред',
@@ -66,7 +70,7 @@ if (!Yii::app()->session['landing'])
 
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'user-grid',
-	'dataProvider' => $dataProvider,
+	'dataProvider' => $model->search(),
 	'htmlOptions' => array('class'=>'grid-view red'),
 	'summaryText'   => '',
 	'columns' => $columns,

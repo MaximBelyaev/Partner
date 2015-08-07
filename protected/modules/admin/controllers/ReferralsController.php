@@ -94,7 +94,7 @@ class ReferralsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-        $model=new Referrals('search');
+        $model = new Referrals('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Referrals']))
             $model->attributes=$_GET['Referrals'];

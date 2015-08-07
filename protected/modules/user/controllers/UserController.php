@@ -377,13 +377,18 @@ class UserController extends MyUserController
 
 	public function actionCommercial()
 	{
-        $bannersList = Promobanns::model()->findAll();
-        $promovideosList = Promovideo::model()->findAll();
+        if ( Yii::app()->session['landing'] ) {
+            $condition = " land_id=" . (int)Yii::app()->session['landing'];
+        } else {
+            $condition = "";
+        }
+        $bannersList = Promobanns::model()->findAll( $condition );
+        $promovideosList = Promovideo::model()->findAll( $condition );
 
         $baseUrl = Yii::app()->baseUrl;
         $cs = Yii::app()->getClientScript();
 
-
+        /* скрипты для копирования текста из текстовых полей */
 		$cs->registerScriptFile(
 			$baseUrl . '/js/zeroclipboard-master/dist/ZeroClipboard.js', 
 			CClientScript::POS_END
@@ -444,11 +449,38 @@ class UserController extends MyUserController
         $this->redirect(array('user/offers'));
     }
 
+
+    public function actionChange() 
+    {
+        if (isset($_POST['land'])) {
+            Yii::app()->session['landing'] = $_POST['land'];
+            echo json_encode(array('status'=>'success'));
+        } else {
+            echo json_encode(array('status'=>'fail'));
+        }
+        Yii::app()->end();
+    }
+
+
     public function actionPayRequest()
     {
         $model = new Stateds;
-        $list  = new Stateds('search');
-        $list->unsetAttributes();  // clear any default values
+        $list  = new CActiveDataProvider( 'Stateds', array(
+            'criteria'  => array(
+                'condition' => 'user_id=' . Yii::app()->user->id
+            ),
+            'sort'      => array(
+                'defaultOrder'  => 'date DESC',
+                'attributes'    => array(
+                    'username'  => array(
+                        'asc'   => '`user`.`username`',
+                        'desc'  => '`user`.`username` DESC',
+                    ),
+                    '*'
+                ),
+            )
+        ));
+
         if(isset($_GET['Stateds'])){
             $list->attributes = $_GET['Stateds'];
         }
@@ -466,7 +498,7 @@ class UserController extends MyUserController
         {
             $model->attributes=$_POST['Stateds'];
             if($model->save()) {
-                $this->redirect(array('index'));
+                $this->redirect(array('user/payRequest'));
             }
         }
         $this->render('pay', array(
@@ -556,27 +588,17 @@ class UserController extends MyUserController
 		$get = $_GET;
 
 		$chart = new Chart( Yii::app()->user->id );
-		//if (!$user->use_click_pay) {
-			$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
-			$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
-			$payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
+
+		$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
+		$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
+		$payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
 			
-			$charts = array(
-				'requests'  => $requests, 
-				'referrals' => $referrals,
-				'payed'     => $payed, 
-			);
-		 /**}else {
-			$requests  = $chart->getRangeRequestsData($get['start'], $get['end']);
-			$referrals = $chart->getRangeReferralsData($get['start'], $get['end']);
-            $payed = $chart->getRangeReferralsData($get['start'], $get['end'], 'payed');
-            
-            $charts = array(
-				'requests'  => $requests,
-                'referrals' => $referrals,
-                'payed'     => $payed,
-			);
-		}**/
+		$charts = array(
+			'requests'  => $requests, 
+			'referrals' => $referrals,
+			'payed'     => $payed, 
+		);
+
 		$stats = $chart->getRangeStat($get['start'], $get['end']);
 
 		echo json_encode(array(

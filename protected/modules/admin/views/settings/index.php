@@ -184,7 +184,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 				<div class="span12">
 					<?php echo CHtml::submitButton(
 						'Сохранить', 
-						array('class' => 'btn btn-primary pull-right'
+						array('class' => 'btn btn-primary '
 					)); ?>
 				</div>
 			</div>

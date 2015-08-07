@@ -108,11 +108,18 @@ class Notifications extends CActiveRecord
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('is_new',$this->is_new);
 		
-		$criteria->order = 'is_new DESC, date DESC';
-		
 		return new CActiveDataProvider($this, array(
 			'pagination'=> array('pageSize' => $pageSize),
-			'sort' 		=> false,
+			'sort' 		=> array(
+				'defaultOrder' => 'is_new DESC, date DESC',
+				'attributes' => array(
+					'username' => array(
+						'asc' => 'user.username',
+						'desc' => 'user.username DESC',
+					),
+					'*'
+				)
+			),
 			'criteria'	=> $criteria,
 		));
 	}

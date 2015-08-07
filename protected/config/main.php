@@ -116,6 +116,9 @@ return array(
 		# количество точек, на которые мы разобьем ось Х на графике
 		'chartTimePoints' => 15,
 
+        # текстовая часть промо-кода, который будет генерироваться для пользователя при регистрации
+        'promoPrefix' => 'PROMO_',
+
         # сервер, на котором хранятся версии партнерки
         # условие с $_SERVER['SERVER_NAME'] в будущем уберем
 		'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',

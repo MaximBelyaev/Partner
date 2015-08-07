@@ -11,13 +11,23 @@ class DefaultController extends AdminController
 	public function actionIndex()
 	{
 		//Список новых партнёров
-		$userModel = User::model()->search( $this->index_items_count, 't.id desc');
+		$userModel = User::model()->search( $this->index_items_count, 't.reg_date desc');
 
 		//Список новых клиентов
-		$referralModel = Referrals::model()->search( $this->index_items_count, 't.id desc');
+		$referralModel = new CActiveDataProvider('Referrals', array(
+			'criteria' => array(
+				'select'=>'*',
+				'condition'=>'status = "Заявка"',
+				'order'=>'date DESC',
+			),
+			'pagination'=>array(
+				'pageSize'=>$this->index_items_count,
+			)
+		));
+
 
 		//Последние заявки
-		$statedsModel = Stateds::model()->search( $this->index_items_count, 't.id desc');
+		$statedsModel = Stateds::model()->search( $this->index_items_count, 't.date desc');
 
 		//Лучшие партнёры за 30 дней
 		$bestPartnersModel = User::model()->search( $this->index_items_count, 'month_profit desc');

@@ -48,7 +48,7 @@
 		<div class="span12">
 			<?php echo CHtml::submitButton(
 				$videoModel->isNewRecord ? 'Добавить' : 'Сохранить', 
-				array('class'=>'btn btn-primary pull-right')
+				array('class'=>'btn btn-primary ')
 			); ?>
 		</div>
 	</div>	

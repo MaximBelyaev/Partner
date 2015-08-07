@@ -72,11 +72,4 @@ $this->setPageTitle("Список лендингов");
 ));
 ?>
 
-<div class="row-fluid underlist-button">
-	<div class="span12">
-		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-primary pull-right',)); ?>
-	</div>
-</div>
-
-
 </div>

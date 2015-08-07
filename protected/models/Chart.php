@@ -65,8 +65,7 @@ class Chart
 
             $intervalStart = $start + $delta * $i;
             $intervalEnd = $start + $delta * ($i + 1);
-            # var_dump('is - ' . $intervalStart);each
-            # var_dump('ie - ' . $intervalEnd);
+
             $d[$i][0] = $intervalStart * 1000;
             $d[$i][1] = 0;
             $d[$i]['land'] = [];
@@ -104,8 +103,7 @@ class Chart
 
 			$intervalStart = $start + $delta*$i;
 			$intervalEnd   = $start + $delta*($i+1);
-			# var_dump('is - ' . $intervalStart);each
-			# var_dump('ie - ' . $intervalEnd);
+
 			$d[$i][0]  = $intervalStart*1000;
 			$d[$i][1] = 0;
 			$d[$i]['land'] = [];
@@ -210,8 +208,7 @@ class Chart
 
             $intervalStart = $start + $delta * $i;
             $intervalEnd = $start + $delta * ($i + 1);
-            # var_dump('is - ' . $intervalStart);each
-            # var_dump('ie - ' . $intervalEnd);
+
             $d[$i][0] = $intervalStart * 1000;
             $d[$i][1] = 0;
             $d[$i]['land'] = [];

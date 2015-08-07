@@ -8,6 +8,7 @@ class MyUserController extends Controller
     public $news_views;
     public $settingsList;
     public $landings;
+    public $landingsAR;
     public $land_id = 0;
     
     /**
@@ -41,7 +42,7 @@ class MyUserController extends Controller
                 	'index', 'range', 'logout', 
                 	'file', 'commercial', 'data', 
                 	'view', 'payRequest', 'offers',
-                    'onOffer', 'offOffer', 'changeOffer'               
+                    'onOffer', 'offOffer', 'changeOffer', 'change'             
                 ),
                 'roles' => array('user'),// для авторизованных
             ),
@@ -89,22 +90,23 @@ class MyUserController extends Controller
 		$this->land_id = (int)Yii::app()->session['landing'];
 
 		/* список лендингов, подключенных пользователем */
-		$landings = Landings::model()->findAll();
+		$this->landingsAR = Landings::model()->findAll();
 		$relations = UsersLandings::model()->findAll(
 			array(
 				'condition' => 'user_id = :user_id',
 				'params' => array(':user_id'=>Yii::app()->user->id),
 			));
 		$userRelations = [];
-		foreach ($relations as $relation)
-		{
-			$userRelations[$relation->land_id] = $relation->user_id;
-		}
 
-		if (count($landings) > 1)
-		{
-			$lands = array( 0 => 'Все' );
-			foreach ($landings as $l)
+        foreach ($relations as $relation)
+        {
+            $userRelations[$relation->land_id] = $relation->user_id;
+        }
+
+        if (count($this->landingsAR) > 0)
+        {
+            $lands = array( 0 => 'Все' );
+            foreach ($this->landingsAR as $l)
 			{
 				if (array_key_exists($l->land_id, $userRelations))
 				$lands[ $l->land_id ] = $l->name;
@@ -133,8 +135,7 @@ class MyUserController extends Controller
 					)
 				))
 				->findAll('user_id = ' . (int)Yii::app()->user->id );
-			var_dump(count($news));
-			var_dump(count($news_views));
+                
 			$this->news_to_watch = count($news) - count($news_views);
 			$this->news = $news;
 			$this->news_views = $news_views;
@@ -161,4 +162,5 @@ class MyUserController extends Controller
             }
 		}
 	}
+
 }

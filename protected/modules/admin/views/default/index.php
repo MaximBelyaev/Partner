@@ -25,27 +25,16 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				array(
 					'name' => 'date',
 					'header' => 'Дата',
-					'value' => 'date("d.m.Y", strtotime($data->date));',
+					'value' => 'date("d.m.y", strtotime($data->date));',
 		            'htmlOptions' => array('class' => 'width105'),
 		            'headerHtmlOptions' => array('class' => 'width105'),
 		            'filterHtmlOptions' => array('class' => 'width105'),
 				),
+				'email',
 				array(
-					'name' => 'email',
-					'type' => 'email',
-				),
-		        array(
 		            'name' => 'user',
-		            'type' => 'email',
 		            'header'=> 'Партнер', 
 		            'value' => '((isset($data->user->username))?$data->user->username:"");',
-		        ),
-		        array(
-		            'name' => 'status',
-		            'value' => '$data->status',
-					'htmlOptions' => array('class' => 'width80'),
-					'headerHtmlOptions' => array('class' => 'width80'),
-					'filterHtmlOptions' => array('class' => 'width80'),
 		        )
 		    ))); ?>
 
@@ -65,6 +54,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				array(
 					'name' => 'reg_date',
 					'header' => 'Дата',
+					'value' => 'date("d.m.y", strtotime($data->reg_date));',
 					'htmlOptions' => array('class' => 'width105'),
 					'headerHtmlOptions' => array('class' => 'width105'),
 					'filterHtmlOptions' => array('class' => 'width105'),
@@ -104,14 +94,13 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				array(
 					'name' => 'date',
 					'header' => 'Дата',
-					'value' => 'date("d.m.Y", strtotime($data->date));',
+					'value' => 'date("d.m.y", strtotime($data->date));',
 					'htmlOptions' => array('class' => 'width105'),
 					'headerHtmlOptions' => array('class' => 'width105'),
 					'filterHtmlOptions' => array('class' => 'width105'),
 				),
 				array(
 					'name' => 'user',
-					'type' => 'email',
 					'value' => '$data->user->username',
 				),
 				array(
