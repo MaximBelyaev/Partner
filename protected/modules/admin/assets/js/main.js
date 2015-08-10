@@ -1,4 +1,4 @@
-var blocks_margin = 30,
+var blocks_margin = 20,
     menu_trigger_width = 1400;
 
 var setContentHeight = function() {

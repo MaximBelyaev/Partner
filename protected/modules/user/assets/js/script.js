@@ -1,4 +1,4 @@
-var blocks_margin = 30,
+var blocks_margin = 20,
 	footer_height = 40 + blocks_margin;
 
 var setContentHeight = function() {
