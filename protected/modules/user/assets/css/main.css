@@ -100,12 +100,13 @@ p {
 	-moz-transition: all 0.25s ease-in;
 	transition: all 0.25s ease-in;
 }
-.for-logo {
+.nav.for-logo {
 	background-color: #FFF;
-	height: 66px;
+	height: 60px;
 	text-align: center;
 	padding: 15px 10px 15px 0;
-	width: 250px;
+	width: 240px;
+	margin-right: 30px;
 }
 .logo {
 	color: #3bace2;
@@ -357,8 +358,8 @@ p {
 	box-shadow: none;
 	background: #FFF;
 	min-height: 60px;
-	padding-left: 40px;
-	padding-right: 40px;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 .top-nav {
 	height: 100%;
@@ -617,8 +618,8 @@ p {
 	padding: 13px 20px 11px;
 	position: relative;
 }
-#main-content td:after {
-	background-color: #e0e4ea;
+#main-content td:after, #main-content th:after {
+	background-color: rgba(0,0,0,0.1);
 	content: "";
 	position: absolute;
 	right: 0;
@@ -790,6 +791,10 @@ input[type="submit"]:hover, button:hover, .btn:hover {
 	background: #a4b2c1;
 	background-color: #a4b2c1;
 	color: #FFF;
+}
+#Stateds_description {
+	height: 153px;
+	resize: none;
 }
 .btn.btn-success {
 	background-color: #63bb67;
@@ -1283,6 +1288,7 @@ input[type="checkbox"]:checked + label:before {
 	background-position: 100% 50%;
 	background-size: 2px 50%;
 	background-color: #3bace2;
+	font-weight: 600;
 	height: 45px;
 	color: #FFF;
 }
@@ -1309,6 +1315,7 @@ input[type="checkbox"]:checked + label:before {
 	background-color: #EEF3F6;
 	height: 60px;
 	padding: 12px 15px;
+	position: relative;
 	vertical-align: top;
 }
 .pseudo-table .pseudo-table-body div > span:first-child {
@@ -1340,24 +1347,16 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .off-land {
-	width: calc(40% - 120px);
-	position: relative;
-}
-
-.off-vip {
-	width: 14%;
-}
-.off-ext {
-	width: 14%;
+	width: 33.3%;
 }
 .off-st {
-	width: 14%;
+	width: 33.3%;
 }
 .off-click {
-	width: 14%;
+	width: 33.3%;
 }
 .off-action {
-	width: 90px;
+	width: 120px;
 }
 
 
@@ -1383,8 +1382,8 @@ input[type="checkbox"]:checked + label:before {
 	width: 298px;
 	margin-bottom: 0;
 }
-.setting_block input[type="submit"] {
-	margin-top: 30px;
+.button_save input[type="submit"] {
+	margin-top: 15px;
 	width: 115px;
 }
 .setting_block .dropdown {

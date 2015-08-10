@@ -2,7 +2,7 @@
 $this->setPageTitle("Новости | Партнерская программа Павлуцкого Александра"); 
 ?>
 
-<div class="block">
+<div class="block full-page-block">
 		
 
     <div class="head">

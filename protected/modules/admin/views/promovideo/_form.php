@@ -4,8 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block promovideo-block">
-	
+<div class="promovideo-block">
 
 <div class="form">
 	<?php $form = $this->beginWidget('CActiveForm', array(
@@ -58,3 +57,6 @@
 </div><!-- form -->
 
 </div>
+
+
+<div class="clear"></div>

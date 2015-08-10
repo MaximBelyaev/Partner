@@ -150,28 +150,38 @@
 			<?php if ( Yii::app()->controller->settingsList['vk']->status == 1 ) { ?>
 				<p>
 					<img src="<?php echo $this->module->assetsUrl ?>/img/c-vk.png">
-					<?= Yii::app()->controller->settingsList['vk']->value; ?>
+					<a 
+						href="<?= Yii::app()->controller->settingsList['vk']->value; ?>" 
+						target="_blank">
+						<?= Yii::app()->controller->settingsList['vk']->value; ?>
+					</a>
 				</p>	
 			<?php } ?>
 
 			<?php if ( Yii::app()->controller->settingsList['skype']->status == 1 ) { ?>
 				<p>
 					<img src="<?php echo $this->module->assetsUrl ?>/img/c-skype.png">
-					<?= Yii::app()->controller->settingsList['skype']->value; ?>
+					<a href="skype:<?= Yii::app()->controller->settingsList['skype']->value; ?>">
+						<?= Yii::app()->controller->settingsList['skype']->value; ?>
+					</a>
 				</p>
 			<?php } ?>
 
 			<?php if ( Yii::app()->controller->settingsList['email']->status == 1 ) { ?>
 				<p>
 					<img src="<?php echo $this->module->assetsUrl ?>/img/c-mail.png">
-					<?= Yii::app()->controller->settingsList['email']->value; ?>
+					<a href="mailto:<?= Yii::app()->controller->settingsList['email']->value; ?>">
+						<?= Yii::app()->controller->settingsList['email']->value; ?>	
+					</a>
 				</p>
 			<?php } ?>
 
 			<?php if ( Yii::app()->controller->settingsList['phone']->status == 1 ) { ?>
 				<p>
 					<img src="<?php echo $this->module->assetsUrl ?>/img/c-phone.png">
-					<?= Yii::app()->controller->settingsList['phone']->value; ?>
+					<a href="tel:<?= Yii::app()->controller->settingsList['phone']->value; ?>">
+						<?= Yii::app()->controller->settingsList['phone']->value; ?>					
+					</a>
 				</p>	
 			<?php } ?>
 			

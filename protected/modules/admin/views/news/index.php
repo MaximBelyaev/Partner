@@ -30,6 +30,11 @@ $columns = array(
     ),
     'header',
     array(
+        'name' => 'land_id',
+        'header' => 'Лендинг',
+        'value' => '(isset($data->landing))?$data->landing->name:"Все"',
+    ),
+    array(
         'header'=>'Ред',
         'class'=>'CButtonColumn',
         'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',

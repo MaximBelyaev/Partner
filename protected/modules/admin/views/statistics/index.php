@@ -1,11 +1,12 @@
 <div class="block full-page-block">
 
-	<div class="head statistics-head">
-		<h5>Статистика</h5>
-	</div>
 	<div class="row-fluid statistics-row">
 
 		<div class="span9">
+
+			<div class="head statistics-head">
+				<h5>График</h5>
+			</div>
 			<div class="stats_block">
 				<div class="top_buttons">
 					<button id="date_icon">Отрезок времени</button>
@@ -27,6 +28,10 @@
 
 			</div>
 	
+			
+			<div class="head statistics-head">
+				<h5>Статистика</h5>
+			</div>
 			<div class="table_top_buttons">
 				<button id="date_table">Отрезок времени</button>
 				<div class="input-daterange" data-enddate="<?= date('d-m-Y', $times['now']) ?>" data-startdate="01-01-2014">
@@ -55,7 +60,6 @@
 		</div>
 		
 		<div class="span3">
-
 			<div class="chart_buttons">
 				<!-- 
 					data-start и data-end - это промежуток времени для которого выбирается статистика.
