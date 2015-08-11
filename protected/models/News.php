@@ -118,10 +118,11 @@ class News extends CActiveRecord
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('date',$this->date,true);
 
-		$criteria->order = 'nw.user_id IS NULL DESC, nw.news_views_id DESC';
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'sort' => array(
+				'defaultOrder' => '`t`.`date` DESC',
+			),
 		));
 	}
 

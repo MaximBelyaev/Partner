@@ -29,51 +29,22 @@ class NotificationsController extends AdminController
 
 	public function loadModel($id)
 	{
-		$model=Notifications::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,"Уведомление с ID $id было удалено или не создано" );
+		$model = Notifications::model()->findByPk( $id );
+		if( $model === null )
+			throw new CHttpException( 404 , "Уведомление с ID $id было удалено или не создано" );
 		return $model;
 	}
 
 	public function actionIndex()
 	{
 		$model = new Notifications('search');
-        $model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();  // clear any default values
 
-        if(isset($_GET['Notifications'])) {
-            var_dump($_GET['Notifications']);
-            $model->attributes=$_GET['Notifications'];
-        }
-        $this->render('index',array(
-            'model'=>$model,
-        ));
+		if(isset($_GET['Notifications'])) {
+			$model->attributes = $_GET['Notifications'];
+		}
+		$this->render('index',array(
+			'model'=>$model,
+		));
 	}
-
-
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

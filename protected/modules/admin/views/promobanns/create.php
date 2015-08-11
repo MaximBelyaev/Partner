@@ -8,5 +8,8 @@ $this->breadcrumbs = array(
 $this->setPageTitle("Добавление баннера | Партнерская программа Павлуцкого Александра");
 ?>
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'typesList'=>$typesList)); ?>
-<?php $this->renderPartial('/promovideo/_form', array('videoModel'=>$videoModel)); ?>
+
+<div class="block full-page-block">
+	<?php $this->renderPartial('_form', array('model'=>$model, 'typesList'=>$typesList)); ?>
+	<?php $this->renderPartial('/promovideo/_form', array('videoModel'=>$videoModel)); ?>
+</div>

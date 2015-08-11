@@ -193,7 +193,7 @@ class User extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search($pageSize = 10, $defaultOrder = 't.username')
+	public function search($pageSize = 10, $defaultOrder = '`t`.`reg_date` DESC')
 	{
 		$criteria = new CDbCriteria;
 		$criteria->with = array('money');

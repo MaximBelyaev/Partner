@@ -6,7 +6,7 @@
 $this->setPageTitle("Редактирование информации | Партнерская программа Павлуцкого Александра");
 ?>
 
-<div class="block data-block">
+<div class="block data-block full-page-block">
 
 	<?php $form=$this->beginWidget('CActiveForm', array(
 		'id'=>'user-form',
@@ -45,11 +45,9 @@ $this->setPageTitle("Редактирование информации | Пар�
 				<?php echo $form->textField($model,'skype',array('size'=>50,'maxlength'=>128)); ?>
 				<?php echo $form->error($model,'skype'); ?>
 			</div>
-
-			<div class="setting_block">	
-				<div class="button_save"> 
-					<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
-				</div>
+	
+			<div class="button_save"> 
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-primary')); ?>
 			</div>
 
 		</div>

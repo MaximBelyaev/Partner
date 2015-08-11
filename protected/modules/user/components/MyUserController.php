@@ -1,7 +1,7 @@
 <?php
 class MyUserController extends Controller
 {
-    public $layout='/layouts/cabinet';
+    public $layout = '/layouts/cabinet';
     public $user;
     public $news_to_watch;
     public $news;
@@ -9,6 +9,7 @@ class MyUserController extends Controller
     public $settingsList;
     public $landings;
     public $landingsAR;
+    public $offers;
     public $land_id = 0;
     
     /**
@@ -89,7 +90,7 @@ class MyUserController extends Controller
 		Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$this->land_id = (int)Yii::app()->session['landing'];
 
-		/* список лендингов, подключенных пользователем */
+		/* список всех лендингов */
 		$this->landingsAR = Landings::model()->findAll();
 		$relations = UsersLandings::model()->findAll(
 			array(
@@ -108,8 +109,10 @@ class MyUserController extends Controller
             $lands = array( 0 => 'Все' );
             foreach ($this->landingsAR as $l)
 			{
-				if (array_key_exists($l->land_id, $userRelations))
-				$lands[ $l->land_id ] = $l->name;
+				if (array_key_exists($l->land_id, $userRelations)){
+    				$lands[ $l->land_id ] = $l->name;
+                    $this->offers[ $l->land_id ] = $l;
+                }
 			}
 			$this->landings = $lands;
 		} else

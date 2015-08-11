@@ -22,9 +22,9 @@ $this->setPageTitle("Список партнеров | Партнерская п
 $columns = array(
      array(
         'name' => 'id',
-        'htmlOptions' => array('class' => 'width30'),
-        'headerHtmlOptions' => array('class' => 'width30'),
-        'filterHtmlOptions' => array('class' => 'width30'),
+        'htmlOptions' => array('class' => 'width20'),
+        'headerHtmlOptions' => array('class' => 'width20'),
+        'filterHtmlOptions' => array('class' => 'width20'),
     ), 
     array(
         'name' => 'reg_date',

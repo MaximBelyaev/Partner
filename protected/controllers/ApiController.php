@@ -130,7 +130,7 @@ class ApiController extends Controller
                 $referral->user_id = $cookie_refer_id;
             }
 
-            /**
+            /*
 			# получаем нужные настройки
 			$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
 			$settingsVip = Setting::model()->find(array('condition' => "name = 'vip'"));

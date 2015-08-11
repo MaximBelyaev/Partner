@@ -44,7 +44,6 @@ class Referrals extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('email', 'required'),
-			array('email', 'email'),
 			array('id, tz, user_id, land_id', 'numerical', 'integerOnly'=>true),
 			array('email, site, region, request_type, promo', 'length', 'max'=>150),
 			array('requests, user_from, status, recreate_interval, recreate_date', 'length', 'max'=>255),
@@ -77,7 +76,7 @@ class Referrals extends CActiveRecord
 			'id'		=> 'ID',
 			'user_id'	=> 'User',
 			'land_id'	=> 'Лендинг',
-			'email'		=> 'Email',
+			'email'		=> 'Контакт',
 			'site'		=> 'Cайт',
 			'region'	=> 'Регион сбора запросов',
 			'tz'		=> 'Нужно ли ТЗ копирайтеру?',
@@ -318,6 +317,7 @@ class Referrals extends CActiveRecord
     protected function beforeSave()
     {
         if(parent::beforeSave()){
+           	
            	$promo = trim($this->promo);
             if($promo)
             {

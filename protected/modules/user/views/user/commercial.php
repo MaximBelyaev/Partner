@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 $this->setPageTitle("Рекламные материалы | Партнерская программа Павлуцкого Александра");
 ?>
-<div class="block">
+<div class="block full-page-block">
     
     <div class="statistics-head">
         <h5>Рекламные материалы</h5>
@@ -13,13 +13,13 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
         <div class="commercial-left">
 			<div id="tooltip">Текст скопирован</div>			
 
-			<?php foreach (Yii::app()->controller->landingsAR as $landAR) { ?>
+			<?php foreach (Yii::app()->controller->offers as $offer) { ?>
 
 			<?php if (Yii::app()->session['landing']) { 
 				# если у нас выбран лендинг с которым мы работаем, то 
 				# проходя в цикле всех лендингов мы будем проускать те лендинги, 
 				# которые у нас не выбраны
-				if ($landAR->land_id != Yii::app()->session['landing']) {
+				if ($offer->land_id != Yii::app()->session['landing']) {
 					continue;
 				}
 			} ?>
@@ -31,7 +31,7 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
                     type="text"
                     disabled 
                     onclick="this.select()" 
-                    value="<?= $landAR->link ?>?refer_id=<?= Yii::app()->user->id ?>"
+                    value="<?= $offer->link ?>?refer_id=<?= Yii::app()->user->id ?>"
                 >
                 <button 
                 	class="btn btn-primary copy_button" 
@@ -47,7 +47,6 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
             <div class="commercial-block">
                 <label for="User_promo_code">
                     Промокод
-                    <a href="#" id="change_promo_code">Изменить</a>
                 </label>
                 <?php echo CHtml::activeTextField(
                     $this->user,

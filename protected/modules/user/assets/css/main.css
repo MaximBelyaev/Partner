@@ -45,7 +45,7 @@ p {
 .block {
 	background-color: #FFF;
 	box-shadow: 2px 0px 6px rgba(139, 157, 175, 0.1);
-	padding: 25px 30px 30px;
+	padding: 20px;
 	border-radius: 2px;
 }
 .block.next-block {
@@ -88,24 +88,25 @@ p {
 /* ===*===*===*=== левое меню ===*===*===*=== */
 #sidebar {
 	background: #FFF;
-	height: calc( 100% - 90px - 30px );
-	left: 30px;
+	height: calc( 100% - 80px - 20px );
+	left: 20px;
 	box-shadow: 0px 0px 6px rgba(139,157,175,0.1);
 	overflow: auto;
 	position: fixed !important;
-	top: 90px;
+	top: 80px;
 	width: 240px;
 	z-index: 2;
 	-webkit-transition: all 0.25s ease-in;
 	-moz-transition: all 0.25s ease-in;
 	transition: all 0.25s ease-in;
 }
-.for-logo {
+.nav.for-logo {
 	background-color: #FFF;
-	height: 66px;
+	height: 60px;
 	text-align: center;
 	padding: 15px 10px 15px 0;
-	width: 250px;
+	width: 240px;
+	margin-right: 20px;
 }
 .logo {
 	color: #3bace2;
@@ -357,8 +358,8 @@ p {
 	box-shadow: none;
 	background: #FFF;
 	min-height: 60px;
-	padding-left: 40px;
-	padding-right: 40px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 .top-nav {
 	height: 100%;
@@ -467,7 +468,7 @@ p {
 /* ===*===*===*=== главное содержимое ===*===*===*=== */
 #main-content {
 	padding-top: 60px;
-	margin-left: 270px;
+	margin-left: 260px;
 }
 .breadcrumbs {
 	background-color: #f0f3f7;
@@ -479,7 +480,7 @@ p {
 }
 .main-content {
 	background-color: #f0f3f7;
-	padding: 30px;
+	padding: 20px;
 	text-align: initial;
 }
 
@@ -503,7 +504,7 @@ p {
 	font: 600 14px 'Open Sans';
 	padding: 15px 20px;
 	position: relative;
-	text-align: left;
+	text-align: center;
 }
 #main-content th:last-child {
 	background-image: none;
@@ -616,9 +617,10 @@ p {
 	font: 400 14px 'Open Sans';
 	padding: 13px 20px 11px;
 	position: relative;
+	text-align: center;
 }
-#main-content td:after {
-	background-color: #e0e4ea;
+#main-content td:after, #main-content th:after {
+	background-color: rgba(0,0,0,0.1);
 	content: "";
 	position: absolute;
 	right: 0;
@@ -790,6 +792,10 @@ input[type="submit"]:hover, button:hover, .btn:hover {
 	background: #a4b2c1;
 	background-color: #a4b2c1;
 	color: #FFF;
+}
+#Stateds_description {
+	height: 153px;
+	resize: none;
 }
 .btn.btn-success {
 	background-color: #63bb67;
@@ -1111,6 +1117,7 @@ input[type="checkbox"]:checked + label:before {
 	display: inline-block;
 	padding: 0 15px;
 	margin: 0;
+	text-align: center;
 	vertical-align: top;
 }
 .stats_row p:last-child {
@@ -1267,8 +1274,10 @@ input[type="checkbox"]:checked + label:before {
 }
 .pseudo-table .pseudo-table-body {
 	display: table-row-group;
+	text-align: center;
 }
 .offers-items .pseudo-table-head {
+	text-align: center;
 }
 
 .pseudo-table .pseudo-table-head span,
@@ -1283,6 +1292,7 @@ input[type="checkbox"]:checked + label:before {
 	background-position: 100% 50%;
 	background-size: 2px 50%;
 	background-color: #3bace2;
+	font-weight: 600;
 	height: 45px;
 	color: #FFF;
 }
@@ -1309,6 +1319,7 @@ input[type="checkbox"]:checked + label:before {
 	background-color: #EEF3F6;
 	height: 60px;
 	padding: 12px 15px;
+	position: relative;
 	vertical-align: top;
 }
 .pseudo-table .pseudo-table-body div > span:first-child {
@@ -1340,24 +1351,16 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .off-land {
-	width: calc(40% - 120px);
-	position: relative;
-}
-
-.off-vip {
-	width: 14%;
-}
-.off-ext {
-	width: 14%;
+	width: 33.3%;
 }
 .off-st {
-	width: 14%;
+	width: 33.3%;
 }
 .off-click {
-	width: 14%;
+	width: 33.3%;
 }
 .off-action {
-	width: 90px;
+	width: 120px;
 }
 
 
@@ -1383,8 +1386,8 @@ input[type="checkbox"]:checked + label:before {
 	width: 298px;
 	margin-bottom: 0;
 }
-.setting_block input[type="submit"] {
-	margin-top: 30px;
+.button_save input[type="submit"] {
+	margin-top: 15px;
 	width: 115px;
 }
 .setting_block .dropdown {
@@ -1432,10 +1435,13 @@ footer.block {
 	font: 300 14px 'Open Sans';
 	margin: 0 auto;
 	height: 40px; 
-	margin-top: 30px;
+	margin-top: 20px;
     position: relative;
     z-index: 3;
 }
+	footer a {
+		color: #3bace2;
+	}
 
 
 
@@ -1566,7 +1572,7 @@ address {
 		margin: 0 auto;
 		position: static !important;
 		text-align: center;
-		width: calc(100% - 60px);
+		width: calc(100% - 40px);
 	}
 	#sidebar.opened {
 		max-height: 900px;
