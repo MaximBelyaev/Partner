@@ -4,7 +4,16 @@ class SettingsController extends AdminController
 {
 	public function actionIndex()
 	{
+    	$cs = Yii::app()->clientScript;
+		$cs->registerScriptFile($this->module->assetsUrl.'/js/sys_update.js');
+
 		$model = $this->settingsList;
+		$l = Yii::app()->db->createCommand()
+				->select('version')
+				->from('versions')
+				->limit(1)
+				->order('date DESC')
+				->queryRow();
 
 		if(isset($_POST['Setting']))
 		{
@@ -28,7 +37,8 @@ class SettingsController extends AdminController
 		}
 
 		$this->render('index',array(
-			'model'=>$model,
+			'model' => $model,
+			'l' 	=> $l
 		));
 	}
 

@@ -24,6 +24,7 @@ $this->setPageTitle("Вывод средств | Партнерская прог
         )); ?>
 
         <div class="row-fluid">
+
             <div class="span5">
                 <div>
 	                <?php echo $form->labelEx($model,'money'); ?>
@@ -72,7 +73,7 @@ $this->setPageTitle("Вывод средств | Партнерская прог
 		<?php $this->widget('zii.widgets.grid.CGridView', array(
 			'id' => 'stateds-grid',
 			'htmlOptions' 	=> array('class' => 'green grid-view'),
-			'dataProvider'	=> $list->search(),
+			'dataProvider'	=> $list,
 			'summaryText'   => '',
 			'pager' => array(  
 				'header'        => '',
@@ -81,7 +82,9 @@ $this->setPageTitle("Вывод средств | Партнерская прог
 			),
 			'columns' => array(
 		        array(
-		        	'name' => 'Дата',
+		        	'name' 	 => 'date',
+		        	'header' => 'Дата',
+					'value' => 'date("d.m.y", strtotime($data->date));',
 		        ),
 		        array(
 		            'name' => 'pay_type',

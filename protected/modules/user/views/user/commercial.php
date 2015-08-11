@@ -11,8 +11,59 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
     </div>
     <div>
         <div class="commercial-left">
-	
-			<?php if (count($promovideosList)) { ?>
+			<div id="tooltip">Текст скопирован</div>			
+
+			<?php foreach (Yii::app()->controller->landingsAR as $landAR) { ?>
+
+			<?php if (Yii::app()->session['landing']) { 
+				# если у нас выбран лендинг с которым мы работаем, то 
+				# проходя в цикле всех лендингов мы будем проускать те лендинги, 
+				# которые у нас не выбраны
+				if ($landAR->land_id != Yii::app()->session['landing']) {
+					continue;
+				}
+			} ?>
+
+            <div class="commercial-block">
+                <label for="link">Рекламная ссылка:</label>
+                <input 
+                    id="link" 
+                    type="text"
+                    disabled 
+                    onclick="this.select()" 
+                    value="<?= $landAR->link ?>?refer_id=<?= Yii::app()->user->id ?>"
+                >
+                <button 
+                	class="btn btn-primary copy_button" 
+                	data-clipboard-target="link"
+                >Скопировать</button>
+            </div>
+
+
+			<?php } ?>
+
+
+
+            <div class="commercial-block">
+                <label for="User_promo_code">
+                    Промокод
+                    <a href="#" id="change_promo_code">Изменить</a>
+                </label>
+                <?php echo CHtml::activeTextField(
+                    $this->user,
+                    'promo_code', 
+                    array(
+                        'default' => $this->user->promo_code,
+                    )
+                ) ?>                
+                <button 
+                	class="btn btn-primary copy_button"
+                	data-clipboard-target="User_promo_code"
+                >Скопировать</button>
+            </div>
+
+
+            <?php if (count($promovideosList)) { ?>
 			<div class="commercial-videos-block">
 				<label for="User_promo_code">
 					Видео ссылка
@@ -32,7 +83,11 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
 				</div>
 				<?php } ?>
 			</div> 
-			<?php } ?>
+			<?php } ?>        	
+        </div>
+
+
+		<div class="commercial-right">
 
 			<?php if (count($bannersList)) { ?>
 			<div class="commercial-banners-block">
@@ -60,44 +115,7 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
 				<?php } ?>
 			</div>
 			<?php } ?>
-
-        	
-        </div>
-
-
-		<div class="commercial-right">
-			<div id="tooltip">Текст скопирован</div>
-            <div class="commercial-block">
-                <label for="link">Рекламная ссылка:</label>
-                <input 
-                    id="link" 
-                    type="text"
-                    disabled 
-                    onclick="this.select()" 
-                    value="<?= $this->settingsList['landing_link']->value ?>"
-                >
-                <button 
-                	class="btn btn-primary copy_button" 
-                	data-clipboard-target="link"
-                >Скопировать</button>
-            </div>
-            <div class="commercial-block">
-                <label for="User_promo_code">
-                    Промокод
-                    <a href="#" id="change_promo_code">Изменить</a>
-                </label>
-                <?php echo CHtml::activeTextField(
-                    $this->user,
-                    'promo_code', 
-                    array(
-                        'default' => $this->user->promo_code,
-                    )
-                ) ?>                
-                <button 
-                	class="btn btn-primary copy_button"
-                	data-clipboard-target="User_promo_code"
-                >Скопировать</button>
-            </div>
 		</div>
+		<div class="clear"></div>
 	</div>
 </div>			

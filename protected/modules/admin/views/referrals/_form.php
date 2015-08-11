@@ -22,8 +22,6 @@
 	<div class="head">
 		<h5>
 			<?php echo $model->isNewRecord ? 'Добавление клиента' : 'Редактирование клиента: ' . $model->email; ?>
-			<?php echo CHtml::link('Вернуться',array('/admin/referrals/index'), array('class'=>'btn btn-primary',)); ?>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
 		</h5>
 
 		<div class="clear"></div>
@@ -51,9 +49,18 @@
 				<?php
 					$users  = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
 					$result = array_merge(array('promo'=>'Промо код'), $users);
-					echo $form->dropDownList($model,'user_id', $users, array('prompt'=>'- - - без партнера - - -')); ?>
+					echo $form->dropDownList(
+						$model,
+						'user_id', 
+						$users, 
+						array(
+							'prompt' => '- - - без партнера - - -',
+							'class'  => 'dropdown')
+					); ?>
 				<?php echo $form->error($model,'user_id'); ?>
+			</div>
 
+			<div class="form-row">
 				<?php echo $form->labelEx($model,'promo'); ?>
 				<?php echo $form->textField($model,'promo', array('placeholder'=>'Если нет - оставить пустым')); ?>
 				<?php echo $form->error($model,'promo'); ?>
@@ -83,14 +90,24 @@
 
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'status'); ?>
-				<?php echo $form->dropDownList($model,'status',array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' )); ?>
+				<?php echo $form->dropDownList(
+					$model,
+					'status',
+					array( 'Заявка' => 'Заявка', 'Оплачено' => 'Оплачено' ),
+					array( 'class'  => 'dropdown')
+				); ?>
 				<?php echo $form->error($model,'status'); ?>
 			</div>
 
 			<?php if(Yii::app()->controller->landings){ ?>
-			<div class="form-group">
+			<div class="form-row">
 				<?php echo $form->labelEx( $model, 'land_id' ); ?>
-				<?php echo $form->dropDownList( $model, 'land_id', Yii::app()->controller->landings ); ?>
+				<?php echo $form->dropDownList( 
+					$model, 
+					'land_id', 
+					Yii::app()->controller->landings,
+					array('class' => 'dropdown') 
+				); ?>
 				<?php echo $form->error( $model, 'land_id' ); ?>
 			</div>
 			<?php } ?>
@@ -102,10 +119,19 @@
 					Постоянная оплата
 				</label>
 			</div>
-	
+		
 		</div>
 	
 	</div>
+
+	<div class="underlist-button">
+		<div class="span9">
+			<?php echo CHtml::submitButton(
+				$model->isNewRecord ? 'Добавить' : 'Сохранить', 
+				array('class'=>'btn btn-primary ')); ?>
+		</div>
+	</div>
+	<div class="clear"></div>
 
 	<?php $this->endWidget(); ?>
 

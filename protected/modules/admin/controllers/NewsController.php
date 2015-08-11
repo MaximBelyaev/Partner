@@ -88,10 +88,8 @@ class NewsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('News');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = new News;
+		$this->render('index', array( 'model' => $model ));
 	}
 
 	/**

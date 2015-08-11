@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Авг 03 2015 г., 19:45
+-- Время создания: Авг 04 2015 г., 17:23
 -- Версия сервера: 5.5.41-log
 -- Версия PHP: 5.6.3
 
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   PRIMARY KEY (`notification_id`),
   KEY `user_id` (`user_id`),
   KEY `stated_id` (`stated_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=47 ;
 
 --
 -- Дамп данных таблицы `notifications`
@@ -160,7 +160,20 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `theme`, `text`, `dat
 (30, 20, 2, '', '2015-08-03 13:45:54', 1, 0),
 (31, 17, 2, '', '2015-08-03 13:47:27', 1, 0),
 (32, 174, 2, '', '2015-08-03 13:47:58', 1, 0),
-(33, 84, 2, '', '2015-08-03 13:46:17', 1, 0);
+(33, 84, 2, '', '2015-08-03 13:46:17', 1, 0),
+(34, 1, 2, '', '2015-08-04 12:34:24', 1, 0),
+(35, 1, 2, '', '2015-08-04 12:34:41', 1, 0),
+(36, 1, 2, '', '2015-08-04 12:34:52', 1, 0),
+(37, 1, 2, '', '2015-08-04 12:34:54', 1, 0),
+(38, 1, 2, '', '2015-08-04 12:51:03', 1, 0),
+(39, 1, 2, '', '2015-08-04 12:51:07', 1, 0),
+(40, 1, 2, '', '2015-08-04 12:51:15', 1, 0),
+(41, 1, 2, '', '2015-08-04 12:51:16', 1, 0),
+(42, 1, 2, '', '2015-08-04 13:27:49', 1, 0),
+(43, 1, 2, '', '2015-08-04 13:27:57', 1, 0),
+(44, 1, 2, '', '2015-08-04 13:27:58', 1, 0),
+(45, 1, 2, '', '2015-08-04 13:28:03', 1, 0),
+(46, 1, 2, '', '2015-08-04 13:28:04', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -312,7 +325,7 @@ CREATE TABLE IF NOT EXISTS `promobanns` (
 --
 
 INSERT INTO `promobanns` (`id`, `type`, `name`, `image`, `width`, `height`, `code`, `land_id`) VALUES
-(46, 'jpg', 'testjpg', '6150-german_woman_drinking_beer-wallpaper-1366x768.jpg', 355, 355, '', 0);
+(46, 'jpg', 'testjpg', '6150-german_woman_drinking_beer-wallpaper-1366x768.jpg', 355, 355, '', 2);
 
 -- --------------------------------------------------------
 
@@ -360,7 +373,7 @@ CREATE TABLE IF NOT EXISTS `referrals` (
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `promo` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=198 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=199 ;
 
 --
 -- Дамп данных таблицы `referrals`
@@ -489,7 +502,7 @@ INSERT INTO `referrals` (`id`, `email`, `site`, `region`, `tz`, `request_type`, 
 (181, 'seokail@rambler.ru', 'newsite', 'СНГ', 1, 'Информационные', 'Хочу делать под контекст СДЛ, на подобии http://remoskop.ru/ по тематике стройка', 'Директ', '0', 'Заявка', NULL, 1, '1', '2015-08-08 13:23:00', '2015-07-08 10:23:00', ''),
 (182, 'cmnn@gmail.com', '222.com', NULL, NULL, NULL, NULL, NULL, '222', 'Заявка', NULL, 2, '1', '2015-08-08 16:34:16', '2015-07-08 13:34:16', ''),
 (183, '228@gmail.com', '228.com', NULL, NULL, NULL, NULL, NULL, '228', 'Заявка', NULL, 3, '1', '2015-08-08 16:34:42', '2015-07-08 13:34:42', ''),
-(184, 'eeeeeeeeeeeeeeee@gmail.com', '666.com', NULL, NULL, NULL, NULL, NULL, '666', 'Заявка', NULL, 1, '1', '2015-08-04 16:30:26', '2015-07-04 13:30:26', ''),
+(184, 'eeeeeeeeeeeeeeee@gmail.com', '666.com', NULL, NULL, NULL, NULL, NULL, '666', 'Заявка', NULL, 1, '0', '', '0000-00-00 00:00:00', ''),
 (185, 'testmodal@gmail.com', '', NULL, NULL, NULL, NULL, NULL, '0', 'Заявка', 163, 3, '1', '2015-08-11 09:43:45', '2015-07-11 06:43:45', ''),
 (186, 'testmodal@gmail.com', '', NULL, NULL, NULL, NULL, NULL, '213', 'Заявка', 163, 3, '1', '2015-08-11 09:43:47', '2015-07-11 06:43:47', ''),
 (187, 'testmodal@gmail.com', 'testmodal.com', NULL, NULL, NULL, NULL, NULL, '213', 'Заявка', 163, 3, '1', '2015-08-11 09:43:51', '2015-07-11 06:43:51', ''),
@@ -502,7 +515,8 @@ INSERT INTO `referrals` (`id`, `email`, `site`, `region`, `tz`, `request_type`, 
 (194, 'mmmmmm@gmail.com', 'dsds.ru', NULL, NULL, NULL, NULL, NULL, '222', 'Заявка', 157, 2, '1', '2015-08-21 10:58:23', '2015-07-21 07:58:23', ''),
 (195, 'site333@gmail.com', 'sitesite.com', NULL, NULL, NULL, NULL, NULL, '555', 'Заявка', 163, 3, '0', '', '0000-00-00 00:00:00', ''),
 (196, 'lasttest@gmail.com', 'testtttt.com', NULL, NULL, NULL, NULL, NULL, '222', 'Заявка', 163, 1, '1', '2015-09-01 13:56:10', '2015-08-01 10:56:10', ''),
-(197, 'dssdsdsds@gmail.com', 'ssssssssssssss.com', NULL, NULL, NULL, NULL, NULL, '255', 'Заявка', NULL, 2, '1', '2015-09-01 13:59:55', '2015-08-01 10:59:55', '');
+(197, 'dssdsdsds@gmail.com', 'ssssssssssssss.com', NULL, NULL, NULL, NULL, NULL, '255', 'Заявка', NULL, 2, '1', '2015-09-01 13:59:55', '2015-08-01 10:59:55', ''),
+(198, 'eeeeeeeeeeeeeeee@gmail.com', '666.com', NULL, NULL, NULL, NULL, NULL, '666', 'Заявка', NULL, 1, '1', '2015-09-04 16:30:26', '2015-08-04 13:30:26', '');
 
 -- --------------------------------------------------------
 
@@ -16111,7 +16125,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `role`, `username`, `name`, `password`, `site`, `reg_date`, `birth_date`, `status`, `sex`, `country`, `region`, `city`, `avatar`, `verification`, `active`, `telephone`, `skype`, `use_click_pay`, `click_pay`, `promo_code`, `promo_video`, `unc_site`, `land_id`) VALUES
-(1, 'admin', 'admin@admin.ru', 'Пупкин Василий Васильевич', 'admin', 'http://webmozg.ru', '0000-00-00 00:00:00', '0000-00-00', 'VIP', 1, '0', '0', '0', 'default-user-icon-profile.png', '', 1, '', '', 0, 0, 'Admin', '', '', 1),
+(1, 'admin', 'admin@admin.ru', 'Пупкин Василий Васильевич', 'admin', 'http://webmozg.ru', '0000-00-00 00:00:00', '0000-00-00', 'VIP', 1, '0', '0', '0', 'default-user-icon-profile.png', '', 1, '', '', 1, 0, 'Admin', '', '', 1),
 (5, 'user', 'tristan.berger@example.com', '', '1111', '', '2014-11-08 15:34:09', '0000-00-00', '', 1, '', '', '', 'default-user-icon-profile.png', '545e676b9ebd0', 1, '', '', 0, 0, '', '', '', 0),
 (11, 'user', 'zachary.fowler@example.com', '', 'aaa', '', '2014-12-02 16:34:35', '0000-00-00', '', 0, '', '', 'Ксю', '', NULL, 0, '', '', 1, 0, 'PROMO_11', '', '', 0),
 (17, 'user', 'caitlin.watkins@example.com', '', 'nuraaa', '', '2014-12-04 10:56:00', '0000-00-00', '', 0, '', '', '', '', NULL, 0, '', '', 0, 0, '', '', '', 0),
@@ -16125,19 +16139,19 @@ INSERT INTO `user` (`id`, `role`, `username`, `name`, `password`, `site`, `reg_d
 (83, 'user', 'alma.woods@example.com', NULL, '3571865', '', '2015-01-02 20:21:09', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (84, 'user', 'patricia.west@example.com', NULL, 'Cfif020293', '', '2015-01-03 09:27:51', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (85, 'user', 'kirk.harvey@example.com', NULL, 'vermutSemPavldgj', '', '2015-01-03 11:14:17', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
-(86, 'user', 'alexandra.watkins@example.com', NULL, '377781450', '', '2015-01-03 13:58:06', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
+(86, 'user', 'alexandra.watkins@example.com', NULL, '377781450', '', '2015-01-03 13:58:06', NULL, 'Расширенный', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (87, 'user', 'charlene.burton@example.com', NULL, '1111', '', '2015-01-03 16:32:45', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (88, 'user', 'sude.leen@example.com', NULL, '1234bb1234', '', '2015-01-04 08:19:30', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (89, 'user', 'silva@example.com', NULL, 'ks072152', '', '2015-01-04 18:38:05', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (90, 'user', 'samu.kangas@example.com', NULL, 'malaka', '', '2015-01-06 12:41:50', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (91, 'user', 'diana.silva@example.com', NULL, '2894556', '', '2015-01-06 14:53:21', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
-(92, 'user', 'ee@example.com', NULL, 'kir533', '', '2015-01-06 15:13:25', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
+(92, 'user', 'ee@example.com', NULL, 'kir533', '', '2015-01-06 15:13:25', NULL, 'Расширенный', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (95, 'user', 'alberto.gallego@example.com', NULL, 'dollar1', '', '2015-01-06 19:03:04', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (96, 'user', 'ronja.linna@example.com', NULL, 'vk4k3mghq1', '', '2015-01-07 10:34:23', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (98, 'user', 'myrtle.cunningham@example.com', NULL, 'B4VaBJjt', '', '2015-01-08 06:46:59', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (99, 'user', 'jennifer.gilbert@example.com', NULL, '94395325', '', '2015-01-08 10:50:22', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (100, 'user', 'leticia.peterse@example.com', NULL, 'dlm4dm92221', '', '2015-01-10 14:12:25', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
-(101, 'user', 'christine.schmidt@example.com', NULL, 'mt2bl2000', '', '2015-01-12 10:00:53', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
+(101, 'user', 'christine.schmidt@example.com', NULL, 'mt2bl2000', '', '2015-01-12 10:00:53', NULL, 'Расширенный', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (102, 'user', 'allie.pierce@example.com', NULL, '677401alex', '', '2015-01-13 02:17:03', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (103, 'user', 'morgane.barbier@example.com', NULL, '1222151Ss', '', '2015-01-14 11:12:37', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
 (104, 'user', 'nni.laurila@example.com', NULL, '03111988', '', '2015-01-14 11:28:01', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, '', '', '', 0),
@@ -16176,7 +16190,7 @@ INSERT INTO `user` (`id`, `role`, `username`, `name`, `password`, `site`, `reg_d
 (139, 'user', 'random123123@gmail.com', NULL, '213123', 'http://asdsada.com', '2015-04-29 13:19:57', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_139', '', '', 0),
 (140, 'user', 'random12312@gmail.com', NULL, '123123', 'http://adsdasda.com', '2015-04-29 13:20:40', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_140', '', '', 0),
 (141, 'user', 'randommmmm@gmail.com', NULL, '2131', 'http://asdasd.com', '2015-04-29 13:30:53', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_141', '', '', 0),
-(142, 'user', 'randommmmmmm@gmail.com', NULL, '1231232', 'http://aweaweqw.com', '2015-04-29 13:43:42', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_142', '', '', 0),
+(142, 'user', 'randommmmmmm@gmail.com', NULL, '1231232', 'http://aweaweqw.com', '2015-04-29 13:43:42', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 1, 0, 'PROMO_142', '', '', 0),
 (143, 'user', 'randommmmmmm@gmail.com', NULL, '1231232', 'http://aweaweqw.com', '2015-04-29 14:02:03', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_143', '', '', 0),
 (144, 'user', 'random@gmail.comewq', NULL, 'q213', 'http://wqeqwe.com', '2015-04-29 14:04:04', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_144', '', '', 0),
 (145, 'user', 'random@gmail.comewq', NULL, 'q213', 'http://wqeqwe.com', '2015-04-29 14:05:12', NULL, 'VIP', 0, NULL, NULL, NULL, NULL, NULL, 0, NULL, '', 0, 0, 'PROMO_145', '', '', 0),

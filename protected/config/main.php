@@ -46,6 +46,7 @@ return array(
             'allowAutoLogin'=>true,
             'loginUrl'=>array('user/user/login'),
             'class' => 'WebUser',
+            'authTimeout' => 60 * 60 * 24 * 7,
         ),
         'authManager' => array(
             // Будем использовать свой менеджер авторизации
@@ -108,12 +109,19 @@ return array(
 
 		# отправлять письма партнерам, или нет
 		'emailToUsers' => true,
+
 		# приставка к отправленному письму о новой новости.
 		'newsMailPrefix' => 'Партнерка по семантике: ',
 
-
-		// количество точек, на которые мы разобьем ось Х на графике
+		# количество точек, на которые мы разобьем ось Х на графике
 		'chartTimePoints' => 15,
+
+        # текстовая часть промо-кода, который будет генерироваться для пользователя при регистрации
+        'promoPrefix' => 'PROMO_',
+
+        # сервер, на котором хранятся версии партнерки
+        # условие с $_SERVER['SERVER_NAME'] в будущем уберем
 		'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
+        'tests' => 'http://prtserver.shvets.net/api/tests'
 	),
 );

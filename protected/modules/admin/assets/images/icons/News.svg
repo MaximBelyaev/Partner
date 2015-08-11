@@ -5,17 +5,17 @@
 <g>
 	<g>
 		<g>
-			<rect x="3.2" y="5.2" fill="#DC5F59" width="10.6" height="1.1"/>
+			<rect x="3.2" y="5.2" fill="#E95E58" width="10.6" height="1.1"/>
 		</g>
 		<g>
-			<rect x="3.2" y="7.4" fill="#DC5F59" width="10.6" height="1.1"/>
+			<rect x="3.2" y="7.4" fill="#E95E58" width="10.6" height="1.1"/>
 		</g>
 		<g>
-			<rect x="3.2" y="9.5" fill="#DC5F59" width="10.6" height="1.1"/>
+			<rect x="3.2" y="9.5" fill="#E95E58" width="10.6" height="1.1"/>
 		</g>
 	</g>
 	<g>
-		<polygon fill="#DC5F59" points="17,15.8 0,15.8 0,2.1 1.1,2.1 1.1,14.7 15.9,14.7 15.9,1.1 0,1.1 0,0 17,0 		"/>
+		<polygon fill="#E95E58" points="17,15.8 0,15.8 0,2.1 1.1,2.1 1.1,14.7 15.9,14.7 15.9,1.1 0,1.1 0,0 17,0 		"/>
 	</g>
 </g>
 </svg>

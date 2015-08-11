@@ -20,8 +20,6 @@
     <div class="head">
         <h5>
         	<?php echo $model->isNewRecord ? 'Добавление партнера' : 'Редактирование партнера: '.$model->username; ?>
-			<?php echo CHtml::link('Вернуться',array('/admin/user/index'), array('class'=>'btn',)); ?>
-			<?php echo CHtml::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', array('class'=>'btn btn-success')); ?>
         </h5>
 		
         
@@ -62,10 +60,7 @@
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'use_click_pay'); ?>
 				<?php echo $form->dropDownList($model, 'use_click_pay',
-					array(
-						'0' => 'Процент за заказ',
-						'1' => 'Оплата за переход'
-					), 
+					User::$work_modes, 
 					array('class' => 'dropdown')
 				);?>
 				<?php echo $form->error($model,'use_click_pay'); ?>
@@ -73,7 +68,7 @@
 
 			<div 
 				class="form-row" 
-				id="hidden2" 
+				id="click_pay_row" 
 				<?= (!is_null($model->use_click_pay) && $model->use_click_pay)?'':'style="display:none"' ?>
 				>
 				<?php echo $form->labelEx($model,'click_pay'); ?>
@@ -110,6 +105,16 @@
 		</div>
 	</div>
 
+	<div class="row-fluid">
+		<div class="span9">
+			<?php echo CHtml::submitButton(
+				$model->isNewRecord ? 'Добавить' : 'Сохранить', 
+				array('class'=>'btn btn-primary ')); ?>
+		</div>
+	</div>
+
+
+
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
@@ -120,9 +125,9 @@
 
 		$(e).change(function(){
 			if ($(this).val() == "1") {
-				$("#hidden2").show();
+				$("#click_pay_row").show();
 			} else {
-				$("#hidden2").hide();
+				$("#click_pay_row").hide();
 			}
 		});
 	});

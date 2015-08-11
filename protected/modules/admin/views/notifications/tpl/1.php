@@ -1,4 +1,3 @@
-
 <p>
 	Пользователь <strong><?= $model->user->username ?></strong> подал заявку на вывод средств 
 </p>

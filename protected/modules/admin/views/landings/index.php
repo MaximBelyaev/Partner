@@ -8,11 +8,8 @@ $this->setPageTitle("Список лендингов");
 
 <div class="head">
 	<h5>
-		Лэндинги
-		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-success',)); ?>
+		Лендинги
 	</h5>
-	<!-- <div class="underlist-button">
-	</div> -->
 </div>
 	
 <?php $this->widget('zii.widgets.grid.CGridView', array(
@@ -45,12 +42,12 @@ $this->setPageTitle("Список лендингов");
 			'type' => 'html',
 		),*/
 		array(
-			'header'=>'Действие',
+			'header'=>'Ред',
 			'class'=>'CButtonColumn',
 	        'htmlOptions' => array('class' => 'width120 actionColumn'),
 	        'headerHtmlOptions' => array('class' => 'width120 actionColumn'),
 	        'filterHtmlOptions' => array('class' => 'width120 actionColumn'),
-			'template'=>'<span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span>',
+			'template'=>'<span class="icons_wrap"><span class="not_btn not_upd">{update}</span><span class="not_btn not_del">{delete}</span></span>',
 			'buttons'=>array
 			(
 				'update' => array

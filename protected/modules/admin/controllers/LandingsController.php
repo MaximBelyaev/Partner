@@ -8,11 +8,15 @@ class LandingsController extends AdminController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = new CActiveDataProvider('Landings');
+		$dataProvider = new CActiveDataProvider( 'Landings', array(
+			'sort' => array(
+				'defaultOrder' => 'sort_order ASC', 
+			),
+		));
 		$model = new Landings;
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-			'model'=>$model,
+			'dataProvider' => $dataProvider,
+			'model' => $model,
 		));
 	}
 
@@ -25,12 +29,10 @@ class LandingsController extends AdminController
 		if(isset($_POST['Landings']))
 		{
             $model->attributes = $_POST['Landings'];
-//            $model->icon = CUploadedFile::getInstanceByName('Landings[icon]');
-			$model->icon = CUploadedFile::getInstance($model, 'icon');
             if($model->save())
 			{
 				if ($model->icon) {
-					$path = Yii::getPathOfAlias('webroot').'/uploads/' . $model->icon->getName();
+					$path = Yii::getPathOfAlias('webroot') . '/uploads/' . $model->icon->getName();
 					$model->icon->saveAs($path);
 				}
 				$this->redirect(array('update','id'=>$model->land_id));
@@ -50,7 +52,7 @@ class LandingsController extends AdminController
 
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Landings']))
@@ -59,9 +61,6 @@ class LandingsController extends AdminController
 			if($model->save())
 			{
 				$this->refresh();
-			}
-			else
-			{
 			}
 		}
 
@@ -109,18 +108,6 @@ class LandingsController extends AdminController
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-
-	public function actionChange() 
-	{
-		if (isset($_POST['land'])) {
-			Yii::app()->session['landing'] = $_POST['land'];
-			echo json_encode(array('status'=>'success'));
-		} else {
-			echo json_encode(array('status'=>'fail'));
-		}
-		Yii::app()->end();
 	}
 
 

@@ -104,6 +104,11 @@
                 'url'=>array('/admin/landings/index'),
 			),
 			array(
+				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить лендинг',
+				'itemOptions' => array('class'=>'submenu'),
+				'url'=>array('/admin/landings/create'),
+			),
+			array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Clients.svg') . 'Клиенты',
                 'url'=>array('/admin/referrals/index'),
 			),
@@ -154,26 +159,22 @@
 			'id'=>'menu',
 		),
 		'encodeLabel'=>false,
-    )); ?>
-    <?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
+	)); ?>
+	<?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
 </div>
 <div id="main-content">
-    <div class="container-fluid">
-        <?php if(isset($this->breadcrumbs) && false):?>
-            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
-                'homeLink'=>CHtml::link('Partner',array('/admin/default/index')),
-			    'links'=>$this->breadcrumbs,
+	<div class="container-fluid">
+		<?php if(isset($this->breadcrumbs) && false):?>
+			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+				'homeLink'=>CHtml::link('Partner',array('/admin/default/index')),
+				'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
-        <?php endif?>
-        <div class="main-content">
-            <?php echo $content; ?>
-            
-			<footer class="block">
-				© <?= date('Y') ?> Партнерская программа GetPartner. All Rights Reserved
-			</footer>
-        </div>
+		<?php endif?>
+		<div class="main-content">
+			<?php echo $content; ?>
+		</div>
 			
-    </div>
+	</div>
 </div>
 
 
@@ -260,7 +261,7 @@
 				<?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
 				<label for="Referrals_recreate_interval" class="checkbox-label"></label>
 				<label class="required inline-block" for="Referrals_recreate_interval">
-					Постоянная оплата
+					Ежемесячная оплата
 				</label>
 				</div>
 			</div>
@@ -297,6 +298,10 @@
 						if(data.status=="success") {
 							$("#formResult").html("Клиент добавлен успешно.");
 							$("#create-referral-form")[0].reset();
+							window.setTimeout(function(){
+								//$(".close-modal").trigger("click");
+								console.log($("#createRefModal").modal("hide"));
+							}, 1500);
 						}
 						else {
 							$.each(data, function(key, val) {
@@ -313,6 +318,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- Modal for users-->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" href="#createModal" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog">
@@ -326,8 +332,8 @@
                     'validateOnSubmit'=>true,
                 ),
             )); ?>
-            <div class="errorMessage" id="formResultUser"></div>
             <h4 class="modal-title">Добавить партнёра</h4>
+            <div class="errorMessage" id="formResultUser"></div>
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">&times;</button>
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'username'); ?>
@@ -341,9 +347,9 @@
                         $newUser,
                         'status', 
                         array(
-                            'VIP' => 'VIP', 
                             'Стандартный' => 'Стандартный', 
-                            'Расширенный' => 'Расширенный'
+                            'Расширенный' => 'Расширенный',
+                            'VIP' => 'VIP', 
                         ),
                         array('class' => 'dropdown')
                 ); ?>
@@ -355,10 +361,7 @@
                 <?php echo $form->dropDownList(
                         $newUser,
                         'use_click_pay', 
-                        array(
-                            '0' => 'Процент за заказ',
-                            '1' => 'Оплата за переход'
-                        ), 
+                        User::$work_modes, 
                         array(
                             'id' => 'list_click_pay',
                             'class' => 'dropdown'
@@ -393,17 +396,23 @@
                     'dataType'=>'json',
                     'type'=>'post',
                     'success'=>'function(data) {
+                    	console.log(data);
                         if(data.status=="success"){
-                         $("#formResultUser").html("Партнёр добавлен успешно.");
-                         $("#create-user-form")[0].reset();
+							$("#formResultUser").html("Партнёр добавлен успешно.");
+							$("#create-user-form")[0].reset();
+							window.setTimeout(function(){
+								//$(".close-modal").trigger("click");
+								console.log($("#createModal").modal("hide"));
+							}, 1500);
                         }
                          else{
                         $.each(data, function(key, val) {
-                        $("#create-user-form #"+key+"_em_").text(val);
-                        $("#create-user-form #"+key+"_em_").show();
+                        	$("#create-user-form #"+key+"_em_").text(val);
+                        	$("#create-user-form #"+key+"_em_").show();
                         });
                         }
                     }',
+                    'error' => 'function(data){ console.log(data); }'
                 ),
                 array('class' => 'btn btn-success')); ?>
 			</div>

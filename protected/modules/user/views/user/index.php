@@ -8,7 +8,7 @@ $this->setPageTitle("Главная | Партнерская программа 
 <div class="block">
 	
 	<div class="statistics-head">
-		<h5>Статистика</h5>
+		<h5>График</h5>
 	</div>
 
 	<div class="stats_block">
@@ -38,7 +38,7 @@ $this->setPageTitle("Главная | Партнерская программа 
 <div class="block next-block">
 	
 	<div class="statistics-head">
-		<h5>Подробная статистика</h5>
+		<h5>Статистика</h5>
 	</div>
 
 	<div id="stats">
