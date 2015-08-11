@@ -103,11 +103,11 @@
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Landings.svg') . 'Лендинги',
                 'url'=>array('/admin/landings/index'),
 			),
-			array(
+			/*array(
 				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить лендинг',
 				'itemOptions' => array('class'=>'submenu'),
 				'url'=>array('/admin/landings/create'),
-			),
+			),*/
 			array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Clients.svg') . 'Клиенты',
                 'url'=>array('/admin/referrals/index'),

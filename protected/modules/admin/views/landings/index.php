@@ -9,6 +9,7 @@ $this->setPageTitle("Список лендингов");
 <div class="head">
 	<h5>
 		Лендинги
+		<?= CHtml::link('Добавить',array('/admin/landings/create'), array('class'=>'btn btn-primary land-btn',)); ?>
 	</h5>
 </div>
 	

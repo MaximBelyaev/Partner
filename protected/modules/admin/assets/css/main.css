@@ -38,6 +38,10 @@ a {
 a:focus {
 	text-decoration: none;
 }
+.land-btn.btn {
+	height: 30px;
+	padding: 4px 20px;
+}
 label {
 	color: #8694a4;
 	display: block;
