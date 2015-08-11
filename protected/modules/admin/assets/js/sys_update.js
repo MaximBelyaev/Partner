@@ -29,6 +29,7 @@ jQuery(document).ready(function($) {
 		})
 		.fail(function(xhr) {
 			console.log("error");
+			$('.upd_msg').text('Не удалось проверить обновления');
 		})
 		.always(function(xhr) {
 		});

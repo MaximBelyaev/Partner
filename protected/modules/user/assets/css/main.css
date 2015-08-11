@@ -1117,6 +1117,7 @@ input[type="checkbox"]:checked + label:before {
 	display: inline-block;
 	padding: 0 15px;
 	margin: 0;
+	text-align: center;
 	vertical-align: top;
 }
 .stats_row p:last-child {
@@ -1273,8 +1274,10 @@ input[type="checkbox"]:checked + label:before {
 }
 .pseudo-table .pseudo-table-body {
 	display: table-row-group;
+	text-align: center;
 }
 .offers-items .pseudo-table-head {
+	text-align: center;
 }
 
 .pseudo-table .pseudo-table-head span,
@@ -1436,6 +1439,9 @@ footer.block {
     position: relative;
     z-index: 3;
 }
+	footer a {
+		color: #3bace2;
+	}
 
 
 

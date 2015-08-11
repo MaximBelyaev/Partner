@@ -131,7 +131,10 @@
 	            <?php echo $content; ?>
 				
 				<footer class="block">
-					© <?= date('Y') ?> Партнерская программа GetPartner. All Rights Reserved
+					© Работает на технологии
+					<a href="http://getpartner.pro/" target="_blank">
+						GetPartner	
+					</a>
 				</footer>
 	        </div>
 	    </div>
