@@ -380,7 +380,9 @@ class UserController extends MyUserController
         if ( Yii::app()->session['landing'] ) {
             $condition = " land_id=" . (int)Yii::app()->session['landing'];
         } else {
-            $condition = "";
+            $l = $this->landings;
+            unset($l[0]);
+            $condition = " land_id IN (" . implode(',', array_keys($l)) . ")";
         }
         $bannersList = Promobanns::model()->findAll( $condition );
         $promovideosList = Promovideo::model()->findAll( $condition );

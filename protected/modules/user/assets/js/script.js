@@ -1,5 +1,27 @@
+var blocks_margin = 20,
+	footer_height = 40 + blocks_margin;
+
+var setContentHeight = function() {
+    var $block = $('.full-page-block'),
+        block_of = $block.offset();
+
+	console.log($block);
+	console.log(block_of);
+	if (block_of != undefined) {
+        var block_top = block_of.top;
+        $block.css(
+            'min-height',
+            $(window).height() - block_top - footer_height - blocks_margin 
+        );
+
+    };
+}
+
 jQuery(document).ready(function($) {
 	
+    setContentHeight();
+    $(window).on( 'resize', setContentHeight );
+
 	var $lw = $('.last_quater').addClass('current_range');
 	var date_start = $lw.data('start'),
 		date_end   = $lw.data('end'),

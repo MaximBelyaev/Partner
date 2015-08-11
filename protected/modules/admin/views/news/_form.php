@@ -89,7 +89,7 @@ Yii::import('ext.tinymce.TinyMceFileManager')
 			<?php echo $form->dropDownList(
 				$model,
 				'land_id',
-				$this->landingsList,
+				Yii::app()->controller->landings,
 				array(
 					'class' => 'dropdown',
 					'options' => $options

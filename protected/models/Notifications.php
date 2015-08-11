@@ -111,7 +111,7 @@ class Notifications extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'pagination'=> array('pageSize' => $pageSize),
 			'sort' 		=> array(
-				'defaultOrder' => 'is_new DESC, date DESC',
+				'defaultOrder' => 'date DESC',
 				'attributes' => array(
 					'username' => array(
 						'asc' => 'user.username',

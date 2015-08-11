@@ -57,8 +57,10 @@ class NewsController extends AdminController
 
 		if(isset($_POST['News']))
 		{
-			$model->attributes=$_POST['News'];
-			if($model->save()){
+			$model->attributes = $_POST['News'];
+			// var_dump($model->attributes);
+			// exit();
+			if($model->save()) {
 				$this->redirect(array('update','id'=>$model->news_id));
 			}
 		}

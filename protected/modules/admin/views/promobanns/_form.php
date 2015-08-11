@@ -4,9 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="block promoban-block">
-
-<div class="form">
+<div class="form promoban-block">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'promobanns-form',
@@ -65,8 +63,6 @@
 			</div>
 
 			<div class="form-row">
-				<?php var_dump($this->landingsList); ?>
-				<?php var_dump(Yii::app()->session['landing'] ); ?>
 				<?php echo $form->labelEx( $model, 'land_id' ); ?>
 				
 				<?php 
@@ -90,7 +86,7 @@
 				<?php echo $form->dropDownList(
 					$model,
 					'land_id',
-					$this->landingsList,
+					$this->landings,
 					array(
 						'class' => 'dropdown',
 						'options' => $options
@@ -129,4 +125,3 @@
 
 </div><!-- form -->
 
-</div>
