@@ -175,26 +175,39 @@ class DefaultController extends AdminController
 
 		if ($l)
 		{
+			# проверяем есть ли информация про обновления на сервере собновлений. 
 			$metaData = file_get_contents(Yii::app()->params['updateServer'] . 'lastupdate/' . $l);
 			$metaData = json_decode($metaData);
 
-			$vers = Yii::app()->db->createCommand()
-				->select('version')
-				->from('versions')
-				->limit(1)
-				->order('date DESC')
-				->queryRow();
-			if (!empty($vers) && $metaData) {
-				if ($vers['version'] != $metaData->latest_version) {
-					$status = 'has_upd';
-					$msg 	= 'Есть новое обновление';
+
+			if (!is_null($metaData)) {
+
+				$vers = Yii::app()->db->createCommand()
+					->select('version')
+					->from('versions')
+					->limit(1)
+					->order('date DESC')
+					->queryRow();
+				if (!empty($vers) && $metaData) {
+					if ($vers['version'] != $metaData->latest_version) {
+						$status = 'has_upd';
+						$msg 	= 'Есть новое обновление';
+					} else {
+						$status = 'ok';
+						$msg 	= 'Новых обновлений нет';
+					}
+				} else if($metaData) {
+					if (isset($metaData->current_version) && $metaData->current_version != $metaData->latest_version) {
+						$status = 'has_upd';
+						$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
+					} else {
+						$status = 'ok ';
+						$msg 	= 'Новых обновлений нет';
+					}
 				} else {
-					$status = 'ok';
-					$msg 	= 'Новых обновлений нет';
+					$status = 'error';
+					$msg 	= 'Не удалось проверить обновления';
 				}
-			} else if($metaData) {
-				$status = 'has_upd';
-				$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
 			} else {
 				$status = 'error';
 				$msg 	= 'Не удалось проверить обновления';
