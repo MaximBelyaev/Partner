@@ -210,8 +210,6 @@ class Stateds extends CActiveRecord
 				$email->message = "Ваш счет пополнен на " . $this->money . " рублей";
 				# $email->send();
             }
-            var_dump($this->status);
-            var_dump(self::STATUS_DENIED);
             # если заявка на вывод средств была отклонена, то возвращаем партнеру деньги
             if($this->status == self::STATUS_DENIED && ($this->money > 0)){
                 $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
@@ -235,5 +233,13 @@ class Stateds extends CActiveRecord
 		foreach ($nots as $not) {
 			$not->delete();
 		}
+    }
+
+    public function getPayService() {
+    	if (isset(Yii::app()->controller->payServices[$this->pay_type])) {
+    		return Yii::app()->controller->payServices[$this->pay_type];
+    	} else {
+    		return $this->pay_type;
+    	}
     }
 }

@@ -64,6 +64,9 @@ p {
 .full-page-block {
 	min-height: calc( 100% - 100px - 40px );
 }
+#promobanns-form {
+	margin-bottom: 0;
+}
 .promovideo-block {
 	width: calc(50% - 30px);
 	float: right
@@ -1450,6 +1453,37 @@ footer.block {
 			}
 }
 
+@media screen and (max-width: 1279px) {
+	body {
+		padding: 0;
+	}
+	#mob-menu-trigger {
+		display: block;
+	}
+	.navbar-fixed-top {
+		position: static;
+	}
+	#sidebar {
+		max-height: 0;
+		overflow: hidden;
+		height: initial;
+		margin: 0 auto 0;
+		position: static !important;
+		text-align: center;
+		width: calc(100% - 40px);
+	}
+	#sidebar.opened {
+		max-height: 900px;
+		margin: 20px auto 0;
+	}
+	#main-content {
+		margin: 0px auto;
+		padding-top: 0;
+	}
+	#sidebar li a {
+		padding: 13px 20px
+	}
+}
 
 @media screen and (max-width: 1155px) {
 	
@@ -1498,8 +1532,11 @@ footer.block {
 
 @media screen and (max-width: 979px) {
 	.navbar-fixed-top .navbar-inner {
-		padding: 0 30px;
+		padding: 0 20px;
 	}
+	.navbar-fixed-top {
+		margin-bottom: 0;
+	} 
 }
 
 @media screen and (max-width: 900px) {
@@ -1531,15 +1568,14 @@ footer.block {
 		max-height: 0;
 		overflow: hidden;
 		height: initial;
-		width: 100%;
-		margin: 90px auto -30px;
+		margin: 0 auto;
 		position: static !important;
 		text-align: center;
 		width: calc(100% - 40px);
 	}
 	#sidebar.opened {
 		max-height: 900px;
-		margin-bottom: 0;
+		margin: 20px auto 0;
 	}
 	#main-content {
 		margin: 0px auto;
@@ -1548,35 +1584,6 @@ footer.block {
 		.main-content {
 			/*padding: 30px 0;*/
 		}
-}
-@media screen and (max-width: 1279px) {
-	body {
-		padding: 0;
-	}
-	#mob-menu-trigger {
-		display: block;
-	}
-	.navbar-fixed-top {
-		position: static;
-	}
-	#sidebar {
-		max-height: 0;
-		overflow: hidden;
-		height: initial;
-		width: 100%;
-		margin: 20px auto -30px;
-		position: static !important;
-		text-align: center;
-		width: calc(100% - 40px);
-	}
-	#sidebar.opened {
-		max-height: 900px;
-		margin-bottom: 0;
-	}
-	#main-content {
-		margin: 0px auto;
-		padding-top: 0;
-	} 
 }
 
 @media screen and (max-width: 767px) {
@@ -1619,7 +1626,6 @@ footer.block {
 @media screen and (max-width: 430px) {
 	
 	#sidebar {
-		margin-top: 130px;
 	}
 	.navbar-fixed-top {
 		height: 100px;

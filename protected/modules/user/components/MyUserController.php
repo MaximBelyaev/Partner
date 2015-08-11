@@ -7,6 +7,7 @@ class MyUserController extends Controller
     public $news;
     public $news_views;
     public $settingsList;
+    public $payServices;
     public $landings;
     public $landingsAR;
     public $offers;
@@ -78,13 +79,16 @@ class MyUserController extends Controller
 			}
 		}
 
-        //Список настроек партнёра
-        $this->settingsList = Setting::model()->findAll();
-        for ($i = 0; $i < count($this->settingsList); $i++)
-        {
-            $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
-            unset($this->settingsList[$i]);
-        }
+		//Список настроек партнёра
+		$this->settingsList = Setting::model()->findAll();
+		for ($i = 0; $i < count($this->settingsList); $i++)
+		{
+			$this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+			if ( $this->settingsList[$i]->type == 'pay_service' ) {
+				$this->payServices[$this->settingsList[$i]->name] = $this->settingsList[$i]->header;
+			}
+			unset($this->settingsList[$i]);
+		}
 
 		/* выбранный пользователь лендинг, статистику которого он видит */
 		Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;

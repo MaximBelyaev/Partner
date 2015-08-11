@@ -487,15 +487,6 @@ class UserController extends MyUserController
             $list->attributes = $_GET['Stateds'];
         }
 
-        $settings = [];
-        foreach ($this->settingsList as $setting)
-        {
-            if ($setting->status === '1' and  $setting->type === 'pay_service')
-            {
-                $settings[$setting->header] = $setting->header;
-            }
-        }
-
         if(isset($_POST['Stateds']))
         {
             $model->attributes=$_POST['Stateds'];
@@ -505,7 +496,6 @@ class UserController extends MyUserController
         }
         $this->render('pay', array(
             'model'     => $model, 
-            'settings'  => $settings, 
             'list'      => $list
         ));
     }

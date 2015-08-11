@@ -31,7 +31,10 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
                 'header' => 'Дата',
                 'value' => 'date("d.m.y", strtotime($data->date));',
             ),
-            'pay_type',
+            array(
+                'name' => 'pay_type',
+                'value' => '$data->getPayService()'
+            ),
             'requisites',
     		'money',
     		'status',

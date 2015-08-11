@@ -487,7 +487,12 @@ p {
 /* ===*===*===*=== таблицы ===*===*===*=== */
 .grid-view {
 	overflow-x: auto;
-	padding: 0;
+	padding: 8px 0 0 0;
+}
+.grid-view-loading {
+    background: url(/img/loading.gif);
+    background-position: left 0;
+    background-repeat: no-repeat;
 }
 #main-content table {
 	border: none;
@@ -564,6 +569,7 @@ p {
 	color: #FFF;
 }
 #main-content th a {
+	background-image: none;
 	color: #FFF;
 	font: 600 14px 'Open Sans';
 	-webkit-transition: 0.25s;

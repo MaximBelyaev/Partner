@@ -25,6 +25,8 @@ class AdminController extends CController
     public $newReferral;
     public $settingsList;
     public $landingsList;
+
+    public $payServices;
     public $landings;
 
     /**
@@ -112,6 +114,9 @@ class AdminController extends CController
         for ($i = 0; $i < count($this->settingsList); $i++)
         {
             $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+            if ( $this->settingsList[$i]->type == 'pay_service' ) {
+                $this->payServices[$this->settingsList[$i]->name] = $this->settingsList[$i]->header;
+            }
             unset($this->settingsList[$i]);
         }
 
