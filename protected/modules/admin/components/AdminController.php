@@ -58,7 +58,7 @@ class AdminController extends CController
                     'range', 'change', 'sort',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
-                    'downloadAndUpdate', 'checkUpdate'
+                    'downloadAndUpdate', 'checkUpdate', 'addPayment'
                 ),
                 'roles' => array('admin'),// для авторизованных
             ),
