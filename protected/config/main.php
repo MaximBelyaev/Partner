@@ -17,6 +17,8 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
+        'ext.slug-behavior.SlugBehavior',
+        'ext.transliterator-component.Transliteration',
     ),
     'modules'=>array(
         'gii'=>array(
@@ -32,6 +34,9 @@ return array(
     'components'=>array(
         'debug' => array(
             'class' => 'ext.yii2-debug.Yii2Debug',
+        ),
+        'transliterator' => array(
+            'class' => 'Transliteration',
         ),
         'request'=>array(
             'enableCookieValidation'=>true,

@@ -8,6 +8,8 @@ class SettingsController extends AdminController
 		$cs->registerScriptFile($this->module->assetsUrl.'/js/sys_update.js');
 
 		$model = $this->settingsList;
+        $allModels = Setting::model()->findAll();
+        $paymentMethods = Setting::model()->findAll(array('condition' => "type = 'pay_service'"));
 		$l = Yii::app()->db->createCommand()
 				->select('version')
 				->from('versions')
@@ -37,8 +39,10 @@ class SettingsController extends AdminController
 		}
 
 		$this->render('index',array(
+            'allModels' => $allModels,
 			'model' => $model,
-			'l' 	=> $l
+			'l' 	=> $l,
+            'paymentMethods' => $paymentMethods,
 		));
 	}
 
@@ -48,6 +52,35 @@ class SettingsController extends AdminController
 
 		));
 	}
+
+    public function actionAddPayment()
+    {
+        $model = new Setting();
+        $model->type = 'pay_service';
+        $model->header = $_POST['name'];
+        $model->status = '1';
+        if ($model->header)
+        {
+            $model->name = $model->transliteration($model->header);
+            $model->save();
+        }
+        echo json_encode(array('obj_id' => $model->setting_id, 'obj_header' => $model->header));
+    }
+
+
+
+    public function actionDelete($id)
+    {
+        $this->loadModel($id)->delete();
+    }
+
+    public function loadModel($id)
+    {
+        $model=Setting::model()->findByPk($id);
+        if($model===null)
+            throw new CHttpException( 404, "Настройка с ID $id не найдена" );
+        return $model;
+    }
 
 
 	protected function performAjaxValidation($model)
