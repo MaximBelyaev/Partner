@@ -7,13 +7,13 @@ class ApiController extends Controller
 	} 
 	public function actionClick()
 	{
-		$site = isset($_GET['ref']) ? $_GET['ref'] : '';
+		$site 		= isset($_GET['partner_site']) ? $_GET['partner_site'] : '';
 		$cookie_refer_id = isset($_COOKIE['refer_id']) ? $_COOKIE['refer_id'] : '';
-		$ip = isset($_GET['ip']) ? $_GET['ip'] : '';
-		$refer_id = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
-		$land_id = isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
-		$user_id = '';
-		$user = '';
+		$ip 		= isset($_GET['ip']) ? $_GET['ip'] : '';
+		$refer_id 	= isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
+		$land_id 	= isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
+		$user_id 	= '';
+		$user 		= '';
 
 		if ($refer_id)
 		{
@@ -85,23 +85,20 @@ class ApiController extends Controller
 
 	public function actionReferral()
 	{
-		if (isset($_GET['secret']))
-		{
 			$referral = new Referrals();
 			$referral->email  = isset($_GET['email']) ? trim($_GET['email']) : '';
 			$referral->site   = isset($_GET['site']) ? trim($_GET['site']) : '';
 			$referral->tz     = isset($_GET['tz']) ? trim($_GET['tz']) : '';
 			$referral->region = isset($_GET['region']) ? trim($_GET['region']) : '';
 			$referral->request_type = isset($_GET['request_type']) ? trim($_GET['request_type']) : '';
-			$referral->requests  = isset($_GET['requests']) ? trim($_GET['requests']) : '';
-			$referral->user_from = isset($_GET['user_from']) ? trim($_GET['user_from']) : '';
-			$referral->promo = isset($_GET['promo_code']) ? trim($_GET['promo_code']) : '';
-			$referral->land_id = isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
+			$referral->requests  	= isset($_GET['requests']) ? trim($_GET['requests']) : '';
+			$referral->user_from 	= isset($_GET['user_from']) ? trim($_GET['user_from']) : '';
+			$referral->promo 		= isset($_GET['promo_code']) ? trim($_GET['promo_code']) : '';
+			$referral->land_id 		= isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
 			
-			$partner_site = isset($_GET['ref']) ? $_GET['ref'] : '';
-			//$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
-			$cookie_refer_id = isset($_COOKIE['refer_id']) ? $_COOKIE['refer_id'] : '';
-			$refer_id = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
+			$partner_site    = isset($_GET['partner_site']) ? $_GET['partner_site'] : '';
+			$cookie_refer_id = isset($_GET['cookie_refer_id']) ? $_GET['cookie_refer_id'] : '';
+			$refer_id 		 = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
 
 			# тут мы проверим, был ли уже заказ с таким email
 			$back = Referrals::model()->find('email ="' . trim($referral->email) . '" AND user_id != 0');
@@ -118,18 +115,32 @@ class ApiController extends Controller
 			}
 			elseif ($partner_site)
 			{
-				$q = new CDbCriteria( array( 'condition' => "site='$partner_site'" ) );
+				$q = new CDbCriteria( array( 'condition' => "site LIKE '%$partner_site%'" ) );
 				$user = User::model()->find($q);
 				if ($user)
 				{
-					$referral->user_id = $user->user_id;
-				}
+					$referral->user_id = $user->id;
+				} 
+				elseif ($cookie_refer_id) 
+				{
+	                $referral->user_id = $cookie_refer_id;
+	            } 
+	            else 
+	            {
+	            	$referral->user_id = 0;
+	            }
 			}
             elseif ($cookie_refer_id)
             {
                 $referral->user_id = $cookie_refer_id;
+            } 
+            else 
+            {
+            	$referral->user_id = 0;
             }
-
+            $referral->save();
+			// var_dump($referral);
+            
             /*
 			# получаем нужные настройки
 			$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
@@ -195,15 +206,8 @@ class ApiController extends Controller
 						$user->money->save();
 					}
 				}
-			};**/
-			echo "<pre>";
-			#var_dump($referral);
-			echo "</pre>";
-		}
-		else
-		{
-			echo "no code";
-		}
+			}; */
+
 	} 
 }
 ?>

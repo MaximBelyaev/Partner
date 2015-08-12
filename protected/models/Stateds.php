@@ -175,15 +175,16 @@ class Stateds extends CActiveRecord
 
 	protected function afterSave()
 	{
-		$email = Yii::app()->email;
-		$email->from = 'Future <admin@'.$_SERVER['HTTP_HOST'].'>';
-		$email->to = Yii::app()->params['adminEmail'];
-		$email->subject = 'Новая заявка на вывод';
-		$email->message = "Вы получили новую заявку на вывод средств";
-		$email->send();
     
         if($this->isNewRecord)
 		{
+			$email = Yii::app()->email;
+			$email->from = 'Future <admin@'.$_SERVER['HTTP_HOST'].'>';
+			$email->to = Yii::app()->params['adminEmail'];
+			$email->subject = 'Новая заявка на вывод';
+			$email->message = "Вы получили новую заявку на вывод средств";
+			#$email->send();
+			
             $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
             $profit->profit -= $this->money;
             $profit->save();
