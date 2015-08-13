@@ -97,7 +97,6 @@
     </div>
 </div>
 <div id="sidebar">
-ветка дима
     <?php $this->widget('zii.widgets.CMenu',array(
         'items'=>array(
 			array(
