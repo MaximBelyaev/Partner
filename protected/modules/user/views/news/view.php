@@ -2,7 +2,7 @@
 $this->setPageTitle( $model->header . " | Партнерская программа Павлуцкого Александра"); 
 ?>
 
-<div class="block">
+<div class="block news-block full-page-block">
 	
 
     <div class="head">

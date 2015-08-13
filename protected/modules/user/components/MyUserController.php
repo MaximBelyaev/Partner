@@ -110,15 +110,14 @@ class MyUserController extends Controller
 
         if (count($this->landingsAR) > 0)
         {
-            $lands = array( 0 => 'Все' );
+            $this->landings = array( 0 => 'Все' );
             foreach ($this->landingsAR as $l)
 			{
-				if (array_key_exists($l->land_id, $userRelations)){
-    				$lands[ $l->land_id ] = $l->name;
+    			$this->landings[ $l->land_id ] = $l->name;
+                if ( array_key_exists($l->land_id, $userRelations) ) {
                     $this->offers[ $l->land_id ] = $l;
                 }
-			}
-			$this->landings = $lands;
+            }
 		} else
 		{
 			$this->landings = false;

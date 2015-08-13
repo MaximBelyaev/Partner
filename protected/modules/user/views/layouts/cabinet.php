@@ -6,6 +6,7 @@
 	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 	<link href="<?php echo $this->module->assetsUrl ?>/css/bootstrap.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo $this->module->assetsUrl ?>/css/main.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $this->module->assetsUrl ?>/css/news.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
 
 
@@ -36,7 +37,7 @@
 					<?= CHtml::link('<img src="/img/Logo.svg">', array('/user/user/index'), array('class'=>'logo')); ?>
 				</div>
 				<div class="nav pull-left landing_select select-wrap ">
-					<?php if (Yii::app()->controller->landings) {
+					<?php if (!is_null(Yii::app()->controller->offers)) {
 						echo CHtml::dropDownList(
 							'landing_select', Yii::app()->session['landing'],
 							Yii::app()->controller->landings,

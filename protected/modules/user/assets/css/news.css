@@ -1,0 +1,15 @@
+/* ============== Новости ================ */
+
+.news-block address {
+	color: #CCC;
+	font-style: italic;
+	font-style: 13px;
+}
+
+.news-block {
+	color: #3a4453;
+}
+
+.news-block h1 {
+	font-size: 30px;
+}

@@ -82,7 +82,7 @@ class AdminController extends CController
 
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
-		if (count($landings) > 1) {
+		if (count($landings) >= 1) {
 			$lands = array( 0 => 'Все' );
 			foreach ($landings as $l) {
 				$lands[ $l->land_id ] = $l->name;

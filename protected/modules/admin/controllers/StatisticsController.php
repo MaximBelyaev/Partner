@@ -14,10 +14,10 @@ class StatisticsController extends AdminController
 		# подготовим информацию для кнопок с последними отрезками
         $times = array(
         	"now" => strtotime("now"),
-            "last_week" => strtotime("-1 week"),
-            "last_month" => strtotime("-1 month"),
-            "last_quater" => strtotime("-3 month"),
-            "last_year" => strtotime("-1 year"),
+            "last_week" 	=> strtotime("-1 week"),
+            "last_month" 	=> strtotime("-1 month"),
+            "last_quater" 	=> strtotime("-3 month"),
+            "last_year" 	=> strtotime("-1 year"),
         );
 
 		$this->render('index',array(

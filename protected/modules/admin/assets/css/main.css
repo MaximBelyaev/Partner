@@ -86,6 +86,9 @@ p {
 .table-row {
 	margin-bottom: 20px;
 }
+.table-row:last-child {
+	margin-bottom: 0;
+}
 .table-row .span6 {
 	width: calc(50% - 10px);
 }
@@ -150,7 +153,7 @@ p {
 	width: 18px;
 }
 .logo {
-	color: #3bace2;
+	color: #3aace2;
 	display: block;
 	width: 237px;
 	margin-top: -6px;
@@ -537,7 +540,7 @@ p {
 }
 /* Шапки сайта */
 #main-content th {
-	background: #3bace2;
+	background: #3aace2;
 	background-image: url(/img/header_border.png);
 	background-repeat: no-repeat;
 	background-position: 100% 50%;
@@ -664,6 +667,9 @@ p {
 	width: 375px;
 	margin-bottom: 40px;
 }
+.settings-block {
+	display: inline-block;
+}
 .settings-col {
 	width: 270px;
 	margin-left: 100px;
@@ -698,7 +704,7 @@ p {
 
 /* Фокус на полях ввода */
 #main-content .filters input:focus {
-	border-color: #3bace2;
+	border-color: #3aace2;
 }
 #main-content .purple .filters input:focus {
 	border-color: #8877a9;
@@ -837,11 +843,11 @@ ul.yiiPager .previous a {
 	margin-right: 2px;
 }
 ul.yiiPager .page a:hover, ul.yiiPager .next a:hover, ul.yiiPager .previous a:hover {
-	background: #3bace2;
+	background: #3aace2;
 }
 ul.yiiPager .page.selected a {
 	font-weight: 400;
-	background: #3bace2;
+	background: #3aace2;
 }
 .purple ul.yiiPager .page a:hover, .purple ul.yiiPager .next a:hover, .purple ul.yiiPager .previous a:hover {
 	background: #8877a9;
@@ -965,8 +971,8 @@ input[type="submit"]:focus, button:focus, .btn:focus {
 	background: #89D68E;
 }
 .btn.btn-primary {
-	background-color: #3bace2;
-	background: #3bace2;
+	background-color: #3aace2;
+	background: #3aace2;
 }
 .btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary:active, .btn.btn-primary.active, .btn.btn-primary.disabled, .btn.btn-primary[disabled] {
 	background: #52bdf1;
@@ -1159,8 +1165,8 @@ footer.block {
 .chart_buttons .current_type, 
 .table_top_buttons .current_range {
 	color: #FFF;
-	background-color: #3bace2;
-	background: #3bace2;
+	background-color: #3aace2;
+	background: #3aace2;
 }
 .top_buttons .current_range:hover, 
 .chart_buttons .current_type:hover,
@@ -1286,8 +1292,8 @@ footer.block {
 	margin-bottom: 24px;
 }
 .stats_header {
-	background-color: #3bace2;
-	background: #3bace2;
+	background-color: #3aace2;
+	background: #3aace2;
 	border-radius: 4px;
 }
 .stats_row.stats_header p {
@@ -1324,7 +1330,7 @@ footer.block {
 }
 .setting-form input[type="submit"] {
 	margin-top: 30px;
-	margin-right: -2px;
+	margin-bottom: 25px;
 }
 .redactor-toolbar {
 	background: #f7f9fb;
@@ -1339,6 +1345,14 @@ footer.block {
 }
 .redactor-box {
 	margin-bottom: 0;
+}
+.re-preview {
+	background-image: url(../images/icons/icon-preview.png);
+	height: 32px;
+	width: 34px;
+}
+.re-preview:hover {
+	background-image: url(../images/icons/icon-preview-hover.png);
 }
 .news-row {
 	margin-bottom: 9px;

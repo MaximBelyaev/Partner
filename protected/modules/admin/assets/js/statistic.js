@@ -116,14 +116,18 @@ $(document).ready(function() {
     };
 
 	$("#chart").on("plothover", function (event, pos, item) {
-		if (item) {
-            var landsString = '';
-            var lines = Object.size(item.series.data[item.dataIndex].land) + 1;
+        if (item) {
+            var landsString = '', // добавляем под общим числом уточнение для каждого лендинга
+                lines = Object.size(item.series.data[item.dataIndex].land) + 1, // количество строк, которое занимает подсказка
+                ct    = document.querySelector('.chart_buttons .current_type') // выбранный тип статистики (заявки, партнеры и т.д)
             $.each(item.series.data[item.dataIndex].land, function(i, val) {
-                if (val != undefined) {
-                    landsString += (val['name'] + ": "
-                    + val['value'] + "<br>");
-                };
+                // добавляем уточнение, для всех типов, кроме "партнеры"
+                if( ct && ct.dataset.type!='undefined' && ct.dataset.type!='user') {
+                    if (val != undefined) {
+                        landsString += (val['name'] + ": "
+                        + val['value'] + "<br>");
+                    }
+                }
             });
 			var y = item.datapoint[1].toFixed(2),
                 $stat_block_offset = $('.stats_block').offset(),
