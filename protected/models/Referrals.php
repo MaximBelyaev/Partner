@@ -339,58 +339,63 @@ class Referrals extends CActiveRecord
 
             $land = Landings::model()->findByPk($this->land_id);
 
-			if($this->status !== $this->_oldStatus && $this->status == self::$STATUS_APPLIED 
+            # если старый статус не равен новому и он равен "Оплачено"
+			if(
+				( $this->status!==$this->_oldStatus ) 
+				&& $this->status == self::$STATUS_APPLIED 
             	&& $this->money > 0 && $this->user_id > 0)
             {
-            	if (!$this->user->use_click_pay)
-                {
+            	# если пользователь НЕ работает в режиме оплаты за переход
+				if (!$this->user->use_click_pay)
+				{
 					$profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
 
-                    $land_percent = 0;
-                    if ($settingsFixedpay->status == '1' && $settingsFixedpay->value > 0)
-                    {
+					if(is_null($profit)) {
+						$profit = new Profit();
+						$profit->user_id = $this->user_id;
+					}
+
+					# установим процент за заказ с лендинга для соответствующего стататуса клиента
+					$land_percent = 0;
+					if ($land) {
+						if ($this->user->status === "VIP")
+						{
+							$land_percent = $land->vip;
+						}
+						elseif ($this->user->status === "Расширенный")
+						{
+							$land_percent = $land->extended;
+						}
+						else
+						{
+							$land_percent = $land->standard;
+						}
+					}
+
+					if ($settingsFixedpay->status == "1" && $settingsFixedpay->value > 0)
+					{
+						# если в настройках установлено фиксированная оплата за все заказы
                         $payment = $settingsFixedpay->value;
                         $profit->profit += $payment;
                         $profit->full_profit += $payment;
                         $profit->save();
+					}
+					elseif ($land && $land_percent)
+					{
+						# если заказ был для определенного лендинга и для этого лендинга установлена цена заказа
+						$payment = ($land_percent*$this->money)/100;
+						
+						$profit->profit += $payment;
+						$profit->full_profit += $payment;
+						$profit->save();
                     }
-                    elseif ($land)
+                    elseif (!$land || !$land_percent)
                     {
-                        if ($this->user->status === "VIP")
-                        {
-                            $land_percent = $land->vip;
-                        }
-                        elseif ($this->user->status === "Расширенный")
-                        {
-                            $land_percent = $land->extended;
-                        }
-                        elseif ($this->user->status === "Стандартный")
-                        {
-                            $land_percent = $land->standard;
-                        }
-                        if ($land_percent > 0)
-                        {
-                            $payment = ($land_percent*$this->money)/100;
-                            $profit->profit += $payment;
-                            $profit->full_profit += $payment;
-                            $profit->save();
-                        }
-                    }
-                    elseif (!$land || $land_percent = 0)
-                    {
-                        $payment = 0;
-                        if ($this->user->status === "VIP")
-                        {
-                            $payment = ($settingsVip->value*$this->money)/100;
-                        }
-                        elseif ($this->user->status === "Расширенный")
-                        {
-                            $payment = ($settingsExtended->value*$this->money)/100;
-                        }
-                        elseif ($this->user->status === "Стандартный")
-                        {
-                            $payment = ($settingsStandard->value*$this->money)/100;
-                        }
+                    	# если заказ был для определенного лендинга и для этого лендинга установлена цена заказа
+                    	if ($this->user->status === "VIP") { $perc = $settingsVip->value; }
+						elseif ($this->user->status === "Расширенный") { $perc = $settingsExtended->value; }
+						else { $perc = $settingsStandard->value; }
+                        $payment = (($perc/100)*$this->money);
                         $profit->profit += $payment;
                         $profit->full_profit += $payment;
                         $profit->save();

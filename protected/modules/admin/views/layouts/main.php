@@ -295,9 +295,10 @@
 					'dataType'=>'json',
 					'type'=>'post',
 					'success'=>'function(data) {
+						console.log(data);
 						if(data.status=="success") {
 							$("#formResult").html("Клиент добавлен успешно.");
-							$("#create-referral-form")[0].reset();
+							//$("#create-referral-form")[0].reset();
 							window.setTimeout(function(){
 								//$(".close-modal").trigger("click");
 								console.log($("#createRefModal").modal("hide"));
@@ -310,6 +311,8 @@
 							});
 						}
 					}',
+                    'error' => 'function(data){ console.log(data); }',
+					'done' => 'function(data) { console.log(data); }'
 				),
 				array('class' => 'btn btn-success')); ?>
 			</div>
@@ -401,7 +404,7 @@
 							$("#formResultUser").html("Партнёр добавлен успешно.");
 							$("#create-user-form")[0].reset();
 							window.setTimeout(function(){
-								//$(".close-modal").trigger("click");
+								$(".close-modal").trigger("click");
 								console.log($("#createModal").modal("hide"));
 							}, 1500);
                         }
