@@ -19,7 +19,8 @@ $( document ).ready(function() {
     
     var btn = $('#add-size'),
         $mob_menu_trigger = $('#mob-menu-trigger'),
-        $top_menu_mobile = $('#top_menu_mobile');
+        $top_menu_mobile = $('#top_menu_mobile'),
+        $sidebar_overlay = $('#sidebar-overlay');
     console.log($top_menu_mobile);
 
 
@@ -53,7 +54,10 @@ $( document ).ready(function() {
 				$($('#' + $mob_menu_trigger.data('for'))).toggleClass('opened');
 			};
 		};
+	});
 
+	$sidebar_overlay.on( 'click', function(event) {
+		$($('#' + $mob_menu_trigger.data('for'))).removeClass('opened');
 	});
 
     $('.modal-content').find('input[data-placeholder]').focus(function(event){

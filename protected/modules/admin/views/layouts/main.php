@@ -8,9 +8,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl ?>/css/main.css">
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/bootstrap.js"></script>
-    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />  
-    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/themes/easydropdown.partner.css" rel="stylesheet" type="text/css" />   
-
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/themes/easydropdown.partner.css" rel="stylesheet" type="text/css" />
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
     <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
@@ -161,6 +160,7 @@
 	)); ?>
 	<?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
 </div>
+<div id="sidebar-overlay"></div>
 <div id="main-content">
 	<div class="container-fluid">
 		<?php if(isset($this->breadcrumbs) && false):?>

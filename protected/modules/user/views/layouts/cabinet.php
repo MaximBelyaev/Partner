@@ -125,7 +125,7 @@
             $this->widget('zii.widgets.CMenu', $menu_array); 
         ?>
     </div>
-
+	<div id="sidebar-overlay"></div>
 	<div id="main-content">
 	    <div class="container-fluid">
 	        <div class="main-content">
