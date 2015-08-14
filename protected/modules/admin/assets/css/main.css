@@ -1594,7 +1594,8 @@ footer.block {
 	}
 }
 @media screen and (max-width:430px) {
-
+	#sidebar {
+	}
 	.navbar-fixed-top {
 		height: 100px;
 	}
