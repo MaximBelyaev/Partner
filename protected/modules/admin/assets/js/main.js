@@ -17,11 +17,23 @@ var setContentHeight = function() {
 
 $( document ).ready(function() {
     
+    var btn = $('#add-size'),
+        $mob_menu_trigger = $('#mob-menu-trigger'),
+        $top_menu_mobile = $('#top_menu_mobile');
+    console.log($top_menu_mobile);
+
+
     setContentHeight();
     $(window).on('resize', setContentHeight );
 
-    var btn = $('#add-size'),
-        $mob_menu_trigger = $('#mob-menu-trigger');
+
+    $top_menu_mobile.on('change', function(event) {
+        if(this.value){
+            console.log(window.location.href = this.value);
+        }
+    });
+    
+
 
     btn.click(function(){
         var spanForCount = $('#count');

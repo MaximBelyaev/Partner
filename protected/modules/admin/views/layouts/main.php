@@ -72,22 +72,21 @@
 		),
 		'encodeLabel'=>false,
 	)); ?> 
-
         <div class="nav pull-left top_menu_mobile">
 			<select id="top_menu_mobile" class="dropdown">
-				<option value="<?= $this->createUrl('/admin/notifications/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/notifications/index'); ?>">
 					Уведомления <?= ($this->notifications_count)?"({$this->notifications_count})":''?>
 				</option>
-				<option value="<?= $this->createUrl('/admin/settings/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/settings/index'); ?>">
 					Настройки
 				</option>
-				<option value="<?= $this->createUrl('/admin/statistics/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/statistics/index'); ?>">
 					Статистика
 				</option>
-				<option value="<?= $this->createUrl('/user/user/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/user/user/index'); ?>">
 					Партнёрка
 				</option>
-				<option value="<?= $this->createUrl('/admin/default/logout'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/default/logout'); ?>">
 					Выйти
 				</option>
 			</select>
