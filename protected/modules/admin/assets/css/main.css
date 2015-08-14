@@ -766,7 +766,7 @@ p {
 #main-content tr:nth-child(even) td {
 	background: #f0f3f7;
 }
-#main-content tr.filters input, #main-content tr.filters select {
+#main-content tr.filters input {
 	width: calc(100% - 25px);
 }
 #main-content tr.filters input[name="User[id]"] {
@@ -1347,12 +1347,13 @@ footer.block {
 	margin-bottom: 0;
 }
 .re-preview {
-	background-image: url(../images/icons/icon-preview.png);
+	background-color: #63bb67;
+	background-image: url(../images/icons/icon-preview-hover.png);
+	/*background-image: url(../images/icons/icon-preview.png);*/
 	height: 32px;
 	width: 34px;
 }
 .re-preview:hover {
-	background-image: url(../images/icons/icon-preview-hover.png);
 }
 .news-row {
 	margin-bottom: 9px;

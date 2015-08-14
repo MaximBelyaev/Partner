@@ -126,8 +126,8 @@ class Referrals extends CActiveRecord
 			->compare('request_type',$this->request_type,true)
 			->compare('requests',$this->requests,true)
 			->compare('user.username',$this->username,true)
-			->compare('money',$this->money,true)
-			->compare('`referrals`.`status`',$this->status,true)
+			->compare('money', $this->money,true)
+			->compare('`t`.`status`', $this->status,true)
 			->compare('date',$this->date)
 			->compare('recreate_interval',$this->recreate_interval,true)
 			->compare('recreate_date',$this->recreate_date,true);

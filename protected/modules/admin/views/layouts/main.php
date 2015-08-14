@@ -298,7 +298,7 @@
 						console.log(data);
 						if(data.status=="success") {
 							$("#formResult").html("Клиент добавлен успешно.");
-							//$("#create-referral-form")[0].reset();
+							$("#create-referral-form")[0].reset();
 							window.setTimeout(function(){
 								//$(".close-modal").trigger("click");
 								console.log($("#createRefModal").modal("hide"));
@@ -326,13 +326,13 @@
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" href="#createModal" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog">
         <div class="modal-content">
-            <?php $newUser=Yii::app()->controller->newUser ?>
-            <?php $form=$this->beginWidget('CActiveForm', array(
+            <?php $newUser = Yii::app()->controller->newUser ?>
+            <?php $form = $this->beginWidget('CActiveForm', array(
                 'action'=>array('user/create'),
                 'id'=>'create-user-form',
                 'enableAjaxValidation' => true,
-                'clientOptions'=>array(
-                    'validateOnSubmit'=>true,
+                'clientOptions' => array(
+                    'validateOnSubmit' 	=> true,
                 ),
             )); ?>
             <h4 class="modal-title">Добавить партнёра</h4>
@@ -340,7 +340,14 @@
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">&times;</button>
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'username'); ?>
-                <?php echo $form->textField($newUser,'username',array('size'=>60,'maxlength'=>150,)); ?>
+                <?php echo $form->textField(
+                	$newUser,
+                	'username',
+                	array(
+                		'size' => 60,
+                		'maxlength' => 150,
+					)
+				); ?>
                 <?php echo $form->error($newUser,'username'); ?>
             </div>
 
@@ -375,7 +382,15 @@
 
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'password'); ?>
-                <?php echo $form->textField($newUser,'password',array('size'=>50,'maxlength'=>50)); ?>
+                <?php echo $form->passwordField(
+                	$newUser,
+                	'password',
+                	array(
+						'size'=>50,
+						'maxlength'=>50,
+						'autocomplete'=>'off'
+                	)
+                ); ?>
                 <?php echo $form->error($newUser,'password'); ?>
             </div>
 

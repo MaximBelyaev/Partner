@@ -61,13 +61,17 @@ $columns = array(
         'headerHtmlOptions' => array('class' => 'width90'),
         'filterHtmlOptions' => array('class' => 'width90'),
         'value' => '$data->status',
-        'filter' => CHtml::activeDropDownList($model, 'status',array('Заявка'=>'Заявка','Оплачено'=>'Оплачено'), array('empty'=>'Все', 'class'=>'dropdown')),
+        'filter' => CHtml::activeDropDownList(
+            $model, 'status', array(
+                'Заявка'    => 'Заявка',
+                'Оплачено'  => 'Оплачено'
+            ), 
+            array(
+                'empty' => 'Все', 
+                'class' => 'dropdown'
+            )
+        ),
     ),
-    /*
-    'region',
-    'requests',
-    'user_from',
-    */
     array(
         'header'=>'Ред',
         'class'=>'CButtonColumn',
