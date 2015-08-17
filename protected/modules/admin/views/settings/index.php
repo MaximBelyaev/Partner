@@ -227,8 +227,8 @@ $this->setPageTitle("Настройки | Партнерская програм�
 					class="btn" 
 					id="update-check" 
 					data-mode="check" 
-					data-checkUrl='/admin/default/checkUpdate'
-					data-updateUrl='/admin/default/downloadAndUpdate'
+					data-checkUrl='/admin/update/checkUpdate'
+					data-updateUrl='/admin/update/downloadAndUpdate'
 				>Проверить актуальность версии</a>
 			</div>
 		</div>
