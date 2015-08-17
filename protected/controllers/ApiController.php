@@ -11,6 +11,7 @@ class ApiController extends Controller
 		$cookie_refer_id = isset($_COOKIE['refer_id']) ? $_COOKIE['refer_id'] : '';
 		$ip 		= isset($_GET['ip']) ? $_GET['ip'] : '';
 		$refer_id 	= isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
+		$land_url	= isset($_GET['land_url']) ? $_GET['land_url'] : '';
 		$land_id 	= isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
 		$user_id 	= '';
 		$user 		= '';
@@ -39,11 +40,27 @@ class ApiController extends Controller
 		}
 
 		$settingsClickpay = Setting::model()->find(array('condition' => "name = 'click_pay'"));
-		$land = Landings::model()->findByPk($land_id);
+		
+		$land = Landings::model()->find("link LIKE '%$land_url%'");
+		if ( !$land && $land_id > 0 ) {
+			$land = Landings::model()->findByPk($land_id);	
+		} else if ( !$land && $user && isset($user->users_landings[0]) ) {
+			$land = Landings::model()->findByPk($user->users_landings[0]->land_id);
+		} else {
+			$lands = Landings::model()->findAll();
+			if (!empty($lands)) {
+				$land  = $lands[0];
+			}
+		}
+
+		if ($land) {
+			$land_id = $land->land_id;
+		}
+		# если land_id не указан, то 
 		$r = new Requests();
-		$r->ip = $ip;
+		$r->ip 		= $ip;
 		$r->land_id = $land_id;
-		$r->date = date('Y-m-d');
+		$r->date 	= date('Y-m-d');
 
 		if ($user && $user->use_click_pay && $settingsClickpay->status == '1') {
 			$r->click_pay = 1;
