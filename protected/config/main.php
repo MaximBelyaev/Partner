@@ -103,7 +103,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
-		'uploadPath' => '/uploamysql:host=localhost;dbname=rentalcontrol/',
+		'uploadPath' => '/uploads/',
 		'activation' => 'activated',
 		'dbsetup' => 'activated',
 		'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
