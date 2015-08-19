@@ -32,6 +32,9 @@ class UpdateController extends AdminController
 					if (isset($metaData->current_version) && $metaData->current_version != $metaData->latest_version) {
 						$status = 'has_upd';
 						$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
+					} else if(!isset($metaData->current_version) && $metaData->latest_version) {
+						$status = 'has_upd';
+						$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
 					} else {
 						$status = 'ok ';
 						$msg 	= 'Новых обновлений нет';
@@ -58,19 +61,23 @@ class UpdateController extends AdminController
 		));
 	}
 
+	/* скачиваем архив с обновлением, если надо обновляем БД */
 	public function actionDownloadAndUpdate()
 	{
+		/* получаем лицензию пользователя */
 		$l = $this->getLicense();
 
 		if ($l)
 		{
-			# ссылка на сервер для обновления
+			/* ссылка на сервер для обновления */
 			$zipFileURL = Yii::app()->params['updateServer'] . 'update/' . $l;
+			/* получаем архив с последней версией */
 			$data = file_get_contents($zipFileURL);
 
 			if($data)
 			{
 				$load_path = 'uploads/update_archive.zip';
+				/* полученный архив сохраняем в файл на сервере */
 				if( file_put_contents( $load_path, $data ) )
 				{
 					
@@ -79,11 +86,28 @@ class UpdateController extends AdminController
 					$zip->extractTo('./');
 
 					if ( $zip->close() ) {
-						$this->updateMeta('current_version');
+
+						$dbUpdateUrl = Yii::app()->params['updateServer'] . 'dbUpdate/' . $l;
+						$dbData = file_get_contents($dbUpdateUrl);
+						$dbData = json_decode($dbData);
+
+						if ($dbData) {
+							if( $dbData->status == 'has_update' ) {
+								$connection = Yii::app()->db;
+								try {
+									$command = $connection->createCommand($dbData->db_update);
+									$command->execute();
+								} catch (Exception $e) {
+									$command = $connection->createCommand($dbData->db_revert);
+									@$command->execute();
+								}
+							}
+						}
 						
+
+						$this->updateMeta('current_version');
 						$status = 'updated';
 						$msg = "Система обновлена";
-						
 						$version = file_get_contents('meta.json');
 						$version = json_decode($version, true);
 						$version = $version['current_version'];
@@ -91,6 +115,7 @@ class UpdateController extends AdminController
 						$connection = Yii::app()->db;
 						$command = $connection->createCommand($versionsql);
 						$command->execute();
+						
 					}
 					else
 					{

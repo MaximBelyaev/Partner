@@ -21,8 +21,6 @@ RedactorPlugins.preview = function(){
  
             this.modal.load('preview', 'Предпросмотр', 1000);
  
-            // this.modal.createCancelButton();
- 
             this.modal.show();
  
             $('#mymodal-textarea').focus();

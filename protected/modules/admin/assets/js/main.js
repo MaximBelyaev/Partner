@@ -1,11 +1,15 @@
-var blocks_margin = 20,
-    menu_trigger_width = 1400;
+var blocks_margin = 20; // отступы между блоками
+   
 
+/* функция устанавливает блоку с классом full-page-block
+*  минимальную высоту равную высоте экрана
+*/
 var setContentHeight = function() {
     var $block = $('.full-page-block'),
         block_of = $block.offset();
 
     if (block_of != undefined) {
+    	// block_top - отступ блока от верха окна
         var block_top = block_of.top;
         $block.css(
             'min-height',
@@ -16,43 +20,26 @@ var setContentHeight = function() {
 }
 
 $( document ).ready(function() {
-    
-    var btn = $('#add-size'),
-        $mob_menu_trigger = $('#mob-menu-trigger'),
-        $top_menu_mobile = $('#top_menu_mobile'),
-        $sidebar_overlay = $('#sidebar-overlay');
-    console.log($top_menu_mobile);
 
+		// кнопка открытия бокового меню    
+    var $mob_menu_trigger = $('#mob-menu-trigger'),
+    	// выпадающий список - верхнее меню(появляется только на маленьких экранах) 
+        $top_menu_mobile = $('#top_menu_mobile'), 
+        // темная заливка экрана при открытом боковом меню
+        $sidebar_overlay = $('#sidebar-overlay');
 
     setContentHeight();
     $(window).on('resize', setContentHeight );
 
-
     $top_menu_mobile.on('change', function(event) {
         if(this.value){
-            console.log(window.location.href = this.value);
+            window.location.href = this.value;
         }
-    });
-    
-
-
-    btn.click(function(){
-        var spanForCount = $('#count');
-        var count = parseInt(spanForCount.html())+1;
-        $('<div class="row">' +
-            '<label class="required" for="Sizes_name">Размер<span class="required">*</span></label>' +
-            '<input type="text" value="" name="Sizes['+count+'][name]" maxlength="100" size="45">' +
-            '<label class="required" for="Sizes_name">Колличество<span class="required">*</span></label>' +
-            '<input type="text" value="" name="Sizes['+count+'][count]" maxlength="100" size="45">' +
-            '</div>').appendTo("#sizes-row");
-        spanForCount.html(count);
     });
 
 	$mob_menu_trigger.on( 'click', function() {
-		if ($(window).width() <= menu_trigger_width) {
-            if ($mob_menu_trigger.data('for')) {
-				$($('#' + $mob_menu_trigger.data('for'))).toggleClass('opened');
-			};
+		if ($mob_menu_trigger.data('for')) {
+			$($('#' + $mob_menu_trigger.data('for'))).toggleClass('opened');
 		};
 	});
 

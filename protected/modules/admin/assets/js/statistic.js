@@ -150,10 +150,10 @@ function loadRangeData(start, end, type, output_type) {
 	* start - время начала графика
 	* end   - время конца графика
 	* type  - тип статистики(заказы, заяки, переходы и т.д.)
-	* output_type - вид данных на выходе
-	* 	chart - график
-	*	table - таблица 
-	*	both  - оба вида 
+	* output_type - виды данных на выходе:
+	* 		chart - график
+	*		table - таблица 
+	*		both  - оба вида 
 	**/
 	$.ajax({
 		url: '/admin/statistics/range',
@@ -161,7 +161,7 @@ function loadRangeData(start, end, type, output_type) {
 		dataType: 'json',
 		data: {start: start, end: end, type: type, output_type: output_type},
 		beforeSend: function() {
-			// перед отправкой данных, затемняем график или таблицу
+			// перед отправкой данных, затемняем график и/или таблицу
 			if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
 				$('.stats_block .preloader').add('.stats_block .preloader_wrap').fadeIn('200');
 			} 
@@ -174,6 +174,7 @@ function loadRangeData(start, end, type, output_type) {
 		// console.log(ans);
 		if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
 			var dataArray = [];
+			
 			$.each(ans.charts, function(index, val) {
 				dataArray.push({data:val});
 			});

@@ -112,7 +112,9 @@ class ApiController extends Controller
 			$referral->user_from 	= isset($_GET['user_from']) ? trim($_GET['user_from']) : '';
 			$referral->promo 		= isset($_GET['promo_code']) ? trim($_GET['promo_code']) : '';
 			$referral->land_id 		= isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
-			
+			$referral->status 		= Referrals::$STATUS_REQUEST;
+
+
 			$partner_site    = isset($_GET['partner_site']) ? $_GET['partner_site'] : '';
 			$cookie_refer_id = isset($_GET['cookie_refer_id']) ? $_GET['cookie_refer_id'] : '';
 			$refer_id 		 = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
