@@ -116,14 +116,18 @@ $(document).ready(function() {
     };
 
 	$("#chart").on("plothover", function (event, pos, item) {
-		if (item) {
-            var landsString = '';
-            var lines = Object.size(item.series.data[item.dataIndex].land) + 1;
+        if (item) {
+            var landsString = '', // добавляем под общим числом уточнение для каждого лендинга
+                lines = Object.size(item.series.data[item.dataIndex].land) + 1, // количество строк, которое занимает подсказка
+                ct    = document.querySelector('.chart_buttons .current_type') // выбранный тип статистики (заявки, партнеры и т.д)
             $.each(item.series.data[item.dataIndex].land, function(i, val) {
-                if (val != undefined) {
-                    landsString += (val['name'] + ": "
-                    + val['value'] + "<br>");
-                };
+                // добавляем уточнение, для всех типов, кроме "партнеры"
+                if( ct && ct.dataset.type!='undefined' && ct.dataset.type!='user') {
+                    if (val != undefined) {
+                        landsString += (val['name'] + ": "
+                        + val['value'] + "<br>");
+                    }
+                }
             });
 			var y = item.datapoint[1].toFixed(2),
                 $stat_block_offset = $('.stats_block').offset(),
@@ -146,10 +150,10 @@ function loadRangeData(start, end, type, output_type) {
 	* start - время начала графика
 	* end   - время конца графика
 	* type  - тип статистики(заказы, заяки, переходы и т.д.)
-	* output_type - вид данных на выходе
-	* 	chart - график
-	*	table - таблица 
-	*	both  - оба вида 
+	* output_type - виды данных на выходе:
+	* 		chart - график
+	*		table - таблица 
+	*		both  - оба вида 
 	**/
 	$.ajax({
 		url: '/admin/statistics/range',
@@ -157,7 +161,7 @@ function loadRangeData(start, end, type, output_type) {
 		dataType: 'json',
 		data: {start: start, end: end, type: type, output_type: output_type},
 		beforeSend: function() {
-			// перед отправкой данных, затемняем график или таблицу
+			// перед отправкой данных, затемняем график и/или таблицу
 			if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
 				$('.stats_block .preloader').add('.stats_block .preloader_wrap').fadeIn('200');
 			} 
@@ -170,6 +174,7 @@ function loadRangeData(start, end, type, output_type) {
 		// console.log(ans);
 		if (output_type == 'chart' || output_type == undefined || output_type == 'both') {
 			var dataArray = [];
+			
 			$.each(ans.charts, function(index, val) {
 				dataArray.push({data:val});
 			});

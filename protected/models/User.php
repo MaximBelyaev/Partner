@@ -335,6 +335,8 @@ class User extends CActiveRecord
 	{
 		parent::beforeSave();
 
+		$this->reg_date = date("Y-m-d H:i:s");
+
 		# если введен новый сайт и не установлен старый сайт
 		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
 			# устанавливаем сайт для подтверждения
@@ -342,31 +344,8 @@ class User extends CActiveRecord
 			# а старый сайт вернем
 			$this->site = $this->old_site;
 		}
-		/*
-		$this->site = trim(trim($this->site), '/');
-		if ($this->site != '') {
 
-			$host = parse_url($this->site, PHP_URL_HOST);
-			if (is_null($host)) {
-				$this->addError('site',
-					"Не удалось разобрать введенный URL. <br> 
-					Попробуйте ввести заново или изменить формат ввода");
-			}
-			$is_excepted = Setting::model()->find('name = "exception_sites" AND value LIKE "%' . $host . '%"');
 
-			if ($is_excepted) {
-				$this->addError('site', 'Этот сайт находится в списке исключений');
-			}
-
-			$duplicate_sites = User::model()->find(array(
-				'select' => 'id',
-				'condition' => "id!={$this->id} AND site LIKE '%$host%'",
-			));
-			if ($duplicate_sites) {
-				$this->addError('site', 'Данный сайт уже используется другим партнером');
-			}
-		}
-		*/
 		
 		$promo_code = trim($this->promo_code);
 		if ($promo_code != '') {
@@ -393,10 +372,11 @@ class User extends CActiveRecord
         if($this->isNewRecord){
 			if (trim($this->promo_code) == '') {
 				$this->promo_code = Yii::app()->params['promoPrefix'] . $this->id;
+				$this->setIsNewRecord(false);
+				$this->save();
 			}
         }
 
-		$this->setIsNewRecord(false);
 
 		if ($this->old_site != $this->site) {
 			// Добавляем уведомления

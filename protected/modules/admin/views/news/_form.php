@@ -1,9 +1,10 @@
-<?php
-/* @var $this NewsController */
-/* @var $model News */
-/* @var $form CActiveForm */
-Yii::import('ext.tinymce.TinyMceFileManager')
-?>
+<?php Yii::import('ext.tinymce.TinyMceFileManager') ?>
+
+<link 
+	href="<?= Yii::app()->getModule('user')->assetsUrl ?>/css/news.css"
+	rel="stylesheet" 
+	type="text/css" 
+>
 
 <div class="block full-page-block">
 
@@ -45,6 +46,7 @@ Yii::import('ext.tinymce.TinyMceFileManager')
 			'model' 	 => $model, 
 			'attribute'  => 'text',
 			'options'	 => array(
+				'plugins' => array('preview'),
 				'fileUpload' =>Yii::app()->createUrl('admin/news/fileUpload',array(
 					'attr'	=>'text'
 				)),

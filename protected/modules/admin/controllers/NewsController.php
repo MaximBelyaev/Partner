@@ -25,8 +25,11 @@ class NewsController extends AdminController
 	 */
 	public function actionCreate()
 	{
-		$model=new News;
+		$model = new News;
 
+		$cs = Yii::app()->getClientScript();
+		$cs->registerScriptFile( $this->module->assetsUrl.'/js/redactor.preview.plugin.js' );
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -52,6 +55,9 @@ class NewsController extends AdminController
 	{
 		$model=$this->loadModel($id);
 
+		$cs = Yii::app()->getClientScript();
+		$cs->registerScriptFile( $this->module->assetsUrl.'/js/redactor.preview.plugin.js' );
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 

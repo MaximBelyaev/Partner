@@ -14,7 +14,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 	<div class="span6 block">
 
 		<div class="head">
-			<h5>Новые клиенты</h5>
+			<h5>Новые заявки</h5>
 		</div>
 		<?php $this->widget('zii.widgets.grid.CGridView', array(
 		    'dataProvider' => $referralModel,

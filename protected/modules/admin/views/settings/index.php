@@ -28,7 +28,9 @@ $this->setPageTitle("Настройки | Партнерская програм�
 			'class' => 'row-fluid setting-form'
 		)); ?>
 		<div class='row-fluid'>
-			
+		
+    <div class="settings-block">
+
 		<div class="settings-col">
 			
 			<h4 class="form-block-header">
@@ -158,7 +160,6 @@ $this->setPageTitle("Настройки | Партнерская програм�
                     <?php echo CHtml::activeTextField($model['phone'],"[phone]value") ?>
                 </div>
             </div>
-
         </div>
         <!--Конец блока связи-->
 	
@@ -172,8 +173,16 @@ $this->setPageTitle("Настройки | Партнерская програм�
                 { ?>
             <div class="col form-row">
                 <label class="inline-block" data-var="<?= $pay->setting_id ?>">
-					<?= $model[$pay->name]->header ?>
-                    <?php echo Chtml::link('', '', array('class'=>'icon-trash icon-white', 'id' => 'delete_payment', 'data-var' => $pay->setting_id)); ?>
+                    <?php echo Chtml::link(
+                        '', '', 
+                        array(
+                            'class'    =>'icon-trash icon-white', 
+                            'id'       => 'delete_payment', 
+                            'data-var' => $pay->setting_id,
+                            'title'    => 'Удалить ' . $model[$pay->name]->header, 
+                        )
+                    ); ?>
+                    <?= $model[$pay->name]->header ?>
                 </label>
             </div>
 
@@ -183,18 +192,28 @@ $this->setPageTitle("Настройки | Партнерская програм�
                 <input type="text" id="payment_name"  />
             </div>
             <div class="col form-row">
-            <?php echo Chtml::link('Добавить способ оплаты', '', array('class'=>'btn btn-primary', 'id' => 'add_payment')); ?>
+            <?php echo Chtml::link(
+                    'Добавить способ оплаты', 
+                    '', 
+                    array(
+                        'class'=>'btn btn-success', 
+                        'id' => 'add_payment'
+                    )
+            ); ?>
             </div>
-            <div class="row-fluid">
-                <div class="span12">
-                    <?php echo CHtml::submitButton(
-                        'Сохранить',
-                        array('class' => 'btn btn-primary '
-                        )); ?>
-                </div>
-            </div>
-
 		</div>
+
+
+        <div class="row-fluid">
+            <div class="span12">
+                <?php echo CHtml::submitButton(
+                    'Сохранить',
+                    array('class' => 'btn btn-primary '
+                )); ?>
+            </div>
+        </div>
+    </div>
+
 
 		<div class="settings-col update-block">
 			<h4 class="form-block-header">
@@ -208,53 +227,11 @@ $this->setPageTitle("Настройки | Партнерская програм�
 					class="btn" 
 					id="update-check" 
 					data-mode="check" 
-					data-checkUrl='/admin/default/checkUpdate'
-					data-updateUrl='/admin/default/downloadAndUpdate'
+					data-checkUrl='/admin/update/checkUpdate'
+					data-updateUrl='/admin/update/downloadAndUpdate'
 				>Проверить актуальность версии</a>
 			</div>
 		</div>
-
-
-		<!-- 
-		<div class="pay_systems settings-col">
-		
-			<h4 class="form-block-header">
-				Платёжные системы			
-			</h4>	
-		
-			<div class="col form-row">
-				<?php echo CHtml::activeCheckBox($model['qiwi'],"[qiwi]status") ?>
-				<label for="Setting_qiwi_status"></label>
-				<label class="inline-block" for="Setting_qiwi_status">
-					<?php echo $model['qiwi']->header ?>
-				</label>
-			</div>
-			
-			<div class="col form-row">
-				<?php echo CHtml::activeCheckBox($model['webmoney'],"[webmoney]status") ?>
-				<label for="Setting_webmoney_status"></label>
-				<label class="inline-block" for="Setting_webmoney_status">
-					<?php echo $model['webmoney']->header ?>
-				</label>
-			</div>
-		
-			<div class="col form-row">
-				<?php echo CHtml::activeCheckBox($model['yandex_money'],"[yandex_money]status") ?>
-				<label for="Setting_yandex_money_status"></label>
-				<label class="inline-block" for="Setting_yandex_money_status">
-					<?php echo $model['yandex_money']->header ?>
-				</label>
-			</div>
-		
-			<div class="col form-row">
-				<?php echo CHtml::activeCheckBox($model['paypal'],"[paypal]status") ?>
-				<label for="Setting_paypal_status"></label>
-				<label class="inline-block" for="Setting_paypal_status">
-					<?php echo $model['paypal']->header ?>
-				</label>
-			</div>
-				
-		</div> -->
 
 		</div>
 
@@ -263,11 +240,6 @@ $this->setPageTitle("Настройки | Партнерская програм�
 	</div>
 </div>
 
-
-<div class="col form-row">
-    <label class="inline-block">
-    </label>
-</div>
 <script>
     jQuery(document).ready(function($) {
         console.log($('#add_payment'));
