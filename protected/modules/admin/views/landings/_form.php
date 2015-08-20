@@ -54,6 +54,14 @@
 
         <div class="row-fluid form-row">
             <div class="span6">
+                <?php echo $form->labelEx($model,'fixed_pay'); ?>
+                <?php echo $form->textField( $model,'fixed_pay',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+                <?php echo $form->error( $model,'fixed_pay' ); ?>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row">
+            <div class="span6">
                 <?php echo $form->labelEx($model,'standard'); ?>
                 <?php echo $form->textField( $model,'standard',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
                 <?php echo $form->error( $model,'standard' ); ?>

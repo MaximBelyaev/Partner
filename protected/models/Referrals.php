@@ -332,7 +332,7 @@ class Referrals extends CActiveRecord
             	$this->status = self::$STATUS_APPLIED;
             }
 
-            $settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
+            //$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
             $settingsVip = Setting::model()->find(array('condition' => "name = 'vip'"));
             $settingsExtended = Setting::model()->find(array('condition' => "name = 'extended'"));
             $settingsStandard = Setting::model()->find(array('condition' => "name = 'standard'"));
@@ -345,35 +345,37 @@ class Referrals extends CActiveRecord
             	if (!$this->user->use_click_pay)
                 {
 					$profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
-
                     $land_percent = 0;
-                    if ($settingsFixedpay->status == '1' && $settingsFixedpay->value > 0)
+                    if ($land)
                     {
-                        $payment = $settingsFixedpay->value;
-                        $profit->profit += $payment;
-                        $profit->full_profit += $payment;
-                        $profit->save();
-                    }
-                    elseif ($land)
-                    {
-                        if ($this->user->status === "VIP")
+                        if ($this->user->use_fixed_pay > 0 && $land->fixed_pay && $land->fixed_pay > 0)
                         {
-                            $land_percent = $land->vip;
-                        }
-                        elseif ($this->user->status === "Расширенный")
-                        {
-                            $land_percent = $land->extended;
-                        }
-                        elseif ($this->user->status === "Стандартный")
-                        {
-                            $land_percent = $land->standard;
-                        }
-                        if ($land_percent > 0)
-                        {
-                            $payment = ($land_percent*$this->money)/100;
+                            $payment = $land->fixed_pay;
                             $profit->profit += $payment;
                             $profit->full_profit += $payment;
                             $profit->save();
+                        }
+                        else
+                        {
+                            if ($this->user->status === "VIP")
+                            {
+                                $land_percent = $land->vip;
+                            }
+                            elseif ($this->user->status === "Расширенный")
+                            {
+                                $land_percent = $land->extended;
+                            }
+                            elseif ($this->user->status === "Стандартный")
+                            {
+                                $land_percent = $land->standard;
+                            }
+                            if ($land_percent > 0)
+                            {
+                                $payment = ($land_percent*$this->money)/100;
+                                $profit->profit += $payment;
+                                $profit->full_profit += $payment;
+                                $profit->save();
+                            }
                         }
                     }
                     elseif (!$land || $land_percent = 0)

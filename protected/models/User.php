@@ -21,14 +21,18 @@ class User extends CActiveRecord
 
 	const PAY_CLICK = 'Оплата за переход';
 	const PAY_REFERR = 'Процент с заказа';
+	const PAY_FIX = 'Фиксированная оплата';
+
 
 
 	const PERC_PAY	= 0;
 	const CLICK_PAY = 1;
+    const FIXED_PAY = 4;
 
 	public static $work_modes = [
 		self::PERC_PAY 	=> 'Процент с заказа',
 		self::CLICK_PAY => 'Оплата за переход',
+		self::FIXED_PAY => 'Фиксированная оплата',
 	];
 
 
@@ -36,7 +40,7 @@ class User extends CActiveRecord
 	public static $statuses = [
 		'vip' => 'VIP',
 		'exp' => 'Расширенный',
-		'stand'=> 'Стандартный',
+		'stand' => 'Стандартный',
 	];
 
 
@@ -44,6 +48,7 @@ class User extends CActiveRecord
 	const DET_PERC_EXP   = 1;
 	const DET_PERC_VIP   = 2;
 	const DET_CLICK_PAY  = 3;
+	const DET_FIXED_PAY  = 4;
 
 
 	public static $work_modes_det = [
@@ -51,6 +56,7 @@ class User extends CActiveRecord
 		self::DET_PERC_EXP 		=> '% (Р)',
 		self::DET_PERC_VIP 		=> '% (V)',
 		self::DET_CLICK_PAY 	=> 'Клик',
+		self::DET_FIXED_PAY 	=> 'Фикс',
 	];
 
 	const VIP_DISPLAY = '|||';
@@ -124,15 +130,17 @@ class User extends CActiveRecord
 		return array(
 			array('username, password', 'required'),
 			array('username', 'email'),
+            array('click_pay, fixed_pay', 'length', 'max' => 11),
 			array('role, telephone, status', 'length', 'max' => 50),
-			array('use_click_pay, click_pay', 'numerical'),
+			array('use_click_pay, use_fixed_pay, click_pay, fixed_pay', 'numerical'),
 			array('username, country, region, city', 'length', 'max' => 150),
 			array('name, password, avatar, verification', 'length', 'max' => 255),
 			array('skype, promo_code, reg_date, birth_date, full_profit', 'safe'),
 			array('site', 'url', 'defaultScheme' => 'http'),
 			array('site, promo_code, money, requests_count, referrals_count, status, use_click_pay,
 			referrals_payed_count, id, role, username, full_profit, name, password, reg_date,
-			birth_date, sex, country, region, city, avatar, verification, active, telephone, month_profit', 'safe', 'on' => 'search'),
+			birth_date, sex, country, region, city, avatar, verification, active, telephone, month_profit,
+			use_fixed_pay, fixed_pay', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -183,6 +191,7 @@ class User extends CActiveRecord
 			'referrals_payed_count' => 'Заказы',
 			'use_click_pay' 	=> 'Формат',
 			'click_pay' 		=> 'Стоимость перехода',
+			'fixed_pay' 		=> 'Размер оплаты',
 			'month_profit' 		=> 'Прибыль',
 			'promo_code' 		=> "Промокод",
 		);
@@ -237,7 +246,9 @@ class User extends CActiveRecord
 				$criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")'); 
 			} else if( $this->use_click_pay == self::DET_CLICK_PAY  )  {
 				$criteria->addCondition('use_click_pay=1');
-			}
+			} else if( $this->use_click_pay == self::DET_FIXED_PAY  )  {
+                $criteria->addCondition('use_fixed_pay=1');
+            }
 		}
 
 		return new CActiveDataProvider(get_class($this), array(
@@ -335,6 +346,12 @@ class User extends CActiveRecord
 	{
 		parent::beforeSave();
 
+        if ($this->use_click_pay == 4)
+        {
+            $this->use_click_pay = 0;
+            $this->click_pay = 0;
+            $this->use_fixed_pay = 1;
+        }
 		# если введен новый сайт и не установлен старый сайт
 		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
 			# устанавливаем сайт для подтверждения
@@ -513,16 +530,27 @@ class User extends CActiveRecord
 
 	public function getFormatName()
 	{
-		 if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] ) {
+         if ($this->use_fixed_pay == 1)
+         {
+            return self::$work_modes_det[ self::DET_FIXED_PAY];
+         }
+		 else if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] )
+         {
 			return self::$work_modes_det[ self::DET_PERC_EXP ];
-		} else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] ) {
+		 }
+         else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] )
+         {
 			return self::$work_modes_det[ self::DET_PERC_VIP ];
-		} else if ( $this->use_click_pay == 0  ) {
+         }
+         else if ( $this->use_click_pay == 0  )
+         {
 			return self::$work_modes_det[ self::DET_PERC_STAND ];
-		} else if( $this->use_click_pay == 1 ) {
+		  }
+         else if( $this->use_click_pay == 1 )
+         {
 			return self::$work_modes_det[ self::DET_CLICK_PAY ];
-		}
-		return '';
+		 }
+		 return '';
 	}
 
 	public function getLandingIcon()
