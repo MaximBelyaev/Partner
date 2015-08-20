@@ -8,9 +8,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl ?>/css/main.css">
     <?php Yii::app()->getClientScript()->registerCoreScript('jquery'); ?>
     <script type="text/javascript" src="<?php echo $this->module->assetsUrl ?>/js/bootstrap.js"></script>
-    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />  
-    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/themes/easydropdown.partner.css" rel="stylesheet" type="text/css" />   
-
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/css/preloader.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/easydropdown-master/themes/easydropdown.partner.css" rel="stylesheet" type="text/css" />
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" ></script>
     <link href="<?php echo Yii::app()->getBaseUrl(true); ?>/js/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css" rel="stylesheet" type="text/css" />
     <script src="<?php echo Yii::app()->getBaseUrl(true); ?>/js/flot/jquery.flot.js" ></script>
@@ -72,22 +71,21 @@
 		),
 		'encodeLabel'=>false,
 	)); ?> 
-
         <div class="nav pull-left top_menu_mobile">
 			<select id="top_menu_mobile" class="dropdown">
-				<option value="<?= $this->createUrl('/admin/notifications/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/notifications/index'); ?>">
 					Уведомления <?= ($this->notifications_count)?"({$this->notifications_count})":''?>
 				</option>
-				<option value="<?= $this->createUrl('/admin/settings/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/settings/index'); ?>">
 					Настройки
 				</option>
-				<option value="<?= $this->createUrl('/admin/statistics/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/statistics/index'); ?>">
 					Статистика
 				</option>
-				<option value="<?= $this->createUrl('/user/user/index'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/user/user/index'); ?>">
 					Партнёрка
 				</option>
-				<option value="<?= $this->createUrl('/admin/default/logout'); ?>">
+				<option value="<?= $this->createAbsoluteUrl('/admin/default/logout'); ?>">
 					Выйти
 				</option>
 			</select>
@@ -103,11 +101,11 @@
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Landings.svg') . 'Лендинги',
                 'url'=>array('/admin/landings/index'),
 			),
-			array(
+			/*array(
 				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить лендинг',
 				'itemOptions' => array('class'=>'submenu'),
 				'url'=>array('/admin/landings/create'),
-			),
+			),*/
 			array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Clients.svg') . 'Клиенты',
                 'url'=>array('/admin/referrals/index'),
@@ -162,6 +160,7 @@
 	)); ?>
 	<?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
 </div>
+<div id="sidebar-overlay"></div>
 <div id="main-content">
 	<div class="container-fluid">
 		<?php if(isset($this->breadcrumbs) && false):?>
@@ -295,6 +294,7 @@
 					'dataType'=>'json',
 					'type'=>'post',
 					'success'=>'function(data) {
+						console.log(data);
 						if(data.status=="success") {
 							$("#formResult").html("Клиент добавлен успешно.");
 							$("#create-referral-form")[0].reset();
@@ -310,6 +310,8 @@
 							});
 						}
 					}',
+                    'error' => 'function(data){ console.log(data); }',
+					'done' => 'function(data) { console.log(data); }'
 				),
 				array('class' => 'btn btn-success')); ?>
 			</div>
@@ -323,13 +325,13 @@
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog" href="#createModal" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog">
         <div class="modal-content">
-            <?php $newUser=Yii::app()->controller->newUser ?>
-            <?php $form=$this->beginWidget('CActiveForm', array(
+            <?php $newUser = Yii::app()->controller->newUser ?>
+            <?php $form = $this->beginWidget('CActiveForm', array(
                 'action'=>array('user/create'),
                 'id'=>'create-user-form',
                 'enableAjaxValidation' => true,
-                'clientOptions'=>array(
-                    'validateOnSubmit'=>true,
+                'clientOptions' => array(
+                    'validateOnSubmit' 	=> true,
                 ),
             )); ?>
             <h4 class="modal-title">Добавить партнёра</h4>
@@ -337,7 +339,14 @@
             <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">&times;</button>
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'username'); ?>
-                <?php echo $form->textField($newUser,'username',array('size'=>60,'maxlength'=>150,)); ?>
+                <?php echo $form->textField(
+                	$newUser,
+                	'username',
+                	array(
+                		'size' => 60,
+                		'maxlength' => 150,
+					)
+				); ?>
                 <?php echo $form->error($newUser,'username'); ?>
             </div>
 
@@ -372,7 +381,15 @@
 
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'password'); ?>
-                <?php echo $form->textField($newUser,'password',array('size'=>50,'maxlength'=>50)); ?>
+                <?php echo $form->passwordField(
+                	$newUser,
+                	'password',
+                	array(
+						'size'=>50,
+						'maxlength'=>50,
+						'autocomplete'=>'off'
+                	)
+                ); ?>
                 <?php echo $form->error($newUser,'password'); ?>
             </div>
 
@@ -406,7 +423,7 @@
 							$("#formResultUser").html("Партнёр добавлен успешно.");
 							$("#create-user-form")[0].reset();
 							window.setTimeout(function(){
-								//$(".close-modal").trigger("click");
+								$(".close-modal").trigger("click");
 								console.log($("#createModal").modal("hide"));
 							}, 1500);
                         }

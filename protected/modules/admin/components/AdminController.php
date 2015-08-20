@@ -25,6 +25,8 @@ class AdminController extends CController
     public $newReferral;
     public $settingsList;
     public $landingsList;
+
+    public $payServices;
     public $landings;
 
     /**
@@ -80,7 +82,7 @@ class AdminController extends CController
 
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
-		if (count($landings) > 1) {
+		if (count($landings) >= 1) {
 			$lands = array( 0 => 'Все' );
 			foreach ($landings as $l) {
 				$lands[ $l->land_id ] = $l->name;
@@ -112,6 +114,9 @@ class AdminController extends CController
         for ($i = 0; $i < count($this->settingsList); $i++)
         {
             $this->settingsList[$this->settingsList[$i]->name] = $this->settingsList[$i];
+            if ( $this->settingsList[$i]->type == 'pay_service' ) {
+                $this->payServices[$this->settingsList[$i]->name] = $this->settingsList[$i]->header;
+            }
             unset($this->settingsList[$i]);
         }
 

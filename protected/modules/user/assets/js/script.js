@@ -28,7 +28,9 @@ jQuery(document).ready(function($) {
 		$daterange = $('.input-daterange'),
 		plot,
         $mob_menu_trigger = $('#mob-menu-trigger'),
-        menu_trigger_width = 900;
+        menu_trigger_width = 900,
+        $sidebar_overlay = $('#sidebar-overlay');
+
 	if ($('#stats').length) {
 		loadRangeData(date_start, date_end);
 	};
@@ -36,10 +38,13 @@ jQuery(document).ready(function($) {
 
 	$mob_menu_trigger.on( 'click', function() {
 		if ($(window).width() <= menu_trigger_width) {
-            if ($mob_menu_trigger.data('for')) {
+			if ($mob_menu_trigger.data('for')) {
 				$($('#' + $mob_menu_trigger.data('for'))).toggleClass('opened');
 			};
 		};
+	});
+	$sidebar_overlay.on( 'click', function(event) {
+		$($('#' + $mob_menu_trigger.data('for'))).removeClass('opened');
 	});
 
     $('#landing_select').on('change', function(event) {

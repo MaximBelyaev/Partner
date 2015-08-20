@@ -175,15 +175,16 @@ class Stateds extends CActiveRecord
 
 	protected function afterSave()
 	{
-		$email = Yii::app()->email;
-		$email->from = 'Future <admin@'.$_SERVER['HTTP_HOST'].'>';
-		$email->to = Yii::app()->params['adminEmail'];
-		$email->subject = 'Новая заявка на вывод';
-		$email->message = "Вы получили новую заявку на вывод средств";
-		$email->send();
     
         if($this->isNewRecord)
 		{
+			$email = Yii::app()->email;
+			$email->from = 'Future <admin@'.$_SERVER['HTTP_HOST'].'>';
+			$email->to = Yii::app()->params['adminEmail'];
+			$email->subject = 'Новая заявка на вывод';
+			$email->message = "Вы получили новую заявку на вывод средств";
+			#$email->send();
+			
             $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
             $profit->profit -= $this->money;
             $profit->save();
@@ -210,8 +211,6 @@ class Stateds extends CActiveRecord
 				$email->message = "Ваш счет пополнен на " . $this->money . " рублей";
 				# $email->send();
             }
-            var_dump($this->status);
-            var_dump(self::STATUS_DENIED);
             # если заявка на вывод средств была отклонена, то возвращаем партнеру деньги
             if($this->status == self::STATUS_DENIED && ($this->money > 0)){
                 $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
@@ -235,5 +234,13 @@ class Stateds extends CActiveRecord
 		foreach ($nots as $not) {
 			$not->delete();
 		}
+    }
+
+    public function getPayService() {
+    	if (isset(Yii::app()->controller->payServices[$this->pay_type])) {
+    		return Yii::app()->controller->payServices[$this->pay_type];
+    	} else {
+    		return $this->pay_type;
+    	}
     }
 }

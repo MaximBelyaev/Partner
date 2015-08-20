@@ -53,7 +53,7 @@
 
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'password'); ?>
-				<?php echo $form->textField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
+				<?php echo $form->passwordField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
 				<?php echo $form->error($model,'password'); ?>
 			</div>
 

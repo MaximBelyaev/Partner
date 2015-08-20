@@ -40,7 +40,12 @@
 		<div class="span12">
 			<div class="form-row">
 				<?php echo $form->labelEx($model,'type'); ?>
-				<?php echo $form->dropDownList($model,'type', $typesList); ?>
+				<?php echo $form->dropDownList(
+					$model,
+					'type', 
+					$typesList,
+					array('class' => 'dropdown')
+				); ?>
 				<?php echo $form->error($model,'type'); ?>
 			</div>
 

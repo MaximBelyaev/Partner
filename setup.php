@@ -1,50 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Конфигурация базы данных</title>
-</head>
-<body>
-<?php
-    $config = include(dirname(__FILE__) . '/protected/config/main.php');
-    if ($config['params']['dbsetup'] !== "activated")
-    {
-?>
-<h4>Создайте <b>пустую</b> базу данных. Затем введите данные для подключения к ней в следующую форму:</h4>
-<form method="post" action="setup.php">
-    <label for="username">Имя пользователя</label>
-    <input type="text" name="db_username" id="username">
+<?php 
 
-    <label for="password">Пароль</label>
-    <input type="password" name="db_password" id="password">
+$config = include(dirname(__FILE__) . '/protected/config/main.php');
+if (isset($_POST['submit']))
+{
+	tryConnection();
+}
 
-    <label for="server">Сервер</label>
-    <input type="text" name="db_server" id="server">
-
-    <label for="database">База данных</label>
-    <input type="text" name="db_database" id="database">
-
-    <br>
-    <h4>Создание пользователя-администратора</h4>
-
-    <label for="admin_username">Логик</label>
-    <input type="text" name="admin_username" id="admin_username" value="admin">
-
-    <label for="admin_pass">Пароль</label>
-    <input type="text" name="admin_pass" id="admin_pass" value="admin">
-
-    <input type="submit" value="Подтвердить" name="submit">
-</form>
-
-<?php
-    }
-    else
-    { ?>
-        База данных уже установлена.
-        <a href="/">Перейти на главную</a>
-  <?php  }
-?>
-
-<?php
 function tryConnection ()
 {
     //Проверяем подключение к базе по введённым данным
@@ -73,17 +34,28 @@ function tryConnection ()
         {
             if (mysqli_multi_query($connection, $sql))
             {
+            	// sleep нужен, так как mysqli_multi_query не успевает выполниться,
+            	// когда начинают работать следующие запросы
+            	sleep(3);
+            	// открываем соединение заново, чтобы избежать ошибки
+            	// Commands out of sync; you can't run this command now
+                $connection = mysqli_connect($_POST['db_server'], $_POST['db_username'], $_POST['db_password'], $_POST['db_database']);
                 //Создаём администратора
                 if ($_POST['admin_username'] && $_POST['admin_pass'])
                 {
-                    $adminsql = "INSERT INTO user(role, username, password, status) VALUES('admin','" . $_POST['admin_username'] . "','" . $_POST['admin_pass'] . "','VIP')";
+                    $adminsql = "INSERT INTO 
+                    	user(role, username, password, status) 
+                    	VALUES(
+                    		'admin',
+                    		'" . $_POST['admin_username'] . "',
+                    		'" . $_POST['admin_pass'] . "',
+                    		'VIP')";
                     mysqli_query($connection, $adminsql);
+                    echo mysqli_error($connection);
                 }
 
                 //Записываем версию партнёрки
-                $version = file_get_contents(dirname(__FILE__) . '/meta.json');
-                $version = json_decode($version, true);
-                $version = $version['current_version'];
+                $version = file_get_contents(dirname(__FILE__) . '/version.txt');
                 $versionsql = "INSERT INTO versions(version) VALUES('" . $version . "')";
                 mysqli_query($connection, $versionsql);
 
@@ -119,10 +91,47 @@ function tryConnection ()
         }
     }
 }
-    if (isset($_POST['submit']))
-    {
-        tryConnection();
-    }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Конфигурация базы данных</title>
+</head>
+<body>
+
+<?php if ($config['params']['dbsetup'] !== "activated") { ?>
+
+<h4>Создайте <b>пустую</b> базу данных. Затем введите данные для подключения к ней в следующую форму:</h4>
+<form method="post" action="setup.php">
+    <label for="username">Имя пользователя</label>
+    <input type="text" name="db_username" id="username">
+
+    <label for="password">Пароль</label>
+    <input type="password" name="db_password" id="password">
+
+    <label for="server">Сервер</label>
+    <input type="text" name="db_server" id="server">
+
+    <label for="database">База данных</label>
+    <input type="text" name="db_database" id="database">
+
+    <br>
+    <h4>Создание пользователя-администратора</h4>
+
+    <label for="admin_username">Логин</label>
+    <input type="text" name="admin_username" id="admin_username" value="admin">
+
+    <label for="admin_pass">Пароль</label>
+    <input type="text" name="admin_pass" id="admin_pass" value="admin">
+
+    <input type="submit" value="Подтвердить" name="submit">
+</form>
+
+<?php } else { ?>
+	База данных уже установлена.
+	<a href="/">Перейти на главную</a>
+<?php } ?>
+
 </body>
 </html>

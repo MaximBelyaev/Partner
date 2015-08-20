@@ -10,9 +10,10 @@
 class Chart
 {
 	public $user = null;
-	protected $l;
 	public $landings;
 
+	protected $l;
+	
 	public function __construct($user = null) {
 		$this->landings = Yii::app()->controller->landings;
 		unset($this->landings[0]);
@@ -61,11 +62,15 @@ class Chart
 
 
         $d = array();
+
+        # для каждой точки графика считаем ее данные
         for($i = 0; $i < $dotsCount; $i++) {
 
+        	# высчитаем необходимый временной интервал с которого берем данные
             $intervalStart = $start + $delta * $i;
             $intervalEnd = $start + $delta * ($i + 1);
 
+            # умножим на 1000, чтобы получить корректную дату в flotcharts 
             $d[$i][0] = $intervalStart * 1000;
             $d[$i][1] = 0;
             $d[$i]['land'] = [];

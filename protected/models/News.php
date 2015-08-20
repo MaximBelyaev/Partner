@@ -159,7 +159,8 @@ class News extends CActiveRecord
 			$users = User::model();
 			# если мы выбрали для новости конкретный лендинг, 
 			# то выбераем только пользователей, которые работают с этим лендингом 
-			if( !is_null($this->land_id) && $this->land_id ) {
+			# TODO это надо будет переделать
+			/*if( !is_null($this->land_id) && $this->land_id ) {
 				$users = $users->with(array(
 					'users_landings' => array(
 						'select' => false,
@@ -167,7 +168,7 @@ class News extends CActiveRecord
 						'condition' => 'users_landings.land_id = ' . $this->land_id 
 					)
 				));
-			}
+			}*/
 			$users = $users->findAll();
 
 			foreach ($users as $user) {

@@ -103,12 +103,11 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params'=>array(
-		'uploadPath' => '/uploamysql:host=localhost;dbname=rentalcontrol/',
+		'uploadPath' => '/uploads/',
 		'activation' => 'activated',
 		'dbsetup' => 'activated',
 		'languages' => array('ru'=>'Русский', 'uk'=>'Українська','en'=>'English'),
 		
-		# это надо убрать из использования. процент будет браться из БД
 		'adminName'  => 'Александр Павлуцкий',
 		'adminEmail' => 'some.nugget@gmail.com',
 
@@ -125,7 +124,6 @@ return array(
         'promoPrefix' => 'PROMO_',
 
         # сервер, на котором хранятся версии партнерки
-        # условие с $_SERVER['SERVER_NAME'] в будущем уберем
 		'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
         'tests' => 'http://prtserver.shvets.net/api/tests'
 	),

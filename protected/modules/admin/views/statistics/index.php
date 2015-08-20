@@ -50,7 +50,7 @@
 				<div class="preloader_wrap"></div>
 				<div class="stats_header stats_row">
 					<p>Партнеры</p>
-					<p>Клиенты</p>
+					<p>Заявки</p>
 					<p>Переходы</p>
 					<p>Заказы</p>
 					<p>Прибыль</p>

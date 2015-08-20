@@ -39,7 +39,6 @@
 
     <div class="row-fluid">
         <div class="span4">
-
 	        <div class="form-row">
 	            <?php echo $form->labelEx($model,'money'); ?>
 	            <?php echo $form->textField($model,'money',array('size'=>8,'maxlength'=>8)); ?>
@@ -48,7 +47,14 @@
 
 	        <div class="form-row">
 	            <?php echo $form->labelEx($model,'pay_type'); ?>
-	            <?php echo $form->dropDownList($model,'pay_type',array('WebMoney'=>'WebMoney','Яndex деньги'=>'Яndex деньги')); ?>
+	            <?php echo $form->dropDownList(
+                        $model,
+                        'pay_type',
+                        Yii::app()->controller->payServices,
+                        array( 
+                            'class' => 'dropdown'
+                        )
+                ); ?>
 	            <?php echo $form->error($model,'pay_type'); ?>
 	        </div>
 
@@ -75,7 +81,18 @@
 
             <div class="form-row">
                 <?php echo $form->labelEx($model,'status'); ?>
-                <?php echo $form->dropDownList($model,'status', array('Ожидает оплату'=>'Ожидает оплату', 'Оплачено'=>'Оплачено', 'Отказано в оплате'=>'Отказано в оплате')); ?>
+                <?php echo $form->dropDownList(
+                    $model,
+                    'status', 
+                    array(
+                        'Ожидает оплату' => 'Ожидает оплату', 
+                        'Оплачено' => 'Оплачено', 
+                        'Отказано в оплате' => 'Отказано в оплате'
+                    ),
+                    array(
+                        'class' => 'dropdown'
+                    )
+                ); ?>
                 <?php echo $form->error($model,'status'); ?>
             </div>
         </div>

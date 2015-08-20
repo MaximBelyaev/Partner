@@ -12,17 +12,18 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
     <div>
         <div class="commercial-left">
 			<div id="tooltip">Текст скопирован</div>			
+			
 
-			<?php foreach (Yii::app()->controller->offers as $offer) { ?>
-
-			<?php if (Yii::app()->session['landing']) { 
-				# если у нас выбран лендинг с которым мы работаем, то 
-				# проходя в цикле всех лендингов мы будем проускать те лендинги, 
-				# которые у нас не выбраны
-				if ($offer->land_id != Yii::app()->session['landing']) {
-					continue;
-				}
-			} ?>
+			<?php if(!is_null(Yii::app()->controller->offers)) { 
+					foreach (Yii::app()->controller->offers as $offer) { 
+						if (Yii::app()->session['landing']) { 
+							# если у нас выбран лендинг с которым мы работаем, то 
+							# проходя в цикле всех лендингов мы будем проускать те лендинги, 
+							# которые у нас не выбраны
+							if ($offer->land_id != Yii::app()->session['landing']) {
+								continue;
+							}
+						} ?>
 
             <div class="commercial-block">
                 <label for="link">Рекламная ссылка:</label>
@@ -39,10 +40,7 @@ $this->setPageTitle("Рекламные материалы | Партнерск�
                 >Скопировать</button>
             </div>
 
-
-			<?php } ?>
-
-
+			<?php } } ?>
 
             <div class="commercial-block">
                 <label for="User_promo_code">

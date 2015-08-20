@@ -38,7 +38,7 @@ $this->setPageTitle("Вывод средств | Партнерская прог
 					<?php echo $form->dropDownList(
 						$model, 
 						'pay_type',
-						$settings,
+                        Yii::app()->controller->payServices,
 						array('class'=>'dropdown')
 					);?>
 		            <?php echo $form->error($model,'pay_type'); ?>
@@ -89,9 +89,7 @@ $this->setPageTitle("Вывод средств | Партнерская прог
 		        array(
 		            'name' => 'pay_type',
 		            'type' => 'raw',
-		            'value' => function($data) use ($settings) {
-		                return $settings[$data->pay_type];
-		            }
+		            'value' => '$data->getPayService()'
 		        ),
 		        'requisites',
 		        'money',
