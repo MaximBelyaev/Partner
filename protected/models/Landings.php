@@ -20,6 +20,7 @@ class Landings extends CActiveRecord
 	public function rules()
 	{
 		return array(
+            array('use_click_pay, use_fixed_pay', 'length', 'max'=>1),
 			array('link, name', 'length', 'max'=>255),
             array('fixed_pay, click_pay', 'length', 'max'=>11),
 			array('vip, standard, extended', 'length', 'max'=>250),

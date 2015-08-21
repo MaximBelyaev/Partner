@@ -21,75 +21,75 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner top-nav">
         <div class="container-fluid">
-			<img 
-				src="/img/Burger.svg"
-				alt="menu Open"
-				id="mob-menu-trigger" data-for="sidebar">
-            
-			<div class="nav pull-left for-logo">
-					<?= CHtml::link('<img src="/img/Logo.svg">', array('/admin/default/index'), array('class'=>'logo')); ?>
-				</div>
+            <img
+                src="/img/Burger.svg"
+                alt="menu Open"
+                id="mob-menu-trigger" data-for="sidebar">
+
+            <div class="nav pull-left for-logo">
+                <?= CHtml::link('<img src="/img/Logo.svg">', array('/admin/default/index'), array('class'=>'logo')); ?>
+            </div>
             <div class="nav pull-left landing_select select-wrap">
 
-				<?php if (Yii::app()->controller->landings) {
-					echo CHtml::dropDownList(
-							'landing_select', Yii::app()->session['landing'],
-							Yii::app()->controller->landings,
-                            array('id' => 'landing_select', 'class' => 'dropdown')
+                <?php if (Yii::app()->controller->landings) {
+                    echo CHtml::dropDownList(
+                        'landing_select', Yii::app()->session['landing'],
+                        Yii::app()->controller->landings,
+                        array('id' => 'landing_select', 'class' => 'dropdown')
                     ); ?>
                     <label for="landing_select"></label>
                 <?php } ?>
             </div>
 
-	<?php $this->widget('zii.widgets.CMenu',array(
-		'id' => 'head-menu',
-		'items'=>array(
-			array(
-				'label' => $this->notifications_count ? "<strong class='nots'>{$this->notifications_count}</strong>Уведомления" : "Уведомления",
-				'url'   => array('/admin/notifications/index'),
-			),
-			array(
-				'label' => 'Настройки',
-				'url'   => array('/admin/settings/index'),
-			),
-			array(
-				'label' => 'Статистика',
-				'url'   => array('/admin/statistics/index'),
-			),
-			array(
-				'label' => 'Партнёрка',
-				'url'   => array('/user/user/index'),
-                'linkOptions' => array('target'=>'_blank'),
-			),
-			array(
-				'label' => 'Выйти',
-				'url'   => array('/admin/default/logout'),
-			),
-		),
-		'htmlOptions'=>array(
-			'class'=>'nav pull-right',
-		),
-		'encodeLabel'=>false,
-	)); ?> 
-        <div class="nav pull-left top_menu_mobile">
-			<select id="top_menu_mobile" class="dropdown">
-				<option value="<?= $this->createAbsoluteUrl('/admin/notifications/index'); ?>">
-					Уведомления <?= ($this->notifications_count)?"({$this->notifications_count})":''?>
-				</option>
-				<option value="<?= $this->createAbsoluteUrl('/admin/settings/index'); ?>">
-					Настройки
-				</option>
-				<option value="<?= $this->createAbsoluteUrl('/admin/statistics/index'); ?>">
-					Статистика
-				</option>
-				<option value="<?= $this->createAbsoluteUrl('/user/user/index'); ?>">
-					Партнёрка
-				</option>
-				<option value="<?= $this->createAbsoluteUrl('/admin/default/logout'); ?>">
-					Выйти
-				</option>
-			</select>
-		</div>
+            <?php $this->widget('zii.widgets.CMenu',array(
+                'id' => 'head-menu',
+                'items'=>array(
+                    array(
+                        'label' => $this->notifications_count ? "<strong class='nots'>{$this->notifications_count}</strong>Уведомления" : "Уведомления",
+                        'url'   => array('/admin/notifications/index'),
+                    ),
+                    array(
+                        'label' => 'Настройки',
+                        'url'   => array('/admin/settings/index'),
+                    ),
+                    array(
+                        'label' => 'Статистика',
+                        'url'   => array('/admin/statistics/index'),
+                    ),
+                    array(
+                        'label' => 'Партнёрка',
+                        'url'   => array('/user/user/index'),
+                        'linkOptions' => array('target'=>'_blank'),
+                    ),
+                    array(
+                        'label' => 'Выйти',
+                        'url'   => array('/admin/default/logout'),
+                    ),
+                ),
+                'htmlOptions'=>array(
+                    'class'=>'nav pull-right',
+                ),
+                'encodeLabel'=>false,
+            )); ?>
+            <div class="nav pull-left top_menu_mobile">
+                <select id="top_menu_mobile" class="dropdown">
+                    <option value="<?= $this->createAbsoluteUrl('/admin/notifications/index'); ?>">
+                        Уведомления <?= ($this->notifications_count)?"({$this->notifications_count})":''?>
+                    </option>
+                    <option value="<?= $this->createAbsoluteUrl('/admin/settings/index'); ?>">
+                        Настройки
+                    </option>
+                    <option value="<?= $this->createAbsoluteUrl('/admin/statistics/index'); ?>">
+                        Статистика
+                    </option>
+                    <option value="<?= $this->createAbsoluteUrl('/user/user/index'); ?>">
+                        Партнёрка
+                    </option>
+                    <option value="<?= $this->createAbsoluteUrl('/admin/default/logout'); ?>">
+                        Выйти
+                    </option>
+                </select>
+            </div>
 
         </div>
     </div>
@@ -97,27 +97,27 @@
 <div id="sidebar">
     <?php $this->widget('zii.widgets.CMenu',array(
         'items'=>array(
-			array(
+            array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Landings.svg') . 'Лендинги',
                 'url'=>array('/admin/landings/index'),
-			),
-			/*array(
-				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить лендинг',
-				'itemOptions' => array('class'=>'submenu'),
-				'url'=>array('/admin/landings/create'),
-			),*/
-			array(
+            ),
+            /*array(
+                'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить лендинг',
+                'itemOptions' => array('class'=>'submenu'),
+                'url'=>array('/admin/landings/create'),
+            ),*/
+            array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Clients.svg') . 'Клиенты',
                 'url'=>array('/admin/referrals/index'),
-			),
-			array(
+            ),
+            array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить клиента',
                 'url'=>'#createRefModal',
                 'itemOptions' => array('class'=>'submenu'),
                 'linkOptions' => array('data-toggle'=>'modal',
-                'data-target' => '#createRefModal'),
-			),
-			array(
+                    'data-target' => '#createRefModal'),
+            ),
+            array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Partners.svg') . 'Партнеры',
                 'url'=>array('/admin/user/index'),
             ),
@@ -126,174 +126,174 @@
                 'url'=>'#createModal',
                 'itemOptions' => array('class'=>'submenu'),
                 'linkOptions' => array('data-toggle'=>'modal',
-                'data-target' => '#createModal'),
+                    'data-target' => '#createModal'),
             ),
             array(
                 'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Reklama.svg') . 'Рекламные материалы',
                 'url'=>array('/admin/promobanns/index'),
-			),
-			array(
-				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить',
-				'itemOptions' => array('class'=>'submenu'),
-				'url'=>array('/admin/promobanns/create'),
-			),
-			array(
-				'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/News.svg') . 'Новости',
-				'itemOptions' => array('class'=>'news-menu-point'),
-				'url'=>array('/admin/news/index'),
-			),
-			array(
-				'label'=>@file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить новость',
-				'itemOptions' => array('class'=>'submenu'),
-				'url'=>array('/admin/news/create'),
-			),
-			array(
-				'label'=>@file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Money.svg') . 'Вывод средств',
-				'url'=>array('/admin/stateds/index'),
-			),
-		),
-		'htmlOptions'=>array(
-			'class'=>'side-nav accordion_mnu collapsible',
-			'id'=>'menu',
-		),
-		'encodeLabel'=>false,
-	)); ?>
-	<?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
+            ),
+            array(
+                'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить',
+                'itemOptions' => array('class'=>'submenu'),
+                'url'=>array('/admin/promobanns/create'),
+            ),
+            array(
+                'label'=> @file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/News.svg') . 'Новости',
+                'itemOptions' => array('class'=>'news-menu-point'),
+                'url'=>array('/admin/news/index'),
+            ),
+            array(
+                'label'=>@file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Plus.svg') . 'Добавить новость',
+                'itemOptions' => array('class'=>'submenu'),
+                'url'=>array('/admin/news/create'),
+            ),
+            array(
+                'label'=>@file_get_contents(Yii::app()->getBaseUrl(true) . $this->module->assetsUrl . '/images/icons/Money.svg') . 'Вывод средств',
+                'url'=>array('/admin/stateds/index'),
+            ),
+        ),
+        'htmlOptions'=>array(
+            'class'=>'side-nav accordion_mnu collapsible',
+            'id'=>'menu',
+        ),
+        'encodeLabel'=>false,
+    )); ?>
+    <?php #echo $this->widget('admin.components.Widgets.MessagesWidget'); ?>
 </div>
 <div id="sidebar-overlay"></div>
 <div id="main-content">
-	<div class="container-fluid">
-		<?php if(isset($this->breadcrumbs) && false):?>
-			<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-				'homeLink'=>CHtml::link('Partner',array('/admin/default/index')),
-				'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-		<?php endif?>
-		<div class="main-content">
-			<?php echo $content; ?>
-		</div>
-			
-	</div>
+    <div class="container-fluid">
+        <?php if(isset($this->breadcrumbs) && false):?>
+            <?php $this->widget('zii.widgets.CBreadcrumbs', array(
+                'homeLink'=>CHtml::link('Partner',array('/admin/default/index')),
+                'links'=>$this->breadcrumbs,
+            )); ?><!-- breadcrumbs -->
+        <?php endif?>
+        <div class="main-content">
+            <?php echo $content; ?>
+        </div>
+
+    </div>
 </div>
 
 
 
 <!-- Modal for referrals-->
-<div 
-    class="modal fade" 
-    id="createRefModal" 
-    tabindex="-1" 
-    role="dialog" 
-    href="#createRefModal" 
-    aria-labelledby="myModalLabel" 
-    aria-hidden="true" 
->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<?php $newReferral=Yii::app()->controller->newReferral ?>
-			<?php $form=$this->beginWidget('CActiveForm', array(
-				'action'=>array('referrals/create'),
-				'id'=>'create-referral-form',
-				'enableAjaxValidation' => true,
-				'clientOptions'=>array(
-					'validateOnSubmit'=>true,
-				),
-			)); ?>
-			<button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">
-				&times;
-			</button>
-			<h4 class="modal-title">Добавить клиента</h4>
-			<div class="errorMessage" id="formResult"></div>
-			<div class="form-group">
-				<label for="Referrals_user_id">Привязать к партнеру</label>
-				<?php
-					$users  = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
-					$result = array_merge(array('promo'=>'Промо код'), $users);
-				?>
-				
-				<?php echo $form->dropDownList(
-					$newReferral,
-					'user_id',
-					$users, 
-					array(
-						'prompt' => '- - - без партнера - - -',
-						'class'  => 'dropdown' )
-					); ?>
-				<?php echo $form->error($newReferral,'user_id'); ?>
-			</div>
-			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'money'); ?>
-				<?php echo $form->textField($newReferral,'money',array('size'=>8,'maxlength'=>8)); ?>
-				<?php echo $form->error($newReferral,'money'); ?>
-			</div>
-			<?php if (Yii::app()->controller->landings) { ?>
-			<div class="form-group">
-				<?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
-				<?php echo $form->dropDownList( 
-					$newReferral, 
-					'land_id',
-                    (Yii::app()->session['landing'] == 0) ?
-					$this->landingsList : array(Yii::app()->session['landing'] => Landings::model()->find(array(
-                        'condition' => 'land_id = ' .Yii::app()->session['landing']))->name),
-					array(
-						'class' => 'dropdown',
-					))
-				    ; ?>
-				<?php echo $form->error( $newReferral, 'land_id' ); ?>
-			</div>
-			<?php } ?>
-			
-			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'promo'); ?>
-				<?php echo $form->textField($newReferral,'promo', array('placeholder'=>'Если нет - оставить пустым', 'data-placeholder'=>'Если нет - оставить пустым')); ?>
-				<?php echo $form->error($newReferral,'promo'); ?>
-			</div>
+<div
+    class="modal fade"
+    id="createRefModal"
+    tabindex="-1"
+    role="dialog"
+    href="#createRefModal"
+    aria-labelledby="myModalLabel"
+    aria-hidden="true"
+    >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php $newReferral=Yii::app()->controller->newReferral ?>
+            <?php $form=$this->beginWidget('CActiveForm', array(
+                'action'=>array('referrals/create'),
+                'id'=>'create-referral-form',
+                'enableAjaxValidation' => true,
+                'clientOptions'=>array(
+                    'validateOnSubmit'=>true,
+                ),
+            )); ?>
+            <button type="button" class="close-modal" data-dismiss="modal" aria-label="Close">
+                &times;
+            </button>
+            <h4 class="modal-title">Добавить клиента</h4>
+            <div class="errorMessage" id="formResult"></div>
+            <div class="form-group">
+                <label for="Referrals_user_id">Привязать к партнеру</label>
+                <?php
+                $users  = CHtml::listData(User::model()->findAll(array('order'=>'username')), 'id','username');
+                $result = array_merge(array('promo'=>'Промо код'), $users);
+                ?>
 
-			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'site'); ?>
-				<?php echo $form->textField($newReferral,'site'); ?>
-				<?php echo $form->error($newReferral,'site'); ?>
-			</div>
+                <?php echo $form->dropDownList(
+                    $newReferral,
+                    'user_id',
+                    $users,
+                    array(
+                        'prompt' => '- - - без партнера - - -',
+                        'class'  => 'dropdown' )
+                ); ?>
+                <?php echo $form->error($newReferral,'user_id'); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $form->labelEx($newReferral,'money'); ?>
+                <?php echo $form->textField($newReferral,'money',array('size'=>8,'maxlength'=>8)); ?>
+                <?php echo $form->error($newReferral,'money'); ?>
+            </div>
+            <?php if (Yii::app()->controller->landings) { ?>
+                <div class="form-group">
+                    <?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
+                    <?php echo $form->dropDownList(
+                        $newReferral,
+                        'land_id',
+                        (Yii::app()->session['landing'] == 0) ?
+                            $this->landingsList : array(Yii::app()->session['landing'] => Landings::model()->find(array(
+                            'condition' => 'land_id = ' .Yii::app()->session['landing']))->name),
+                        array(
+                            'class' => 'dropdown',
+                        ))
+                    ; ?>
+                    <?php echo $form->error( $newReferral, 'land_id' ); ?>
+                </div>
+            <?php } ?>
 
-			<div class="form-group">
-				<div class="checkbox-wrap">
-				<?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
-				<label for="Referrals_recreate_interval" class="checkbox-label"></label>
-				<label class="required inline-block" for="Referrals_recreate_interval">
-					Ежемесячная оплата
-				</label>
-				</div>
-			</div>
+            <div class="form-group">
+                <?php echo $form->labelEx($newReferral,'promo'); ?>
+                <?php echo $form->textField($newReferral,'promo', array('placeholder'=>'Если нет - оставить пустым', 'data-placeholder'=>'Если нет - оставить пустым')); ?>
+                <?php echo $form->error($newReferral,'promo'); ?>
+            </div>
 
-			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'email'); ?>
-				<?php echo $form->textField($newReferral,'email',array('size'=>60,'maxlength'=>150)); ?>
-				<?php echo $form->error($newReferral,'email'); ?>
-			</div>
+            <div class="form-group">
+                <?php echo $form->labelEx($newReferral,'site'); ?>
+                <?php echo $form->textField($newReferral,'site'); ?>
+                <?php echo $form->error($newReferral,'site'); ?>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-wrap">
+                    <?php echo CHtml::activeCheckBox($newReferral,'recreate_interval'); ?>
+                    <label for="Referrals_recreate_interval" class="checkbox-label"></label>
+                    <label class="required inline-block" for="Referrals_recreate_interval">
+                        Ежемесячная оплата
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?php echo $form->labelEx($newReferral,'email'); ?>
+                <?php echo $form->textField($newReferral,'email',array('size'=>60,'maxlength'=>150)); ?>
+                <?php echo $form->error($newReferral,'email'); ?>
+            </div>
 
 
-			<div class="form-group">
-				<?php echo $form->labelEx($newReferral,'status'); ?>
-				<?php echo $form->dropDownList(
-					$newReferral,
+            <div class="form-group">
+                <?php echo $form->labelEx($newReferral,'status'); ?>
+                <?php echo $form->dropDownList(
+                    $newReferral,
                     'status',
-					array(
-						'Заявка' => 'Заявка', 
-						'Оплачено' => 'Оплачено' 
-					),
-					array(
-						'class' => 'dropdown',
-					)
-				); ?>
-				<?php echo $form->error($newReferral,'status'); ?>
-			</div>
+                    array(
+                        'Заявка' => 'Заявка',
+                        'Оплачено' => 'Оплачено'
+                    ),
+                    array(
+                        'class' => 'dropdown',
+                    )
+                ); ?>
+                <?php echo $form->error($newReferral,'status'); ?>
+            </div>
 
-			<div class="form-group">
-			<?php echo CHtml::ajaxSubmitButton("Добавить клиента", $this->createUrl('referrals/create'),
-				array(
-					'dataType'=>'json',
-					'type'=>'post',
-					'success'=>'function(data) {
+            <div class="form-group">
+                <?php echo CHtml::ajaxSubmitButton("Добавить клиента", $this->createUrl('referrals/create'),
+                    array(
+                        'dataType'=>'json',
+                        'type'=>'post',
+                        'success'=>'function(data) {
 						console.log(data);
 						if(data.status=="success") {
 							$("#formResult").html("Клиент добавлен успешно.");
@@ -310,15 +310,15 @@
 							});
 						}
 					}',
-                    'error' => 'function(data){ console.log(data); }',
-					'done' => 'function(data) { console.log(data); }'
-				),
-				array('class' => 'btn btn-success')); ?>
-			</div>
-			
-			<?php $this->endWidget(); ?>
-		</div>
-	</div>
+                        'error' => 'function(data){ console.log(data); }',
+                        'done' => 'function(data) { console.log(data); }'
+                    ),
+                    array('class' => 'btn btn-success')); ?>
+            </div>
+
+            <?php $this->endWidget(); ?>
+        </div>
+    </div>
 </div>
 
 <!-- Modal for users-->
@@ -340,55 +340,41 @@
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'username'); ?>
                 <?php echo $form->textField(
-                	$newUser,
-                	'username',
-                	array(
-                		'size' => 60,
-                		'maxlength' => 150,
-					)
-				); ?>
+                    $newUser,
+                    'username',
+                    array(
+                        'size' => 60,
+                        'maxlength' => 150,
+                    )
+                ); ?>
                 <?php echo $form->error($newUser,'username'); ?>
             </div>
 
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'status'); ?>
                 <?php echo $form->dropDownList(
-                        $newUser,
-                        'status', 
-                        array(
-                            'Стандартный' => 'Стандартный', 
-                            'Расширенный' => 'Расширенный',
-                            'VIP' => 'VIP', 
-                        ),
-                        array('class' => 'dropdown')
+                    $newUser,
+                    'status',
+                    array(
+                        'Стандартный' => 'Стандартный',
+                        'Расширенный' => 'Расширенный',
+                        'VIP' => 'VIP',
+                    ),
+                    array('class' => 'dropdown')
                 ); ?>
                 <?php echo $form->error($newUser,'status'); ?>
             </div>
 
             <div class="form-group">
-                <?php echo $form->labelEx($newUser,'use_click_pay'); ?>
-                <?php echo $form->dropDownList(
-                        $newUser,
-                        'use_click_pay', 
-                        User::$work_modes, 
-                        array(
-                            'id' => 'list_click_pay',
-                            'class' => 'dropdown',
-                        )
-                    ); ?>
-                <?php echo $form->error($newUser,'use_click_pay'); ?>
-            </div>
-
-            <div class="form-group">
                 <?php echo $form->labelEx($newUser,'password'); ?>
                 <?php echo $form->passwordField(
-                	$newUser,
-                	'password',
-                	array(
-						'size'=>50,
-						'maxlength'=>50,
-						'autocomplete'=>'off'
-                	)
+                    $newUser,
+                    'password',
+                    array(
+                        'size'=>50,
+                        'maxlength'=>50,
+                        'autocomplete'=>'off'
+                    )
                 ); ?>
                 <?php echo $form->error($newUser,'password'); ?>
             </div>
@@ -400,11 +386,11 @@
                 <?php echo $form->error($newUser,'site'); ?>
             </div>
 
-	            <div class="form-group" id="hidden" style="display:none">
-	                <?php echo $form->labelEx($newUser,'click_pay'); ?>
-	                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['click_pay']->value)); ?>
-	                <?php echo $form->error($newUser,'click_pay'); ?>
-	            </div>
+            <div class="form-group" id="hidden" style="display:none">
+                <?php echo $form->labelEx($newUser,'click_pay'); ?>
+                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['click_pay']->value)); ?>
+                <?php echo $form->error($newUser,'click_pay'); ?>
+            </div>
 
             <div class="form-group">
                 <div class="form-group" id="hidden-fixed" style="display:none">
@@ -413,11 +399,11 @@
                     <?php echo $form->error($newUser,'fixed_pay'); ?>
                 </div>
 
-            <?php echo CHtml::ajaxSubmitButton("Добавить партнера", $this->createUrl('user/create'),
-                array(
-                    'dataType'=>'json',
-                    'type'=>'post',
-                    'success'=>'function(data) {
+                <?php echo CHtml::ajaxSubmitButton("Добавить партнера", $this->createUrl('user/create'),
+                    array(
+                        'dataType'=>'json',
+                        'type'=>'post',
+                        'success'=>'function(data) {
                     	console.log(data);
                         if(data.status=="success"){
 							$("#formResultUser").html("Партнёр добавлен успешно.");
@@ -434,10 +420,10 @@
                         });
                         }
                     }',
-                    'error' => 'function(data){ console.log(data); }'
-                ),
-                array('class' => 'btn btn-success')); ?>
-			</div>
+                        'error' => 'function(data){ console.log(data); }'
+                    ),
+                    array('class' => 'btn btn-success')); ?>
+            </div>
             <?php $this->endWidget(); ?>
         </div>
     </div>
@@ -463,28 +449,28 @@
 </body>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
-(function (d, w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter27394025 = new Ya.Metrika({id:27394025,
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter27394025 = new Ya.Metrika({id:27394025,
                     webvisor:true,
                     clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true});
-        } catch(e) { }
-    });
+            } catch(e) { }
+        });
 
-    var n = d.getElementsByTagName("script")[0],
-        s = d.createElement("script"),
-        f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
 
-    if (w.opera == "[object Opera]") {
-        d.addEventListener("DOMContentLoaded", f, false);
-    } else { f(); }
-})(document, window, "yandex_metrika_callbacks");
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
 </script>
 <noscript><div><img src="//mc.yandex.ru/watch/27394025" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
