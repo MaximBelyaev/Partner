@@ -20,8 +20,10 @@ class Landings extends CActiveRecord
 	public function rules()
 	{
 		return array(
+            array('use_click_pay, use_fixed_pay', 'length', 'max'=>1),
 			array('link, name', 'length', 'max'=>255),
-			array('vip, standard, extended, click_pay', 'length', 'max'=>250),
+            array('fixed_pay, click_pay', 'length', 'max'=>11),
+			array('vip, standard, extended', 'length', 'max'=>250),
 			array('sort_order', 'length', 'max'=>15),
 			array('isOffer', 'numerical', 'integerOnly' => true),
 			array('link', 'required'),
@@ -57,7 +59,8 @@ class Landings extends CActiveRecord
             'extended' => 'Расширенный',
             'standard' => 'Стандартный',
             'sort_order' => 'Порядок сортировки',
-            'click_pay' => 'Оплата за переход'
+            'click_pay' => 'Оплата за переход',
+            'fixed_pay' => 'Фиксированная оплата',
 		);
 	}
 

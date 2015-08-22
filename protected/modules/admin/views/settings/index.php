@@ -289,3 +289,16 @@ $this->setPageTitle("Настройки | Партнерская програм�
             });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        $('#skype-checker').change(function(){
+            console.log($('#skype-checker').attr('value'));
+            if ($(this).val() == "1") {
+                $("#hidden_clickpay").show();
+            } else {
+                $("#hidden_clickpay").hide();
+            }
+        });
+    });
+</script>

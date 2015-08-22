@@ -21,14 +21,17 @@ class User extends CActiveRecord
 
 	const PAY_CLICK = 'Оплата за переход';
 	const PAY_REFERR = 'Процент с заказа';
+    const PAY_FIX = 'Фиксированная оплата';
 
 
 	const PERC_PAY	= 0;
 	const CLICK_PAY = 1;
+    const FIXED_PAY = 4;
 
 	public static $work_modes = [
 		self::PERC_PAY 	=> 'Процент с заказа',
 		self::CLICK_PAY => 'Оплата за переход',
+        self::FIXED_PAY => 'Фиксированная оплата',
 	];
 
 
@@ -44,6 +47,7 @@ class User extends CActiveRecord
 	const DET_PERC_EXP   = 1;
 	const DET_PERC_VIP   = 2;
 	const DET_CLICK_PAY  = 3;
+    const DET_FIXED_PAY  = 4;
 
 
 	public static $work_modes_det = [
@@ -51,6 +55,7 @@ class User extends CActiveRecord
 		self::DET_PERC_EXP 		=> '% (Р)',
 		self::DET_PERC_VIP 		=> '% (V)',
 		self::DET_CLICK_PAY 	=> 'Клик',
+        self::DET_FIXED_PAY 	=> 'Фикс',
 	];
 
 	const VIP_DISPLAY = '|||';
@@ -125,7 +130,8 @@ class User extends CActiveRecord
 			array('username, password', 'required'),
 			array('username', 'email'),
 			array('role, telephone, status', 'length', 'max' => 50),
-			array('use_click_pay, click_pay', 'numerical'),
+            array('click_pay, fixed_pay', 'length', 'max' => 11),
+            array('use_click_pay, use_fixed_pay, click_pay, fixed_pay', 'numerical'),
 			array('username, country, region, city', 'length', 'max' => 150),
 			array('name, password, avatar, verification', 'length', 'max' => 255),
 			array('skype, promo_code, reg_date, birth_date, full_profit', 'safe'),
@@ -182,7 +188,8 @@ class User extends CActiveRecord
 			'referrals_count' 	=> 'Заявки',
 			'referrals_payed_count' => 'Заказы',
 			'use_click_pay' 	=> 'Формат',
-			'click_pay' 		=> 'Стоимость перехода',
+            'click_pay' 		=> 'Стоимость перехода',
+            'fixed_pay' 		=> 'Размер оплаты',
 			'month_profit' 		=> 'Прибыль',
 			'promo_code' 		=> "Промокод",
 		);
@@ -228,17 +235,19 @@ class User extends CActiveRecord
 		$criteria->compare('status', $this->status, true);
 
 		# форматы работы
-		if ($this->use_click_pay != '') {
-			if( $this->use_click_pay == self::DET_PERC_EXP  ) {
-				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
-			} else if( $this->use_click_pay == self::DET_PERC_VIP  ) {
-				$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['vip'] . '"');
-			} else if ( $this->use_click_pay == self::DET_PERC_STAND ) {
-				$criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")'); 
-			} else if( $this->use_click_pay == self::DET_CLICK_PAY  )  {
-				$criteria->addCondition('use_click_pay=1');
-			}
-		}
+        if ($this->use_click_pay != '') {
+            if( $this->use_click_pay == self::DET_PERC_EXP  ) {
+                $criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
+            } else if( $this->use_click_pay == self::DET_PERC_VIP  ) {
+                $criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['vip'] . '"');
+            } else if ( $this->use_click_pay == self::DET_PERC_STAND ) {
+                $criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")');
+            } else if( $this->use_click_pay == self::DET_CLICK_PAY  )  {
+                $criteria->addCondition('use_click_pay=1');
+            } else if( $this->use_click_pay == self::DET_FIXED_PAY  )  {
+                $criteria->addCondition('use_fixed_pay=1');
+            }
+        }
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
@@ -334,6 +343,18 @@ class User extends CActiveRecord
 	protected function beforeSave()
 	{
 		parent::beforeSave();
+
+        if ($this->use_click_pay == 4)
+        {
+            $this->use_click_pay = 0;
+            $this->click_pay = 0;
+            $this->use_fixed_pay = 1;
+        }
+        else
+        {
+            $this->use_fixed_pay = 0;
+            $this->fixed_pay = '';
+        }
 
 		$this->reg_date = date("Y-m-d H:i:s");
 
@@ -491,19 +512,30 @@ class User extends CActiveRecord
 		}
 	}
 
-	public function getFormatName()
-	{
-		 if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] ) {
-			return self::$work_modes_det[ self::DET_PERC_EXP ];
-		} else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] ) {
-			return self::$work_modes_det[ self::DET_PERC_VIP ];
-		} else if ( $this->use_click_pay == 0  ) {
-			return self::$work_modes_det[ self::DET_PERC_STAND ];
-		} else if( $this->use_click_pay == 1 ) {
-			return self::$work_modes_det[ self::DET_CLICK_PAY ];
-		}
-		return '';
-	}
+    public function getFormatName()
+    {
+        if ($this->use_fixed_pay == 1)
+        {
+            return self::$work_modes_det[ self::DET_FIXED_PAY];
+        }
+        else if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] )
+        {
+            return self::$work_modes_det[ self::DET_PERC_EXP ];
+        }
+        else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] )
+        {
+            return self::$work_modes_det[ self::DET_PERC_VIP ];
+        }
+        else if ( $this->use_click_pay == 0  )
+        {
+            return self::$work_modes_det[ self::DET_PERC_STAND ];
+        }
+        else if( $this->use_click_pay == 1 )
+        {
+            return self::$work_modes_det[ self::DET_CLICK_PAY ];
+        }
+        return '';
+    }
 
 	public function getLandingIcon()
 	{

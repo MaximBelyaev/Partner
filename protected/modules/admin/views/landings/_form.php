@@ -45,10 +45,38 @@
 		</div>
 
         <div class="row-fluid form-row">
+            <div class="checkbox-wrap">
+                <?php echo $form->checkBox($model,'use_click_pay', array('id' => 'clickpay_checker')); ?>
+                <label for="clickpay_checker" class="checkbox-label"></label>
+                <label class="required inline-block" for="clickpay_checker">
+                    Использовать оплату за клик
+                </label>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row" style="display: none;" id="hidden_clickpay">
             <div class="span6">
                 <?php echo $form->labelEx($model,'click_pay'); ?>
                 <?php echo $form->textField( $model,'click_pay',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
                 <?php echo $form->error( $model,'click_pay' ); ?>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row">
+            <div class="checkbox-wrap">
+                <?php echo CHtml::activeCheckBox($model,'use_fixed_pay', array('id' => 'fixedpay_checker')); ?>
+                <label for="fixedpay_checker" class="checkbox-label"></label>
+                <label class="required inline-block" for="fixedpay_checker">
+                    Использовать фиксированную оплату
+                </label>
+            </div>
+        </div>
+
+        <div class="row-fluid form-row" style="display: none;" id="hidden_fixedpay">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'fixed_pay'); ?>
+                <?php echo $form->textField( $model,'fixed_pay',array( 'size' => 70, 'maxlength' => 255 ) ); ?>
+                <?php echo $form->error( $model,'fixed_pay' ); ?>
             </div>
         </div>
 
@@ -87,7 +115,7 @@
         <div class="underlist-button">
             <div class="span6">
                 <?php echo CHtml::submitButton(
-                    $model->isNewRecord ? 'Добавить' : 'Сохранить', 
+                    $model->isNewRecord ? 'Добавить' : 'Сохранить',
                     array('class'=>'btn btn-success'
                 )); ?>
             </div>
@@ -100,6 +128,29 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-
-
 </div>
+<script>
+    $(document).ready(function() {
+        $('#clickpay_checker').prop('checked') ? $("#hidden_clickpay").show() : $("#hidden_clickpay").hide();
+        $('#clickpay_checker').change(function(){
+            if ($(this).prop('checked')) {
+                $("#hidden_clickpay").show();
+            } else {
+                $("#hidden_clickpay").hide();
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#fixedpay_checker').prop('checked') ? $("#hidden_fixedpay").show() : $("#hidden_fixedpay").hide();
+        $('#fixedpay_checker').change(function(){
+            if ($(this).prop('checked')) {
+                $("#hidden_fixedpay").show();
+            } else {
+                $("#hidden_fixedpay").hide();
+            }
+        });
+    });
+</script>
