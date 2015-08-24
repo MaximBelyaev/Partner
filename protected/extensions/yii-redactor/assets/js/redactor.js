@@ -7725,8 +7725,6 @@
 					}, this);
 					*/
 
-					console.log(xhr);
-					console.log(formData);
 					xhr.send(formData);
 				},
 				onDrag: function(e)

@@ -242,7 +242,6 @@ $this->setPageTitle("Настройки | Партнерская програм�
 
 <script>
     jQuery(document).ready(function($) {
-        console.log($('#add_payment'));
         $('#add_payment').on('click', function(event) {
             event.preventDefault();
             var name = $('#payment_name').val();
