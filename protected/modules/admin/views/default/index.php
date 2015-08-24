@@ -33,7 +33,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				'email',
 				array(
 		            'name' => 'user',
-		            'header'=> 'Партнер', 
+		            'header'=> 'Партнер',
 		            'value' => '((isset($data->user->username))?$data->user->username:"");',
 		        )
 		    ))); ?>
@@ -41,7 +41,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 	</div>
 
 	<div class="span6 block">
-		
+
 		<div class="head">
 			<h5>Новые партнёры</h5>
 		</div>
@@ -81,7 +81,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 <div class="row-fluid table-row">
 
 	<div class="span6 block">
-	
+
 		<div class="head">
 			<h5>Заявки на вывод</h5>
 		</div>
@@ -101,7 +101,7 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 				),
 				array(
 					'name' => 'user',
-					'value' => '$data->user->username',
+					'value' => '(isset($data->user)) ? $data->user->username : ""',
 				),
 				array(
 					'header' => 'Счет',
@@ -117,16 +117,16 @@ $this->setPageTitle("Главное меню | Партнерская прогр
 					'filterHtmlOptions' => array('class' => 'width160'),
 				),
 
-			))); ?>
-	
+			)));?>
+
 	</div>
 
 	<div class="span6 block">
-		
+
 		<div class="head">
 			<h5>Лучшие партнёры за 30 дней</h5>
 		</div>
-		
+
 		<?php $this->widget('zii.widgets.grid.CGridView', array(
 			'dataProvider' => $bestPartnersModel,
 			'enablePagination' => false,

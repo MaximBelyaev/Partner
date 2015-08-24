@@ -332,7 +332,7 @@ class Referrals extends CActiveRecord
             	$this->status = self::$STATUS_APPLIED;
             }
 
-            $settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
+            //$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
             $settingsVip = Setting::model()->find(array('condition' => "name = 'vip'"));
             $settingsExtended = Setting::model()->find(array('condition' => "name = 'extended'"));
             $settingsStandard = Setting::model()->find(array('condition' => "name = 'standard'"));
@@ -348,7 +348,7 @@ class Referrals extends CActiveRecord
             	# если пользователь НЕ работает в режиме оплаты за переход
 				if (!$this->user->use_click_pay)
 				{
-					$profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
+					$profit = Profit::model()->find('user_id = ' . $this->user_id ."'");
 
 					if(is_null($profit)) {
 						$profit = new Profit();
@@ -372,15 +372,14 @@ class Referrals extends CActiveRecord
 						}
 					}
 
-					if ($settingsFixedpay->status == "1" && $settingsFixedpay->value > 0)
+					if ($this->user->use_fixed_pay == 1 && $land->use_fixed_pay == 1)
 					{
-						# если в настройках установлено фиксированная оплата за все заказы
-                        $payment = $settingsFixedpay->value;
+                        $payment = $land->fixed_pay;
                         $profit->profit += $payment;
                         $profit->full_profit += $payment;
                         $profit->save();
 					}
-					elseif ($land && $land_percent)
+					elseif (($this->user->use_fixedpay != 1) && $land && $land_percent)
 					{
 						# если заказ был для определенного лендинга и для этого лендинга установлена цена заказа
 						$payment = ($land_percent*$this->money)/100;

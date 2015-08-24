@@ -32,7 +32,7 @@ class DefaultController extends AdminController
 		//Лучшие партнёры за 30 дней
 		$bestPartnersModel = User::model()->search( $this->index_items_count, 'month_profit desc');
 
-		$this->render('index',array(
+        $this->render('index',array(
 			'userModel'=>$userModel,
 			'referralModel'=>$referralModel,
 			'statedsModel'=>$statedsModel,

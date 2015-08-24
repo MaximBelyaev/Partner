@@ -366,8 +366,6 @@ class User extends CActiveRecord
 			$this->site = $this->old_site;
 		}
 
-
-		
 		$promo_code = trim($this->promo_code);
 		if ($promo_code != '') {
 			$duplicate_codes = User::model()->findAll(array(

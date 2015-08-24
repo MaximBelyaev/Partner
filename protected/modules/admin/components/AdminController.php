@@ -73,7 +73,6 @@ class AdminController extends CController
 	public function init()
 	{
 		parent::init();
-        include(dirname(__FILE__) . '/views/tests.php');
         if (Yii::app()->params->dbsetup !== "activated")
         {
             header('Location: /setup.php');
