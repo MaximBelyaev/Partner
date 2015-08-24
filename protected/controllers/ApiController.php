@@ -118,6 +118,10 @@ class ApiController extends Controller
 			$partner_site    = isset($_GET['partner_site']) ? $_GET['partner_site'] : '';
 			$cookie_refer_id = isset($_GET['cookie_refer_id']) ? $_GET['cookie_refer_id'] : '';
 			$refer_id 		 = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
+			$land_url		 = isset($_GET['land_url']) ? $_GET['land_url'] : '';
+
+
+
 
 			# тут мы проверим, был ли уже заказ с таким email
 			$back = Referrals::model()->find('email ="' . trim($referral->email) . '" AND user_id != 0');
@@ -157,75 +161,41 @@ class ApiController extends Controller
             {
             	$referral->user_id = 0;
             }
-            $referral->save();
-			// var_dump($referral);
-            
-            /*
-			# получаем нужные настройки
-			$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
-			$settingsVip = Setting::model()->find(array('condition' => "name = 'vip'"));
-			$settingsExtended = Setting::model()->find(array('condition' => "name = 'extended'"));
-			$settingsStandard = Setting::model()->find(array('condition' => "name = 'standard'"));
 
-			# получаем лендинг
-			$land = Landings::model()->findByPk($referral->land_id);
+			if (!$referral->land_id) {
+				if ($land_url) {
+					$land = Landings::model()->find("link LIKE '%$land_url%'");
+				} else {
+					$land = false;
+				}
 
-			# если есть id юзера, ищем его
-			if ($referral->save() && $referral->user_id && $referral->money) {
-				$user = User::model()->findByPk($referral->user_id);
-				if ($user)
-				{
-					$land_percent = 0;
-					if ($settingsFixedpay->status == '1')
-					{
-						$payment = $settingsFixedpay->value;
-						$user->money->profit += $payment;
-						$user->money->full_profit += $payment;
-						$user->money->save();
-					}
-					elseif ($land)
-					{
-						if ($user->status === "VIP")
-						{
-							$land_percent = $land->vip;
-						}
-						elseif ($user->status === "Расширенный")
-						{
-							$land_percent = $land->extended;
-						}
-						elseif ($user->status === "Стандартный")
-						{
-							$land_percent = $land->standard;
-						}
-						if ($land_percent > 0)
-						{
-							$payment = ($land_percent*$referral->money)/100;
-							$user->money->profit += $payment;
-							$user->money->full_profit += $payment;
-							$user->money->save();
+				if ( $land ) {
+					$referral->land_id = $land->land_id;	
+				} else if ( !$land && ( $referral->user_id > 0 ) ) {
+					$user = User::model()->findByPk($referral->user_id);
+					if ( isset( $user->users_landings[0] ) ) {
+						$referral->land_id = $user->users_landings[0]->land_id;
+					} else {
+						$lands = Landings::model()->findAll();
+						if ( isset( $lands[0] ) ) {
+							$referral->land_id = $lands[0]->land_id;
 						}
 					}
-					elseif (!$land || $land_percent = 0)
-					{
-						$payment = 0;
-						if ($user->status === "VIP")
-						{
-							$payment = ($settingsVip->value*$referral->money)/100;
-						}
-						elseif ($user->status === "Расширенный")
-						{
-							$payment = ($settingsExtended->value*$referral->money)/100;
-						}
-						elseif ($user->status === "Стандартный")
-						{
-							$payment = ($settingsStandard->value*$referral->money)/100;
-						}
-						$user->money->profit += $payment;
-						$user->money->full_profit += $payment;
-						$user->money->save();
+				} else {
+					$lands = Landings::model()->findAll();
+					if ( isset( $lands[0] ) ) {
+						$referral->land_id = $lands[0]->land_id;
 					}
 				}
-			}; */
+
+				if ($land) {
+					$referral->land_id = $land->land_id;
+				}
+			}
+
+            $referral->save();
+			// var_dump($referral);
+
 
 	} 
 }

@@ -120,20 +120,25 @@ $(document).ready(function() {
             var landsString = '', // добавляем под общим числом уточнение для каждого лендинга
                 lines = Object.size(item.series.data[item.dataIndex].land) + 1, // количество строк, которое занимает подсказка
                 ct    = document.querySelector('.chart_buttons .current_type') // выбранный тип статистики (заявки, партнеры и т.д)
-            $.each(item.series.data[item.dataIndex].land, function(i, val) {
-                // добавляем уточнение, для всех типов, кроме "партнеры"
-                if( ct && ct.dataset.type!='undefined' && ct.dataset.type!='user') {
+            
+            // добавляем уточнение, для всех типов, кроме "партнеры"
+            if( ct && ct.dataset.type!='undefined' && ct.dataset.type!='user') {
+                $.each(item.series.data[item.dataIndex].land, function(i, val) {
                     if (val != undefined) {
                         landsString += (val['name'] + ": "
                         + val['value'] + "<br>");
                     }
-                }
-            });
+                });
+            } else {
+                /* если тиа графика - "партнеры", 
+                то показывается только одна строчка с общим числом партнеров */
+                lines = 1+1;
+            }
 			var y = item.datapoint[1].toFixed(2),
                 $stat_block_offset = $('.stats_block').offset(),
                 $tt = $("#tooltip").html( "Всего" + ": " + Math.round(y) + "<br>" + landsString ),
 				ttX = item.pageX - $stat_block_offset.left - ($tt.width()/2 )-parseInt( $tt.css('padding-left') ) + 1,
-				ttY = item.pageY - $stat_block_offset.top-lines*25;
+				ttY = item.pageY - $stat_block_offset.top  - lines*25;
 
                 $tt.css( { top: ttY, left: ttX } ).fadeIn( 200 );
 		} else {
@@ -192,7 +197,9 @@ function loadRangeData(start, end, type, output_type) {
 						fill: 0.2,
 					},
 					points: {
-						show: true
+						show: true,
+                        fill: 1,
+                        fillColor: false,
 					}
 				},
 				grid: {

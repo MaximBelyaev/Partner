@@ -5,8 +5,6 @@ var setContentHeight = function() {
     var $block = $('.full-page-block'),
         block_of = $block.offset();
 
-	console.log($block);
-	console.log(block_of);
 	if (block_of != undefined) {
         var block_top = block_of.top;
         $block.css(
@@ -159,8 +157,6 @@ function loadRangeData(start, end) {
 		}
 	})
 	.done(function(ans) {
-		console.log(ans);
-		console.info(ans.charts.requests);
 		var dataArray = [];
 		if (ans.charts.requests != undefined) {
 			dataArray[0] = { data: ans.charts.requests, stat: ans.charts.requests.land };
@@ -187,7 +183,9 @@ function loadRangeData(start, end) {
 					fill: 0.2,
 				},
 				points: {
-					show: true
+					show: true,
+					fill: 1,
+					fillColor: false,
 				}
 			},
 			grid: {
@@ -256,7 +254,6 @@ function generateStatsHtml(stats) {
 			$stats.append($month);
 	});
 	
-	console.log(stats.all_time_total);
 	// подведение итога за все время
 	var $total_month_stat = $( '<div>' ).addClass( 'month_stat total_month_stat' );
 	var $all_time = $( '<div>' ).addClass( 'stats_row day' );
