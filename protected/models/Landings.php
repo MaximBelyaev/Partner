@@ -28,8 +28,7 @@ class Landings extends CActiveRecord
 			array('isOffer', 'numerical', 'integerOnly' => true),
 			array('link', 'required'),
 			array('link', 'url'),
-			array('icon', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
-            array('link, name, vip, standard, extended, sort_order', 'safe', 'on' => 'search'),
+			array('link, name, vip, standard, extended, sort_order', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -52,7 +51,6 @@ class Landings extends CActiveRecord
 	{
 		return array(
 			'link' => 'Ссылка',
-			'icon' => 'Изображение',
 			'name' => 'Название',
 			'land_id' => 'ID',
             'vip' => 'VIP',
@@ -82,16 +80,5 @@ class Landings extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public function getIcon()
-	{
-		if ($this->icon) {
-			return "<img 
-				src='" . Yii::app()->params['uploadPath'] . $this->icon . "' 
-				class='land_icon'
-				title='" . $this->name . "'
-			>";
-		}
-		return '';
-	}
 }
 
