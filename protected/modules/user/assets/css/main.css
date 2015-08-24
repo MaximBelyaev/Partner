@@ -95,7 +95,7 @@ p {
 	position: fixed !important;
 	top: 80px;
 	width: 240px;
-	z-index: 1100;
+	z-index: 1039;
 	-webkit-transition: all 0.25s ease-in;
 	-moz-transition: all 0.25s ease-in;
 	transition: all 0.25s ease-in;
@@ -1184,7 +1184,7 @@ input[type="checkbox"]:checked + label:before {
     width: 35px;
     height: 35px;
     line-height: 0;
-    padding: 0 0 2px 1px;
+    padding: 0 0 2px 0px;
 }
 
 .commercial-left {

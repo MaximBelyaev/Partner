@@ -129,7 +129,7 @@ p {
 	box-shadow: 0px 0px 6px rgba(139, 157, 175, 0.1);
 	top: 80px;
 	width: 240px;
-	z-index: 1100;
+	z-index: 1039;
 	-webkit-transition: all 0.25s ease-in;
 	-moz-transition: all  0.25s ease-in;
 	transition: all 0.25s ease-in;
@@ -1372,7 +1372,7 @@ footer.block {
 	width: 35px;
 	height: 35px;
 	line-height: 0;
-	padding: 0 0 2px 1px;
+	padding: 0 0 2px 0px;
 }
 .modal .close-modal:hover {
 	background-color: #5FBFED;
