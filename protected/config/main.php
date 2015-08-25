@@ -17,8 +17,6 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
-        'ext.slug-behavior.SlugBehavior',
-        'ext.transliterator-component.Transliteration',
     ),
     'modules'=>array(
         'gii'=>array(

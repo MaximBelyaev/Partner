@@ -34,57 +34,16 @@ $this->setPageTitle("Настройки | Партнерская програм�
 		<div class="settings-col">
 			
 			<h4 class="form-block-header">
-				Процент для партнёров
+				Валюта партнёрки
 			</h4>
 
             <div class="col form-row">
-                <label for="Setting_standard_value" class="for-standart header-row">
-                    Cтандартный (C)
-                </label>
-                <?php # echo CHtml::activeTextField($model['standard'],"[standard]header",
-                #array('value' => $model['standard']->header ? $model['standard']->header : 'Cтандартный')) ?>
-                <?php echo CHtml::activeTextField($model['standard'],"[standard]value",
-                    array('value' => $model['standard']->value ? $model['standard']->value : '15%')) ?>
+                <?php echo CHtml::activeRadioButtonList(
+                    $model['currency'],
+                    "[currency]value",
+                    Setting::$currencieslist,
+                    array('class' => 'radio')) ?>
             </div>
-
-            <div class="col form-row">
-                <label for="Setting_extended_value" class="for-extended header-row">
-                    Расширенный (Р)
-                </label>
-                <?php #echo CHtml::activeTextField($model['extended'],"[extended]header",
-                #array('value' => $model['extended']->header ? $model['extended']->header : 'Расширенный')) ?>
-                <?php echo CHtml::activeTextField($model['extended'],"[extended]value",
-                    array('value' => $model['extended']->value ? $model['extended']->value : '17%')) ?>
-            </div>
-
-            <div class="col form-row">
-                <label for="Setting_vip_value" class="for-vip header-row">
-                    VIP (V)
-                </label>
-                <?php #echo CHtml::activeTextField($model['vip'],"[vip]header",
-                #array('value' => $model['vip']->header ? $model['vip']->header : 'VIP')) ?>
-                <?php echo CHtml::activeTextField($model['vip'],"[vip]value",
-                    array('value' => $model['vip']->value ? $model['vip']->value : '20%')) ?>
-            </div>
-
-			<div class="col form-row checkbox-row header-row">
-				<?php echo CHtml::activeCheckBox(
-						$model['click_pay'],
-						"[click_pay]status", 
-						array('id' => 'clickpay-checker')
-				) ?>
-				<label for="clickpay-checker"></label>
-				<label class="inline-block" for="clickpay-checker">
-					<?php echo "Разрешить оплату за переход" ?>
-				</label>
-			</div>
-			
-			<div class="col form-row">
-				<?php echo CHtml::activeTextField(
-						$model['click_pay'],"[click_pay]value",
-						array('value' => $model['click_pay']->value ? $model['click_pay']->value : 2)
-				) ?>
-			</div>
 		</div>
 
         <div class="connection settings-col">

@@ -24,7 +24,7 @@ $this->setPageTitle("Заявки на вывод средств | Партне�
             array(
                 'header' => 'Партнер',
                 'name' => 'username',
-                'value' => '$data->user->username',
+                'value' => '(isset($data->user)) ? $data->user->username : ""',
             ),
             array(
                 'name' => 'date',

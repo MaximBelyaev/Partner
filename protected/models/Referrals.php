@@ -348,7 +348,7 @@ class Referrals extends CActiveRecord
             	# если пользователь НЕ работает в режиме оплаты за переход
 				if (!$this->user->use_click_pay)
 				{
-					$profit = Profit::model()->find('user_id = ' . $this->user_id ."'");
+                    $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
 
 					if(is_null($profit)) {
 						$profit = new Profit();

@@ -34,21 +34,17 @@ class User extends CActiveRecord
         self::FIXED_PAY => 'Фиксированная оплата',
 	];
 
-
-
 	public static $statuses = [
 		'vip' => 'VIP',
 		'exp' => 'Расширенный',
 		'stand'=> 'Стандартный',
 	];
 
-
 	const DET_PERC_STAND = 0;
 	const DET_PERC_EXP   = 1;
 	const DET_PERC_VIP   = 2;
 	const DET_CLICK_PAY  = 3;
     const DET_FIXED_PAY  = 4;
-
 
 	public static $work_modes_det = [
 		self::DET_PERC_STAND 	=> '% (С)',

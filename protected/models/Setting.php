@@ -10,6 +10,14 @@
  */
 class Setting extends CActiveRecord
 {
+
+    public static $currencieslist = [
+        'RUB' => 'Рубли (₽)',
+        'USD' => 'Доллары ($)',
+        'UAH' => 'Гривна (₴)',
+        'EUR' => 'Евро (€)'
+    ];
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -100,19 +108,39 @@ class Setting extends CActiveRecord
 		{
 			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/qiwi_icon.jpg>";
 		}
-		else if ($this->name === 'webmoney')
+		elseif ($this->name === 'webmoney')
 		{
 			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/webmoney_icon2.png>";
 		}
-		else if ($this->name === 'paypal')
+		elseif ($this->name === 'paypal')
 		{
 			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/paypal_icon.png>";
 		}
-		else if ($this->name === 'yandex_money')
+		elseif ($this->name === 'yandex_money')
 		{
 			return "<img src=" . Yii::app()->controller->module->assetsUrl . "/img/yandexmoney_icon.png>";
 		}
 	}
+
+    public function setCurrencyIcon()
+    {
+        if ($this->value === 'RUB')
+        {
+            echo '₽';
+        }
+        elseif ($this->value === 'USD')
+        {
+            echo '$';
+        }
+        elseif ($this->value === 'UAH')
+        {
+            echo '₴';
+        }
+        elseif ($this->value === 'EUR')
+        {
+            echo '€';
+        }
+    }
 
     public static function transliteration($str)
     {

@@ -46,7 +46,7 @@
 					<?php } ?>
 				</div>
                 <div class="nav pull-left">
-                    <span class="menu-profit"><?= Yii::app()->controller->user->profit ?>&nbsp;₽</span>
+                    <span class="menu-profit"><?= Yii::app()->controller->user->profit ?>&nbsp;<?php $this->settingsList['currency']->setCurrencyIcon(); ?></span>
                 </div>
 				<ul class="nav pull-right" id="yw0">
 					<li>
