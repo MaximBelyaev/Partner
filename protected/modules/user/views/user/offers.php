@@ -18,6 +18,7 @@ $this->setPageTitle("Список лендингов");
 				<span class="off-land">Оффер</span><!-- 
 				 --><span class="off-st">Процент с продаж</span><!-- 
 				 --><span class="off-click">Стоимость перехода</span><!-- 
+				 --><span class="off-click">Фиксированная оплата</span><!--
 				 --><span class="off-action">Действие</span>
 			</div>
 
@@ -34,10 +35,15 @@ $this->setPageTitle("Список лендингов");
 					 	</span><!-- 
 					 --><span class="off-click">
 							<?php 
-								$lcp = $landing->click_pay ? $landing->click_pay : $this->settingsList['click_pay']['value'];
+								$lcp = $landing->click_pay ? $landing->click_pay : '';
 								echo $lcp;
-								if ($lcp) { echo ' р.'; }
 							?> 
+						</span><!--
+					--><span class="off-click">
+							<?php
+                            $lfp = $landing->fixed_pay ? $landing->fixed_pay : '';
+                            echo $lfp;
+                            ?>
 						</span><!--
 					--><span class="off-action">
 						<?php if ($landing->isOffer) { ?>

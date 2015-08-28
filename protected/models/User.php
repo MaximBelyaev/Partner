@@ -64,6 +64,7 @@ class User extends CActiveRecord
 	public $referrals_payed_count;
 	public $old_site = '';
 	public $month_profit;
+    public $state;
 
 	public $warnings = array();
 
@@ -126,8 +127,8 @@ class User extends CActiveRecord
 			array('username, password', 'required'),
 			array('username', 'email'),
 			array('role, telephone, status', 'length', 'max' => 50),
-            array('click_pay, fixed_pay', 'length', 'max' => 11),
-            array('use_click_pay, use_fixed_pay, click_pay, fixed_pay', 'numerical'),
+            array('click_pay', 'length', 'max' => 11),
+            array('use_click_pay, use_fixed_pay, click_pay', 'numerical'),
 			array('username, country, region, city', 'length', 'max' => 150),
 			array('name, password, avatar, verification', 'length', 'max' => 255),
 			array('skype, promo_code, reg_date, birth_date, full_profit', 'safe'),
@@ -185,7 +186,6 @@ class User extends CActiveRecord
 			'referrals_payed_count' => 'Заказы',
 			'use_click_pay' 	=> 'Формат',
             'click_pay' 		=> 'Стоимость перехода',
-            'fixed_pay' 		=> 'Размер оплаты',
 			'month_profit' 		=> 'Прибыль',
 			'promo_code' 		=> "Промокод",
 		);
@@ -349,7 +349,6 @@ class User extends CActiveRecord
         else
         {
             $this->use_fixed_pay = 0;
-            $this->fixed_pay = '';
         }
 
 		$this->reg_date = date("Y-m-d H:i:s");

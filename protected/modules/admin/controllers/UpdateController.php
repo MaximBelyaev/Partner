@@ -74,36 +74,39 @@ class UpdateController extends AdminController
 			/* получаем архив с последней версией */
 			$data = file_get_contents($zipFileURL);
 
-			if($data)
+			if ($data)
 			{
 				$load_path = 'uploads/update_archive.zip';
 				/* полученный архив сохраняем в файл на сервере */
-				if( file_put_contents( $load_path, $data ) )
+				if (file_put_contents ($load_path, $data))
 				{
-					
 					$zip = new ZipArchive();
 					$zip->open($load_path);
 					$zip->extractTo('./');
 
-					if ( $zip->close() ) {
-
+					if ($zip->close())
+                    {
 						$dbUpdateUrl = Yii::app()->params['updateServer'] . 'dbUpdate/' . $l;
 						$dbData = file_get_contents($dbUpdateUrl);
 						$dbData = json_decode($dbData);
 
-						if ($dbData) {
-							if( $dbData->status == 'has_update' ) {
+						if ($dbData)
+                        {
+							if ($dbData->status == 'has_update')
+                            {
 								$connection = Yii::app()->db;
-								try {
+								try
+                                {
 									$command = $connection->createCommand($dbData->db_update);
 									$command->execute();
-								} catch (Exception $e) {
+								}
+                                catch (Exception $e)
+                                {
 									$command = $connection->createCommand($dbData->db_revert);
 									@$command->execute();
 								}
 							}
 						}
-						
 
 						$this->updateMeta('current_version');
 						$status = 'updated';
@@ -115,7 +118,6 @@ class UpdateController extends AdminController
 						$connection = Yii::app()->db;
 						$command = $connection->createCommand($versionsql);
 						$command->execute();
-						
 					}
 					else
 					{
@@ -150,22 +152,29 @@ class UpdateController extends AdminController
 	public function updateMeta($param = false)
 	{
 		$l = $this->getLicense();
-		if ($l) {
+		if ($l)
+        {
 			$metaData = file_get_contents(Yii::app()->params['updateServer'] . 'lastupdate/' . $l);
 			$encMeta = json_decode($metaData);
-			if (!$param) {
-				if(is_file('meta.json'))
+			if (!$param)
+            {
+				if (is_file('meta.json'))
 				{
 					file_put_contents('meta.json', $metaData);
 				}
 				return $encMeta;
 			# если указан параметр, то обновляем только его
-			} else {
-				if (is_file('meta.json')) {
-					if (isset($encMeta->$param)) {
+			}
+            else
+            {
+				if (is_file('meta.json'))
+                {
+					if (isset($encMeta->$param))
+                    {
 						$currentMeta = file_get_contents('meta.json');
 						$currentMeta = json_decode($currentMeta);
-						if (!is_null($currentMeta)) {
+						if (!is_null($currentMeta))
+                        {
 							$currentMeta->$param = $encMeta->$param;
 						}
 						else
@@ -183,16 +192,18 @@ class UpdateController extends AdminController
 	public function getLicense()
 	{
 		# получим лицензионный код покупателя
-		if(is_file('meta.json'))
+		if (is_file('meta.json'))
 		{
 			$meta = file_get_contents('meta.json');
 			$meta = json_decode($meta);
-			if ($meta) {
+			if ($meta)
+            {
 				$l = $meta->licence;
 			}
 		} 
 		
-		if (!isset($l) or is_null($l) or !$l) {
+		if (!isset($l) or is_null($l) or !$l)
+        {
 			if (is_file('license.txt'))
 			{
 				$l = file_get_contents('license.txt');

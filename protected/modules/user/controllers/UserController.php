@@ -174,11 +174,55 @@ class UserController extends MyUserController
     public function actionData()
     {
         $model = User::model()->findByPk(Yii::app()->user->id);
+        $landing = Landings::model()->findByPk(Yii::app()->session['landing']);
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => Yii::app()->user->id, 'land_id' => Yii::app()->session['landing']));
 
         $this->performAjaxValidation($model);
-        
-        if(isset($_POST['User']))
+        $default = '';
+        $disabled_click = '';
+        $disabled_fixed = '';
+
+        if ($conditions->use_click_pay == 0 && $conditions->use_fixed_pay == 0)
         {
+            $default = 1;
+        }
+        elseif ($conditions->use_click_pay == 1 )
+        {
+            $default = 2;
+        }
+        elseif ($conditions->use_fixed_pay == 1 )
+        {
+            $default = 3;
+        }
+
+        if ($landing->use_click_pay == 0)
+        {
+            $disabled_click = 2;
+        }
+        if ($landing->use_fixed_pay == 0)
+        {
+            $disabled_fixed = 3;
+        }
+        
+        if (isset($_POST['User'])) {
+            if ($_POST['state'] == 1)
+            {
+                $conditions->use_click_pay = 0;
+                $conditions->use_fixed_pay = 0;
+                $conditions->update();
+            }
+            elseif ($_POST['state'] == 2)
+            {
+                $conditions->use_click_pay = 1;
+                $conditions->use_fixed_pay = 0;
+                $conditions->update();
+            }
+            elseif ($_POST['state'] == 3)
+            {
+                $conditions->use_click_pay = 0;
+                $conditions->use_fixed_pay = 1;
+                $conditions->update();
+            }
             $model->old_site    = $model->site; 
             $model->attributes  = $_POST['User'];
             if($model->save())
@@ -191,8 +235,12 @@ class UserController extends MyUserController
                 Yii::app()->user->setFlash('error', "Error!");
             }
         }
+
         $this->render('data', array(
-            'model'=>$model,
+            'model' => $model,
+            'default' => $default,
+            'disabled_click' => $disabled_click,
+            'disabled_fixed' => $disabled_fixed,
         ));
     }
 

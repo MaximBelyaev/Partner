@@ -13,6 +13,9 @@ class UsersLandings extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+
+    public $variable;
+
 	public function tableName()
 	{
 		return 'users_landings';

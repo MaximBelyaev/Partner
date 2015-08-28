@@ -316,13 +316,14 @@ class Referrals extends CActiveRecord
      */
     protected function beforeSave()
     {
-        if(parent::beforeSave()){
-           	
+        if(parent::beforeSave())
+        {
            	$promo = trim($this->promo);
             if($promo)
             {
             	$user  = User::model()->find("promo_code = '$promo'");
-            	if ($user) {
+            	if ($user)
+                {
                 	$this->user_id = $user->id;
             	}
             }
@@ -332,12 +333,8 @@ class Referrals extends CActiveRecord
             	$this->status = self::$STATUS_APPLIED;
             }
 
-            //$settingsFixedpay = Setting::model()->find(array('condition' => "name = 'fixed_pay'"));
-            $settingsVip = Setting::model()->find(array('condition' => "name = 'vip'"));
-            $settingsExtended = Setting::model()->find(array('condition' => "name = 'extended'"));
-            $settingsStandard = Setting::model()->find(array('condition' => "name = 'standard'"));
-
             $land = Landings::model()->findByPk($this->land_id);
+            $ref_user = UsersLandings::model()->findByAttributes(array('user_id' => $this->user_id, 'land_id' => $land->land_id));
 
             # если старый статус не равен новому и он равен "Оплачено"
 			if(
@@ -346,18 +343,20 @@ class Referrals extends CActiveRecord
             	&& $this->money > 0 && $this->user_id > 0)
             {
             	# если пользователь НЕ работает в режиме оплаты за переход
-				if (!$this->user->use_click_pay)
+				if (!$ref_user->use_click_pay)
 				{
                     $profit = Profit::model()->find('user_id = :id', array(':id'=>$this->user_id));
 
-					if(is_null($profit)) {
+					if(is_null($profit))
+                    {
 						$profit = new Profit();
 						$profit->user_id = $this->user_id;
 					}
 
 					# установим процент за заказ с лендинга для соответствующего стататуса клиента
 					$land_percent = 0;
-					if ($land) {
+					if ($land)
+                    {
 						if ($this->user->status === "VIP")
 						{
 							$land_percent = $land->vip;
@@ -372,32 +371,20 @@ class Referrals extends CActiveRecord
 						}
 					}
 
-					if ($this->user->use_fixed_pay == 1 && $land->use_fixed_pay == 1)
+					if ($ref_user->use_fixed_pay == 1 && $land->use_fixed_pay == 1)
 					{
                         $payment = $land->fixed_pay;
                         $profit->profit += $payment;
                         $profit->full_profit += $payment;
                         $profit->save();
 					}
-					elseif (($this->user->use_fixedpay != 1) && $land && $land_percent)
+					elseif (($ref_user->use_fixedpay != 1) && $land && $land_percent)
 					{
 						# если заказ был для определенного лендинга и для этого лендинга установлена цена заказа
 						$payment = ($land_percent*$this->money)/100;
-						
 						$profit->profit += $payment;
 						$profit->full_profit += $payment;
 						$profit->save();
-                    }
-                    elseif (!$land || !$land_percent)
-                    {
-                    	# если заказ был для определенного лендинга и для этого лендинга установлена цена заказа
-                    	if ($this->user->status === "VIP") { $perc = $settingsVip->value; }
-						elseif ($this->user->status === "Расширенный") { $perc = $settingsExtended->value; }
-						else { $perc = $settingsStandard->value; }
-                        $payment = (($perc/100)*$this->money);
-                        $profit->profit += $payment;
-                        $profit->full_profit += $payment;
-                        $profit->save();
                     }
             	}
             }

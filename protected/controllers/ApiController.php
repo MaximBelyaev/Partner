@@ -38,22 +38,27 @@ class ApiController extends Controller
 		{
 			$user = User::model()->findByPk($user_id);
 		}
-
-		$settingsClickpay = Setting::model()->find(array('condition' => "name = 'click_pay'"));
 		
 		$land = Landings::model()->find("link LIKE '%$land_url%'");
-		if ( !$land && $land_id > 0 ) {
+		if ( !$land && $land_id > 0 )
+        {
 			$land = Landings::model()->findByPk($land_id);	
-		} else if ( !$land && $user && isset($user->users_landings[0]) ) {
+		}
+        elseif ( !$land && $user && isset($user->users_landings[0]) )
+        {
 			$land = Landings::model()->findByPk($user->users_landings[0]->land_id);
-		} else {
+		}
+        else
+        {
 			$lands = Landings::model()->findAll();
-			if (!empty($lands)) {
+			if (!empty($lands))
+            {
 				$land  = $lands[0];
 			}
 		}
 
-		if ($land) {
+		if ($land)
+        {
 			$land_id = $land->land_id;
 		}
 		# если land_id не указан, то 
@@ -62,36 +67,22 @@ class ApiController extends Controller
 		$r->land_id = $land_id;
 		$r->date 	= date('Y-m-d');
 
-		if ($user && $user->use_click_pay && $settingsClickpay->status == '1') {
+        $ref_user = UsersLandings::model()->findByAttributes(array('user_id' => $user_id, 'land_id' => $land_id));
+
+		if ($ref_user && $ref_user->use_click_pay && $land->use_click_pay == 1)
+        {
 			$r->click_pay = 1;
 		} else {
 			$r->click_pay = 0;
 		}
 		$r->partner_id = $user_id;
-		if($r->save() && $r->click_pay == 1)
+		if ($r->save() && $r->click_pay == 1)
 		{
 			if ($land)
 			{
 				if ($land->click_pay > 0)
 				{
 					$click_pay = $land->click_pay;
-					$user->money->profit += $click_pay;
-					$user->money->full_profit += $click_pay;
-					$user->money->save();
-				}
-			}
-			elseif ($user)
-			{
-				if ($user->use_click_pay)
-				{
-					if ($user->click_pay > 0)
-					{
-						$click_pay = $user->click_pay;
-					}
-					else
-					{
-						$click_pay = $settingsClickpay->value;
-					}
 					$user->money->profit += $click_pay;
 					$user->money->full_profit += $click_pay;
 					$user->money->save();
@@ -114,14 +105,10 @@ class ApiController extends Controller
 			$referral->land_id 		= isset($_GET['land_id']) ? (int)$_GET['land_id'] : '';
 			$referral->status 		= Referrals::$STATUS_REQUEST;
 
-
 			$partner_site    = isset($_GET['partner_site']) ? $_GET['partner_site'] : '';
 			$cookie_refer_id = isset($_GET['cookie_refer_id']) ? $_GET['cookie_refer_id'] : '';
 			$refer_id 		 = isset($_GET['refer_id']) ? (int)$_GET['refer_id'] : '';
 			$land_url		 = isset($_GET['land_url']) ? $_GET['land_url'] : '';
-
-
-
 
 			# тут мы проверим, был ли уже заказ с таким email
 			$back = Referrals::model()->find('email ="' . trim($referral->email) . '" AND user_id != 0');
@@ -169,34 +156,42 @@ class ApiController extends Controller
 					$land = false;
 				}
 
-				if ( $land ) {
+				if ( $land )
+                {
 					$referral->land_id = $land->land_id;	
-				} else if ( !$land && ( $referral->user_id > 0 ) ) {
+				}
+                else if ( !$land && ( $referral->user_id > 0 ) )
+                {
 					$user = User::model()->findByPk($referral->user_id);
-					if ( isset( $user->users_landings[0] ) ) {
+					if ( isset( $user->users_landings[0] ) )
+                    {
 						$referral->land_id = $user->users_landings[0]->land_id;
-					} else {
+					}
+                    else
+                    {
 						$lands = Landings::model()->findAll();
-						if ( isset( $lands[0] ) ) {
+						if ( isset( $lands[0] ) )
+                        {
 							$referral->land_id = $lands[0]->land_id;
 						}
 					}
-				} else {
+				}
+                else
+                {
 					$lands = Landings::model()->findAll();
-					if ( isset( $lands[0] ) ) {
+					if ( isset( $lands[0] ) )
+                    {
 						$referral->land_id = $lands[0]->land_id;
 					}
 				}
 
-				if ($land) {
+				if ($land)
+                {
 					$referral->land_id = $land->land_id;
 				}
 			}
-
             $referral->save();
 			// var_dump($referral);
-
-
 	} 
 }
 ?>

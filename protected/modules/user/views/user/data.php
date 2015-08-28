@@ -63,26 +63,25 @@ $this->setPageTitle("Редактирование информации | Пар�
 				<?php echo $form->error($model,'promo_code'); ?>
 			</div>
 
-			<div class="setting_block">
-				<label class="required" for="User_use_click_pay">
-					Выберите источник дохода 
-				</label>
-				<div class="select-wrap">
-					<?php echo $form->dropDownList( 
-						$model,
-						'use_click_pay', 
-						array(
-							'0' => User::PAY_REFERR, 
-							"1" => User::PAY_CLICK
-						),
-						array(
-							'class' => 'dropdown',
-						)
-					); ?>
-					<label for="User_use_click_pay"></label>
-				</div>
-				<?php echo $form->error($model,'use_click_pay'); ?>
-			</div>
+            <div class="setting_block">
+                <label class="required" for="User_use_click_pay">
+                    Выберите источник дохода (лендинг <?= Landings::model()->findByPk(Yii::app()->session['landing'])->name; ?>)
+                </label>
+                <div class="select-wrap">
+                    <?php
+                    echo CHtml::dropDownList('state', $model,
+                        array(
+                            '1' => 'Процент от заказа',
+                            '2' => 'Оплата за переходы',
+                            '3' => 'Фиксированная оплата'
+                        ),
+                        array('options' => array(
+                            $default => array('selected'=>'selected'),
+                            $disabled_click => array('disabled'=>true),
+                            $disabled_fixed => array('disabled'=>true)))); ?>
+                </div>
+                <?php echo $form->error($model,'state'); ?>
+            </div>
 
 			<div class="setting_block">	
 				<label class="required" for="User_site">
@@ -100,5 +99,4 @@ $this->setPageTitle("Редактирование информации | Пар�
 	<?php $this->endWidget(); ?>
 
 	</div>
-
 </div>	
