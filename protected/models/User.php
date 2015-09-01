@@ -128,12 +128,11 @@ class User extends CActiveRecord
 			array('username', 'email'),
 			array('role, telephone, status', 'length', 'max' => 50),
             array('click_pay', 'length', 'max' => 11),
-            array('use_click_pay, use_fixed_pay, click_pay', 'numerical'),
 			array('username, country, region, city', 'length', 'max' => 150),
 			array('name, password, avatar, verification', 'length', 'max' => 255),
 			array('skype, promo_code, reg_date, birth_date, full_profit', 'safe'),
 			array('site', 'url', 'defaultScheme' => 'http'),
-			array('site, promo_code, money, requests_count, referrals_count, status, use_click_pay,
+			array('site, promo_code, money, requests_count, referrals_count, status,
 			referrals_payed_count, id, role, username, full_profit, name, password, reg_date,
 			birth_date, sex, country, region, city, avatar, verification, active, telephone, month_profit', 'safe', 'on' => 'search'),
 		);
@@ -231,19 +230,33 @@ class User extends CActiveRecord
 		$criteria->compare('status', $this->status, true);
 
 		# форматы работы
-        if ($this->use_click_pay != '') {
-            if( $this->use_click_pay == self::DET_PERC_EXP  ) {
-                $criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
-            } else if( $this->use_click_pay == self::DET_PERC_VIP  ) {
-                $criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['vip'] . '"');
-            } else if ( $this->use_click_pay == self::DET_PERC_STAND ) {
-                $criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")');
-            } else if( $this->use_click_pay == self::DET_CLICK_PAY  )  {
-                $criteria->addCondition('use_click_pay=1');
-            } else if( $this->use_click_pay == self::DET_FIXED_PAY  )  {
-                $criteria->addCondition('use_fixed_pay=1');
-            }
-        }
+		$conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->id, 'land_id' => Yii::app()->session['landing']));
+        if ($conditions)
+		{
+			if ($conditions->use_click_pay != '')
+			{
+				if ($conditions->use_click_pay == self::DET_PERC_EXP )
+				{
+					$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['exp'] . '"');
+				}
+				elseif($conditions->use_click_pay == self::DET_PERC_VIP )
+				{
+					$criteria->addCondition('use_click_pay=0 AND status="' . self::$statuses['vip'] . '"');
+				}
+				elseif ($conditions->use_click_pay == self::DET_PERC_STAND)
+				{
+					$criteria->addCondition('use_click_pay=0 AND (status="' . self::$statuses['stand'] . '" OR status="")');
+				}
+				elseif($conditions->use_click_pay == self::DET_CLICK_PAY )
+				{
+					$criteria->addCondition('use_click_pay=1');
+				}
+				elseif($conditions->use_click_pay == self::DET_FIXED_PAY )
+				{
+					$criteria->addCondition('use_fixed_pay=1');
+				}
+			}
+		}
 
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria' => $criteria,
@@ -340,21 +353,11 @@ class User extends CActiveRecord
 	{
 		parent::beforeSave();
 
-        if ($this->use_click_pay == 4)
-        {
-            $this->use_click_pay = 0;
-            $this->click_pay = 0;
-            $this->use_fixed_pay = 1;
-        }
-        else
-        {
-            $this->use_fixed_pay = 0;
-        }
-
 		$this->reg_date = date("Y-m-d H:i:s");
 
 		# если введен новый сайт и не установлен старый сайт
-		if ( ($this->old_site != $this->site) && $this->old_site != '' ) {
+		if ( ($this->old_site != $this->site) && $this->old_site != '' )
+		{
 			# устанавливаем сайт для подтверждения
 			$this->unc_site = $this->site;
 			# а старый сайт вернем
@@ -362,17 +365,20 @@ class User extends CActiveRecord
 		}
 
 		$promo_code = trim($this->promo_code);
-		if ($promo_code != '') {
+		if ($promo_code != '')
+		{
 			$duplicate_codes = User::model()->findAll(array(
 				'select' => 'id',
 				'condition' => "id!={$this->id} AND promo_code = '{$promo_code}'",
 			));
 
-			if (!empty($duplicate_codes)) {
+			if (!empty($duplicate_codes))
+			{
 				$this->addError('promo_code', 'Данный код уже используется');
 			}
 		}
-		if ($this->hasErrors()) {
+		if ($this->hasErrors())
+		{
 			return false;
 		}
 		return true;
@@ -392,7 +398,8 @@ class User extends CActiveRecord
         }
 
 
-		if ($this->old_site != $this->site) {
+		if ($this->old_site != $this->site)
+		{
 			// Добавляем уведомления
 			$notification = new Notifications();
 			$notification->user_id = $this->id;
@@ -401,14 +408,17 @@ class User extends CActiveRecord
 			$notification->save();
 		}
 
-		if (isset($_POST['User']['money'])) {
-			if (is_null($this->money)) {
+		if (isset($_POST['User']['money']))
+		{
+			if (is_null($this->money))
+			{
 				$this->money = new Profit();
 				$this->money->user_id = $this->id;
 			}
 			$this->money->attributes = $_POST['User']['money'];
 
-			if ($this->money->save()) {
+			if ($this->money->save())
+			{
 				Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
 				return true;
 			};
@@ -505,30 +515,34 @@ class User extends CActiveRecord
 		}
 	}
 
-    public function getFormatName()
-    {
-        if ($this->use_fixed_pay == 1)
-        {
-            return self::$work_modes_det[ self::DET_FIXED_PAY];
-        }
-        else if( $this->use_click_pay == 0 && $this->status == self::$statuses['exp'] )
-        {
-            return self::$work_modes_det[ self::DET_PERC_EXP ];
-        }
-        else if( $this->use_click_pay == 0 && $this->status == self::$statuses['vip'] )
-        {
-            return self::$work_modes_det[ self::DET_PERC_VIP ];
-        }
-        else if ( $this->use_click_pay == 0  )
-        {
-            return self::$work_modes_det[ self::DET_PERC_STAND ];
-        }
-        else if( $this->use_click_pay == 1 )
-        {
-            return self::$work_modes_det[ self::DET_CLICK_PAY ];
-        }
-        return '';
-    }
+	public function getFormatName()
+	{
+		$conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->id, 'land_id' => Yii::app()->session['landing']));
+		if ($conditions)
+		{
+			if ($conditions->use_fixed_pay == 1)
+			{
+				return self::$work_modes_det[ self::DET_FIXED_PAY];
+			}
+			else if( $conditions->use_click_pay == 0 && $this->status == self::$statuses['exp'] )
+			{
+				return self::$work_modes_det[ self::DET_PERC_EXP ];
+			}
+			else if( $conditions->use_click_pay == 0 && $this->status == self::$statuses['vip'] )
+			{
+				return self::$work_modes_det[ self::DET_PERC_VIP ];
+			}
+			else if ( $conditions->use_click_pay == 0  )
+			{
+				return self::$work_modes_det[ self::DET_PERC_STAND ];
+			}
+			else if( $conditions->use_click_pay == 1 )
+			{
+				return self::$work_modes_det[ self::DET_CLICK_PAY ];
+			}
+		}
+		return '';
+	}
 
 	public function getLandingIcon()
 	{
@@ -537,20 +551,20 @@ class User extends CActiveRecord
 		}
 	}
 
-
 	public function getRangeData($start, $end) {
 		$start = strtotime($start);
 		$end = strtotime($end);
 		$delta = Yii::app()->params['chartTimePoints'];
-		
-		$requests = $this->getRangeRequest($start, $end, $this->use_click_pay);
+
+		$conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->id, 'land_id' => Yii::app()->session['landing']));
+		$requests = $this->getRangeRequest($start, $end, $conditions->use_click_pay);
 		return $requests;
 	}
 
 	public function getRangeRequest($start, $end, $use_click_pay = 0) {
 		$req = Requests::model()->findAll(array(
 			'select' => 'id',
-			'condition' => 'partner_id = :user and click_pay = :click_pay and UNIX_TIMESTAMP(date) < :start and UNIX_TIMESTAMP(date) < :end ', 
+			'condition' => 'partner_id = :user and click_pay = :click_pay and UNIX_TIMESTAMP(date) < :start and UNIX_TIMESTAMP(date) < :end ',
 			'params' => array( ':user' => $this->id, ':click_pay' => $use_click_pay, ':start' => $start, ':end' => $end )
 		));
 		return $req;

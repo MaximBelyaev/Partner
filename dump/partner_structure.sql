@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Авг 24 2015 г., 09:43
+-- Время создания: Сен 01 2015 г., 15:50
 -- Версия сервера: 5.6.21
 -- Версия PHP: 5.6.3
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- База данных: `partner`
+-- База данных: `partner_structure`
 --
 
 -- --------------------------------------------------------
@@ -37,9 +37,11 @@ CREATE TABLE IF NOT EXISTS `landings` (
   `use_fixed_pay` tinyint(1) NOT NULL,
   `click_pay` int(11) NOT NULL,
   `fixed_pay` int(11) NOT NULL,
+  `icon` varchar(255) NOT NULL,
   `sort_order` varchar(15) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `news`
@@ -51,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `text` varchar(4095) NOT NULL,
   `land_id` int(15) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `news_views` (
 `news_views_id` int(11) NOT NULL,
   `news_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -79,8 +81,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_new` tinyint(1) NOT NULL,
   `stated_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -93,7 +94,9 @@ CREATE TABLE IF NOT EXISTS `profit` (
   `user_id` int(11) NOT NULL,
   `profit` decimal(8,0) DEFAULT '0',
   `full_profit` decimal(10,0) DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
 -- Структура таблицы `promobanns`
@@ -102,13 +105,13 @@ CREATE TABLE IF NOT EXISTS `profit` (
 CREATE TABLE IF NOT EXISTS `promobanns` (
 `id` int(11) NOT NULL,
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_mysql500_ci DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-  `image` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `width` int(11) NOT NULL,
   `height` int(11) NOT NULL,
-  `code` text NOT NULL,
+  `code` text CHARACTER SET latin1 NOT NULL,
   `land_id` int(15) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -118,11 +121,10 @@ CREATE TABLE IF NOT EXISTS `promobanns` (
 
 CREATE TABLE IF NOT EXISTS `promovideo` (
 `id` int(11) NOT NULL,
-  `link` varchar(4096) NOT NULL,
+  `link` varchar(4096) CHARACTER SET latin1 NOT NULL,
   `land_id` int(11) NOT NULL,
   `banner_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -147,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `referrals` (
   `recreate_date` varchar(255) NOT NULL,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `promo` varchar(150) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -162,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `requests` (
   `click_pay` tinyint(1) NOT NULL,
   `land_id` int(255) NOT NULL,
   `partner_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -177,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `status` varchar(128) NOT NULL,
   `value` varchar(4095) NOT NULL,
   `header` varchar(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `settings`
@@ -186,18 +188,16 @@ CREATE TABLE IF NOT EXISTS `settings` (
 INSERT INTO `settings` (`setting_id`, `type`, `name`, `status`, `value`, `header`) VALUES
 (1, '', 'click_pay', '1', '4', 'Цена за переход'),
 (2, '', 'exception_sites', '0', 'http://vk.com https://www.google.com.ua http://www.yandex.ua https://www.google.com.ru http://www.yandex.ru http://www.rambler.ru/', 'Запрещенные к закреплению сайты'),
-(11, 'pay_service', 'qiwi', '1', '', 'QIWI'),
-(12, 'pay_service', 'webmoney', '1', '', 'WebMoney'),
-(13, 'pay_service', 'yandex_money', '0', '', 'Яндекс Деньги'),
-(14, 'pay_service', 'paypal', '0', '', 'PayPal'),
-(15, '', 'fixed_pay', '0', '650', 'Фиксированная оплата'),
-(16, '', 'vip', '0', '20', 'VIP'),
-(17, '', 'extended', '0', '17', 'Расширенный'),
-(18, '', 'standard', '0', '15', 'Cтандартный'),
-(19, '', 'vk', '0', 'http://vk.com/', 'ВК'),
-(20, '', 'email', '0', 'somemail', 'Почта'),
-(21, '', 'skype', '0', 'someskype', 'Скайп'),
-(23, '', 'phone', '0', 'somephone', 'Номер телефона');
+(3, 'pay_service', 'qiwi', '1', '', 'QIWI'),
+(4, 'pay_service', 'webmoney', '1', '', 'WebMoney'),
+(5, 'pay_service', 'yandex_money', '0', '', 'Яндекс Деньги'),
+(6, 'pay_service', 'paypal', '0', '', 'PayPal'),
+(7, '', 'vk', '1', 'http://vk.com/im?media=&sel=300550399', 'ВК'),
+(8, '', 'email', '1', 'somemail', 'Почта'),
+(9, '', 'skype', '1', 'someskype2', 'Скайп'),
+(10, '', 'landing_link', '1', 'somelink2', 'Ссылка'),
+(11, '', 'phone', '1', '', 'Номер телефона'),
+(12, '', 'currency', '', 'RUB', 'Валюта');
 
 -- --------------------------------------------------------
 
@@ -214,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `stateds` (
   `requisites` varchar(50) NOT NULL,
   `description` text,
   `date` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -241,14 +241,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `active` tinyint(1) DEFAULT '0',
   `telephone` varchar(50) DEFAULT NULL,
   `skype` varchar(128) NOT NULL,
-  `use_click_pay` tinyint(1) NOT NULL,
-  `click_pay` int(11) NOT NULL,
-  `use_fixed_pay` tinyint(1) NOT NULL,
-  `fixed_pay` varchar(11) NOT NULL,
   `promo_code` varchar(128) NOT NULL,
+  `promo_video` varchar(255) NOT NULL,
   `unc_site` varchar(255) NOT NULL,
   `land_id` int(11) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -259,8 +256,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `users_landings` (
 `users_landings_id` int(11) NOT NULL,
   `land_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+  `user_id` int(11) NOT NULL,
+  `use_click_pay` tinyint(1) NOT NULL,
+  `use_fixed_pay` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -269,12 +268,9 @@ CREATE TABLE IF NOT EXISTS `users_landings` (
 --
 
 CREATE TABLE IF NOT EXISTS `versions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `version` varchar(50) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
+  `version` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Индексы сохранённых таблиц
@@ -357,3 +353,76 @@ ALTER TABLE `user`
 --
 ALTER TABLE `users_landings`
  ADD PRIMARY KEY (`users_landings_id`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `landings`
+--
+ALTER TABLE `landings`
+MODIFY `land_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `news`
+--
+ALTER TABLE `news`
+MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `news_views`
+--
+ALTER TABLE `news_views`
+MODIFY `news_views_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `notifications`
+--
+ALTER TABLE `notifications`
+MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `profit`
+--
+ALTER TABLE `profit`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `promobanns`
+--
+ALTER TABLE `promobanns`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `promovideo`
+--
+ALTER TABLE `promovideo`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `referrals`
+--
+ALTER TABLE `referrals`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `requests`
+--
+ALTER TABLE `requests`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `settings`
+--
+ALTER TABLE `settings`
+MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT для таблицы `stateds`
+--
+ALTER TABLE `stateds`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `user`
+--
+ALTER TABLE `user`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `users_landings`
+--
+ALTER TABLE `users_landings`
+MODIFY `users_landings_id` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

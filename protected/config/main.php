@@ -122,7 +122,7 @@ return array(
         'promoPrefix' => 'PROMO_',
 
         # сервер, на котором хранятся версии партнерки
-		'updateServer' => ($_SERVER['SERVER_NAME'] == 'prt.loc')?'http://prtserver.loc/api/':'http://prtserver.shvets.net/api/',
+		'updateServer' => 'http://prtserver.shvets.net/api/',
         'tests' => 'http://prtserver.shvets.net/api/tests'
 	),
 );

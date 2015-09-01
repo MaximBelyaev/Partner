@@ -36,20 +36,6 @@ $columns = array(
         'name' => 'site',
         'value' => 'parse_url( $data->site, PHP_URL_HOST )'
 	),
-	array(
-        'name' => 'use_click_pay',
-        'type' => 'raw',
-        'value' => '$data->getFormatName()',
-        'filter' => CHtml::activeDropDownList(
-            $model,
-            'use_click_pay',
-            User::$work_modes_det,
-            array(
-                'empty'=>'Все',
-                'class' => 'dropdown'
-            )
-        ),
-    ),
     array(
         'name'  => 'money',
         'type'  => 'text',

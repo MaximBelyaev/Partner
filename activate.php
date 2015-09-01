@@ -27,7 +27,7 @@
 		$baseUrl 		= str_replace('.', '', $_SERVER['SERVER_NAME']);
 		$licenseString 	= $_POST['license_code'] . 'hostname' . $baseUrl;
 		$activateURL 	= $prtserver . 'activate/' . $licenseString;
-		$data = file_get_contents($activateURL);
+		$data 			= file_get_contents($activateURL);
 
 		if ($data === "success")
 		{
@@ -35,6 +35,9 @@
 			$file_contents 	= file_get_contents($path_to_file);
 			$file_contents 	= str_replace($activation, $activatedState, $file_contents);
 			file_put_contents($path_to_file, $file_contents);
+			$licenseFile = fopen("license.txt", "w");
+			fwrite($licenseFile, $_POST['license_code']);
+			fclose($licenseFile);
 			header("Location: success.php");
 		}
 		else

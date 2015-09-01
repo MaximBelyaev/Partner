@@ -36,9 +36,10 @@ class UserController extends MyUserController
             "last_year" => strtotime("-1 year"),
         );
 
-
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $user->id, 'land_id' => Yii::app()->session['landing']));
 		# статистика для отплаты за клик
-		if ($user->use_click_pay) {
+		if ($conditions->use_click_pay)
+        {
 			$requests = Requests::model()->findAll(
 				array(
 					'select'	=> 'date',
@@ -91,7 +92,9 @@ class UserController extends MyUserController
 				}
 				$prevMonth = $currentMonth;
 	        }
-    	} else {
+    	}
+        else
+        {
 			$requests = Requests::model()->findAll(
 				array(
 					'select' => 'date',
@@ -627,6 +630,7 @@ class UserController extends MyUserController
 	public function actionRange()
 	{
 		$user = $this->user;
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $user->id, 'land_id' => Yii::app()->session['landing']));
 		$get = $_GET;
 
 		$chart = new Chart( Yii::app()->user->id );
@@ -645,7 +649,7 @@ class UserController extends MyUserController
 
 		echo json_encode(array(
 			'user'   => $user,
-            'use_click_pay' => $user->use_click_pay,
+            'use_click_pay' => $conditions->use_click_pay,
 			'get'    => $get,
 			'stats'  => $stats,
 			'charts' => $charts,

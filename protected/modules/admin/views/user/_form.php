@@ -41,8 +41,6 @@
 
     <div class="clear"></div>
 
-	
-	
 	<div class="row-fluid">
 		<div class="span4">
 			<div class="form-row">
@@ -56,38 +54,6 @@
 				<?php echo $form->passwordField($model,'password',array('size'=>50,'maxlength'=>50)); ?>
 				<?php echo $form->error($model,'password'); ?>
 			</div>
-
-			<div class="form-row">
-				<?php echo $form->labelEx($model,'use_click_pay'); ?>
-				<?php echo $form->dropDownList($model, 'use_click_pay',
-					User::$work_modes, 
-					array('class' => 'dropdown', 'options'=> ($model->use_fixed_pay == 1) ?  array(4=>array('selected'=>'selected')
-				) : '' ));?>
-				<?php echo $form->error($model,'use_click_pay'); ?>
-			</div>
-
-			<div 
-				class="form-row" 
-				id="click_pay_row" 
-				<?= (!is_null($model->use_click_pay) && $model->use_click_pay)?'':'style="display:none"' ?>
-				>
-				<?php echo $form->labelEx($model,'click_pay'); ?>
-				<?php echo $form->textField($model,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $model->click_pay ?
-					 $model->click_pay : $this->settingsList['click_pay']->value)); ?>
-				<?php echo $form->error($model,'click_pay'); ?>
-			</div>
-
-            <div
-                class="form-row"
-                id="fixed_pay_row"
-                <?= (!is_null($model->use_fixed_pay) && $model->use_fixed_pay)?'':'style="display:none"' ?>
-                >
-                <?php echo $form->labelEx($model,'fixed_pay'); ?>
-                <?php echo $form->textField($model,'fixed_pay', array('size'=>50,'maxlength'=>50, 'value' => $model->fixed_pay ?
-                    $model->fixed_pay : $this->settingsList['fixed_pay']->value)); ?>
-                <?php echo $form->error($model,'fixed_pay'); ?>
-            </div>
-			
 		</div>
 		
 		<div class="span4 offset1">

@@ -271,7 +271,6 @@ class Referrals extends CActiveRecord
 		);
 	}	
 
-
 	public function getThisDayProfit()
 	{
 		$refs = $this->getThisDayPayedReferrals();
