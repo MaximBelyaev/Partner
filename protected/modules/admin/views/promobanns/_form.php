@@ -91,7 +91,7 @@
 				<?php echo $form->dropDownList(
 					$model,
 					'land_id',
-					$this->landings,
+					$this->landingsList,
 					array(
 						'class' => 'dropdown',
 						'options' => $options

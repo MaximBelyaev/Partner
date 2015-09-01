@@ -87,7 +87,9 @@ class AdminController extends CController
 				$lands[ $l->land_id ] = $l->name;
 			}
 			$this->landings = $lands;
-		} else {
+		}
+        else
+        {
 			$this->landings = false;
 		}
         $this->landingsList = $this->landings;

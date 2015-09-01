@@ -182,6 +182,8 @@ class UserController extends MyUserController
         $disabled_click = '';
         $disabled_fixed = '';
 
+        if ($conditions)
+        {
         if ($conditions->use_click_pay == 0 && $conditions->use_fixed_pay == 0)
         {
             $default = 1;
@@ -202,6 +204,7 @@ class UserController extends MyUserController
         if ($landing->use_fixed_pay == 0)
         {
             $disabled_fixed = 3;
+        }
         }
         
         if (isset($_POST['User'])) {
@@ -429,7 +432,6 @@ class UserController extends MyUserController
             $condition = " land_id=" . (int)Yii::app()->session['landing'];
         } else {
             $l = $this->landings;
-            unset($l[0]);
             $condition = " land_id IN (" . implode(',', array_keys($l)) . ")";
         }
         $bannersList = Promobanns::model()->findAll( $condition );

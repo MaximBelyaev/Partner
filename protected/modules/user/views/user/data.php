@@ -63,9 +63,10 @@ $this->setPageTitle("Редактирование информации | Пар�
 				<?php echo $form->error($model,'promo_code'); ?>
 			</div>
 
+            <?php if (isset(Landings::model()->findByPk(Yii::app()->session['landing'])->name)) { ?>
             <div class="setting_block">
                 <label class="required" for="User_use_click_pay">
-                    Выберите источник дохода (лендинг <?= Landings::model()->findByPk(Yii::app()->session['landing'])->name; ?>)
+                    Схема работы (лендинг <?= Landings::model()->findByPk(Yii::app()->session['landing'])->name; ?>)
                 </label>
                 <div class="select-wrap">
                     <?php
@@ -82,6 +83,7 @@ $this->setPageTitle("Редактирование информации | Пар�
                 </div>
                 <?php echo $form->error($model,'state'); ?>
             </div>
+            <?php } ?>
 
 			<div class="setting_block">	
 				<label class="required" for="User_site">

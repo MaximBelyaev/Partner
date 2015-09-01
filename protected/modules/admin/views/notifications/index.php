@@ -32,7 +32,7 @@ $this->setPageTitle("Уведомления | Партнерская прогр�
         array(
 			'header'=> 'Партнер',
 			'name' 	=> 'username',
-            'value' => '$data->user->username',
+            'value' => 'isset($data->user->username) ? $data->user->username : ""',
             'filter'=> CHtml::activeTextField($model, 'username'),
         ),
 		array(

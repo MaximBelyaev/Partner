@@ -34,7 +34,7 @@ class Promobanns extends CActiveRecord
 			array('type, name, image', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, name, image, width, height', 'safe', 'on'=>'search'),
+			array('id, type, name, image, width, height, land_id', 'safe', 'on'=>'search'),
 			array('image', 'file','types'=>'jpg, gif, png', 'allowEmpty'=>true, 'on'=>'update'),
 		);
 	}

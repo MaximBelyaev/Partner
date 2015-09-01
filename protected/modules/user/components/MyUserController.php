@@ -12,6 +12,7 @@ class MyUserController extends Controller
     public $landingsAR;
     public $offers;
     public $land_id = 0;
+    public $landingsList;
     
     /**
      * @return array action filters
@@ -119,17 +120,21 @@ class MyUserController extends Controller
                     $this->offers[ $l->land_id ] = $l;
                 }
             }
-		} else
+		}
+        else
 		{
 			$this->landings = false;
 		}
+        $this->landingsList = $this->landings;
+        unset($this->landingsList[0]);
 
-		$this->prepareNews();
+        $this->prepareNews();
 	}
 
 
 	/* записываем новости, кол-во непросмотренных новостей */
-	protected function prepareNews() {
+	protected function prepareNews()
+    {
 		if ($this->land_id > 0) {
 			
 			$news = News::model()->findAll('land_id = ' . (int)$this->land_id);
