@@ -21,6 +21,7 @@ class Notifications extends CActiveRecord
 	public static $themes_aliases = array(
 		1 => 'Заявка на вывод',
 		2 => 'Изменение сайта',
+		3 => 'Проблема лицензирования'
 	);
 
 	public $username;
