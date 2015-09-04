@@ -8,42 +8,57 @@ class UpdateController extends AdminController
 
 		if ($l)
 		{
-			# проверяем есть ли информация про обновления на сервере собновлений. 
+			# проверяем есть ли информация про обновления на сервере собновлений.
 			$metaData = file_get_contents(Yii::app()->params['updateServer'] . 'lastupdate/' . $l);
 			$metaData = json_decode($metaData);
 
-			if ( !is_null($metaData) ) {
-
+			if ( !is_null($metaData) )
+            {
 				$vers = Yii::app()->db->createCommand()
 					->select('version')
 					->from('versions')
 					->limit(1)
 					->order('date DESC')
 					->queryRow();
-				if (!empty($vers) && $metaData) {
-					if ($vers['version'] != $metaData->latest_version) {
+				if (!empty($vers) && $metaData)
+                {
+					if ($vers['version'] != $metaData->latest_version)
+                    {
 						$status = 'has_upd';
 						$msg 	= 'Есть новое обновление';
-					} else {
+					}
+                    else
+                    {
 						$status = 'ok';
 						$msg 	= 'Новых обновлений нет';
 					}
-				} else if($metaData) {
-					if (isset($metaData->current_version) && $metaData->current_version != $metaData->latest_version) {
+				}
+                elseif ($metaData)
+                {
+					if (isset($metaData->current_version) && $metaData->current_version != $metaData->latest_version)
+                    {
 						$status = 'has_upd';
 						$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
-					} else if(!isset($metaData->current_version) && $metaData->latest_version) {
+					}
+                    elseif (!isset($metaData->current_version) && $metaData->latest_version)
+                    {
 						$status = 'has_upd';
 						$msg 	= 'Есть обновление. Новая версия - ' . $metaData->latest_version;
-					} else {
+					}
+                    else
+                    {
 						$status = 'ok ';
 						$msg 	= 'Новых обновлений нет';
 					}
-				} else {
+				}
+                else
+                {
 					$status = 'error';
 					$msg 	= 'Не удалось проверить обновления';
 				}
-			} else {
+			}
+            else
+            {
 				$status = 'error';
 				$msg 	= 'Не удалось проверить обновления';
 			}
@@ -52,7 +67,7 @@ class UpdateController extends AdminController
 		else
 		{
 			$status = 'error';
-			$msg 	= 'Не найден файл лицензии'; 
+			$msg 	= 'Не найден файл лицензии';
 		}
 
 		echo json_encode(array(
@@ -111,9 +126,9 @@ class UpdateController extends AdminController
 						$this->updateMeta('current_version');
 						$status = 'updated';
 						$msg = "Система обновлена";
-						$version = file_get_contents('meta.json');
-						$version = json_decode($version, true);
-						$version = $version['current_version'];
+                        $version = file_get_contents(Yii::app()->params['updateServer'] . 'lastupdate/' . $l);
+                        $version = json_decode($version);
+                        $version = $version->current_version;
 						$versionsql = "INSERT INTO versions(version) VALUES('" . $version . "')";
 						$connection = Yii::app()->db;
 						$command = $connection->createCommand($versionsql);
@@ -200,8 +215,8 @@ class UpdateController extends AdminController
             {
 				$l = $meta->licence;
 			}
-		} 
-		
+		}
+
 		if (!isset($l) or is_null($l) or !$l)
         {
 			if (is_file('license.txt'))

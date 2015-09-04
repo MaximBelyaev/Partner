@@ -25,21 +25,33 @@ class Chart
 		
 		$this->l = (isset(Yii::app()->session['landing']))?(int)Yii::app()->session['landing']:false; 
 		
-		if ($user instanceof User ) {
+		if ($user instanceof User )
+        {
 			$this->user = $user;
-		} else if ((int)($user) > 0) {
+		}
+        else if ((int)($user) > 0)
+        {
 			$user = User::model()->findByPk($user);
-			if (!is_null($user)) {
+			if (!is_null($user))
+            {
 				$this->user = $user;
-			} else {
+			} else
+            {
 				throw new CException("Указанный пользователь не найден");
 			}
 		}
 	}
 
-	protected function formatDate($date) {
-		if( preg_match('/[0-9]+(-|\/)[0-9]+(-|\/)[0-9]+/', $date) ){ $date = strtotime($date); }
-		else if ( (int)$date > 0 ){ $date = (int)($date); }
+	protected function formatDate($date)
+    {
+		if (preg_match('/[0-9]+(-|\/)[0-9]+(-|\/)[0-9]+/', $date))
+        {
+            $date = strtotime($date);
+        }
+		else if ((int)$date > 0)
+        {
+            $date = (int)($date);
+        }
 		return $date;
 	}
 
@@ -74,34 +86,45 @@ class Chart
             $d[$i][0] = $intervalStart * 1000;
             $d[$i][1] = 0;
             $d[$i]['land'] = [];
-			foreach ($this->landings as $key => $value) {
+			foreach ($this->landings as $key => $value)
+            {
 				$d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
 			}
 
 			foreach ($users as $usr) {
-				if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd ) {
+				if ( strtotime($usr->reg_date)>$intervalStart && strtotime($usr->reg_date)<=$intervalEnd )
+                {
 					$d[$i][1]++;
 				}
 			}
 		}
-
 		return $d;
 	}
 
 
-	public function getRangeRequestsData($start, $end, $use_click_pay = null) {
-		
+	public function getRangeRequestsData($start, $end, $use_click_pay = null)
+    {
+
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => Yii::app()->session['landing']));
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
 		
 		$dotsCount = Yii::app()->params['chartTimePoints'];
 		$delta = ($end-$start)/$dotsCount;
 
-		if(is_null($this->user)) {
-			$data = $this->getAllRangeRequests($start, $end, $use_click_pay);
-		} else {
-			$data = $this->getUserRangeRequests($start, $end, $this->user->use_click_pay);
-		}
+            if (is_null($this->user))
+            {
+                $data = $this->getAllRangeRequests($start, $end, $use_click_pay);
+            }
+            elseif ($conditions)
+            {
+                $data = $this->getUserRangeRequests($start, $end, $conditions->use_click_pay);
+            }
+            elseif (!$conditions)
+            {
+                $data = $this->getAllRangeRequests($start, $end, $use_click_pay);
+            }
+
 
 		$d = array();
 		for($i = 0; $i < $dotsCount; $i++) {
@@ -132,7 +155,8 @@ class Chart
 		return $d;
 	}
 
-	public function getAllRangeRequests($start, $end, $use_click_pay) {
+	public function getAllRangeRequests($start, $end, $use_click_pay)
+    {
 		$params    = array( 
 			':start' => $start, 
 			':end' 	 => $end
@@ -418,11 +442,13 @@ class Chart
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
 
-		$click_pay = Setting::model()->find(array(
-			'select' 	=> 'value',
-			'condition'	=> 'name="click_pay"'
-		));
-		$click_pay = $click_pay->value;
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => Yii::app()->session['landing']));
+        $land = Landings::model()->findByPk(Yii::app()->session['landing']);
+        $click_pay = 0;
+        if ($land)
+        {
+            $click_pay = $land->click_pay;
+        }
 
 		if (!is_null($this->user)) {
 			$condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
@@ -439,7 +465,7 @@ class Chart
 					'condition'	=> $condition,
 					'params'	=> array(
 						':user'  => $this->user->id, 
-						':ucp'   => $this->user->use_click_pay, 
+						':ucp'   => $conditions->use_click_pay,
 						':start' => $start, 
 						':end'   => $end,
 					),
@@ -449,7 +475,8 @@ class Chart
 			);
 			
 			$condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-			if( $this->l ) {
+			if( $this->l )
+            {
 				$condition .= ' and land_id=' . $this->l ;
 			}
 			else
@@ -462,37 +489,32 @@ class Chart
 					'condition'	=> $condition, 
 					'params'	=> array(
 						':user'  => $this->user->id, 
-						':ucp'   => $this->user->use_click_pay, 
+						':ucp'   => $conditions->use_click_pay,
 						':start' => $start, 
 						':end'   => $end,
 					),
 					'order'		=> 'date DESC'
 				)
 			);
-
-			// if (!$this->user->use_click_pay) {
-				$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-				if( $this->l ) {
-					$condition .= ' and land_id=' . $this->l;
-				}
-				else
-				{
-					$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
-				}
-				$refs = Referrals::model()->findAll(
-					array(
-						'select' => '*',
-						'condition' => $condition,
-						'params' => array(
-							':user'  => $this->user->id, 
-							':start' => $start, 
-							':end'   => $end,
-						),
-					)
-
-				);
-
-			// } else { $refs = array(); }
+			$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+			if( $this->l ) {
+				$condition .= ' and land_id=' . $this->l;
+			}
+			else
+			{
+				$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+			}
+			$refs = Referrals::model()->findAll(
+				array(
+					'select' => '*',
+					'condition' => $condition,
+					'params' => array(
+						':user'  => $this->user->id,
+						':start' => $start,
+						':end'   => $end,
+					),
+				)
+			);
 
 			$requests = array();
 			$all_time_total = array(
@@ -502,8 +524,8 @@ class Chart
 				'profit'	=> 0,					
 			);
 
-			foreach ($rqs as $key => $rq) {
-
+			foreach ($rqs as $key => $rq)
+            {
 				$rq_date = $rq->date;
 				$month_date = date('Y-m', strtotime($rq_date));
 
@@ -511,7 +533,8 @@ class Chart
 					(int)date("m",strtotime($rq_date)), "wide", true
 				) . " " . date("Y",strtotime($rq_date));
 				
-				if (!isset($requests[$month_date]['total'])) {
+				if (!isset($requests[$month_date]['total']))
+                {
 					$requests[$month_date]['total'] = array(
 						'requests'	=> 0,
 						'referrals'	=> 0,
@@ -529,54 +552,54 @@ class Chart
 				);
 
 
-				foreach ( $all_rqs as $allrqkey => $allrq ) {
-					if ($rq_date == $allrq->date) {
+				foreach ( $all_rqs as $allrqkey => $allrq )
+                {
+					if ($rq_date == $allrq->date)
+                    {
 						$requests[ $month_date ][ 'total' ][ 'requests' ]++;
 						$all_time_total[ 'requests' ]++;
 						$rq_stat[ 'requests' ]++;
 
-						if ($this->user->use_click_pay) {
-							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ] + (($this->user->use_click_pay&&$this->user->click_pay)?$this->user->click_pay:$click_pay);
-							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ] + (($this->user->use_click_pay&&$this->user->click_pay)?$this->user->click_pay:$click_pay);
-							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ] + (($this->user->use_click_pay&&$this->user->click_pay)?$this->user->click_pay:$click_pay);
+						if ($conditions->use_click_pay)
+                        {
+							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ] + $click_pay;
+							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ] + $click_pay;
+							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ] + $click_pay;
 						}
 					}
 				}
 
-				foreach ($refs as $rkey => $ref) {
-
+				foreach ($refs as $rkey => $ref)
+                {
 					$ref_date = date('Y-m-d',strtotime($ref->date));
-
-					if ($ref_date == $rq_date) {
-					
+					var_dump('rq_date=' . $rq_date . ' ref_date=' . $ref_date);
+					if ($ref_date == $rq_date)
+                    {
 						$requests[ $month_date ][ 'total' ][ 'referrals' ]++;
 						$all_time_total[ 'referrals' ]++;
 						$rq_stat[ 'referrals' ]++;
 
-						if ($ref->status == Referrals::$STATUS_APPLIED) {
-						
+						if ($ref->status == Referrals::$STATUS_APPLIED)
+                        {
 							$rq_stat[ 'payed' ]++;
 							$all_time_total[ 'payed' ]++;
 							$requests[ $month_date ][ 'total' ][ 'payed' ]++;
-							
-							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
-							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
-							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*(Yii::app()->params['profit_percent']/100));
-						
+
+                            $role = $this->user->status;
+							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($conditions->$role/100));
+							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($conditions->$role/100));
+							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($conditions->$role/100));
 						}
 					}
-
 				}
-
 				$requests[$month_date]['rus_date'] = $rus_date;
 				$requests[$month_date]['stat'][]   = $rq_stat;
-			
 			}
 
 			return array(
 				'stats' => $requests, 
 				'all_time_total' => $all_time_total, 
-				'use_click_pay' => (int)$this->user->use_click_pay
+				'use_click_pay' => (int)$conditions->use_click_pay
 			);
 		}
 	}

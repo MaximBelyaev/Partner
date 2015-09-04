@@ -114,7 +114,8 @@ class Referrals extends CActiveRecord
 		$criteria = new CDbCriteria;
 		$criteria->with = array( 'user', 'landing' );
 
-		if ( (int)Yii::app()->session['landing'] > 0 ) {
+		if ( (int)Yii::app()->session['landing'] > 0 )
+        {
 			$criteria->compare('`landing`.`land_id`', (int)Yii::app()->session['landing']);	
 		}
 
@@ -370,14 +371,14 @@ class Referrals extends CActiveRecord
 						}
 					}
 
-					if ($ref_user->use_fixed_pay == 1 && $land->use_fixed_pay == 1)
+					if (($ref_user->use_fixed_pay == 1) && $land->use_fixed_pay == 1)
 					{
                         $payment = $land->fixed_pay;
                         $profit->profit += $payment;
                         $profit->full_profit += $payment;
                         $profit->save();
 					}
-					elseif (($ref_user->use_fixedpay != 1) && $land && $land_percent)
+					elseif (($ref_user->use_fixed_pay != 1) && $land && $land_percent)
 					{
 						# если заказ был для определенного лендинга и для этого лендинга установлена цена заказа
 						$payment = ($land_percent*$this->money)/100;

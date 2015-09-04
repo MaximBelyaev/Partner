@@ -38,7 +38,7 @@ class News extends CActiveRecord
 			array('land_id', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('news_id, header, text, date', 'safe', 'on' => 'search'),
+			array('news_id, header, text, date, land_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -84,6 +84,12 @@ class News extends CActiveRecord
 	public function search()
 	{
 		$criteria = new CDbCriteria;
+
+        if ( (int)Yii::app()->session['landing'] > 0 )
+        {
+            $criteria->compare('`land_id`', (int)Yii::app()->session['landing']);
+        }
+
 		$criteria->compare('news_id',$this->news_id);
 		$criteria->compare('header',$this->header,true);
 		$criteria->compare('text',$this->text,true);

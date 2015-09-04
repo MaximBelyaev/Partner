@@ -215,22 +215,27 @@ class Requests extends CActiveRecord
 
 	public function getThisMonthProfit()
 	{
-		if ( $this->user->use_click_pay ) {
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => Yii::app()->session['landing']));
+		if ($conditions && $conditions->use_click_pay)
+        {
+            $click_pay = 0;
 			$requests = $this->getThisMonthRequests();
-			if($this->user->click_pay > 0) {
-				$click_pay = $this->user->click_pay;
-			} else {
-				$click_pay = Setting::model()->find('name = "click_pay"');
-				$click_pay = $click_pay->value;
+			if (!empty($conditions->click_pay))
+            {
+				$click_pay = $conditions->click_pay;
 			}
 			return $click_pay * count($requests);
 			//var_dump(count($requests));
-		} else {
+		}
+        else
+        {
 			$refs = $this->getThisMonthPayedReferrals();
-			if (!empty($refs)) {
+			if (!empty($refs))
+            {
 				$full_price = array_reduce(
 					$refs, 
-					function($c,$v){ 
+					function ($c,$v)
+                    {
 						return ($c + (float)$v->money); 
 					}
 				);
@@ -252,18 +257,22 @@ class Requests extends CActiveRecord
 
 	public function getDailyProfit()
 	{
-		if ($this->user->use_click_pay) {
-			if($this->user->click_pay > 0) {
-				$click_pay = $this->user->click_pay;
-			} else {
-				$click_pay = Setting::model()->find('name = "click_pay"');
-				$click_pay = $click_pay->value;
+        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => Yii::app()->session['landing']));
+		if ($conditions && $conditions->use_click_pay)
+        {
+            $click_pay = 0;
+			if (!empty($conditions->click_pay))
+            {
+				$click_pay = $conditions->click_pay;
 			}
 			return $click_pay * count($this->getDayRequests());
-		} else {
+		}
+        else
+        {
 			$full_price = array_reduce(
 				$this->getPayedReferrals(), 
-				function($c,$v){ 
+				function($c,$v)
+                {
 					return ($c ." ". (float)$v->money); 
 				}
 			);

@@ -38,7 +38,7 @@ class UserController extends MyUserController
 
         $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $user->id, 'land_id' => Yii::app()->session['landing']));
 		# статистика для отплаты за клик
-		if ($conditions->use_click_pay)
+		if ($conditions && $conditions->use_click_pay)
         {
 			$requests = Requests::model()->findAll(
 				array(
