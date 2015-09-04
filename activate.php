@@ -1,11 +1,23 @@
 <?php
 
 	$config = include(dirname(__FILE__) . '/protected/config/main.php');
+	$first = file_get_contents("license.txt");
+	$second = str_replace('.', '',$_SERVER['SERVER_NAME']);
+	$str = $first . 'hostname' . $second;
+	if ($first)
+	{
+		$request = 'http://prtserver.shvets.net/api/check/' . $str;
+	}
+	$status = '';
+	if ($request)
+	{
+		$status = file_get_contents($request);
+	}
 	if ($config['params']['dbsetup'] !== "activated")
 	{
 		header('Location: /setup.php');
 	}
-	if ($config['params']['activation'] === 'activated')
+	if ($status === 'exists')
 	{
 		header('Location: /');
 	}
