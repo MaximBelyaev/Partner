@@ -37,7 +37,7 @@ class PromobannsController extends AdminController
 			$fileName = "{$rnd}-{$uploadedFile}";
 				if ($uploadedFile)
 				{
-					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+					$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/bans/'.$fileName);
 					$model->image = $fileName;
 				}
 			if ($model->save())
@@ -55,7 +55,6 @@ class PromobannsController extends AdminController
 			} else {
 			}
 		}
-
 
 		$this->render('create',array(
 			'model'=>$model,
@@ -91,7 +90,7 @@ class PromobannsController extends AdminController
 				$rnd = rand(0,9999);
 				$fileName = "{$rnd}-{$uploadedFile}";
 				$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
-				unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
+				unlink(Yii::app()->request->baseUrl.'uploads/bans/'.$model->image);
 				$model->image = $fileName;
 			}
 			$model->save();
@@ -116,7 +115,7 @@ class PromobannsController extends AdminController
 		$model = $this->loadModel($id);
 		if ($model->image)
 		{
-			unlink(Yii::app()->request->baseUrl.'uploads/'.$model->image);
+			unlink(Yii::app()->request->baseUrl.'uploads/bans/'.$model->image);
 			$model->image = '';
 		}
 		$model->delete();

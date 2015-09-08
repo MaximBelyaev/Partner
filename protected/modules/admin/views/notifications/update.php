@@ -5,7 +5,8 @@ $this->breadcrumbs=array(
 	'Notifications'=>array('/admin/notifications'),
 	'Просмотр',
 );
-$this->setPageTitle("Уведомление от {$model->user->username} | Партнерская программа Павлуцкого Александра");
+$usr = (isset($model->user)) ? $model->user->username : '(пользователь не найден в базе)';
+$this->setPageTitle('Уведомление от' . $usr . '| Партнерская программа Павлуцкого Александра');
 ?>
 
 <div class="block full-page-block">

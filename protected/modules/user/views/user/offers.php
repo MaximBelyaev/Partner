@@ -35,13 +35,13 @@ $this->setPageTitle("Список лендингов");
 					 	</span><!-- 
 					 --><span class="off-click">
 							<?php 
-								$lcp = $landing->click_pay ? $landing->click_pay : '';
+								$lcp = $landing->click_pay && $landing->use_click_pay? $landing->click_pay : '';
 								echo $lcp;
 							?> 
 						</span><!--
 					--><span class="off-click">
 							<?php
-                            $lfp = $landing->fixed_pay ? $landing->fixed_pay : '';
+                            $lfp = $landing->fixed_pay && $landing->use_fixed_pay ? $landing->fixed_pay : '';
                             echo $lfp;
                             ?>
 						</span><!--

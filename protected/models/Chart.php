@@ -127,7 +127,8 @@ class Chart
 
 
 		$d = array();
-		for($i = 0; $i < $dotsCount; $i++) {
+		for($i = 0; $i < $dotsCount; $i++)
+		{
 
 			$intervalStart = $start + $delta*$i;
 			$intervalEnd   = $start + $delta*($i+1);
@@ -157,8 +158,8 @@ class Chart
 
 	public function getAllRangeRequests($start, $end, $use_click_pay)
     {
-		$params    = array( 
-			':start' => $start, 
+		$params    = array(
+			':start' => $start,
 			':end' 	 => $end
 		);
 		$date_line = ' UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
@@ -233,7 +234,8 @@ class Chart
 
 
         $d = array();
-        for($i = 0; $i < $dotsCount; $i++) {
+        for ($i = 0; $i < $dotsCount; $i++)
+		{
 
             $intervalStart = $start + $delta * $i;
             $intervalEnd = $start + $delta * ($i + 1);
@@ -245,10 +247,13 @@ class Chart
                 $d[$i]['land'][$key] = array('name' => $value, 'value' => 0);
             }
 
-            foreach ($data as $dt) {
-                if (strtotime($dt['date']) > $intervalStart && strtotime($dt['date']) <= $intervalEnd) {
+            foreach ($data as $dt)
+			{
+                if (strtotime($dt['date']) > $intervalStart && strtotime($dt['date']) <= $intervalEnd)
+				{
                     $d[$i][1]++;
-                    if (isset($d[$i]['land'][$dt['land_id']])) {
+                    if (isset($d[$i]['land'][$dt['land_id']]))
+					{
                         $d[$i]['land'][$dt['land_id']]['value']++;
                     }
                 }
@@ -258,7 +263,8 @@ class Chart
 		return $d;
 	}
 
-	public function getAllRangeReferrals( $start, $end ) {
+	public function getAllRangeReferrals( $start, $end )
+	{
 		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
 		$params    = array( 
 			':start' => $start, 
@@ -271,7 +277,8 @@ class Chart
 		return $this->getRangeReferrals($condition, $params);
 	}
 
-	public function getAllRangePayedReferrals( $start, $end ) {
+	public function getAllRangePayedReferrals( $start, $end )
+	{
 		$condition = 'status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
 		$params    = array( 
 			':status' => Referrals::$STATUS_APPLIED, 
@@ -285,7 +292,8 @@ class Chart
 		return $this->getRangeReferrals($condition, $params);
 
 	}
-	public function getAllRangeDistinctReferrals( $start, $end ) {
+	public function getAllRangeDistinctReferrals( $start, $end )
+	{
 		$condition = 'UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end '; 
 		$params    = array( 
 			':start' => $start, 
@@ -304,7 +312,8 @@ class Chart
 		return $requests;
 	}
 
-	public function getUserRangeReferrals($start, $end) {
+	public function getUserRangeReferrals($start, $end)
+	{
 		$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		$params    = array( 
 			':user' => $this->user->id, 
@@ -323,7 +332,8 @@ class Chart
 		return $this->getRangeReferrals($condition, $params);
 	}
 
-	public function getUserRangePayedReferrals($start, $end) {
+	public function getUserRangePayedReferrals($start, $end)
+	{
 		$condition = 'user_id = :user and status = :status and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		$params    = array( 
 			':user' => $this->user->id,
@@ -437,7 +447,8 @@ class Chart
 		return $stats;
 	}
 
-	public function getRangeStat($start, $end) {
+	public function getRangeStat($start, $end)
+    {
 
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
@@ -464,7 +475,7 @@ class Chart
 					'select'	=> 'date',
 					'condition'	=> $condition,
 					'params'	=> array(
-						':user'  => $this->user->id, 
+						':user'  => $this->user->id,
 						':ucp'   => $conditions->use_click_pay,
 						':start' => $start, 
 						':end'   => $end,
@@ -488,7 +499,7 @@ class Chart
 					'select'	=> '*',
 					'condition'	=> $condition, 
 					'params'	=> array(
-						':user'  => $this->user->id, 
+						':user'  => $this->user->id,
 						':ucp'   => $conditions->use_click_pay,
 						':start' => $start, 
 						':end'   => $end,
@@ -497,7 +508,8 @@ class Chart
 				)
 			);
 			$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-			if( $this->l ) {
+			if( $this->l )
+			{
 				$condition .= ' and land_id=' . $this->l;
 			}
 			else
@@ -532,7 +544,7 @@ class Chart
 				$rus_date = Yii::app()->locale->getMonthName(
 					(int)date("m",strtotime($rq_date)), "wide", true
 				) . " " . date("Y",strtotime($rq_date));
-				
+
 				if (!isset($requests[$month_date]['total']))
                 {
 					$requests[$month_date]['total'] = array(
@@ -552,7 +564,7 @@ class Chart
 				);
 
 
-				foreach ( $all_rqs as $allrqkey => $allrq )
+				foreach ($all_rqs as $allrqkey => $allrq)
                 {
 					if ($rq_date == $allrq->date)
                     {
@@ -572,24 +584,30 @@ class Chart
 				foreach ($refs as $rkey => $ref)
                 {
 					$ref_date = date('Y-m-d',strtotime($ref->date));
-					var_dump('rq_date=' . $rq_date . ' ref_date=' . $ref_date);
 					if ($ref_date == $rq_date)
                     {
 						$requests[ $month_date ][ 'total' ][ 'referrals' ]++;
 						$all_time_total[ 'referrals' ]++;
 						$rq_stat[ 'referrals' ]++;
 
-						if ($ref->status == Referrals::$STATUS_APPLIED)
+						if ($ref->status == Referrals::$STATUS_APPLIED) {
+                            $rq_stat['payed']++;
+                            $all_time_total['payed']++;
+                            $requests[$month_date]['total']['payed']++;
+                        }
+                        if ($conditions->use_fixed_pay)
                         {
-							$rq_stat[ 'payed' ]++;
-							$all_time_total[ 'payed' ]++;
-							$requests[ $month_date ][ 'total' ][ 'payed' ]++;
-
+                            $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*(15/100));
+                            $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*(15/100));
+                            $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*(15/100));
+                        }
+                        elseif ($conditions->role)
+                        {
                             $role = $this->user->status;
-							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($conditions->$role/100));
-							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($conditions->$role/100));
-							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($conditions->$role/100));
-						}
+                            $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($conditions->$role/100));
+                            $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($conditions->$role/100));
+                            $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($conditions->$role/100));
+                        }
 					}
 				}
 				$requests[$month_date]['rus_date'] = $rus_date;
@@ -603,7 +621,6 @@ class Chart
 			);
 		}
 	}
-
 }
 
 ?>
