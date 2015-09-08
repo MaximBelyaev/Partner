@@ -461,54 +461,107 @@ class Chart
             $click_pay = $land->click_pay;
         }
 
-		if (!is_null($this->user)) {
-			$condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-			if( $this->l ) {
-				$condition .= ' and land_id=' . $this->l ;
-			}
-			else
-			{
-				$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
-			}
-			$rqs = Requests::model()->findAll(
-				array(
-					'select'	=> 'date',
-					'condition'	=> $condition,
-					'params'	=> array(
-						':user'  => $this->user->id,
-						':ucp'   => $conditions->use_click_pay,
-						':start' => $start, 
-						':end'   => $end,
-					),
-					'distinct'	=> true, 
-					'order'		=> 'date DESC'
-				)
-			);
-			
-			$condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-			if( $this->l )
+		if (!is_null($this->user))
+        {
+            $rqs = array();
+            $all_rqs = array();
+            if (!is_null($conditions))
             {
-				$condition .= ' and land_id=' . $this->l ;
-			}
-			else
-			{
-				$condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
-			}
-			$all_rqs = Requests::model()->findAll(
-				array(
-					'select'	=> '*',
-					'condition'	=> $condition, 
-					'params'	=> array(
-						':user'  => $this->user->id,
-						':ucp'   => $conditions->use_click_pay,
-						':start' => $start, 
-						':end'   => $end,
-					),
-					'order'		=> 'date DESC'
-				)
-			);
+                $condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+                if( $this->l ) {
+                    $condition .= ' and land_id=' . $this->l ;
+                }
+                else
+                {
+                    $condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+                }
+                $rqs = Requests::model()->findAll(
+                    array(
+                        'select'	=> 'date',
+                        'condition'	=> $condition,
+                        'params'	=> array(
+                            ':user'  => $this->user->id,
+                            ':ucp'   => $conditions->use_click_pay,
+                            ':start' => $start,
+                            ':end'   => $end,
+                        ),
+                        'distinct'	=> true,
+                        'order'		=> 'date DESC'
+                    )
+                );
+
+                $condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+                if ($this->l)
+                {
+                    $condition .= ' and land_id=' . $this->l;
+                }
+                else
+                {
+                    $condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+                }
+                $all_rqs = Requests::model()->findAll(
+                    array(
+                        'select'	=> '*',
+                        'condition'	=> $condition,
+                        'params'	=> array(
+                            ':user'  => $this->user->id,
+                            ':ucp'   => $conditions->use_click_pay,
+                            ':start' => $start,
+                            ':end'   => $end,
+                        ),
+                        'order'		=> 'date DESC'
+                    )
+                );
+            }
+            elseif (is_null($conditions))
+            {
+                $condition = 'partner_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+                if ($this->l)
+                {
+                    $condition .= ' and land_id=' . $this->l ;
+                }
+                else
+                {
+                    $condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+                }
+                $rqs = Requests::model()->findAll(
+                    array(
+                        'select'	=> 'date',
+                        'condition'	=> $condition,
+                        'params'	=> array(
+                            ':user'  => $this->user->id,
+                            ':start' => $start,
+                            ':end'   => $end,
+                        ),
+                        'distinct'	=> true,
+                        'order'		=> 'date DESC'
+                    )
+                );
+
+                $condition = 'partner_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+                if ($this->l)
+                {
+                    $condition .= ' and land_id=' . $this->l;
+                }
+                else
+                {
+                    $condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
+                }
+                $all_rqs = Requests::model()->findAll(
+                    array(
+                        'select'	=> '*',
+                        'condition'	=> $condition,
+                        'params'	=> array(
+                            ':user'  => $this->user->id,
+                            ':start' => $start,
+                            ':end'   => $end,
+                        ),
+                        'order'		=> 'date DESC'
+                    )
+                );
+            }
 			$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-			if( $this->l )
+			if ($this->l)
 			{
 				$condition .= ' and land_id=' . $this->l;
 			}
@@ -563,21 +616,32 @@ class Chart
 					'profit'	=> 0,
 				);
 
-
 				foreach ($all_rqs as $allrqkey => $allrq)
                 {
 					if ($rq_date == $allrq->date)
                     {
-						$requests[ $month_date ][ 'total' ][ 'requests' ]++;
-						$all_time_total[ 'requests' ]++;
-						$rq_stat[ 'requests' ]++;
-
-						if ($conditions->use_click_pay)
+						$requests[$month_date]['total']['requests']++;
+						$all_time_total['requests']++;
+						$rq_stat['requests']++;
+                        if (!is_null($conditions))
                         {
-							$rq_stat[ 'profit' ] = $rq_stat[ 'profit' ] + $click_pay;
-							$requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ] + $click_pay;
-							$all_time_total[ 'profit' ] = $all_time_total[ 'profit' ] + $click_pay;
-						}
+                            if ($conditions->use_click_pay && $land->use_click_pay)
+                            {
+                                $rq_stat['profit'] = $rq_stat['profit'] + $click_pay;
+                                $requests[$month_date]['total']['profit'] = $requests[$month_date]['total']['profit'] + $click_pay;
+                                $all_time_total['profit'] = $all_time_total['profit'] + $click_pay;
+                            }
+                        }
+                        elseif (is_null($conditions))
+                        {
+                            $requestLand = Landings::model()->findByPk($allrq->land_id);
+                            if ($allrq->click_pay && $requestLand->use_click_pay)
+                            {
+                                $rq_stat['profit'] = $rq_stat['profit'] + $requestLand->click_pay;
+                                $requests[$month_date]['total']['profit'] = $requests[$month_date]['total']['profit'] + $requestLand->click_pay;
+                                $all_time_total['profit'] = $all_time_total['profit'] + $requestLand->click_pay;
+                            }
+                        }
 					}
 				}
 
@@ -590,12 +654,13 @@ class Chart
 						$all_time_total[ 'referrals' ]++;
 						$rq_stat[ 'referrals' ]++;
 
-						if ($ref->status == Referrals::$STATUS_APPLIED) {
+						if ($ref->status == Referrals::$STATUS_APPLIED)
+                        {
                             $rq_stat['payed']++;
                             $all_time_total['payed']++;
                             $requests[$month_date]['total']['payed']++;
                         }
-                        if ($conditions->use_fixed_pay)
+                        /**if ($conditions->use_fixed_pay)
                         {
                             $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*(15/100));
                             $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*(15/100));
@@ -607,7 +672,7 @@ class Chart
                             $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($conditions->$role/100));
                             $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($conditions->$role/100));
                             $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($conditions->$role/100));
-                        }
+                        }**/
 					}
 				}
 				$requests[$month_date]['rus_date'] = $rus_date;
@@ -616,11 +681,9 @@ class Chart
 
 			return array(
 				'stats' => $requests, 
-				'all_time_total' => $all_time_total, 
-				'use_click_pay' => (int)$conditions->use_click_pay
+				'all_time_total' => $all_time_total,
 			);
 		}
 	}
 }
-
 ?>

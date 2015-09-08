@@ -649,7 +649,6 @@ class UserController extends MyUserController
 
 		echo json_encode(array(
 			'user'   => $user,
-            'use_click_pay' => $conditions->use_click_pay,
 			'get'    => $get,
 			'stats'  => $stats,
 			'charts' => $charts,
