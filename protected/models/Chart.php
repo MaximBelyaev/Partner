@@ -61,15 +61,21 @@ class Chart
 		$end   = $this->formatDate($end);
 		$dotsCount = Yii::app()->params['chartTimePoints'];
 		$delta = ($end-$start)/$dotsCount;
-
+        $params = array(
+            ':start'  => $start,
+            ':end'    => $end
+        );
+        $condition = 'UNIX_TIMESTAMP(reg_date) > :start and UNIX_TIMESTAMP(reg_date) < :end ';
+        if ( $this->l )
+        {
+            $condition .= ' and land_id = :land_id';
+            $params[':land_id'] = $this->l;
+        }
 
 		$users = User::model()->findAll(array(
 			'select'    => '*',
-			'condition' => 'UNIX_TIMESTAMP(reg_date) > :start and UNIX_TIMESTAMP(reg_date) < :end ',
-			'params'    => array( 
-				':start'  => $start, 
-				':end'    => $end 
-			),
+			'condition' => $condition,
+			'params'    => $params,
 		));
 
 
@@ -104,8 +110,11 @@ class Chart
 
 	public function getRangeRequestsData($start, $end, $use_click_pay = null)
     {
-
-        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => Yii::app()->session['landing']));
+        $conditions = null;
+        if ($this->l)
+        {
+            $conditions = UsersLandings::model()->findByAttributes(array('user_id' => Yii::app()->user->id, 'land_id' => Yii::app()->session['landing']));
+        }
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
 		
@@ -176,11 +185,10 @@ class Chart
 		return $this->getRangeRequests($condition, $params);
 	}
 
-	public function getUserRangeRequests($start, $end, $use_click_pay) {
-		$condition = 'partner_id = :user and click_pay = :click_pay and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
+	public function getUserRangeRequests($start, $end) {
+		$condition = 'partner_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end ';
 		$params    = array( 
-			':user' => $this->user->id, 
-			':click_pay' => $use_click_pay, 
+			':user' => $this->user->id,
 			':start' => $start, 
 			':end' => $end
 		);
@@ -213,21 +221,34 @@ class Chart
 		$dotsCount = Yii::app()->params['chartTimePoints'];
 		$delta = ($end-$start)/$dotsCount;
 
-		if(is_null($this->user)) {
+		if (is_null($this->user))
+        {
 			//$data = $this->getAllRangeReferrals($start, $end);
-			if ( $payed ) {
+			if ($payed)
+            {
 				$data = $this->getAllRangePayedReferrals($start, $end);
-			} elseif( $distinct ) {
+			}
+            elseif ($distinct)
+            {
 				$data = $this->getAllRangeDistinctReferrals($start, $end);
-			} else {
+			}
+            else
+            {
 				$data = $this->getAllRangeReferrals($start, $end);
 			}
-		} else {
-			if ( $payed ) {
+		}
+        else
+        {
+			if ($payed)
+            {
 				$data = $this->getUserRangePayedReferrals($start, $end);
-			} elseif( $distinct ) {
+			}
+            elseif ($distinct)
+            {
 				$data = $this->getUserRangeDistinctReferrals($start, $end);
-			} else {
+			}
+            else
+            {
 				$data = $this->getUserRangeReferrals($start, $end);
 			}
 		}
@@ -270,7 +291,8 @@ class Chart
 			':start' => $start, 
 			':end' => $end 
 		);
-		if ( $this->l ) {
+		if ( $this->l )
+        {
 			$condition .= ' and land_id = :land_id';
 			$params[':land_id'] = $this->l;
 		}
@@ -369,15 +391,21 @@ class Chart
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
 		$condition = 'UNIX_TIMESTAMP(reg_date) > :start and UNIX_TIMESTAMP(reg_date) < :end';
+        $params = array(
+            ':start' => $start,
+            ':end'   => $end,
+        );
+        if ($this->l)
+        {
+            $condition .= ' and land_id = :land_id';
+            $params[':land_id'] = $this->l;
+        }
 		# все новые партнеры
 		$stats['new_partners'] = count(User::model()->findAll(
 			array(
 				'select'	=> 'reg_date',
 				'condition'	=> $condition, 
-				'params'	=> array(
-					':start' => $start, 
-					':end'   => $end,
-				),
+				'params'	=> $params,
 			)
 		));
 
@@ -387,7 +415,8 @@ class Chart
 			':start' => $start, 
 			':end'   => $end,
 		);
-		if ($this->l) {
+		if ($this->l)
+        {
 			$condition .= ' and land_id = :land_id';
 			$params[':land_id'] = $this->l;
 		}
@@ -438,10 +467,13 @@ class Chart
 			)
 		);
 		$stats['payed'] = count($payed);
+
 		$profit = 0;
-		foreach ($payed as $p) {
+		foreach ($payed as $p)
+        {
 			$profit = $profit + $p->money;
 		}
+
 		$stats['profit'] = $profit;
 		
 		return $stats;
@@ -453,21 +485,9 @@ class Chart
 		$start = $this->formatDate($start);
 		$end   = $this->formatDate($end);
 
-        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => Yii::app()->session['landing']));
-        $land = Landings::model()->findByPk(Yii::app()->session['landing']);
-        $click_pay = 0;
-        if ($land)
-        {
-            $click_pay = $land->click_pay;
-        }
-
 		if (!is_null($this->user))
         {
-            $rqs = array();
-            $all_rqs = array();
-            if (!is_null($conditions))
-            {
-                $condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
+                $condition = 'partner_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
                 if( $this->l ) {
                     $condition .= ' and land_id=' . $this->l ;
                 }
@@ -481,55 +501,6 @@ class Chart
                         'condition'	=> $condition,
                         'params'	=> array(
                             ':user'  => $this->user->id,
-                            ':ucp'   => $conditions->use_click_pay,
-                            ':start' => $start,
-                            ':end'   => $end,
-                        ),
-                        'distinct'	=> true,
-                        'order'		=> 'date DESC'
-                    )
-                );
-
-                $condition = 'partner_id = :user and click_pay = :ucp and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-                if ($this->l)
-                {
-                    $condition .= ' and land_id=' . $this->l;
-                }
-                else
-                {
-                    $condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
-                }
-                $all_rqs = Requests::model()->findAll(
-                    array(
-                        'select'	=> '*',
-                        'condition'	=> $condition,
-                        'params'	=> array(
-                            ':user'  => $this->user->id,
-                            ':ucp'   => $conditions->use_click_pay,
-                            ':start' => $start,
-                            ':end'   => $end,
-                        ),
-                        'order'		=> 'date DESC'
-                    )
-                );
-            }
-            elseif (is_null($conditions))
-            {
-                $condition = 'partner_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
-                if ($this->l)
-                {
-                    $condition .= ' and land_id=' . $this->l ;
-                }
-                else
-                {
-                    $condition .= ' AND land_id IN(' . implode(',', array_keys($this->landings)) . ')';
-                }
-                $rqs = Requests::model()->findAll(
-                    array(
-                        'select'	=> 'date',
-                        'condition'	=> $condition,
-                        'params'	=> array(
-                            ':user'  => $this->user->id,
                             ':start' => $start,
                             ':end'   => $end,
                         ),
@@ -559,7 +530,7 @@ class Chart
                         'order'		=> 'date DESC'
                     )
                 );
-            }
+
 			$condition = 'user_id = :user and UNIX_TIMESTAMP(date) > :start and UNIX_TIMESTAMP(date) < :end';
 			if ($this->l)
 			{
@@ -623,24 +594,14 @@ class Chart
 						$requests[$month_date]['total']['requests']++;
 						$all_time_total['requests']++;
 						$rq_stat['requests']++;
-                        if (!is_null($conditions))
+
+                        $requestLand = Landings::model()->findByPk($allrq->land_id);
+                        $condition = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => $requestLand->land_id));
+                        if ($allrq->click_pay && $condition->use_click_pay)
                         {
-                            if ($conditions->use_click_pay && $land->use_click_pay)
-                            {
-                                $rq_stat['profit'] = $rq_stat['profit'] + $click_pay;
-                                $requests[$month_date]['total']['profit'] = $requests[$month_date]['total']['profit'] + $click_pay;
-                                $all_time_total['profit'] = $all_time_total['profit'] + $click_pay;
-                            }
-                        }
-                        elseif (is_null($conditions))
-                        {
-                            $requestLand = Landings::model()->findByPk($allrq->land_id);
-                            if ($allrq->click_pay && $requestLand->use_click_pay)
-                            {
-                                $rq_stat['profit'] = $rq_stat['profit'] + $requestLand->click_pay;
-                                $requests[$month_date]['total']['profit'] = $requests[$month_date]['total']['profit'] + $requestLand->click_pay;
-                                $all_time_total['profit'] = $all_time_total['profit'] + $requestLand->click_pay;
-                            }
+                            $rq_stat['profit'] = $rq_stat['profit'] + $requestLand->click_pay;
+                            $requests[$month_date]['total']['profit'] = $requests[$month_date]['total']['profit'] + $requestLand->click_pay;
+                            $all_time_total['profit'] = $all_time_total['profit'] + $requestLand->click_pay;
                         }
 					}
 				}
@@ -650,34 +611,59 @@ class Chart
 					$ref_date = date('Y-m-d',strtotime($ref->date));
 					if ($ref_date == $rq_date)
                     {
-						$requests[ $month_date ][ 'total' ][ 'referrals' ]++;
-						$all_time_total[ 'referrals' ]++;
-						$rq_stat[ 'referrals' ]++;
+						$requests[$month_date]['total']['referrals']++;
+						$all_time_total['referrals']++;
+						$rq_stat['referrals']++;
 
 						if ($ref->status == Referrals::$STATUS_APPLIED)
                         {
                             $rq_stat['payed']++;
-                            $all_time_total['payed']++;
                             $requests[$month_date]['total']['payed']++;
+                            $requestLand = Landings::model()->findByPk($ref->land_id);
+                            $condition = UsersLandings::model()->findByAttributes(array('user_id' => $this->user->id, 'land_id' => $requestLand->land_id));
+
+                            if ($condition->use_fixed_pay && $requestLand->use_fixed_pay)
+                            {
+                                $rq_stat['profit'] = $rq_stat['profit'] + $requestLand->fixed_pay;
+                                $requests[$month_date]['total']['profit'] = $requests[$month_date]['total']['profit'] + $requestLand->fixed_pay;
+                                $all_time_total['profit'] = $all_time_total['profit'] + $requestLand->fixed_pay;
+                            }
+                            elseif (!$condition->use_fixed_pay && !$condition->use_click_pay)
+                            {
+                                if ($this->user->status === "VIP")
+                                {
+                                    $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($requestLand->vip/100));
+                                    $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($requestLand->vip/100));
+                                    $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($requestLand->vip/100));
+                                }
+                                if ($this->user->status === "Расширенный")
+                                {
+                                    $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($requestLand->extended/100));
+                                    $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($requestLand->extended/100));
+                                    $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($requestLand->extended/100));
+                                }
+                                if ($this->user->status === "Стандартный")
+                                {
+                                    $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($requestLand->standard/100));
+                                    $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($requestLand->standard/100));
+                                    $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($requestLand->standard/100));
+                                }
+                            }
                         }
-                        /**if ($conditions->use_fixed_pay)
-                        {
-                            $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*(15/100));
-                            $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*(15/100));
-                            $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*(15/100));
-                        }
-                        elseif ($conditions->role)
-                        {
-                            $role = $this->user->status;
-                            $rq_stat[ 'profit' ] = $rq_stat[ 'profit' ]+($ref->money*($conditions->$role/100));
-                            $requests[ $month_date ][ 'total' ][ 'profit' ] = $requests[$month_date][ 'total' ][ 'profit' ]+($ref->money*($conditions->$role/100));
-                            $all_time_total[ 'profit' ] = $all_time_total[ 'profit' ]+($ref->money*($conditions->$role/100));
-                        }**/
 					}
 				}
 				$requests[$month_date]['rus_date'] = $rus_date;
 				$requests[$month_date]['stat'][]   = $rq_stat;
 			}
+
+            $all_time_total['referrals'] = count($refs);
+            foreach ($refs as $ref)
+            {
+                if ($ref->status == Referrals::$STATUS_APPLIED)
+                {
+                    $all_time_total['payed']++;
+                }
+            }
 
 			return array(
 				'stats' => $requests, 

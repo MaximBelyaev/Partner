@@ -110,7 +110,7 @@
 
 	<?php if( $model->isNewRecord != '1' ){ ?>
 	<div class="form-row">
-		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/'.$model->image,"image",array("width"=>200)); ?>
+		<?php echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/bans/'.$model->image,"image",array("width"=>200)); ?>
 	</div>
 	<?php } ?>
 

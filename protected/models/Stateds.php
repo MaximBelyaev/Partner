@@ -176,7 +176,7 @@ class Stateds extends CActiveRecord
 	protected function afterSave()
 	{
     
-        if($this->isNewRecord)
+        if ($this->isNewRecord)
 		{
 			$email = Yii::app()->email;
 			$email->from = 'Future <admin@'.$_SERVER['HTTP_HOST'].'>';
@@ -199,7 +199,7 @@ class Stateds extends CActiveRecord
         }
 
 
-        if($this->_oldStatus != $this->status){
+        if ($this->_oldStatus != $this->status){
             if($this->status == self::STATUS_PAYED) {
             	$email = Yii::app()->email;
 				$email->from = '' . Yii::app()->params['adminName'] . ' <' . Yii::app()->params['adminEmail'] . '>';

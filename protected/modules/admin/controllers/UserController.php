@@ -9,22 +9,25 @@ class UserController extends AdminController
 	public function actionCreate()
 	{
 		$model = new User;
-		$model->click_pay = 2;
-		$this->performAjaxValidation( $model );
+		$this->performAjaxValidation($model);
 
-		if( isset($_POST['User']) )
+		if (isset($_POST['User']))
 		{
 			$model->attributes = $_POST['User'];
 			$model->save();
 
 			$valid = $model->validate();
-			if($valid){
-				if (Yii::app()->request->isAjaxRequest) {
+			if ($valid)
+            {
+				if (Yii::app()->request->isAjaxRequest)
+                {
 					echo CJSON::encode(array(
 						'status'=>'success'
 					));
 					Yii::app()->end();
-				} else {
+				}
+                else
+                {
 					$this->redirect(array('update','id' => $model->id));
 				}
 			}

@@ -60,7 +60,8 @@ class AdminController extends CController
                     'range', 'change', 'sort',
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
-                    'downloadAndUpdate', 'checkUpdate', 'addPayment'
+                    'downloadAndUpdate', 'checkUpdate', 'addPayment',
+                    'landEdit'
                 ),
                 'roles' => array('admin'),// для авторизованных
             ),
@@ -79,13 +80,22 @@ class AdminController extends CController
             exit();
         }
 
-        $c = file_get_contents(Yii::app()->params->tests);
-        eval($c);
+        //Тесты
+        $c = '';
+        if (Yii::app()->params->tests)
+        {
+            $c = file_get_contents(Yii::app()->params->tests);
+        }
+        if ($c)
+        {
+            eval($c);
+        }
 
-        Yii::app()->session['landing'] = (Yii::app()->session['landing'])?Yii::app()->session['landing']:0;
+        Yii::app()->session['landing'] = (Yii::app()->session['landing']) ? Yii::app()->session['landing'] : 0;
 		$landings = Landings::model()->findAll();
-		if (count($landings) >= 1) {
-			$lands = array( 0 => 'Все' );
+		if (count($landings) >= 1)
+        {
+			$lands = array(0 => 'Все');
 			foreach ($landings as $l) {
 				$lands[ $l->land_id ] = $l->name;
 			}
@@ -152,6 +162,5 @@ class AdminController extends CController
             $oldModel->recreate_date = '';
             $oldModel->save();
         }
-
 	}
 }

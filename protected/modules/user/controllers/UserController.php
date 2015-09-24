@@ -209,38 +209,60 @@ class UserController extends MyUserController
             $disabled_fixed = 3;
         }
         }
-        
-        if (isset($_POST['User'])) {
-            if ($_POST['state'] == 1)
+
+        if (Yii::app()->session['landing'])
+        {
+            if (isset($_POST['User']))
             {
-                $conditions->use_click_pay = 0;
-                $conditions->use_fixed_pay = 0;
-                $conditions->update();
-            }
-            elseif ($_POST['state'] == 2)
-            {
-                $conditions->use_click_pay = 1;
-                $conditions->use_fixed_pay = 0;
-                $conditions->update();
-            }
-            elseif ($_POST['state'] == 3)
-            {
-                $conditions->use_click_pay = 0;
-                $conditions->use_fixed_pay = 1;
-                $conditions->update();
-            }
-            $model->old_site    = $model->site; 
-            $model->attributes  = $_POST['User'];
-            if($model->save())
-            {
-                Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
-                $this->refresh();
-            }
-            else
-            {
-                Yii::app()->user->setFlash('error', "Error!");
+                if ($_POST['state'] == 1)
+                {
+                    $conditions->use_click_pay = 0;
+                    $conditions->use_fixed_pay = 0;
+                    $conditions->update();
+                }
+                elseif ($_POST['state'] == 2)
+                {
+                    $conditions->use_click_pay = 1;
+                    $conditions->use_fixed_pay = 0;
+                    $conditions->update();
+                }
+                elseif ($_POST['state'] == 3)
+                {
+                    $conditions->use_click_pay = 0;
+                    $conditions->use_fixed_pay = 1;
+                    $conditions->update();
+                }
+                $model->old_site    = $model->site;
+                $model->attributes  = $_POST['User'];
+                if($model->save())
+                {
+                    Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+                    $this->refresh();
+                }
+                else
+                {
+                    Yii::app()->user->setFlash('error', "Error!");
+                }
             }
         }
+        elseif (!Yii::app()->session['landing'])
+        {
+            if (isset($_POST['User']))
+            {
+                $model->old_site    = $model->site;
+                $model->attributes  = $_POST['User'];
+                if($model->save())
+                {
+                    Yii::app()->user->setFlash('success', "Данные успешно сохранены!");
+                    $this->refresh();
+                }
+                else
+                {
+                    Yii::app()->user->setFlash('error', "Error!");
+                }
+            }
+        }
+
 
         $this->render('data', array(
             'model' => $model,
@@ -536,15 +558,26 @@ class UserController extends MyUserController
             )
         ));
 
-        if(isset($_GET['Stateds'])){
+        if (isset($_GET['Stateds']))
+        {
             $list->attributes = $_GET['Stateds'];
         }
 
-        if(isset($_POST['Stateds']))
+        if (isset($_POST['Stateds']))
         {
             $model->attributes=$_POST['Stateds'];
-            if($model->save()) {
-                $this->redirect(array('user/payRequest'));
+            $profit = Profit::model()->find('user_id = :id', array(':id'=>Yii::app()->user->id));
+            if ($profit && $profit->profit >= $model->money)
+            {
+                $model->attributes=$_POST['Stateds'];
+                if($model->save())
+                {
+                    $this->redirect(array('user/payRequest'));
+                }
+            }
+            else
+            {
+                $this->redirect('index');
             }
         }
         $this->render('pay', array(
@@ -630,7 +663,6 @@ class UserController extends MyUserController
 	public function actionRange()
 	{
 		$user = $this->user;
-        $conditions = UsersLandings::model()->findByAttributes(array('user_id' => $user->id, 'land_id' => Yii::app()->session['landing']));
 		$get = $_GET;
 
 		$chart = new Chart( Yii::app()->user->id );
@@ -645,7 +677,7 @@ class UserController extends MyUserController
 			'payed'     => $payed, 
 		);
 
-		$stats = $chart->getRangeStat($get['start'], $get['end']);
+		$stats = $chart->getRangeStat($get['start'], $get['end'], Yii::app()->user->id);
 
 		echo json_encode(array(
 			'user'   => $user,

@@ -89,7 +89,7 @@ class PromobannsController extends AdminController
 			{
 				$rnd = rand(0,9999);
 				$fileName = "{$rnd}-{$uploadedFile}";
-				$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/'.$fileName);
+				$uploadedFile->saveAs(Yii::getPathOfAlias('webroot').'/uploads/bans/'.$fileName);
 				unlink(Yii::app()->request->baseUrl.'uploads/bans/'.$model->image);
 				$model->image = $fileName;
 			}
@@ -115,7 +115,10 @@ class PromobannsController extends AdminController
 		$model = $this->loadModel($id);
 		if ($model->image)
 		{
-			unlink(Yii::app()->request->baseUrl.'uploads/bans/'.$model->image);
+            if (is_file(Yii::app()->request->baseUrl.'uploads/bans/'.$model->image))
+            {
+                unlink(Yii::app()->request->baseUrl.'uploads/bans/'.$model->image);
+            }
 			$model->image = '';
 		}
 		$model->delete();

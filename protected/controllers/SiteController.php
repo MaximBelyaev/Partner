@@ -37,19 +37,50 @@ class SiteController extends Controller
 
 		$registerForm = new User('register');
 		$loginForm = new LoginForm();
-    	$this->render('index', array('model'=>$loginForm, 'register'=>$registerForm));
+    	$this->render('index', array(
+            'model' => $loginForm,
+            'register' => $registerForm,
+        ));
 	}
+
+    public function actionAltland()
+    {
+		$offers = Offers::model()->findAll();
+        $registerForm = new User('register');
+        $loginForm = new LoginForm();
+        $this->renderPartial('altland', array(
+			'offers' => $offers,
+            'model' => $loginForm,
+            'register' => $registerForm,
+        ));
+    }
+
+	public function actionPreview()
+	{
+		$offers = Offers::model()->findAll();
+		$registerForm = new User('register');
+		$loginForm = new LoginForm();
+		$this->renderPartial('preview', array(
+			'offers' => $offers,
+			'model' => $loginForm,
+			'register' => $registerForm,
+		));
+	}
+
 
 	/**
 	 * This is the action to handle external exceptions.
 	 */
 	public function actionError()
 	{
-		if($error=Yii::app()->errorHandler->error)
+		if ($error=Yii::app()->errorHandler->error)
 		{
-			if(Yii::app()->request->isAjaxRequest) {
+			if (Yii::app()->request->isAjaxRequest)
+            {
 				echo $error['message'];
-			} else {
+			}
+            else
+            {
 				$this->render('error', $error);
 			}
 		}

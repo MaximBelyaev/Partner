@@ -190,6 +190,17 @@ $this->setPageTitle("Настройки | Партнерская програм�
 					data-updateUrl='/admin/update/downloadAndUpdate'
 				>Проверить актуальность версии</a>
 			</div>
+
+            <h4 class="form-block-header">
+                Редактирование лендинга
+            </h4>
+            <?php echo Chtml::link(
+                'Редактировать',
+                'landEdit',
+                array(
+                    'class'=>'btn',
+                )
+            ); ?>
 		</div>
 
 		</div>
@@ -204,7 +215,6 @@ $this->setPageTitle("Настройки | Партнерская програм�
         $('#add_payment').on('click', function(event) {
             event.preventDefault();
             var name = $('#payment_name').val();
-            console.log ('значение = ' + name);
             $.ajax({
                 url: '/admin/settings/AddPayment',
                 type: 'POST',
@@ -214,7 +224,8 @@ $this->setPageTitle("Настройки | Партнерская програм�
                 .done(function(xhr) {
                     console.log(xhr);
                     //console.log($('[data-var]'));
-                    var html = '<div class="col form-row"> <label class="inline-block" data-var="' + xhr.obj_id  +'">' + xhr.obj_header + ' <a class="icon-trash icon-white" id="delete_payment" data-var="' + xhr.obj_id  +'"></a></label> </div>';
+                    var html = '<div class="col form-row"> <label class="inline-block" data-var="' + xhr.obj_id  +'">'
+                        + ' <a class="icon-trash icon-white" id="delete_payment" data-var="' + xhr.obj_id  +'"></a> ' + xhr.obj_header + '</label> </div>';
                     $('#payments_list').append(html);
                 })
                 .fail(function(xhr) {

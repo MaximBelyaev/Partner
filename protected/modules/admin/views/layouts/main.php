@@ -379,25 +379,13 @@
                 <?php echo $form->error($newUser,'password'); ?>
             </div>
 
-
             <div class="form-group">
                 <?php echo $form->labelEx($newUser,'site'); ?>
                 <?php echo $form->textField($newUser,'site',array('size'=>50,'maxlength'=>255)); ?>
                 <?php echo $form->error($newUser,'site'); ?>
             </div>
 
-            <div class="form-group" id="hidden" style="display:none">
-                <?php echo $form->labelEx($newUser,'click_pay'); ?>
-                <?php echo $form->textField($newUser,'click_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['click_pay']->value)); ?>
-                <?php echo $form->error($newUser,'click_pay'); ?>
-            </div>
-
             <div class="form-group">
-                <div class="form-group" id="hidden-fixed" style="display:none">
-                    <?php echo $form->labelEx($newUser,'fixed_pay'); ?>
-                    <?php echo $form->textField($newUser,'fixed_pay', array('size'=>50,'maxlength'=>50, 'value' => $this->settingsList['fixed_pay']->value)); ?>
-                    <?php echo $form->error($newUser,'fixed_pay'); ?>
-                </div>
 
                 <?php echo CHtml::ajaxSubmitButton("Добавить партнера", $this->createUrl('user/create'),
                     array(

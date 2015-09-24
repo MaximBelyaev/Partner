@@ -31,11 +31,12 @@ class LandingsController extends AdminController
             $model->attributes = $_POST['Landings'];
             if($model->save())
 			{
-				if ($model->icon) {
+				if ($model->icon)
+                {
 					$path = Yii::getPathOfAlias('webroot') . '/uploads/' . $model->icon->getName();
 					$model->icon->saveAs($path);
 				}
-				$this->redirect(array('update','id'=>$model->land_id));
+				$this->redirect('index');
 			}
 			else
 			{

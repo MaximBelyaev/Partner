@@ -127,7 +127,6 @@ class User extends CActiveRecord
 			array('username, password', 'required'),
 			array('username', 'email'),
 			array('role, telephone, status', 'length', 'max' => 50),
-            array('click_pay', 'length', 'max' => 11),
 			array('username, country, region, city', 'length', 'max' => 150),
 			array('name, password, avatar, verification', 'length', 'max' => 255),
 			array('skype, promo_code, reg_date, birth_date, full_profit', 'safe'),
@@ -183,8 +182,6 @@ class User extends CActiveRecord
 			'fullProfit'		=> 'Прибыль', 
 			'referrals_count' 	=> 'Заявки',
 			'referrals_payed_count' => 'Заказы',
-			'use_click_pay' 	=> 'Формат',
-            'click_pay' 		=> 'Стоимость перехода',
 			'month_profit' 		=> 'Прибыль',
 			'promo_code' 		=> "Промокод",
 		);
@@ -206,7 +203,7 @@ class User extends CActiveRecord
 		$referrals_table = Referrals::model()->tableName();
 		$referrals_count_sql = "(SELECT COUNT(*) FROM $referrals_table reft WHERE reft.user_id = t.id) ";
 		$referrals_payed_sql = "(SELECT COUNT(*) FROM $referrals_table reft WHERE reft.user_id = t.id AND reft.status = 'Оплачено') ";
-		$month_profit_sql = "(SELECT SUM(money) FROM $referrals_table reft WHERE reft.user_id = t.id AND reft.date BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()) ";
+		$month_profit_sql = "(SELECT SUM(money) FROM $referrals_table reft WHERE reft.user_id = t.id AND reft.status = 'Оплачено' AND reft.date BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()) ";
 
 
 		$criteria->select = array(
@@ -271,18 +268,6 @@ class User extends CActiveRecord
 					'email' => array(
 						'asc' => '`t`.`email` ASC',
 						'desc' => '`t`.`email` DESC',
-					),
-					'use_click_pay' => array(
-						'asc' => '
-							(`t`.`use_click_pay`=0 AND (`t`.`status`="Стандартный" OR `t`.`status`="")), 
-							(`t`.`use_click_pay`=0 AND `t`.`status`="Расширенный"), 
-							(`t`.`use_click_pay`=0 AND `t`.`status`="VIP"),
-							(`t`.`use_click_pay`=0), (`t`.`use_click_pay`=1)',
-						'desc' => '
-							(`t`.`use_click_pay`=0 AND (`t`.`status`="Стандартный" OR `t`.`status`="")) desc, 
-							(`t`.`use_click_pay`=0 AND `t`.`status`="Расширенный") desc, 
-							(`t`.`use_click_pay`=0 AND `t`.`status`="VIP") desc,
-							(`t`.`use_click_pay`=0), (`t`.`use_click_pay`=1) desc'
 					),
 					'requests_count' => array(
 						'asc' => 'requests_count ASC',

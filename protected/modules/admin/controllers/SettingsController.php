@@ -53,6 +53,70 @@ class SettingsController extends AdminController
 		));
 	}
 
+	public function actionLandEdit()
+	{
+		$dataProvider=new CActiveDataProvider('Offers');
+
+		$config = json_decode(file_get_contents('config.json'));
+		$configArr = (array) $config;
+		$displayVars = [];
+		foreach ($configArr as $key => $value)
+		{
+			if (stristr($key, 'displayvar'))
+			{
+				$displayVars[] = $key;
+			}
+		}
+
+		if ($_POST)
+		{
+			foreach ($_POST as $k => $v)
+			{
+				if (stristr($k, 'textvar') || stristr($k, 'colorbgvar'))
+				{
+					$config->$k = $v;
+				}
+				foreach ($displayVars as $var)
+				{
+					$config->$var = 'none';
+					if (isset($_POST[$var]))
+					{
+						$config->$var = '';
+					}
+				}
+			}
+
+			if ($_FILES)
+			{
+				$uploaddir = './img/';
+				foreach($_FILES as $k => $file)
+				{
+					if (move_uploaded_file($file['tmp_name'], $uploaddir .basename($file['name'])))
+					{
+						$value = substr($uploaddir, 1);
+						$value = $value .$file['name'];
+						if (is_file(substr($config->$k, 1)))
+						{
+							unlink(substr($config->$k, 1));
+						}
+						$config->$k = $value;
+					}
+				}
+			}
+
+			$config = json_encode($config, JSON_UNESCAPED_UNICODE);
+			$fp = fopen('config.json', 'w');
+			fwrite($fp, $config);
+			fclose($fp);
+			$this->refresh();
+		}
+
+		$this->render('editland', array(
+			'dataProvider'=>$dataProvider,
+			'config' => $configArr
+		));
+	}
+
     public function actionAddPayment()
     {
         $model = new Setting();
@@ -66,8 +130,6 @@ class SettingsController extends AdminController
         }
         echo json_encode(array('obj_id' => $model->setting_id, 'obj_header' => $model->header));
     }
-
-
 
     public function actionDelete($id)
     {
