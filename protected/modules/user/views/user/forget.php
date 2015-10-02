@@ -6,8 +6,13 @@ $this->setPageTitle("Восстановление пароля | Партнер�
 ?>
 <div class="form-box" id="login-box">
     <div class="header">Восстановить пароль</div>
+    <?php
+    foreach(Yii::app()->user->getFlashes() as $key => $message) {
+        echo '<div class="info successMessage">' . $message . "</div>\n";
+    }
+    ?>
         <?php $form=$this->beginWidget('CActiveForm', array(
-            'id'=>'foget-form',
+            'id'=>'forget-form',
             'enableClientValidation'=>true,
             'enableAjaxValidation' => true,
             'clientOptions'=>array(
@@ -22,7 +27,6 @@ $this->setPageTitle("Восстановление пароля | Партнер�
             </div>
         </div>
         <div class="footer">
-
             <button type="submit" class="btn bg-olive btn-block">Отправить пароль на e-mail</button>
         </div>
     <?php $this->endWidget(); ?>

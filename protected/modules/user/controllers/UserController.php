@@ -349,13 +349,13 @@ class UserController extends MyUserController
     }
 
     /**
-     * Foget for users
+     * Forget for users
      */
-    public function actionFoget()
+    public function actionForget()
     {
         $this->layout = '/layouts/login';
-        $model = new User('foget');
-        if(isset($_POST['ajax']) && $_POST['ajax']==='foget-form')
+        $model = new User('forget');
+        if(isset($_POST['ajax']) && $_POST['ajax']==='forget-form')
         {
             echo CActiveForm::validate($model);
             $model->setScenario('ajax');
@@ -369,14 +369,40 @@ class UserController extends MyUserController
                         ':user'=>$model->username,
                     )
             ));
-            $this->fogetMail($model->username, 'Восстановление пароля', $pass['password']);
-            $this->redirect('/site/index');
+            if (is_null($pass))
+            {
+                Yii::app()->user->setFlash('error', 'Пользователь с данным email не найден.');
+            }
+            else
+            {
+                $this->fogetMail($model->username, 'Восстановление пароля', $pass['password']);
+                Yii::app()->user->setFlash('success', 'Пароль отправлен на указанный email.');
+            }
         }
         else
         {
             $this->createAction('captcha')->getVerifyCode(true);
         }
-        $this->render('foget', array('model'=>$model));
+        $this->render('forget', array('model'=>$model));
+    }
+
+    public function fogetMail($user, $subject, $pass)
+    {
+        // несколько получателей
+        $to  = $user;
+        // текст письма
+        $message = '
+            <h1>'.$subject.'</h1>
+            <p style="text-align: center;">Здравствуйте, '.$user.'! Ваш пароль от партнерской программы: '.$pass.'</p>
+            ';
+
+        // Для отправки HTML-письма должен быть установлен заголовок Content-type
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        // Дополнительные заголовки
+        $headers .= 'To: '.$user.' <'.$user.'>'. "\r\n";
+        $headers .= 'From: Future <admin@'.$_SERVER['HTTP_HOST'].'>' . "\r\n";
+        mail($to, $subject, $message, $headers);
     }
 
     public function actionVerify()
@@ -640,25 +666,6 @@ class UserController extends MyUserController
      * @param $subject
      * @param $link
      */
-    public function fogetMail($user, $subject, $pass)
-    {
-        // несколько получателей
-        $to  = $user;
-        // текст письма
-        $message = '
-            <h1>'.$subject.'</h1>
-            <p style="text-align: center;">Здравствуйте, '.$user.'! Ваш пароль от партнерской программы: '.$pass.'</p>
-            ';
-
-        // Для отправки HTML-письма должен быть установлен заголовок Content-type
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        // Дополнительные заголовки
-        $headers .= 'To: '.$user.' <'.$user.'>'. "\r\n";
-        $headers .= 'From: Future <admin@'.$_SERVER['HTTP_HOST'].'>' . "\r\n";
-        mail($to, $subject, $message, $headers);
-    }
-
 
 	public function actionRange()
 	{

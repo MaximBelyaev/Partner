@@ -1308,7 +1308,7 @@ EOD;
 	 * create a URL. In this case, the first array element refers to the controller route,
 	 * and the rest key-value pairs refer to the additional GET parameters for the URL.
 	 * For example, <code>array('post/list', 'page'=>3)</code> may be used to generate the URL
-	 * <code>/index.php?r=post/list&page=3</code>.
+	 * <code>/index2.php?r=post/list&page=3</code>.
 	 *
 	 * @param mixed $url the parameter to be used to generate a valid URL
 	 * @return string the normalized URL

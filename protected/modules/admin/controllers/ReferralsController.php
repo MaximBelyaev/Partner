@@ -131,4 +131,30 @@ class ReferralsController extends AdminController
 			Yii::app()->end();
 		}
 	}
+
+	public function actionGetLands()
+	{
+		$relations = UsersLandings::model()->findAll(array("select"=>"land_id", 'condition' => "user_id = " . $_POST['user_id']));
+		if ($relations)
+		{
+			$ids = [];
+			foreach ($relations as $r)
+			{
+				$ids[] = $r->land_id;
+			}
+			$lands = Landings::model()->findAll("land_id IN (" . implode(',', $ids) . ")");
+
+			echo '<label for="Referrals_land_id">Лендинг</label> <select class="dropdown" id="dropdown-land" name="Referrals[land_id]">';
+			foreach ($lands as $land)
+			{
+				echo '<option value="' . $land->land_id . '">' . $land->name . '</option>';
+			}
+			echo '</select> <div class="errorMessage" id="Referrals_land_id_em_" style="display:none"></div>';
+		}
+		else
+		{
+			echo '<label for="Referrals_land_id">Лендинг</label> <select class="dropdown" id="dropdown-land" name="Referrals[land_id]"><option value="">- - - офферы не включены - - -</option></select>
+			<div class="errorMessage" id="Referrals_land_id_em_" style="display:none"></div>';
+		}
+	}
 }

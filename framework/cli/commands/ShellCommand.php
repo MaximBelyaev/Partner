@@ -41,7 +41,7 @@ PARAMETERS
  * entry-script | config-file: optional, the path to
    the entry script file or the configuration file for
    the Web application. If not given, it is assumed to be
-   the 'index.php' file under the current directory.
+   the 'index2.php' file under the current directory.
 
 EOD;
 	}
@@ -53,8 +53,8 @@ EOD;
 	public function run($args)
 	{
 		if(!isset($args[0]))
-			$args[0]='index.php';
-		$entryScript=isset($args[0]) ? $args[0] : 'index.php';
+			$args[0]='index2.php';
+		$entryScript=isset($args[0]) ? $args[0] : 'index2.php';
 		if(($entryScript=realpath($args[0]))===false || !is_file($entryScript))
 			$this->usageError("{$args[0]} does not exist or is not an entry script file.");
 
@@ -82,9 +82,9 @@ EOD;
 		if(is_array($config))
 		{
 			chdir($cwd);
-			$_SERVER['SCRIPT_NAME']='/index.php';
+			$_SERVER['SCRIPT_NAME']='/index2.php';
 			$_SERVER['REQUEST_URI']=$_SERVER['SCRIPT_NAME'];
-			$_SERVER['SCRIPT_FILENAME']=$cwd.DIRECTORY_SEPARATOR.'index.php';
+			$_SERVER['SCRIPT_FILENAME']=$cwd.DIRECTORY_SEPARATOR.'index2.php';
 			Yii::createWebApplication($config);
 		}
 

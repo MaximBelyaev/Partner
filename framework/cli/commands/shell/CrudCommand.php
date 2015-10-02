@@ -186,7 +186,7 @@ EOD;
 			$moduleID='';
 
 		echo "\nCrud '{$controllerID}' has been successfully created. You may access it via:\n";
-		echo "http://hostname/path/to/index.php?r={$moduleID}{$controllerID}\n";
+		echo "http://hostname/path/to/index2.php?r={$moduleID}{$controllerID}\n";
 	}
 
 	public function generateController($source,$params)

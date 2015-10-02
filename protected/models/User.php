@@ -126,6 +126,7 @@ class User extends CActiveRecord
 		return array(
 			array('username, password', 'required'),
 			array('username', 'email'),
+			array('username', 'unique'),
 			array('role, telephone, status', 'length', 'max' => 50),
 			array('username, country, region, city', 'length', 'max' => 150),
 			array('name, password, avatar, verification', 'length', 'max' => 255),

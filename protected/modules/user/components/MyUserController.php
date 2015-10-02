@@ -36,7 +36,7 @@ class MyUserController extends Controller
             array('allow',
                 'actions' => array(
                 	'login', 'registration', 'captcha', 
-                	'verify', 'foget'
+                	'verify', 'forget'
                 ),
                 'users' => array('*'),// для всех
             ),

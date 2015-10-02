@@ -31,20 +31,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
 		
     <div class="settings-block">
 
-		<div class="settings-col">
-			
-			<h4 class="form-block-header">
-				Валюта партнёрки
-			</h4>
-
-            <div class="col form-row">
-                <?php echo CHtml::activeRadioButtonList(
-                    $model['currency'],
-                    "[currency]value",
-                    Setting::$currencieslist,
-                    array('class' => 'radio')) ?>
-            </div>
-		</div>
+		
 
         <div class="connection settings-col">
 
@@ -122,7 +109,7 @@ $this->setPageTitle("Настройки | Партнерская програм�
         </div>
         <!--Конец блока связи-->
 	
-		<div class="charges settings-col">
+		<div class="charges settings-col update-block">
           <div id="payments_list">
 			<h4 class="form-block-header">
 				Способы вывода средств
@@ -171,25 +158,24 @@ $this->setPageTitle("Настройки | Партнерская програм�
                 )); ?>
             </div>
         </div>
-    </div>
+</div>
+ <div class="settings-block">
+        <div class="settings-col">
+            <h4 class="form-block-header">
+                Обновление  
+            </h4>
 
-
-		<div class="settings-col update-block">
-			<h4 class="form-block-header">
-				Обновление	
-			</h4>
-
-			<div>
-				<p class="your_version">Версия вашей прошивки - <?= $l['version'] ?></p>
-				<p class="upd_msg"></p>	
-				<a 
-					class="btn" 
-					id="update-check" 
-					data-mode="check" 
-					data-checkUrl='/admin/update/checkUpdate'
-					data-updateUrl='/admin/update/downloadAndUpdate'
-				>Проверить актуальность версии</a>
-			</div>
+            <div>
+                <p class="your_version">Версия вашей прошивки - <?= $l['version'] ?></p>
+                <p class="upd_msg"></p> 
+                <a 
+                    class="btn" 
+                    id="update-check" 
+                    data-mode="check" 
+                    data-checkUrl='/admin/update/checkUpdate'
+                    data-updateUrl='/admin/update/downloadAndUpdate'
+                >Проверить актуальность версии</a>
+            </div>
 
             <h4 class="form-block-header">
                 Редактирование лендинга
@@ -201,7 +187,24 @@ $this->setPageTitle("Настройки | Партнерская програм�
                     'class'=>'btn',
                 )
             ); ?>
-		</div>
+        </div>
+
+        <div class="settings-col">
+            
+            <h4 class="form-block-header">
+                Валюта партнёрки
+            </h4>
+
+            <div class="col form-row">
+                <?php echo CHtml::activeRadioButtonList(
+                    $model['currency'],
+                    "[currency]value",
+                    Setting::$currencieslist,
+                    array('class' => 'radio')) ?>
+            </div>
+        </div>
+    </div>
+
 
 		</div>
 

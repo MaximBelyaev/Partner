@@ -126,14 +126,14 @@ EOD;
 	 */
 	protected function addFileModificationCallbacks(&$fileList)
 	{
-		$fileList['index.php']['callback']=array($this,'generateIndex');
+		$fileList['index2.php']['callback']=array($this,'generateIndex');
 		$fileList['index-test.php']['callback']=array($this,'generateIndex');
 		$fileList['protected/tests/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
 		$fileList['protected/yiic.php']['callback']=array($this,'generateYiic');
 	}
 
 	/**
-	 * Inserts path to framework's yii.php into application's index.php
+	 * Inserts path to framework's yii.php into application's index2.php
 	 *
 	 * @param string $source source file path
 	 * @param array $params
@@ -143,7 +143,7 @@ EOD;
 	{
 		$content=file_get_contents($source);
 		$yii=realpath(dirname(__FILE__).'/../../yii.php');
-		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'index.php');
+		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'index2.php');
 		$yii=str_replace('\\','\\\\',$yii);
 		return preg_replace('/\$yii\s*=(.*?);/',"\$yii=$yii;",$content);
 	}

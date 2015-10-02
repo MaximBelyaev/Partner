@@ -7,52 +7,56 @@ $this->setPageTitle("Настройки | Настройка элементов 
     <div class='block full-page-block'>
 
     <div class="head"><h5>Ссылка в шапке лендинга</h5></div>
-    <p><input type="text" name="<?= 'hrefvar1' ?>" value="<?= $config['hrefvar1'] ?>" /></p>
+    <p><input data-check="pass" type="text" name="<?= 'hrefvar1' ?>" value="<?= $config['hrefvar1'] ?>" /></p>
 
-    <div class="head"><h3>1-й блок</h3></div>
-    <div class="head"><h5>Текст</h5></div>
-    <form method="post" enctype="multipart/form-data">
+    <div class="head"><h3>Первый блок</h3></div>
+    <div class="head"><h5>Текст приветствия и регистрации</h5></div>
+    <form method="post" id="land-form" enctype="multipart/form-data">
     <?php $elements = array_slice($config, 0, 4, true);
     foreach ($elements as $k => $v) { ?>
-        <p ><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p ><input data-check="pass" type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
 
     <div class="head"><h5>Картинка на фоне 1-го блока</h5></div>
-    <p><input type="file" name="<?= 'imgbgvar1'; ?>" size="40"></p>
+    <p><input type="file" data-check="pass" name="imgbgvar1" size="40"></p>
     <img src="<?= $config['imgbgvar1'] ?>" height="175" width="175">
 
 
-
-
-    <div class="head"><h3>2-й блок</h3></div>
-    <div class="head"><h5>Текст</h5></div>
+    <div class="head"><h3>Второй блок</h3></div>
+    <div class="head"><h5>Схема работы</h5></div>
     <?php $elements = array_slice($config, 4, 4, true);
     foreach ($elements as $k => $v) { ?>
-        <p><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p><input type="text" data-check="pass" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
 
     <div class="head"><h5>Фон</h5></div>
-    <p><input type="text" name="<?= 'colorbgvar1'; ?>" value="<?= $config['colorbgvar1'] ?>" /></p>
+    <p><input type="text" data-check="pass" name="<?= 'colorbgvar1'; ?>" value="<?= $config['colorbgvar1'] ?>" /></p>
 
     <div class="head"><h5>Картинки</h5></div>
-    <?php $elements = array_slice($config, 47, 3, true);
+    <?php $elements = array_slice($config, 48, 3, true);
     foreach ($elements as $k => $v) { ?>
-    <p><input type="file" name="<?= $k ?>" size="40" /></p>
+    <p><input type="file" data-check="pass" name="<?= $k ?>" size="40" /></p>
     <img src="<?= $v ?>" height="175" width="175">
     <?php }?>
 
 
-
-
-    <div class="head"><h3>3-й блок</h3></div>
-    <div class="head"><h5>Текст</h5></div>
+    <div class="head"><h3>Третий блок</h3></div>
+    <div class="head"><h5>Калькулятор заработка и офферы</h5></div>
     <?php $elements = array_slice($config, 8, 4, true);
     foreach ($elements as $k => $v) { ?>
-        <p><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p><input type="text" data-check="pass" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
-    <div class="head"><h5>Фон 3-го блока</h5></div>
-    <p><input type="text" name="<?= 'colorbgvar2'; ?>" value="<?= $config['colorbgvar2'] ?>" /></p>
-    <input type="checkbox" id="checkbox2" name="displayvar2"
+        <p><input type="text" data-check="pass" name="textvar41" value="<?= $config['textvar41'] ?>" /></p>
+    <div class="head"><h5>Числа по умолчанию на калькуляторе</h5></div>
+    1-я строка: <br>
+    <p><input type="text" data-check="pass" name="valuevar1" value="<?= $config['valuevar1'] ?>" /></p>
+    2-я строка: <br>
+    <p><input type="text" data-check="pass" name="valuevar2" value="<?= $config['valuevar2'] ?>" /></p>
+    3-я строка: <br>
+    <p><input type="text" data-check="pass" name="valuevar3" value="<?= $config['valuevar3'] ?>" /></p>
+    <div class="head"><h5>Фон</h5></div>
+    <p><input type="text" data-check="pass" name="<?= 'colorbgvar2'; ?>" value="<?= $config['colorbgvar2'] ?>" /></p>
+    <input type="checkbox" data-check="pass" id="checkbox2" name="displayvar2"
     <?php ($config['displayvar2'] === 'none') ? print '' : print 'checked="checked"'; ?> >
     <label for="checkbox2" class="checkbox-label"></label>
     <label class="required inline-block" for="checkbox2">Таблица офферов </label>
@@ -125,91 +129,92 @@ $this->setPageTitle("Настройки | Настройка элементов 
         ));
         ?>
 
-    <div class="head"><h3>4-й блок</h3></div>
-    <div class="head"><h5>Текст с 4-го блока</h5></div>
+    <div class="head"><h3>Четвертый блок</h3></div>
+    <div class="head"><h5>Возможности</h5></div>
     <?php $elements = array_slice($config, 12, 8, true);
     foreach ($elements as $k => $v) { ?>
-        <p><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p><input type="text" data-check="pass" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
     <div class="head"><h5>Фон 4-го блока</h5></div>
-    <p><input type="text" name="<?= 'colorbgvar3'; ?>" value="<?= $config['colorbgvar3'] ?>" /></p>
+    <p><input type="text" data-check="pass" name="<?= 'colorbgvar3'; ?>" value="<?= $config['colorbgvar3'] ?>" /></p>
     <div class="head"><h5>Картинки</h5></div>
-    <?php $elements = array_slice($config, 50, 1, true);
+    <?php $elements = array_slice($config, 51, 1, true);
     foreach ($elements as $k => $v) { ?>
-    <p><input type="file" name="<?= $k ?>" size="40" /></p>
+    <p><input type="file" data-check="pass" name="<?= $k ?>" size="40" /></p>
     <img src="<?= $v ?>" height="175" width="175">
     <?php }?>
 
-
-
-    <div class="head"><h3>5-й блок</h3></div>
-    <div class="head"><h5>Текст с 5-го блока</h5></div>
+    <div class="head"><h3>Пятый блок</h3></div>
+    <div class="head"><h5>Отзывы (с нами работают)</h5></div>
     <?php $elements = array_slice($config, 20, 10, true);
     foreach ($elements as $k => $v) { ?>
-        <p><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p><input type="text" data-check="pass" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
     <div class="head"><h5>Фон 5-го блока</h5></div>
-    <p><input type="text" name="<?= 'colorbgvar4'; ?>" value="<?= $config['colorbgvar4'] ?>" /></p>
+    <p><input type="text" data-check="pass" name="<?= 'colorbgvar4'; ?>" value="<?= $config['colorbgvar4'] ?>" /></p>
     <div class="head"><h5>Ссылки в 5-м блоке</h5></div>
-    <p><input type="text" name="<?= 'hrefvar2' ?>" value="<?= $config['hrefvar2'] ?>" /></p>
-    <p><input type="text" name="<?= 'hrefvar2' ?>" value="<?= $config['hrefvar2'] ?>" /></p>
-    <p><input type="text" name="<?= 'hrefvar2' ?>" value="<?= $config['hrefvar2'] ?>" /></p>
-    <input type="checkbox" id="checkbox1" name="displayvar1"
+    <p><input type="text" data-check="pass" name="<?= 'hrefvar2' ?>" value="<?= $config['hrefvar2'] ?>" /></p>
+    <p><input type="text" data-check="pass" name="<?= 'hrefvar2' ?>" value="<?= $config['hrefvar2'] ?>" /></p>
+    <p><input type="text" data-check="pass" name="<?= 'hrefvar2' ?>" value="<?= $config['hrefvar2'] ?>" /></p>
+    <input type="checkbox" data-check="pass" id="checkbox1" name="displayvar1"
     <?php ($config['displayvar1'] === 'none') ? print '' : print 'checked="checked"'; ?>>
     <label for="checkbox1" class="checkbox-label"></label>
     <label class="required inline-block" for="checkbox1">Включить/отключить отображение блока</label>
     <br>
     <div class="head"><h5>Картинки</h5></div>
-    <?php $elements = array_slice($config, 51, 3, true);
+    <?php $elements = array_slice($config, 52, 3, true);
     foreach ($elements as $k => $v) { ?>
-    <p><input type="file" name="<?= $k ?>" size="40" /></p>
+    <p><input type="file" data-check="pass" name="<?= $k ?>" size="40" /></p>
     <img src="<?= $v ?>" height="175" width="175">
     <?php }?>
 
 
-    <div class="head"><h3>6-й блок</h3></div>
-    <div class="head"><h5>Текст с 6-го блока</h5></div>
+    <div class="head"><h3>Шестой блок</h3></div>
+    <div class="head"><h5>FAQ (вопросы-ответы)</h5></div>
     <?php $elements = array_slice($config, 30, 7, true);
     foreach ($elements as $k => $v) { ?>
-        <p><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p><input type="text" data-check="pass" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
     <div class="head"><h5>Фон 6-го блока</h5></div>
-    <p><input type="text" name="<?= 'colorbgvar5'; ?>" value="<?= $config['colorbgvar5'] ?>" /></p>
+    <p><input type="text" data-check="pass" name="<?= 'colorbgvar5'; ?>" value="<?= $config['colorbgvar5'] ?>" /></p>
 
 
-    <div class="head"><h3>7-й блок</h3></div>
-    <div class="head"><h5>Текст с 7-го блока</h5></div>
+    <div class="head"><h3>Седьмой блок</h3></div>
+    <div class="head"><h5>Регистрация и футер</h5></div>
     <?php $elements = array_slice($config, 37, 3, true);
     foreach ($elements as $k => $v) { ?>
-        <p><input type="text" name="<?= $k ?>" value="<?= $v ?>" /></p>
+        <p><input type="text" data-check="pass" name="<?= $k ?>" value="<?= $v ?>" /></p>
     <?php }?>
     <div class="head"><h5>Картинка на фоне</h5></div>
-    <p><input type="file" name="<?= 'imgbgvar2'; ?>" size="40"></p>
+    <p><input type="file" data-check="pass"  name="<?= 'imgbgvar2'; ?>" size="40"></p>
     <img src="<?= $config['imgbgvar2'] ?>" height="175" width="175">
-
-    <p><input type="submit" class="btn btn-success" value="Сохранить"/></p>
-    <?php echo Chtml::link(
-            'Предпросмотр',
-            '',
-            array(
-                'class'=>'btn',
-                'id' => 'preview-but'
-            )
-    ); ?>
+    <div style="padding-top: 20px;">
+    <p style="display: inline-block"><input type="submit" class="btn btn-success" data-url="" value="Сохранить"/></p>
+    <p style="display: inline-block"><input type="submit" class="btn" data-url="/site/preview" value="Предпросмотр"/></p>
+    </div>
 
     </div>
 </form>
 
 <script>
-    $(document).ready(function() {
-        $('#preview-but').click(function(){
-            $.ajax({
-                url: '/admin/settings/CreatePreviewConfig',
-                type: 'POST',
-                dataType: 'json',
-                data: {name: name},
-            })
+    $(document).ready(function(){
+
+        $('input[type="submit"]').on('click', function(){
+            $('#land-form').data('button-url', $(this).attr('data-url'));
         });
+
+        $("#land-form").submit(function( event ) {
+            var url = $(this).data('button-url');
+            $('#land-form').attr('action', url);
+                if (url === '/site/preview')
+                {
+                    $(this).attr('target', '_blank')
+                }
+                else
+                {
+                    ($(this).attr('target', ''))
+                }
+    });
     });
 </script>
 

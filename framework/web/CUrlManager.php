@@ -47,12 +47,12 @@
  * </pre>
  * Two rules are specified in the above:
  * <ul>
- * <li>The first rule says that if the user requests the URL '/path/to/index.php/articles',
- *   it should be treated as '/path/to/index.php/article/list'; and vice versa applies
+ * <li>The first rule says that if the user requests the URL '/path/to/index2.php/articles',
+ *   it should be treated as '/path/to/index2.php/article/list'; and vice versa applies
  *   when constructing such a URL.</li>
  * <li>The second rule contains a named parameter 'id' which is specified using
  *   the &lt;ParamName:RegExp&gt; syntax. It says that if the user requests the URL
- *   '/path/to/index.php/article/13', it should be treated as '/path/to/index.php/article/read?id=13';
+ *   '/path/to/index2.php/article/13', it should be treated as '/path/to/index2.php/article/read?id=13';
  *   and vice versa applies when constructing such a URL.</li>
  * </ul>
  *
@@ -70,10 +70,10 @@
  * parameter matches either 'post' or 'comment', while the '<_a>' parameter matches an action ID.
  *
  * Like normal rules, these rules can be used for both parsing and creating URLs.
- * For example, using the rules above, the URL '/index.php/post/123/create'
+ * For example, using the rules above, the URL '/index2.php/post/123/create'
  * would be parsed as the route 'post/create' with GET parameter 'id' being 123.
  * And given the route 'post/list' and GET parameter 'page' being 2, we should get a URL
- * '/index.php/posts/page/2'.
+ * '/index2.php/posts/page/2'.
  *
  * It is also possible to include hostname into the rules for parsing and creating URLs.
  * One may extract part of the hostname to be a GET parameter.

@@ -116,7 +116,7 @@
 				<?php echo CHtml::activeCheckBox($model,'recreate_interval'); ?>
 				<label for="Referrals_recreate_interval"></label>
 				<label class="inline-block" for="Referrals_recreate_interval">
-					Постоянная оплата
+					Ежемесячная оплата
 				</label>
 			</div>
 		

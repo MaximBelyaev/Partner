@@ -14,7 +14,7 @@ class SiteController extends Controller
 				'backColor'=>0xFFFFFF,
 			),
 			// page action renders "static" pages stored under 'protected/views/site/pages'
-			// They can be accessed via: index.php?r=site/page&view=FileName
+			// They can be accessed via: index2.php?r=site/page&view=FileName
 			'page'=>array(
 				'class'=>'CViewAction',
 			),
@@ -35,28 +35,71 @@ class SiteController extends Controller
 			exit();
 		}
 
+		$offers = Offers::model()->findAll();
 		$registerForm = new User('register');
 		$loginForm = new LoginForm();
-    	$this->render('index', array(
+    	$this->renderPartial('index', array(
+			'offers' => $offers,
             'model' => $loginForm,
             'register' => $registerForm,
         ));
 	}
 
-    public function actionAltland()
-    {
-		$offers = Offers::model()->findAll();
-        $registerForm = new User('register');
-        $loginForm = new LoginForm();
-        $this->renderPartial('altland', array(
-			'offers' => $offers,
-            'model' => $loginForm,
-            'register' => $registerForm,
-        ));
-    }
-
 	public function actionPreview()
 	{
+		$config = json_decode(file_get_contents('preview.json'));
+		$configArr = (array) $config;
+		$displayVars = [];
+		foreach ($configArr as $key => $value)
+		{
+			if (stristr($key, 'displayvar'))
+			{
+				$displayVars[] = $key;
+			}
+		}
+
+		if ($_POST)
+		{
+			foreach ($_POST as $k => $v)
+			{
+				if (stristr($k, 'textvar') || stristr($k, 'colorbgvar') || stristr($k, 'valuevar'))
+				{
+					$config->$k = $v;
+				}
+				foreach ($displayVars as $var)
+				{
+					$config->$var = 'none';
+					if (isset($_POST[$var]))
+					{
+						$config->$var = '';
+					}
+				}
+			}
+
+			if ($_FILES)
+			{
+				$uploaddir = './img/';
+				foreach($_FILES as $k => $file)
+				{
+					if (move_uploaded_file($file['tmp_name'], $uploaddir .basename($file['name'])))
+					{
+						$value = substr($uploaddir, 1);
+						$value = $value .$file['name'];
+						if (is_file(substr($config->$k, 1)))
+						{
+							unlink(substr($config->$k, 1));
+						}
+						$config->$k = $value;
+					}
+				}
+			}
+
+			$config = json_encode($config, JSON_UNESCAPED_UNICODE);
+			$fp = fopen('preview.json', 'w');
+			fwrite($fp, $config);
+			fclose($fp);
+		}
+
 		$offers = Offers::model()->findAll();
 		$registerForm = new User('register');
 		$loginForm = new LoginForm();
@@ -65,6 +108,11 @@ class SiteController extends Controller
 			'model' => $loginForm,
 			'register' => $registerForm,
 		));
+	}
+
+	public function actionCreatePreviewConfig ()
+	{
+		echo json_encode(array('post' => $_POST));
 	}
 
 

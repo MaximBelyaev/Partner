@@ -72,7 +72,7 @@ class CBreadcrumbs extends CWidget
 	 * If an element's key is an integer, it means the element will be rendered as a label only (meaning the current page).
 	 *
 	 * The following example will generate breadcrumbs as "Home > Sample post > Edit", where "Home" points to the homepage,
-	 * "Sample post" points to the "index.php?r=post/view&id=12" page, and "Edit" is a label. Note that the "Home" link
+	 * "Sample post" points to the "index2.php?r=post/view&id=12" page, and "Edit" is a label. Note that the "Home" link
 	 * is specified via {@link homeLink} separately.
 	 *
 	 * <pre>

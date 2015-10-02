@@ -40,7 +40,7 @@ Yii::import('system.gii.CCodeForm');
  * With the above configuration, you will be able to access GiiModule in your browser using
  * the following URL:
  *
- * http://localhost/path/to/index.php?r=gii
+ * http://localhost/path/to/index2.php?r=gii
  *
  * If your application is using path-format URLs with some customized URL rules, you may need to add
  * the following URLs in your application configuration in order to access GiiModule:
@@ -60,7 +60,7 @@ Yii::import('system.gii.CCodeForm');
  *
  * You can then access GiiModule via:
  *
- * http://localhost/path/to/index.php/gii
+ * http://localhost/path/to/index2.php/gii
  *
  * @property string $assetsUrl The base URL that contains all published asset files of gii.
  *

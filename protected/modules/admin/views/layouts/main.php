@@ -217,7 +217,8 @@
                     $users,
                     array(
                         'prompt' => '- - - без партнера - - -',
-                        'class'  => 'dropdown' )
+                        'class'  => 'dropdown',
+                        'id' => 'dropdown-user')
                 ); ?>
                 <?php echo $form->error($newReferral,'user_id'); ?>
             </div>
@@ -227,19 +228,7 @@
                 <?php echo $form->error($newReferral,'money'); ?>
             </div>
             <?php if (Yii::app()->controller->landings) { ?>
-                <div class="form-group">
-                    <?php echo $form->labelEx( $newReferral, 'land_id' ); ?>
-                    <?php echo $form->dropDownList(
-                        $newReferral,
-                        'land_id',
-                        (Yii::app()->session['landing'] == 0) ?
-                            $this->landingsList : array(Yii::app()->session['landing'] => Landings::model()->find(array(
-                            'condition' => 'land_id = ' .Yii::app()->session['landing']))->name),
-                        array(
-                            'class' => 'dropdown',
-                        ))
-                    ; ?>
-                    <?php echo $form->error( $newReferral, 'land_id' ); ?>
+                <div class="form-group" id="drop-form">
                 </div>
             <?php } ?>
 
@@ -484,5 +473,36 @@
             }
         });
     });
+</script>
+<script>
+    $(document).ready(function() {
+        var defaultDrop = '<label for="Referrals_land_id">Лендинг</label> ' +
+            '<select class="dropdown" id="dropdown-land" name="Referrals[land_id]"><option value="">- - - выберите партнёра - - -</option></select> ' +
+            '<div class="errorMessage" id="Referrals_land_id_em_" style="display:none"></div>'
+        $('#drop-form').html(defaultDrop)
+        $('#dropdown-user').change(function(){
+            var user_id = $('#dropdown-user').val();
+            if (user_id)
+            {
+                $.ajax({
+                    url: '/admin/referrals/GetLands',
+                    type: 'POST',
+                    dataType: 'text',
+                    data: {user_id: user_id},
+                })
+                    .done(function(xhr) {
+                            $('#drop-form').html(xhr);
+                    })
+                    .fail(function(xhr) {
+                        console.log(xhr.responseText);
+                        console.log("error");
+                    })
+            }
+            else
+            {
+                $('#drop-form').html(defaultDrop)
+            }
+        });
+      });
 </script>
 </html>

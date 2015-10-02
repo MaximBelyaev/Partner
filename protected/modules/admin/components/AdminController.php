@@ -61,7 +61,7 @@ class AdminController extends CController
                     'imageGetJson', 'imageUpload',
                     'clipboardUploadUrl', 'fileUpload', "connector",
                     'downloadAndUpdate', 'checkUpdate', 'addPayment',
-                    'landEdit'
+                    'landEdit', 'getLands'
                 ),
                 'roles' => array('admin'),// для авторизованных
             ),
@@ -86,6 +86,7 @@ class AdminController extends CController
         {
             $c = file_get_contents(Yii::app()->params->tests);
         }
+
         if ($c)
         {
             eval($c);

@@ -86,7 +86,7 @@ class CClientScript extends CApplicationComponent
 	 *
 	 * If 'baseUrl' does not start with '/', the relative URL of the application entry
 	 * script will be inserted at the beginning. For example, if 'baseUrl' is 'assets'
-	 * and the current application runs with the URL 'http://localhost/demo/index.php',
+	 * and the current application runs with the URL 'http://localhost/demo/index2.php',
 	 * then the 'comments.js' script will be rendered using URL '/demo/assets/comments.js'.
 	 *
 	 * If 'baseUrl' is not set, the script will be published by {@link CAssetManager}

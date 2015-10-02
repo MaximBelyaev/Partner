@@ -72,7 +72,7 @@ class SettingsController extends AdminController
 		{
 			foreach ($_POST as $k => $v)
 			{
-				if (stristr($k, 'textvar') || stristr($k, 'colorbgvar'))
+				if (stristr($k, 'textvar') || stristr($k, 'colorbgvar') || stristr($k, 'valuevar'))
 				{
 					$config->$k = $v;
 				}
